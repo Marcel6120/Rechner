@@ -199,7 +199,7 @@
        <div id="r-einmal-netto" style="font-size:15px;font-weight:700;color:#f7931a;white-space:nowrap">–</div>
       </div>
      </div>
-     <div style="border-left:1px solid rgba(255,255,255,.1);padding:0 0 0 18px;display:flex;flex-direction:column;align-items:center;text-align:center">
+     <div style="display:none">
       <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:4px 0">
        <div style="display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:nowrap;width:100%">
         <div id="lbl-monat-etf" class="ab-label" style="font-size:20px;font-weight:800;color:#fff;line-height:1.2;white-space:nowrap;">Klassisches Fondsdepot</div>
@@ -223,7 +223,16 @@
     <div id="r-monat-netto-img" style="font-size:28px;font-weight:900;color:#F37021;text-shadow:0 2px 8px rgba(0,0,0,.7);white-space:nowrap;line-height:1.1">–</div>
    </div>
   </div>
-  <div class="ev-chart-card">
+  <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:14px 22px">
+   <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">Zum Vergleich</div>
+   <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:6px">
+     <div style="font-size:18px;font-weight:800;color:#fff">Klassisches Fondsdepot</div>
+     <div class="ev-info" style="flex-shrink:0"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Monatliche Nettorente nach Abgeltungsteuer (26,375 % inkl. Soli) auf Kursgewinne, abzüglich der gesetzlichen Teilfreistellung für Investmentfonds.</div></div>
+    </div>
+    <div id="r-etf-monat-netto-box" style="font-size:24px;font-weight:900;color:#fff;white-space:nowrap">–</div>
+   </div>
+  </div>
    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
     <div class="ev-chart-title" style="margin-bottom:0">Kapitalentwicklung Depot (Brutto)</div>
     <button id="btn-rechenweg" type="button" class="ev-rechenweg-btn" style="font-size:13px;flex-shrink:0">So haben wir gerechnet <svg style="display:inline;vertical-align:-2px;margin-left:3px" width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="0" y="7" width="3" height="6" rx="1" fill="#f7931a"/><rect x="5" y="4" width="3" height="9" rx="1" fill="#f7931a"/><rect x="10" y="1" width="3" height="12" rx="1" fill="#f7931a"/></svg></button>
@@ -683,7 +692,8 @@ function render(){
  if(lblMonatEtf) lblMonatEtf.textContent='Klassisches Fondsdepot';
  if(document.getElementById('r-monat-netto')) document.getElementById('r-monat-netto').textContent=fE2(r.auszahlungMonatNetto)+' / Monat';
 if(document.getElementById('r-monat-netto-img')) document.getElementById('r-monat-netto-img').textContent=fE2(r.auszahlungMonatNetto)+' / Monat';
- if(document.getElementById('r-etf-monat-netto')) document.getElementById('r-etf-monat-netto').textContent=fE2(r.etfMonatNetto)+'\u202f/\u202fMonat';
+ if(document.getElementById('r-etf-monat-netto')) document.getElementById('r-etf-monat-netto').textContent=fE2(r.etfMonatNetto)+'/ Monat';
+if(document.getElementById('r-etf-monat-netto-box')) document.getElementById('r-etf-monat-netto-box').textContent=fE2(r.etfMonatNetto)+' / Monat';
  var footerAV=document.getElementById('einmal-footer-av');
  var footerETF=document.getElementById('einmal-footer-etf');
  if(footerAV) footerAV.style.display=einmalPctRnd>0?'flex':'none';
