@@ -370,20 +370,29 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
           display:flex;flex-direction:column;align-items:center;
           text-align:center;pointer-events:none;
         }
+        @keyframes ev-btn-pulse{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.07)}}
         .ev-zul-display{
-          font-size:clamp(20px,2.6vw,32px);font-weight:900;color:#F37021;
-          background:rgba(10,25,47,0.65);
-          backdrop-filter:blur(8px);
-          -webkit-backdrop-filter:blur(8px);
-          border:1.5px solid rgba(243,112,33,0.4);
-          border-radius:10px;
-          padding:7px 18px;
-          text-shadow:
-            0 0 14px rgba(243,112,33,0.85),
-            0 0 4px rgba(243,112,33,0.6);
+          font-size:clamp(22px,3vw,40px);font-weight:900;color:#F37021;
+          background:none;border:none;padding:0;
+          text-shadow:0 2px 12px rgba(0,0,0,0.7);
           letter-spacing:.02em;white-space:nowrap;line-height:1.2;
           text-align:center;
-          filter:none;
+        }
+        .ev-cta-link{
+          display:block;
+          position:absolute;
+          bottom:14%;
+          left:50%;
+          transform:translateX(-50%);
+          width:38%;
+          height:10%;
+          min-height:36px;
+          border-radius:50px;
+          background:transparent;
+          cursor:pointer;
+          pointer-events:all;
+          animation:ev-btn-pulse 2s ease-in-out infinite;
+          text-decoration:none;
         }
 
       </style>
@@ -392,6 +401,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
         <div class="ev-hero-img-overlay">
           <div class="ev-zul-display" id="r-zul-overlay">–</div>
         </div>
+        <a class="ev-cta-link" href="https://envestor.de/altersvorsorgedepot/" target="_blank" rel="noopener noreferrer" aria-label="Jetzt vormerken lassen"></a>
       </div>
       <!-- hidden r-zul spans kept for JS -->
       <div id="r-zul" style="display:none">–</div>
