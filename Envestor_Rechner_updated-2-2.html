@@ -17,9 +17,9 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:#01204D;color:#fff;fo
 .ev-hero p{margin-top:6px;color:#fff;font-size:19px;line-height:1.6}
 /* Main 2-col grid */
 .ev-main-grid{display:grid;grid-template-columns:320px 1fr;gap:16px;padding:0 24px 24px;align-items:start}
-.ev-inputs-top{border-radius:16px 16px 0 0!important;border-bottom:none!important;padding-bottom:14px}
-.ev-inputs-bottom{border-radius:0 0 16px 16px!important;border-top:none!important}
-.ev-grid-sep{grid-column:1/-1;padding-left:324px;margin:10px 0 8px}
+.ev-inputs-top{grid-column:1;grid-row:1;border-radius:16px 16px 0 0!important;border-bottom:none!important;padding-bottom:14px}
+.ev-inputs-bottom{grid-column:1;grid-row:3;border-radius:0 0 16px 16px!important;border-top:none!important}
+.ev-grid-sep{grid-column:1/-1;grid-row:2;padding-left:324px;margin:10px 0 8px}
 .ev-grid-sep-inner{height:2px;background:#F37021;border-radius:1px;position:relative}
 .ev-grid-sep-inner::after{content:'';position:absolute;top:5px;left:0;right:0;height:2px;background:#F37021;border-radius:1px}
 @media(max-width:800px){.ev-main-grid{grid-template-columns:1fr}.ev-grid-sep{padding-left:0}}
@@ -354,7 +354,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
   </div><!-- /ev-inputs-bar -->
 
   <!-- ── ERGEBNISSE: rechte Spalte Bild ── -->
-  <div>
+  <div style="grid-column:2;grid-row:1">
 
     <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:10px 22px;margin-top:0">
       <span id="r-renta-alter" style="display:none">67</span><span id="r-depot-alter" style="display:none">85</span><span id="r-entnahme-j" style="display:none">18</span>
@@ -393,7 +393,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
   </div><!-- /ev-results-image -->
 
   <!-- ── ERGEBNISSE: rechte Spalte Nettorente ── -->
-  <div class="ev-results-wrap">
+  <div class="ev-results-wrap" style="grid-column:2;grid-row:3">
     <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:14px 22px;margin-top:0" id="auszahlungs-block">
 
       <!-- Zeile 2: Überschrift + AV-Depot / Fondsdepot -->
