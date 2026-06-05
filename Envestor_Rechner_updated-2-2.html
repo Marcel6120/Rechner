@@ -19,7 +19,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:#01204D;color:#fff;fo
 .ev-main-grid{display:grid;grid-template-columns:320px 1fr;gap:16px;padding:0 24px 24px;align-items:start}
 .ev-inputs-top{grid-column:1;grid-row:1;border-radius:16px 16px 0 0!important;border-bottom:none!important;padding-bottom:14px}
 .ev-inputs-bottom{grid-column:1;grid-row:3;border-radius:0 0 16px 16px!important;border-top:none!important}
-.ev-grid-sep{grid-column:1/-1;grid-row:2;padding-left:324px;margin:10px 0 8px}
+.ev-grid-sep{grid-column:1/-1;grid-row:2;margin:10px 0 8px}
 .ev-grid-sep-inner{height:2px;background:#F37021;border-radius:1px;position:relative}
 .ev-grid-sep-inner::after{content:'';position:absolute;top:5px;left:0;right:0;height:2px;background:#F37021;border-radius:1px}
 @media(max-width:800px){.ev-main-grid{grid-template-columns:1fr}.ev-grid-sep{padding-left:0}}
@@ -354,17 +354,17 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
   </div><!-- /ev-inputs-bar -->
 
   <!-- ── ERGEBNISSE: rechte Spalte Bild ── -->
-  <div style="grid-column:2;grid-row:1">
+  <div style="grid-column:2;grid-row:1;align-self:stretch;display:flex;flex-direction:column">
 
-    <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:10px 22px;margin-top:0">
+    <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:10px 22px;margin-top:0;flex:1;display:flex;flex-direction:column">
       <span id="r-renta-alter" style="display:none">67</span><span id="r-depot-alter" style="display:none">85</span><span id="r-entnahme-j" style="display:none">18</span>
 
       <!-- Zeile 1: Staatliche Zulagen Bild -->
       <style>
         .ev-hero-img-wrap{
-          position:relative;width:100%;border-radius:14px;overflow:hidden;
+          position:relative;width:100%;border-radius:14px;overflow:hidden;flex:1;
         }
-        .ev-hero-img-wrap img{width:100%;height:auto;display:block;border-radius:14px}
+        .ev-hero-img-wrap img{width:100%;height:100%;min-height:200px;object-fit:cover;display:block;border-radius:14px}
         .ev-hero-img-overlay{
           position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
           display:flex;flex-direction:column;align-items:center;
