@@ -758,9 +758,9 @@ var diffEl=document.getElementById('r-etf-diff-box');if(diffEl){var diff=r.ausza
  var hEnt=document.getElementById('hint-entnahme');
  if(hEnt) hEnt.textContent=r.entnahmeJahre+' Jahre';
  var h150el=document.getElementById('h150');
- if(ST.spar>=150&&ST.spar<570){h150el.style.display='';h150el.className='hl-green';h150el.textContent='✓ Volle Grundzulage (540 €) erreicht';}
- else if(ST.spar>=10&&ST.spar<150){h150el.style.display='';h150el.className='hl-green';h150el.textContent='Grundzulage: ca. '+Math.round(ST.spar*12*0.30)+' € / Jahr';}
- else{h150el.style.display='none';}
+ if(ST.spar>=150&&ST.spar<570){h150el.style.display='';h150el.style.visibility='';h150el.className='hl-green';h150el.textContent='✓ Volle Grundzulage (540 €) erreicht';}
+ else if(ST.spar>=10&&ST.spar<150){h150el.style.display='';h150el.style.visibility='';h150el.className='hl-green';h150el.textContent='Grundzulage: ca. '+Math.round(ST.spar*12*0.30)+' € / Jahr';}
+ else{h150el.style.visibility='hidden';h150el.style.display='';}
  var h570=document.getElementById('h570');
  h570.textContent=ST.spar>=570?'✓ Volle Grundzulage und volle steuerliche Förderung erreicht':'';
  h570.className=ST.spar>=570?'hl-orange':'';
