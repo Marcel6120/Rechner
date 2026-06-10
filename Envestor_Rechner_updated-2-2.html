@@ -607,7 +607,7 @@ function buildKinderAges(n){
   var sel=document.createElement('select');
   for(var a=1;a<=25;a++){
    var opt=document.createElement('option');opt.value=a;
-   opt.textContent=a+' Jahr'+(a===1?'':'e');
+   opt.textContent=a+' Jahr'+(a===1?'':'e')+' alt';
    if(a===def)opt.selected=true;sel.appendChild(opt);
   }
   var badge=document.createElement('span');badge.className='kid-badge';badge.textContent='förderbar *';
