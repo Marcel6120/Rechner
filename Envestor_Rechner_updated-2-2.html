@@ -19,7 +19,7 @@
  <div class="ev-inputs-bar ev-inputs-top">
   <div class="ev-input-col">
    <div class="ev-flabel"><span>Sparrate pro Person</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Eigenbeitrag pro Person und Vertrag. Bei 2 Erwachsenen zahlt jede Person diesen Betrag. Grundzulage = 30 % des Eigenbeitrags, max. 540 € / Jahr (ab 1.800 € / Jahr = 150 € / Monat). Maximum: 570 € / Monat = 6.840 € / Jahr (§ 20a EStG).</div></div>
+    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Eigenbeitrag pro Person und Vertrag. Bei 2 Erwachsenen zahlt jede Person diesen Betrag. Grundzulage: 50 % auf die ersten 360 €/Jahr + 25 % auf weitere Beiträge bis 1.800 €/Jahr = max. 540 €/Jahr (volle Zulage ab 150 €/Monat). Maximum: 570 € / Monat = 6.840 € / Jahr (§ 20a EStG).</div></div>
    </div>
    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar"></div><input type="range" id="s-spar" min="10" max="570" step="5" value="150"></div>
@@ -350,7 +350,7 @@
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
        <td style="padding:5px 0;font-weight:600;color:#fff">Grundzulage</td>
-       <td style="padding:5px 0">30 % der Eigenbeiträge, max. 540 €/Jahr/Person (§ 86 EStG-E, AVD ab 2026) – volle Zulage bereits ab 150 €/Monat (1.800 €/Jahr). Mindestbeitrag 120 €/Jahr. Günstigerprüfung gegenüber Steuerabzug wird automatisch angewendet.</td>
+       <td style="padding:5px 0">Zweistufig: 50 % auf die ersten 360 €/Jahr Eigenbeitrag (max. 180 €) + 25 % auf weitere 361–1.800 €/Jahr (max. 360 €) = max. 540 €/Jahr/Person. Volle Zulage bereits ab 150 €/Monat (1.800 €/Jahr). Mindestbeitrag 120 €/Jahr. Günstigerprüfung gegenüber Steuerabzug wird automatisch angewendet.</td>
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
        <td style="padding:5px 0;font-weight:600;color:#fff">Kinderzulage</td>
@@ -406,7 +406,7 @@ function grenz(jb){
 var EA_TABELLE={60:22,61:22,62:21,63:20,64:19,65:18,66:18,67:17,68:16,69:16,70:15};
 function getEA(rentenAlter){return(EA_TABELLE[rentenAlter]||17)/100;}
 function gzProErw(jb){
- return Math.min(jb*0.30, 540);
+ var s1=Math.min(jb,360)*0.50;var s2=Math.max(0,Math.min(jb,1800)-360)*0.25;return Math.min(s1+s2,540);
 }
 function foerderKinder(){
  return ST.kinderAlter.filter(function(a){return a<=25;}).length;
@@ -759,7 +759,7 @@ var diffEl=document.getElementById('r-etf-diff-box');if(diffEl){var diff=r.ausza
  if(hEnt) hEnt.textContent=r.entnahmeJahre+' Jahre';
  var h150el=document.getElementById('h150');
  if(ST.spar>=150&&ST.spar<570){h150el.style.display='';h150el.style.visibility='';h150el.className='hl-green';h150el.textContent='✓ Volle Grundzulage (540 €) erreicht';}
- else if(ST.spar>=10&&ST.spar<150){h150el.style.display='';h150el.style.visibility='';h150el.className='hl-green';h150el.textContent='Grundzulage: ca. '+Math.round(ST.spar*12*0.30)+' € / Jahr';}
+ else if(ST.spar>=10&&ST.spar<150){h150el.style.display='';h150el.style.visibility='';h150el.className='hl-green';h150el.textContent='Grundzulage: ca. '+Math.round(gzProErw(ST.spar*12))+' € / Jahr';}
  else{h150el.style.visibility='hidden';h150el.style.display='';}
  var h570=document.getElementById('h570');
  h570.textContent=ST.spar>=570?'✓ Volle Grundzulage und volle steuerliche Förderung erreicht':'';
