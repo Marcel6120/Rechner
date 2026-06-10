@@ -89,6 +89,15 @@
  <div class="ev-inputs-bar ev-inputs-bottom" style="grid-row:4!important">
   <div class="ev-input-col">
    <div style="margin-top:0">
+    <div class="ev-flabel" style="margin-bottom:4px"><span>Rentenzahlung bis</span>
+     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll die Rentenzahlung laufen? Gesetzlich mindestens bis 85 (§ 20a EStG). Daraus ergibt sich die Entnahmedauer für die monatliche Rente.</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+     <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-depotalter" value="85" min="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
+     <span class="ev-hint" style="color:rgba(255,255,255,.85);margin:0">Entnahmedauer: <strong id="hint-entnahme" style="color:#f7931a">18 Jahre</strong></span>
+    </div>
+   </div>
+   <div style="margin-top:18px">
     <div class="ev-flabel" style="margin-bottom:5px"><span>Einmalauszahlung bei Renteneintritt</span>
      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30 % des AV-Depots können als Einmalauszahlung ausgezahlt werden (§ 20a EStG). Die restlichen 70 % fließen als monatliche Rente über mindestens 10 Jahre.</div></div>
     </div>
@@ -97,15 +106,6 @@
      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-einmal-pct" style="width:0%"></div><input type="range" id="s-einmal-pct" min="0" max="30" step="1" value="0"></div>
     </div>
     <div id="einmal-hint" style="display:none"></div>
-   </div>
-   <div style="margin-top:18px">
-    <div class="ev-flabel" style="margin-bottom:4px"><span>Rentenzahlung bis</span>
-     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll die Rentenzahlung laufen? Daraus ergibt sich die Entnahmedauer für die monatliche Rente. 30 % als Einmalbetrag, 70 % als Monatsrente – beide nachgelagert besteuert (§ 20a EStG).</div></div>
-    </div>
-    <div style="display:flex;align-items:center;gap:12px">
-     <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-depotalter" value="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
-     <span class="ev-hint" style="color:rgba(255,255,255,.85);margin:0">Entnahmedauer: <strong id="hint-entnahme" style="color:#f7931a">18 Jahre</strong></span>
-    </div>
    </div>
    <div style="margin-top:18px" class="ev-flabel"><span>Voraussichtlicher Steuersatz im Rentenalter</span>
     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">AV-Depot wird bei Auszahlung mit dem pers. Einkommensteuersatz versteuert (§ 20a EStG). Liegt häufig unter dem Erwerbssteuersatz.</div></div>
@@ -961,7 +961,7 @@ syncSlider('eink','s-eink','v-eink','f-eink',function(v){return Math.round(v).to
 syncSlider('alter','s-alter','v-alter','f-alter',null,null);
 syncSlider('steuersatzRente','s-srate','v-srate','f-srate',null,null);
 document.getElementById('v-depotalter').addEventListener('change',function(){
- var v=Math.max(ST.rentenAlter+1,Math.min(120,parseInt(this.value)||85));
+ var v=Math.max(Math.max(85,ST.rentenAlter+1),Math.min(120,parseInt(this.value)||85));
  this.value=v;
  ST.depotAlter=v;
  debouncedRender();
