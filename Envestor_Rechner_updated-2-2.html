@@ -729,8 +729,7 @@ function render(){
  if(document.getElementById('r-monat-netto')) document.getElementById('r-monat-netto').textContent=fE2(r.auszahlungMonatNetto)+' / Monat';
 if(document.getElementById('r-monat-netto-img')) document.getElementById('r-monat-netto-img').textContent=fE2(r.auszahlungMonatNetto)+' / Monat';
  if(document.getElementById('r-etf-monat-netto')) document.getElementById('r-etf-monat-netto').textContent=fE2(r.etfMonatNetto)+'/ Monat';
-if(document.getElementById('r-etf-monat-netto-box')) document.getElementById('r-etf-monat-netto-box').textContent=fE2(r.etfMonatNetto)+' / Monat';
-var diffEl=document.getElementById('r-etf-diff-box');if(diffEl){var diff=r.auszahlungMonatNetto-r.etfMonatNetto;if(diff>0){diffEl.textContent='Das AV-Depot bringt '+fE2(diff)+' / Monat mehr';diffEl.style.color='#16a34a';}else if(diff<0){diffEl.textContent='Das Fondsdepot bringt '+fE2(Math.abs(diff))+' / Monat mehr';diffEl.style.color='#ef4444';}else{diffEl.textContent='';diffEl.style.color='#fff';}}
+var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getElementById('r-etf-diff-text');if(diffEl){var diff=r.auszahlungMonatNetto-r.etfMonatNetto;if(diff>0){diffEl.textContent=fE2(diff);diffEl.style.color='#16a34a';if(diffTxt)diffTxt.textContent=' mehr als das ungeförderte Fondsdepot';}else if(diff<0){diffEl.textContent=fE2(Math.abs(diff));diffEl.style.color='#ef4444';if(diffTxt)diffTxt.textContent=' weniger als das ungeförderte Fondsdepot';}else{diffEl.textContent='–';diffEl.style.color='#fff';if(diffTxt)diffTxt.textContent='';} }
  var footerAV=document.getElementById('einmal-footer-av');
  var footerETF=document.getElementById('einmal-footer-etf');
  if(footerAV) footerAV.style.display=einmalPctRnd>0?'flex':'none';
