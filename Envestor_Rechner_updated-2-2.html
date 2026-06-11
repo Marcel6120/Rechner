@@ -268,15 +268,15 @@
     <p style="font-weight:700;color:#F15A24;font-size:13px;margin:0 0 6px">1. Ihr Kapital zum Rentenbeginn</p>
     <ul style="font-size:11px;color:rgba(255,255,255,.85);margin:0 0 14px;padding-left:18px;line-height:1.7">
      <li>Ihre monatlichen Einzahlungen werden über die gesamte Ansparphase mit der gewählten Rendite verzinst.</li>
-     <li>Beim <strong style="color:#F15A24">AV-Depot</strong> kommen jährliche Zulagen (Grundzulage + Kinderzulage) sowie eine <strong>Steuererstattung</strong> hinzu – beides erhöht das Kapital, das für Sie arbeitet.</li>
-     <li>Beim <strong style="color:#fff">Fondsdepot</strong> gibt es keine staatliche Förderung; dafür sind die laufenden Kosten typischerweise niedriger.</li>
+     <li>Beim <strong style="color:#F15A24">AV-Depot</strong> kommen jährliche Zulagen (Grundzulage + Kinderzulage) sowie eine <strong>Steuererstattung</strong> hinzu – beides erhöht das Kapital, das für Sie arbeitet. Zudem fällt beim AV-Depot während der Ansparphase <strong>keine Vorabpauschale</strong> an.</li>
+     <li>Beim <strong style="color:#fff">Fondsdepot</strong> gibt es keine staatliche Förderung. Dafür wird jährlich eine <strong>Vorabpauschale</strong> fällig (Basiszins × 0,7 × 26,375 % auf den Depotwert), die bei Verkauf angerechnet wird.</li>
     </ul>
     <p style="font-weight:700;color:#F15A24;font-size:13px;margin:0 0 4px">2. Steuerliche Behandlung im Rentenalter</p>
     <p style="font-weight:600;color:#fff;font-size:12px;margin:8px 0 3px">AV-Depot – nachgelagerte Besteuerung</p>
     <p style="font-size:11px;color:rgba(255,255,255,.6);margin:0 0 6px;line-height:1.5;font-style:italic">Da Ihre Beiträge in der Ansparphase steuerlich gefördert wurden, wird die Rente im Alter mit Ihrem persönlichen Einkommensteuersatz versteuert – das nennt man „nachgelagerte Besteuerung".</p>
     <ul style="font-size:11px;color:rgba(255,255,255,.85);margin:0 0 10px;padding-left:18px;line-height:1.7">
      <li><strong>Geförderter Anteil</strong> (Einzahlungen bis 1.800 €/J + Zulagen): wird bei Auszahlung voll mit dem persönlichen Steuersatz besteuert.</li>
-     <li><strong>Überzahlungen</strong> (über 1.800 €/J): Die Einzahlungen selbst fließen steuerfrei zurück. Nur die <em>Gewinne</em> werden anteilig besteuert – über den Ertragsanteil nach § 22 EStG (z. B. 17 % bei Rentenbeginn 67).</li>
+     <li><strong>Überzahlungen</strong> (über 1.800 €/J): Die Einzahlungen selbst fließen steuerfrei zurück (bereits versteuertes Kapital). Nur die <em>Gewinne</em> werden anteilig besteuert – vereinfachend über den Ertragsanteil nach § 22 EStG (z. B. 17 % bei Rentenbeginn 67). Die endgültigen Regelungen des AVD-Gesetzes (ab 2026) können hiervon abweichen.</li>
     </ul>
     <table style="width:100%;font-size:12px;border-collapse:collapse;color:#fff">
       <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Grundzulage gesamt</td><td id="rw-gz-ges" style="text-align:right;font-weight:600;color:#4ade80">–</td></tr>
@@ -297,7 +297,7 @@
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Endkapital Fondsdepot (brutto)</td><td id="rw-etf-brutto" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">− Einzahlungen gesamt</td><td id="rw-etf-einz" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">= Kursgewinn</td><td id="rw-etf-gewinn" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
-     <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Steuerpflichtig (× 70 % TFS)</td><td id="rw-etf-stpfl" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
+     <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Steuerpflichtig (× 70 % nach Teilfreistellung)</td><td id="rw-etf-stpfl" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Abgeltungsteuer brutto (× 26,375 %)</td><td id="rw-etf-abgst" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">− Anrechnung gezahlter VAP (§ 20 Abs. 4)</td><td id="rw-etf-vapabzug" style="text-align:right;font-weight:600;color:#4ade80">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">= Schlusssteuer bei Verkauf</td><td id="rw-etf-schluss" style="text-align:right;font-weight:600;color:#ef4444">–</td></tr>
@@ -306,7 +306,7 @@
     <p style="font-weight:700;color:#F15A24;font-size:13px;margin:18px 0 6px">3. Berechnung der monatlichen Nettorente</p>
     <ul style="font-size:11px;color:rgba(255,255,255,.85);margin:0 0 8px;padding-left:18px;line-height:1.7">
      <li>Nach Abzug der Steuern steht Ihnen das <strong>Netto-Endkapital</strong> zur Verfügung.</li>
-     <li>Bis zu <strong>30 %</strong> können Sie als Einmalbetrag entnehmen; die verbleibenden <strong>70 %</strong> fließen als monatliche Rente über die gewählte Entnahmedauer.</li>
+     <li>Bis zu <strong>30 %</strong> des Kapitals können Sie als steuerfreien Einmalbetrag entnehmen (§ 20a EStG); der verbleibende Anteil fließt als monatliche Rente über die gewählte Entnahmedauer.</li>
      <li>Das Kapital arbeitet während der Auszahlungsphase weiter – die Rente wird als konstante Annuität berechnet, sodass das Kapital am Laufzeitende genau aufgebraucht ist.</li>
      <li>Formel: <strong style="color:#F15A24">Monatsrente = Kapital × r × (1+r)ⁿ / ((1+r)ⁿ − 1)</strong><br>
       <span style="color:rgba(255,255,255,.65)">wobei r = monatliche Nettorendite, n = Entnahmedauer in Monaten.</span></li>
@@ -319,7 +319,7 @@
      <tr style="border-top:1px solid rgba(255,255,255,.1)"><td style="padding:4px 0;font-weight:700;color:#fff">Monatliche Auszahlung AV-Depot (netto)</td><td id="rw-ausz-monat" style="text-align:right;font-weight:700;color:#F15A24">–</td></tr>
      <tr style="border-top:1px solid rgba(255,255,255,.08)"><td style="padding:4px 0;font-weight:700;color:#fff">Monatliche Auszahlung Fondsdepot (netto)</td><td id="rw-ausz-monat-etf" style="text-align:right;font-weight:700;color:#fff">–</td></tr>
     </table></p>
-    <p style="font-size:11px;color:#fff;margin-bottom:6px;line-height:1.6">Gefördert werden maximal 1.800 € Eigenbeitrag pro Person und Jahr (BMF-bestätigt). Abzugsbasis = min(1.800 €, Eigenbeitrag) + Zulagen. Steuerersparnis brutto = Abzugsbasis × Grenzsteuersatz. Erstattung = max(0, Steuerersparnis − Zulage). Überzahlungen über 1.800 €/J erhalten keine Steuererstattung – sie stammen aus bereits versteuertem Einkommen. Hinweis: Mit dem Toggle „Steuererstattung reinvestieren“ fließt die jährliche Steuererstattung zusätzlich ins AV-Depot zurück und erhöht den Zinseszinseffekt. Ohne Toggle wird die Erstattung als Konsumausgabe behandelt.</p>
+    <p style=”font-size:11px;color:#fff;margin-bottom:6px;line-height:1.6”>Gefördert werden maximal 1.800 € Eigenbeitrag pro Person und Jahr (BMF-bestätigt). Abzugsbasis = min(1.800 €, Eigenbeitrag) + Zulagen. Steuerersparnis brutto = Abzugsbasis × Grenzsteuersatz. Erstattung = max(0, Steuerersparnis − Zulage) – sog. Günstigerprüfung: nur wenn der Steuervorteil die Zulage übersteigt, gibt es eine zusätzliche Erstattung. Bei gemeinsamer Veranlagung wird der Grenzsteuersatz nach dem Ehegattensplitting berechnet (Splittinghälfte = Jahreseinkommen einer Person). Überzahlungen über 1.800 €/J erhalten keine Steuererstattung – sie stammen aus bereits versteuertem Einkommen. Hinweis: Mit dem Toggle „Steuererstattung reinvestieren” fließt die jährliche Steuererstattung zusätzlich ins AV-Depot zurück und erhöht den Zinseszinseffekt. Ohne Toggle wird die Erstattung als Konsumausgabe behandelt.</p>
     <table style="width:100%;font-size:12px;border-collapse:collapse;color:#fff">
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Förderb. Eigenbeitrag (max. 1.800€/J)</td><td id="rw-eigen-foerd" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">+ Zulagen → Abzugsbasis</td><td id="rw-abzug-gz" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
@@ -353,7 +353,7 @@
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
        <td style="padding:5px 0;font-weight:600;color:#fff">Besteuerung Fondsdepot</td>
-       <td style="padding:5px 0">Abgeltungsteuer 26,375 % (inkl. Soli) auf 70 % der Gewinne (Teilfreistellung Aktienfonds, § 20 InvStG). Sparerpauschbetrag (1.000 €/J) nicht berücksichtigt.</td>
+       <td style="padding:5px 0">Abgeltungsteuer 26,375 % (inkl. Soli) auf 70 % der Gewinne (30 % Teilfreistellung für Aktienfonds, § 20 InvStG). Sparerpauschbetrag (1.000 €/J Einzelperson, 2.000 €/J zusammen veranlagt) und Kirchensteuer sind nicht berücksichtigt.</td>
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
        <td style="padding:5px 0;font-weight:600;color:#fff">Steuererstattung</td>
