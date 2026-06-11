@@ -239,6 +239,7 @@
      <div class="ct-divider"></div>
      <div class="ct-row"><span class="ct-dot" style="background:#14b8a6"></span><span class="ct-lbl">Einzahlungen</span><span class="ct-val" id="ct-einz">–</span></div>
      <div class="ct-row"><span class="ct-dot" style="background:#16a34a"></span><span class="ct-lbl">Zulagen</span><span class="ct-val" id="ct-zul">–</span></div>
+     <div class="ct-row" id="ct-steur-row"><span class="ct-dot" style="background:#F15A24"></span><span class="ct-lbl">Steuervorteil</span><span class="ct-val" id="ct-steur">–</span></div>
     </div>
    </div>
    <div class="chart-legend-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.1)">
@@ -483,7 +484,7 @@ function calc(){
   totalVapPaid+=vapSteuerJ;
   depotOhne=Math.max(0,depotOhne-vapSteuerJ);
   var alterJ=s.alter+j;
-  pts.push({a:alterJ,mi:Math.round(depotMit),mo:Math.round(depotOhne),cumVap:totalVapPaid,phase:'anspar'});
+  pts.push({a:alterJ,mi:Math.round(depotMit),mo:Math.round(depotOhne),cumVap:totalVapPaid,cumSt:steuerNettoGesamt,phase:'anspar'});
  }
  var last=pts[pts.length-1]||{mi:0,mo:0};
  var avBrutto=last.mi;
@@ -784,7 +785,7 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
    etfEnt.push(Math.round(dETF_ent));
   }
   var labels=[ST.alter];
-  var dAV=[0], dETF=[0], dEinz=[0], dZulAbs=[0];
+  var dAV=[0], dETF=[0], dEinz=[0], dZulAbs=[0], dSteurAbs=[0];
   ansparPts.forEach(function(p){
    labels.push(p.a);
    dAV.push(p.mi);
@@ -792,13 +793,16 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
    var jahre=p.a-ST.alter;
    dEinz.push(Math.round(eoM*jahre*12));
    dZulAbs.push(Math.round((eoM+zulageM)*jahre*12));
+   dSteurAbs.push(Math.round(p.cumSt||0));
   });
-  var rentenIdx = ansparPts.length; 
+  var rentenIdx = ansparPts.length;
   var avPeak = dAV[rentenIdx] || 1;
   var einzPeak = dEinz[rentenIdx] || 0;
   var zulPeak = Math.min(dZulAbs[rentenIdx] || 0, avPeak);
+  var steurPeak = dSteurAbs[rentenIdx] || 0;
   var ratioEinz = einzPeak / avPeak;
   var ratioZul = zulPeak / avPeak;
+  var ratioSteur = steurPeak / avPeak;
   for(var ej=0;ej<entnahmePts.length;ej++){
    labels.push(entnahmePts[ej].a);
    var avVal = avEnt[ej+1];
@@ -807,6 +811,7 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
    dETF.push(etfVal);
    dEinz.push(Math.round(avVal * ratioEinz));
    dZulAbs.push(Math.round(avVal * ratioZul));
+   dSteurAbs.push(Math.round(avVal * ratioSteur));
   }
   if(window._chartInst){window._chartInst.destroy();window._chartInst=null;}
   var _rentenIdx = rentenIdx;
@@ -884,7 +889,8 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
      {label:'AV-Depot',data:dAV,borderColor:'#F15A24',backgroundColor:'rgba(0,0,0,0)',borderWidth:2.5,pointRadius:0,pointHoverRadius:6,pointHoverBackgroundColor:'#F15A24',pointHoverBorderColor:'#fff',pointHoverBorderWidth:2,fill:false,tension:0,spanGaps:true},
      {label:'Fonds-Depot',data:dETF,borderColor:'#ffffff',backgroundColor:'rgba(0,0,0,0)',borderWidth:2,borderDash:[8,5],pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:'#ffffff',pointHoverBorderColor:'#F15A24',pointHoverBorderWidth:2,fill:false,tension:0,spanGaps:true},
      {label:'_einz',data:dEinz,borderColor:'rgba(0,0,0,0)',borderWidth:0,pointRadius:0,fill:false,spanGaps:false},
-     {label:'_zul',data:dZulAbs,borderColor:'rgba(0,0,0,0)',borderWidth:0,pointRadius:0,fill:false,spanGaps:false}
+     {label:'_zul',data:dZulAbs,borderColor:'rgba(0,0,0,0)',borderWidth:0,pointRadius:0,fill:false,spanGaps:false},
+     {label:'_steur',data:dSteurAbs,borderColor:'rgba(0,0,0,0)',borderWidth:0,pointRadius:0,fill:false,spanGaps:false}
     ]
    },
    plugins:[rentnerLine, areaFill],
@@ -914,9 +920,12 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
      document.getElementById('ct-age').textContent='Alter '+labels[idx]+' Jahre';
      document.getElementById('ct-mit').textContent=fEFull(dAV[idx]||0)+(isEntnahme?' (Brutto-Entnahme)':' (Brutto)');
      document.getElementById('ct-ohne').textContent=fEFull(dETF[idx]||0)+(isEntnahme?' (Brutto-Entnahme)':' (Brutto)');
-     var eV=dEinz[idx],zV=dZulAbs[idx];
+     var eV=dEinz[idx],zV=dZulAbs[idx],sV=dSteurAbs[idx];
      document.getElementById('ct-einz').textContent=eV!=null?fEFull(eV):'–';
      document.getElementById('ct-zul').textContent=(zV!=null&&eV!=null)?fEFull(zV-eV):'–';
+     var steurRow=document.getElementById('ct-steur-row');
+     if(steurRow) steurRow.style.display=(sV>0)?'flex':'none';
+     if(document.getElementById('ct-steur')) document.getElementById('ct-steur').textContent=sV>0?fEFull(sV):'–';
      var outer=document.querySelector('.chart-outer');
      var outerRect=outer.getBoundingClientRect();
      var canvasRect=document.getElementById('avdChart').getBoundingClientRect();
