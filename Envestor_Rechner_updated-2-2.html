@@ -155,16 +155,16 @@
    <div class="ev-flabel" style="margin-bottom:7px"><span>Produktkosten (p.a.)</span>
    </div>
    <div style="margin-bottom:10px">
-    <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px;display:flex;justify-content:space-between"><span>Kosten AV-Depot</span><span id="v-kosten-label" style="color:#F15A24">2,5 %</span></div>
-    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-kosten" value="2,5" inputmode="decimal"><span class="ev-unit">%</span></div>
-     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-kosten"></div><input type="range" id="s-kosten" min="0" max="3" step="0.1" value="2.5"></div>
+    <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px;display:flex;justify-content:space-between"><span>Kosten AV-Depot</span><span id="v-kosten-label" style="color:#F15A24">1,0 %</span></div>
+    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-kosten" value="1,0" inputmode="decimal"><span class="ev-unit">%</span></div>
+     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-kosten"></div><input type="range" id="s-kosten" min="0" max="3" step="0.1" value="1.0"></div>
     </div>
     <div class="ev-hint" style="display:none">Max. 1 % beim Standarddepot</div>
    </div>
    <div>
-    <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px;display:flex;justify-content:space-between"><span>Kosten Fondsdepot (TER)</span><span id="v-kosten-etf-label" style="color:#F15A24">2,5 %</span></div>
-    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-kosten-etf" value="2,5" inputmode="decimal"><span class="ev-unit">%</span></div>
-     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-kosten-etf"></div><input type="range" id="s-kosten-etf" min="0" max="3" step="0.1" value="2.5"></div>
+    <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px;display:flex;justify-content:space-between"><span>Kosten Fondsdepot (TER)</span><span id="v-kosten-etf-label" style="color:#F15A24">1,0 %</span></div>
+    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-kosten-etf" value="1,0" inputmode="decimal"><span class="ev-unit">%</span></div>
+     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-kosten-etf"></div><input type="range" id="s-kosten-etf" min="0" max="3" step="0.1" value="1.0"></div>
     </div>
     <div class="ev-hint" style="color:rgba(255,255,255,.6);display:none"><strong id="rend-netto-hint-etf" style="color:#fff"></strong></div>
    </div>
@@ -384,7 +384,7 @@
  </div>
  </div>
 </div>
-<script>var ST={eink:5000,eink2:5000,verheiratet:true,alter:35,rentenAlter:67,depotAlter:85,steuersatzRente:0,kosten:2.5,kostenEtf:2.5,kinderAnzahl:0,kinderAlter:[],erw:1,spar:150,rend:6,reinvest:true,einmalPct:0};
+<script>var ST={eink:5000,eink2:5000,verheiratet:true,alter:35,rentenAlter:67,depotAlter:85,steuersatzRente:0,kosten:1.0,kostenEtf:1.0,kinderAnzahl:0,kinderAlter:[],erw:1,spar:150,rend:6,reinvest:true,einmalPct:0};
 function fEFull(v){return new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v);}
 function fE(v,c){
  if(c&&v>=1e6)return(v/1e6).toFixed(2).replace('.',',')+' Mio. €';
