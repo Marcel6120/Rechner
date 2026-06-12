@@ -44,7 +44,7 @@
     </div>
     <div>
      <div class="ev-flabel" style="margin-bottom:5px"><span>Kinder</span>
-      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">300 € Kinderzulage pro Kind und Jahr. Die Zulage wird bis zum vollendeten 25. Lebensjahr gewährt – sofern das Kind sich noch in Berufsausbildung oder Studium befindet.</div></div>
+      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">300 € Kinderzulage pro Kind und Jahr. Die Zulage wird bis zum vollendeten 21. Lebensjahr gewährt (Durchschnittswert – tatsächlich bis 25, sofern Berufsausbildung oder Studium vorliegt).</div></div>
      </div>
      <input type="text" id="v-kinder" value="0" inputmode="numeric" style="display:block;width:72px;height:30px;border:1px solid rgba(255,255,255,.25);border-radius:6px;background:rgba(255,255,255,.1);font-size:13px;font-weight:700;color:#fff;text-align:center;font-family:inherit;padding:0">
     </div>
@@ -66,7 +66,7 @@
     </div>
    </div>
    <div class="kinder-ages" id="kinder-ages"></div>
-   <div class="kinder-footnote" id="kinder-footnote">* Kinderzulage max. bis 25 J. bei Berufsausbildung.</div>
+   <div class="kinder-footnote" id="kinder-footnote">* Kinderzulage max. bis 21 J. (Durchschnitt; gesetzlich bis 25 J. bei Berufsausbildung).</div>
    <div class="ev-warn" id="warn-alter"><strong>Kurze Ansparphase:</strong> Individuelle Prüfung empfohlen.</div>
   </div>
   <div class="ev-input-col">
@@ -350,7 +350,7 @@
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
        <td style="padding:5px 0;font-weight:600;color:#fff">Kinderzulage</td>
-       <td style="padding:5px 0">300 €/Kind/Jahr bis zum vollendeten 25. Lebensjahr. Voraussetzung Kindergeldbezug – wird vereinfachend als gegeben angenommen.</td>
+       <td style="padding:5px 0">300 €/Kind/Jahr bis zum vollendeten 21. Lebensjahr (vereinfachende Durchschnittsannahme; gesetzlich bis 25 J. bei Berufsausbildung/Studium). Voraussetzung Kindergeldbezug – wird vereinfachend als gegeben angenommen.</td>
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
        <td style="padding:5px 0;font-weight:600;color:#fff">Besteuerung AV-Depot</td>
@@ -405,13 +405,13 @@ function gzProErw(jb){
  var s1=Math.min(jb,360)*0.50;var s2=Math.max(0,Math.min(jb,1800)-360)*0.25;return Math.min(s1+s2,540);
 }
 function foerderKinder(){
- return ST.kinderAlter.filter(function(a){return a<=25;}).length;
+ return ST.kinderAlter.filter(function(a){return a<=21;}).length;
 }
 function kinderZulageGesamt(lz){
  var total=0;
  ST.kinderAlter.forEach(function(kAlter){
-  if(kAlter>25)return;
-  var jahreNoch=Math.max(0,Math.min(25-kAlter+1,lz));
+  if(kAlter>21)return;
+  var jahreNoch=Math.max(0,Math.min(21-kAlter+1,lz));
   total+=jahreNoch*300;
  });
  return total;
@@ -466,7 +466,7 @@ function calc(){
   var sparerAlterJetzt=s.alter+(j-1);
   var kzDiesesJahr=0;
   ST.kinderAlter.forEach(function(alter){
-   if(alter+(j-1)<=25) kzDiesesJahr+=300;
+   if(alter+(j-1)<=21) kzDiesesJahr+=300;
   });
   var gzFaktorJ=(eigenbeitragJ<MINDEST_J&&MINDEST_J>0)?Math.max(0,eigenbeitragJ/MINDEST_J):1;
   var gzJDiesJ=gzJ*gzFaktorJ;
@@ -601,7 +601,7 @@ function buildKinderAges(n){
   var row=document.createElement('div');row.className='kinder-age-row';
   var lbl=document.createElement('span');lbl.className='kid-lbl';lbl.textContent='Kind '+(i+1)+':';
   var sel=document.createElement('select');
-  for(var a=1;a<=25;a++){
+  for(var a=1;a<=21;a++){
    var opt=document.createElement('option');opt.value=a;
    opt.textContent=a+' Jahr'+(a===1?'':'e')+' alt';
    if(a===def)opt.selected=true;sel.appendChild(opt);
