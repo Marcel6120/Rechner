@@ -236,6 +236,7 @@
         <div class="ev-info" style="flex-shrink:0"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Monatliche Nettorente nach nachgelagerter Besteuerung mit Ihrem persönlichen Steuersatz im Rentenalter. Der Betrag ist der ausgezahlte Anteil als Annuität über die Entnahmedauer.</div></div>
        </div>
        <div id="r-monat-netto" class="ab-val" style="font-size:24px;font-weight:800;color:#F15A24;line-height:1.1;white-space:nowrap">–</div>
+       <div id="r-monat-p1p2" style="display:none;font-size:10.5px;color:rgba(255,255,255,.65);margin-top:2px;text-align:center"></div>
        <div id="r-monat-sub" style="display:none">nachgelagert besteuert</div>
       </div>
       <div id="einmal-footer-av" style="display:none;flex-direction:row;justify-content:space-between;align-items:center;gap:6px;width:100%;margin:10px 0 0 0;padding:9px 12px;box-sizing:border-box;border-radius:6px;background:rgba(241,90,36,.15)">
@@ -455,37 +456,36 @@ function kinderZulageGesamt(lz){
  });
  return total;
 }
-function calc(){
- var s=ST,lz=Math.max(s.rentenAlter-s.alter,1);
- var rendNetto=Math.max(0,s.rend-s.kosten);
- var rendNettoEtf=Math.max(0,s.rend-s.kostenEtf);
- var jbErw=s.spar*12;
+function calcSingle(p){
+ // p: {spar, eink, gsatzEff, alter, rentenAlter, depotAlter, steuersatzRente, einmalPct,
+ //      kinderAlter, rend, kosten, kostenEtf, reinvest, yearOffset}
+ var spar=p.spar, eink=p.eink, gsatzEff=p.gsatzEff;
+ var alter=p.alter, rentenAlter=p.rentenAlter, depotAlter=p.depotAlter;
+ var steuersatzRente=p.steuersatzRente, einmalPct=p.einmalPct;
+ var kinderAlter=p.kinderAlter||[];
+ var rend=p.rend, kosten=p.kosten, kostenEtf=p.kostenEtf, reinvest=p.reinvest;
+ var yearOffset=p.yearOffset||0;
+ var lz=Math.max(rentenAlter-alter,1);
+ var rendNetto=Math.max(0,rend-kosten);
+ var rendNettoEtf=Math.max(0,rend-kostenEtf);
+ var jbErw=spar*12;
  var gzErw=gzProErw(jbErw);
- var gzJ=gzErw*s.erw;
- var fk=foerderKinder();
- var kzJ=fk*300; 
- var kzGesamt=kinderZulageGesamt(lz); 
- var eigenbeitragJ=s.spar*12*s.erw;
- var ebM=s.spar*s.erw;
- var gsatz=grenz(s.eink*12);
- var gsatz2,gsatzEff;
- if(s.erw===2&&s.verheiratet){
-  var gsatzSplit=grenz(s.eink*12);
-  gsatz2=gsatzSplit;
-  gsatzEff=gsatzSplit; 
- } else if(s.erw===2&&!s.verheiratet){
-  gsatz2=grenz(s.eink2*12);
-  gsatzEff=(gsatz+gsatz2)/2; 
- } else {
-  gsatz2=gsatz;
-  gsatzEff=gsatz;
- }
- var MINDEST_J=120*s.erw; 
+ var gzJ=gzErw; // 1 Person
+ var fk=kinderAlter.filter(function(a){return a<=21;}).length;
+ var kzJ=fk*300;
+ var kzGesamt=0;
+ kinderAlter.forEach(function(kAlter){
+  if(kAlter>21)return;
+  kzGesamt+=Math.max(0,Math.min(21-kAlter+1,lz))*300;
+ });
+ var eigenbeitragJ=spar*12;
+ var ebM=spar;
+ var MINDEST_J=120;
  var gzFaktor=(eigenbeitragJ<MINDEST_J&&MINDEST_J>0)?Math.max(0,eigenbeitragJ/MINDEST_J):1;
  var gzJKorr=gzJ*gzFaktor;
  var zulageJ=gzJKorr+kzJ;
  var zulageM=zulageJ/12;
- var foerderbarerEigenbeitrag=Math.min(eigenbeitragJ,1800*s.erw);
+ var foerderbarerEigenbeitrag=Math.min(eigenbeitragJ,1800);
  var abzugsbasis=foerderbarerEigenbeitrag+zulageJ;
  var steuerBrutto=abzugsbasis*gsatzEff;
  var steuerNetto=Math.max(0,steuerBrutto-zulageJ);
@@ -496,22 +496,21 @@ function calc(){
  var VAP_STEUER=0.26375*0.70;
  var VAP_FAKTOR=BASISZINS*0.70;
  var steuerNettoGesamt=0;
- var gzGesamtReal=0; 
+ var gzGesamtReal=0;
  var pts=[];
  var mr12=Math.pow(1+rendNetto/100,1/12)-1;
  var mr12Etf=Math.pow(1+rendNettoEtf/100,1/12)-1;
  var depotMit=0,depotOhne=0,totalVapPaid=0;
  for(var j=1;j<=lz;j++){
-  var sparerAlterJetzt=s.alter+(j-1);
   var kzDiesesJahr=0;
-  ST.kinderAlter.forEach(function(alter){
-   if(alter+(j-1)<=21) kzDiesesJahr+=300;
+  kinderAlter.forEach(function(a){
+   if(a+(j-1)<=21) kzDiesesJahr+=300;
   });
   var gzFaktorJ=(eigenbeitragJ<MINDEST_J&&MINDEST_J>0)?Math.max(0,eigenbeitragJ/MINDEST_J):1;
   var gzJDiesJ=gzJ*gzFaktorJ;
   var zulageJahrReal=gzJDiesJ+kzDiesesJahr;
   gzGesamtReal+=gzJDiesJ;
-  var foerdJ=Math.min(eigenbeitragJ,1800*s.erw);
+  var foerdJ=Math.min(eigenbeitragJ,1800);
   var abzugJ=foerdJ+zulageJahrReal;
   var stBruttoJ=abzugJ*gsatzEff;
   var stNettoJ=Math.max(0,stBruttoJ-zulageJahrReal);
@@ -522,42 +521,40 @@ function calc(){
    depotMit=depotMit*(1+mr12)+eiMJahr;
    depotOhne=depotOhne*(1+mr12Etf)+eoM;
   }
-  if(s.reinvest) depotMit+=stNettoJ;
+  if(reinvest) depotMit+=stNettoJ;
   var vapSteuerJ=depotOhne*VAP_FAKTOR*VAP_STEUER;
   totalVapPaid+=vapSteuerJ;
   depotOhne=Math.max(0,depotOhne-vapSteuerJ);
-  var alterJ=s.alter+j;
-  pts.push({a:alterJ,mi:Math.round(depotMit),mo:Math.round(depotOhne),cumVap:totalVapPaid,cumSt:steuerNettoGesamt,phase:'anspar'});
+  pts.push({a:alter+j,yo:yearOffset+j,mi:Math.round(depotMit),mo:Math.round(depotOhne),cumVap:totalVapPaid,cumSt:steuerNettoGesamt,phase:'anspar'});
  }
  var last=pts[pts.length-1]||{mi:0,mo:0};
  var avBrutto=last.mi;
- var gefoerdertJ=Math.min(1800*s.erw,eigenbeitragJ);
- var ueberJ=Math.max(0,eigenbeitragJ-1800*s.erw);
+ var ueberJ=Math.max(0,eigenbeitragJ-1800);
  var eigenbeitragGes=eigenbeitragJ*lz;
  var zulageGes=gzGesamtReal+kzGesamt;
- var gefoerdertGes=Math.min(1800*s.erw,eigenbeitragJ)*lz; 
+ var gefoerdertGes=Math.min(1800,eigenbeitragJ)*lz;
  var gesamtEinzGes=eigenbeitragGes+zulageGes;
  var anteilGef=gesamtEinzGes>0?(gefoerdertGes+zulageGes)/gesamtEinzGes:1;
  var anteilÜb=gesamtEinzGes>0?(ueberJ*lz)/gesamtEinzGes:0;
  var avGef=avBrutto*anteilGef;
  var avÜb=avBrutto*anteilÜb;
- var steuerGef=avGef*s.steuersatzRente/100;
+ var steuerGef=avGef*steuersatzRente/100;
  var einzÜbGes=ueberJ*lz;
  var gewinnÜb=Math.max(0,avÜb-einzÜbGes);
- var ea=getEA(s.rentenAlter);
- var steuerÜb=gewinnÜb*ea*s.steuersatzRente/100;
+ var ea=getEA(rentenAlter);
+ var steuerÜb=gewinnÜb*ea*steuersatzRente/100;
  var avSteuer=Math.round(steuerGef+steuerÜb);
  var avNetto=avBrutto-avSteuer;
  var etfBrutto=last.mo;
  var etfEinzahlungen=eoM*lz*12;
  var etfKursgewinn=Math.max(0,etfBrutto-etfEinzahlungen);
- var etfStpfl=etfKursgewinn*0.70; 
+ var etfStpfl=etfKursgewinn*0.70;
  var etfAbgstBrutto=etfStpfl*0.26375;
  var etfSteuerAufloesung=Math.max(0,etfAbgstBrutto-totalVapPaid);
  var etfNetto=Math.round(etfBrutto-etfSteuerAufloesung);
- var entnahmeJ=Math.max(10,s.depotAlter-s.rentenAlter);
- var mr12Ent=Math.pow(1+Math.max(0,s.rend-s.kosten)/100,1/12)-1;
- var mr12EntEtf=Math.pow(1+Math.max(0,s.rend-s.kostenEtf)/100,1/12)-1;
+ var entnahmeJ=Math.max(10,depotAlter-rentenAlter);
+ var mr12Ent=Math.pow(1+Math.max(0,rend-kosten)/100,1/12)-1;
+ var mr12EntEtf=Math.pow(1+Math.max(0,rend-kostenEtf)/100,1/12)-1;
  var nEnt=entnahmeJ*12;
  var avEntnahmeM=mr12Ent>0?avNetto*mr12Ent*Math.pow(1+mr12Ent,nEnt)/(Math.pow(1+mr12Ent,nEnt)-1):avNetto/nEnt;
  var etfEntnahmeM=mr12EntEtf>0?etfNetto*mr12EntEtf*Math.pow(1+mr12EntEtf,nEnt)/(Math.pow(1+mr12EntEtf,nEnt)-1):etfNetto/nEnt;
@@ -567,7 +564,7 @@ function calc(){
    depotAV=Math.max(0,depotAV*(1+mr12Ent)-avEntnahmeM);
    depotETF=Math.max(0,depotETF*(1+mr12EntEtf)-etfEntnahmeM);
   }
-  pts.push({a:s.rentenAlter+ej,mi:Math.round(depotAV),mo:Math.round(depotETF),cumVap:totalVapPaid,phase:'entnahme'});
+  pts.push({a:rentenAlter+ej,yo:yearOffset+lz+ej,mi:Math.round(depotAV),mo:Math.round(depotETF),cumVap:totalVapPaid,phase:'entnahme'});
  }
  var breakeven=null;
  if(avBrutto>0&&avGef>0){
@@ -575,56 +572,185 @@ function calc(){
   var t_be=nenner>0?(avBrutto-etfNetto)/nenner*100:0;
   breakeven=Math.round(Math.max(0,Math.min(100,t_be))*10)/10;
  }
- var einmalFrac=s.einmalPct/100;
+ var einmalFrac=einmalPct/100;
  var renteFrac=1-einmalFrac;
+ var auszahlungMonatNetto=(function(){
+  var kapital=avNetto*renteFrac;
+  var rendEnt=Math.max(0,rend-kosten)/100;
+  var mr12E=Math.pow(1+rendEnt,1/12)-1;
+  var n=entnahmeJ*12;
+  if(kapital<=0) return 0;
+  return Math.round(mr12E>0?kapital*mr12E*Math.pow(1+mr12E,n)/(Math.pow(1+mr12E,n)-1):kapital/n);
+ })();
+ var etfMonatNetto=(function(){
+  var kapitalEtf=etfNetto*renteFrac;
+  var rendEnt=Math.max(0,rend-kostenEtf)/100;
+  var mr12E=Math.pow(1+rendEnt,1/12)-1;
+  var n=entnahmeJ*12;
+  if(kapitalEtf<=0) return 0;
+  return Math.round(mr12E>0?kapitalEtf*mr12E*Math.pow(1+mr12E,n)/(Math.pow(1+mr12E,n)-1):kapitalEtf/n);
+ })();
  return{
-  end:avNetto,endBrutto:avBrutto,
-  etf:etfNetto,etfBrutto:etfBrutto,
-  vort:avNetto-etfNetto,
-  gz:gzGesamtReal,kz:kzGesamt,
-  st:steuerNettoGesamt,gsatz:gsatz,gsatz2:gsatz2,gsatzEff:gsatzEff,abzug:abzugsbasis,
+  avNetto:avNetto,avBrutto:avBrutto,etfNetto:etfNetto,etfBrutto:etfBrutto,
+  avSteuer:avSteuer,
+  gz:gzGesamtReal,kz:kzGesamt,st:steuerNettoGesamt,
+  gsatzEff:gsatzEff,abzug:abzugsbasis,
   guenstiger:steuerBrutto>zulageJ?'steuer':'zulage',
-  el:elM,eb:ebM,lz:lz,fk:fk,zulageJ:zulageJ,erw:s.erw,alter:s.alter,
+  elM:elM,ebM:ebM,lz:lz,fk:fk,zulageJ:zulageJ,
   pts:pts,
-  avSteuerGesamt:avSteuer,
   etfSteuerAufloesung:Math.round(etfSteuerAufloesung),
-  srente:s.steuersatzRente,
-  breakeven:breakeven,
-  totalVapPaid:totalVapPaid,
-  zulageM:zulageM,eoM:eoM,reinvestJ:steuerNetto,reinvest:s.reinvest,
-  avSteuer:avSteuer,avNetto:avNetto,ea:Math.round(ea*100),
+  srente:steuersatzRente,breakeven:breakeven,totalVapPaid:totalVapPaid,
+  zulageM:zulageM,eoM:eoM,reinvestJ:steuerNetto,
+  ea:Math.round(ea*100),
   avGef:Math.round(avGef),avÜb:Math.round(avÜb),
   steuerGef:Math.round(steuerGef),steuerÜb:Math.round(steuerÜb),
-  etfKursgewinn:Math.round(etfKursgewinn),
-  etfStpfl:Math.round(etfStpfl),
-  etfAbgstBrutto:Math.round(etfAbgstBrutto),
-  etfEinzahlungen:Math.round(etfEinzahlungen),
-  auszahlungEinmal:Math.round(avNetto*einmalFrac),
+  etfKursgewinn:Math.round(etfKursgewinn),etfStpfl:Math.round(etfStpfl),
+  etfAbgstBrutto:Math.round(etfAbgstBrutto),etfEinzahlungen:Math.round(etfEinzahlungen),
   auszahlungEinmalNetto:Math.round(avNetto*einmalFrac),
-  auszahlungMonatNetto:(function(){
-   var kapital=avNetto*renteFrac;
-   var entnahmeJ=Math.max(10,s.depotAlter-s.rentenAlter);
-   var rendEnt=Math.max(0,s.rend-s.kosten)/100;
-   var mr12Ent=Math.pow(1+rendEnt,1/12)-1;
-   var n=entnahmeJ*12;
-   if(kapital<=0) return 0;
-   var rate=mr12Ent>0?kapital*mr12Ent*Math.pow(1+mr12Ent,n)/(Math.pow(1+mr12Ent,n)-1):kapital/n;
-   return Math.round(rate);
-  })(),
+  auszahlungMonatNetto:auszahlungMonatNetto,
   etfEinmalNetto:Math.round(etfNetto*einmalFrac),
-  etfMonatNetto:(function(){
-   var kapitalEtf=etfNetto*renteFrac;
-   var entnahmeJ=Math.max(10,s.depotAlter-s.rentenAlter);
-   var rendEnt=Math.max(0,s.rend-s.kostenEtf)/100;
-   var mr12Ent=Math.pow(1+rendEnt,1/12)-1;
-   var n=entnahmeJ*12;
-   if(kapitalEtf<=0) return 0;
-   var rate=mr12Ent>0?kapitalEtf*mr12Ent*Math.pow(1+mr12Ent,n)/(Math.pow(1+mr12Ent,n)-1):kapitalEtf/n;
-   return Math.round(rate);
-  })(),
-  einmalPct:einmalFrac*100,
-  renteFrac:renteFrac,
-  entnahmeJahre:Math.max(10,s.depotAlter-s.rentenAlter)
+  etfMonatNetto:etfMonatNetto,
+  einmalPct:einmalFrac*100,renteFrac:renteFrac,
+  entnahmeJahre:entnahmeJ,
+  alter:alter,rentenAlter:rentenAlter,yearOffset:yearOffset
+ };
+}
+function calc(){
+ var s=ST;
+ var gsatz=grenz(s.eink*12);
+ var gsatz2,gsatzEff;
+ if(s.erw===2&&s.verheiratet){
+  gsatz2=grenz(s.eink*12);gsatzEff=gsatz2;
+ } else if(s.erw===2&&!s.verheiratet){
+  gsatz2=grenz(s.eink2*12);gsatzEff=(gsatz+gsatz2)/2;
+ } else {
+  gsatz2=gsatz;gsatzEff=gsatz;
+ }
+ if(s.erw===2){
+  // Person 1
+  var r1=calcSingle({
+   spar:s.spar,eink:s.eink,gsatzEff:gsatzEff,
+   alter:s.alter,rentenAlter:s.rentenAlter,depotAlter:s.depotAlter,
+   steuersatzRente:s.steuersatzRente,einmalPct:s.einmalPct,
+   kinderAlter:s.kinderAlter,
+   rend:s.rend,kosten:s.kosten,kostenEtf:s.kostenEtf,reinvest:s.reinvest,
+   yearOffset:0
+  });
+  // Person 2 – Steuersatz: verheiratet=gleicher gsatzEff, sonst eigener
+  var gsatzEff2=s.verheiratet?gsatzEff:grenz(s.eink2*12);
+  var r2=calcSingle({
+   spar:s.spar,eink:s.eink2,gsatzEff:gsatzEff2,
+   alter:s.alter2,rentenAlter:s.rentenAlter2,depotAlter:s.depotAlter2,
+   steuersatzRente:s.verheiratet?s.steuersatzRente:s.steuersatzRente2,
+   einmalPct:s.einmalPct2,
+   kinderAlter:[],
+   rend:s.rend,kosten:s.kosten,kostenEtf:s.kostenEtf,reinvest:s.reinvest,
+   yearOffset:0
+  });
+  // Kombiniertes Ergebnis
+  var avNettoComb=r1.avNetto+r2.avNetto;
+  var etfNettoComb=r1.etfNetto+r2.etfNetto;
+  var avMonatComb=r1.auszahlungMonatNetto+r2.auszahlungMonatNetto;
+  var etfMonatComb=r1.etfMonatNetto+r2.etfMonatNetto;
+  // Zeitachse zusammenführen
+  var maxYO=0;
+  r1.pts.forEach(function(p){if(p.yo>maxYO)maxYO=p.yo;});
+  r2.pts.forEach(function(p){if(p.yo>maxYO)maxYO=p.yo;});
+  var gridMI={},gridMO={},gridCumSt={};
+  function addPts(pts){
+   pts.forEach(function(p){
+    var y=p.yo;
+    gridMI[y]=(gridMI[y]||0)+p.mi;
+    gridMO[y]=(gridMO[y]||0)+p.mo;
+    gridCumSt[y]=(gridCumSt[y]||0)+(p.cumSt||0);
+   });
+  }
+  addPts(r1.pts);addPts(r2.pts);
+  // Rentenindizes für Chart: Jahre ab heute bis jeweiliger Renteneintritt
+  var rente1YO=r1.lz; // yearOffset von P1-Renteneintritt
+  var rente2YO=r2.lz; // yearOffset von P2-Renteneintritt
+  // pts für Chart aufbauen (nach yearOffset sortiert)
+  var allYO=[];
+  for(var y in gridMI) allYO.push(parseInt(y));
+  allYO.sort(function(a,b){return a-b;});
+  var ptsComb=[];
+  allYO.forEach(function(yo){
+   var phase='anspar';
+   if(yo>rente1YO&&yo>rente2YO) phase='entnahme';
+   ptsComb.push({yo:yo,mi:gridMI[yo]||0,mo:gridMO[yo]||0,cumSt:gridCumSt[yo]||0,phase:phase});
+  });
+  // Rente1/Rente2 Markierungspunkte
+  ptsComb._rente1YO=rente1YO;
+  ptsComb._rente2YO=rente2YO;
+  return{
+   end:avNettoComb,endBrutto:r1.avBrutto+r2.avBrutto,
+   etf:etfNettoComb,etfBrutto:r1.etfBrutto+r2.etfBrutto,
+   vort:avNettoComb-etfNettoComb,
+   gz:r1.gz+r2.gz,kz:r1.kz+r2.kz,
+   st:r1.st+r2.st,gsatz:gsatz,gsatz2:gsatz2,gsatzEff:gsatzEff,abzug:r1.abzug,
+   guenstiger:r1.guenstiger,
+   el:r1.elM,eb:r1.ebM,lz:r1.lz,fk:r1.fk,zulageJ:r1.zulageJ,erw:2,alter:s.alter,
+   pts:ptsComb,
+   avSteuerGesamt:r1.avSteuer+r2.avSteuer,
+   etfSteuerAufloesung:r1.etfSteuerAufloesung+r2.etfSteuerAufloesung,
+   srente:s.steuersatzRente,
+   breakeven:r1.breakeven,
+   totalVapPaid:r1.totalVapPaid+r2.totalVapPaid,
+   zulageM:r1.zulageM,eoM:r1.eoM,reinvestJ:r1.reinvestJ,reinvest:s.reinvest,
+   avSteuer:r1.avSteuer+r2.avSteuer,avNetto:avNettoComb,ea:r1.ea,
+   avGef:r1.avGef+r2.avGef,avÜb:r1.avÜb+r2.avÜb,
+   steuerGef:r1.steuerGef+r2.steuerGef,steuerÜb:r1.steuerÜb+r2.steuerÜb,
+   etfKursgewinn:r1.etfKursgewinn+r2.etfKursgewinn,
+   etfStpfl:r1.etfStpfl+r2.etfStpfl,
+   etfAbgstBrutto:r1.etfAbgstBrutto+r2.etfAbgstBrutto,
+   etfEinzahlungen:r1.etfEinzahlungen+r2.etfEinzahlungen,
+   auszahlungEinmal:r1.auszahlungEinmalNetto+r2.auszahlungEinmalNetto,
+   auszahlungEinmalNetto:r1.auszahlungEinmalNetto+r2.auszahlungEinmalNetto,
+   auszahlungMonatNetto:avMonatComb,
+   etfEinmalNetto:r1.etfEinmalNetto+r2.etfEinmalNetto,
+   etfMonatNetto:etfMonatComb,
+   einmalPct:r1.einmalPct,renteFrac:r1.renteFrac,
+   entnahmeJahre:r1.entnahmeJahre,
+   _r1:r1,_r2:r2,
+   _rente1YO:rente1YO,_rente2YO:rente2YO
+  };
+ }
+ // erw===1: single person (vollständig rückwärtskompatibel)
+ var r=calcSingle({
+  spar:s.spar,eink:s.eink,gsatzEff:gsatzEff,
+  alter:s.alter,rentenAlter:s.rentenAlter,depotAlter:s.depotAlter,
+  steuersatzRente:s.steuersatzRente,einmalPct:s.einmalPct,
+  kinderAlter:s.kinderAlter,
+  rend:s.rend,kosten:s.kosten,kostenEtf:s.kostenEtf,reinvest:s.reinvest,
+  yearOffset:0
+ });
+ return{
+  end:r.avNetto,endBrutto:r.avBrutto,
+  etf:r.etfNetto,etfBrutto:r.etfBrutto,
+  vort:r.avNetto-r.etfNetto,
+  gz:r.gz,kz:r.kz,
+  st:r.st,gsatz:gsatz,gsatz2:gsatz2,gsatzEff:gsatzEff,abzug:r.abzug,
+  guenstiger:r.guenstiger,
+  el:r.elM,eb:r.ebM,lz:r.lz,fk:r.fk,zulageJ:r.zulageJ,erw:1,alter:s.alter,
+  pts:r.pts,
+  avSteuerGesamt:r.avSteuer,
+  etfSteuerAufloesung:r.etfSteuerAufloesung,
+  srente:r.srente,breakeven:r.breakeven,totalVapPaid:r.totalVapPaid,
+  zulageM:r.zulageM,eoM:r.eoM,reinvestJ:r.reinvestJ,reinvest:s.reinvest,
+  avSteuer:r.avSteuer,avNetto:r.avNetto,ea:r.ea,
+  avGef:r.avGef,avÜb:r.avÜb,
+  steuerGef:r.steuerGef,steuerÜb:r.steuerÜb,
+  etfKursgewinn:r.etfKursgewinn,
+  etfStpfl:r.etfStpfl,
+  etfAbgstBrutto:r.etfAbgstBrutto,
+  etfEinzahlungen:r.etfEinzahlungen,
+  auszahlungEinmal:r.auszahlungEinmalNetto,
+  auszahlungEinmalNetto:r.auszahlungEinmalNetto,
+  auszahlungMonatNetto:r.auszahlungMonatNetto,
+  etfEinmalNetto:r.etfEinmalNetto,
+  etfMonatNetto:r.etfMonatNetto,
+  einmalPct:r.einmalPct,renteFrac:r.renteFrac,
+  entnahmeJahre:r.entnahmeJahre
  };
 }
 function buildKinderAges(n){
@@ -763,6 +889,8 @@ function render(){
  if(lblMonatEtf) lblMonatEtf.textContent='Klassisches Fondsdepot';
  if(document.getElementById('r-monat-netto')) document.getElementById('r-monat-netto').textContent=fE2(r.auszahlungMonatNetto)+' / Monat';
 if(document.getElementById('r-monat-netto-img')) document.getElementById('r-monat-netto-img').textContent=fE2(r.auszahlungMonatNetto)+' / Monat';
+var p1p2El=document.getElementById('r-monat-p1p2');
+if(p1p2El){if(ST.erw===2&&r._r1&&r._r2){p1p2El.style.display='block';p1p2El.textContent='Gesamt Haushalt: P1: '+fE2(r._r1.auszahlungMonatNetto)+'/M + P2: '+fE2(r._r2.auszahlungMonatNetto)+'/M';}else{p1p2El.style.display='none';}}
  if(document.getElementById('r-etf-monat-netto')) document.getElementById('r-etf-monat-netto').textContent=fE2(r.etfMonatNetto)+'/ Monat';
 var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getElementById('r-etf-diff-text');if(diffEl){var diff=r.auszahlungMonatNetto-r.etfMonatNetto;if(diff>0){diffEl.textContent=fE2(diff);diffEl.style.color='#16a34a';if(diffTxt)diffTxt.textContent=' mehr als das ungeförderte Fondsdepot';}else if(diff<0){diffEl.textContent=fE2(Math.abs(diff));diffEl.style.color='#ef4444';if(diffTxt)diffTxt.textContent=' weniger als das ungeförderte Fondsdepot';}else{diffEl.textContent='–';diffEl.style.color='#fff';if(diffTxt)diffTxt.textContent='';} }
  var footerAV=document.getElementById('einmal-footer-av');
@@ -803,76 +931,87 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
   if(!ptsAll||!ptsAll.length) return;
   var zulageM=r.zulageM||0;
   var eoM=r.eoM||0;
-  var ansparPts=ptsAll.filter(function(p){return p.phase==='anspar';});
-  var entnahmePts=ptsAll.filter(function(p){return p.phase==='entnahme';});
-  var avBruttoPeak=r.endBrutto;  
-  var etfBruttoPeak=r.etfBrutto;
-  var entnahmeJ=r.entnahmeJahre;
-  var nEnt=entnahmeJ*12;
-  var mr12Ent=Math.pow(1+Math.max(0,ST.rend-ST.kosten)/100,1/12)-1;
-  var mr12EntEtf=Math.pow(1+Math.max(0,ST.rend-(ST.kostenEtf||1.0))/100,1/12)-1;
-  var avBruttoEntnahmeM=mr12Ent>0
-   ? avBruttoPeak*mr12Ent*Math.pow(1+mr12Ent,nEnt)/(Math.pow(1+mr12Ent,nEnt)-1)
-   : avBruttoPeak/nEnt;
-  var etfBruttoEntnahmeM=mr12EntEtf>0
-   ? etfBruttoPeak*mr12EntEtf*Math.pow(1+mr12EntEtf,nEnt)/(Math.pow(1+mr12EntEtf,nEnt)-1)
-   : etfBruttoPeak/nEnt;
-  var avEnt=[avBruttoPeak], etfEnt=[etfBruttoPeak];
-  var dAV_ent=avBruttoPeak, dETF_ent=etfBruttoPeak;
-  for(var ej=0;ej<entnahmePts.length;ej++){
-   for(var em=0;em<12;em++){
-    dAV_ent=Math.max(0,dAV_ent*(1+mr12Ent)-avBruttoEntnahmeM);
-    dETF_ent=Math.max(0,dETF_ent*(1+mr12EntEtf)-etfBruttoEntnahmeM);
+  var isTwoPerson=ST.erw===2;
+  var labels, dAV, dETF, dEinz, dZulAbs, dSteurAbs, rentenIdx, rentenIdx2;
+  if(isTwoPerson){
+   // 2-Personen-Modus: x-Achse = yearOffset (Jahre ab heute)
+   labels=[0];dAV=[0];dETF=[0];dEinz=[0];dZulAbs=[0];dSteurAbs=[0];
+   ptsAll.forEach(function(p){
+    labels.push(p.yo);
+    dAV.push(p.mi);
+    dETF.push(p.mo);
+    dEinz.push(0);dZulAbs.push(0);dSteurAbs.push(Math.round(p.cumSt||0));
+   });
+   // Rentenindizes: Position im labels-Array wo yo===_rente1YO / _rente2YO
+   rentenIdx=labels.indexOf(r._rente1YO);
+   rentenIdx2=labels.indexOf(r._rente2YO);
+   if(rentenIdx<0) rentenIdx=null;
+   if(rentenIdx2<0) rentenIdx2=null;
+  } else {
+   var ansparPts=ptsAll.filter(function(p){return p.phase==='anspar';});
+   var entnahmePts=ptsAll.filter(function(p){return p.phase==='entnahme';});
+   var avBruttoPeak=r.endBrutto;
+   var etfBruttoPeak=r.etfBrutto;
+   var entnahmeJ=r.entnahmeJahre;
+   var nEnt=entnahmeJ*12;
+   var mr12Ent=Math.pow(1+Math.max(0,ST.rend-ST.kosten)/100,1/12)-1;
+   var mr12EntEtf=Math.pow(1+Math.max(0,ST.rend-(ST.kostenEtf||1.0))/100,1/12)-1;
+   var avBruttoEntnahmeM=mr12Ent>0
+    ? avBruttoPeak*mr12Ent*Math.pow(1+mr12Ent,nEnt)/(Math.pow(1+mr12Ent,nEnt)-1)
+    : avBruttoPeak/nEnt;
+   var etfBruttoEntnahmeM=mr12EntEtf>0
+    ? etfBruttoPeak*mr12EntEtf*Math.pow(1+mr12EntEtf,nEnt)/(Math.pow(1+mr12EntEtf,nEnt)-1)
+    : etfBruttoPeak/nEnt;
+   var avEnt=[avBruttoPeak], etfEnt=[etfBruttoPeak];
+   var dAV_ent=avBruttoPeak, dETF_ent=etfBruttoPeak;
+   for(var ej=0;ej<entnahmePts.length;ej++){
+    for(var em=0;em<12;em++){
+     dAV_ent=Math.max(0,dAV_ent*(1+mr12Ent)-avBruttoEntnahmeM);
+     dETF_ent=Math.max(0,dETF_ent*(1+mr12EntEtf)-etfBruttoEntnahmeM);
+    }
+    avEnt.push(Math.round(dAV_ent));
+    etfEnt.push(Math.round(dETF_ent));
    }
-   avEnt.push(Math.round(dAV_ent));
-   etfEnt.push(Math.round(dETF_ent));
-  }
-  var labels=[ST.alter];
-  var dAV=[0], dETF=[0], dEinz=[0], dZulAbs=[0], dSteurAbs=[0];
-  ansparPts.forEach(function(p){
-   labels.push(p.a);
-   dAV.push(p.mi);
-   dETF.push(p.mo);
-   var jahre=p.a-ST.alter;
-   dEinz.push(Math.round(eoM*jahre*12));
-   dZulAbs.push(Math.round((eoM+zulageM)*jahre*12));
-   dSteurAbs.push(Math.round(p.cumSt||0));
-  });
-  var rentenIdx = ansparPts.length;
-  var avPeak = dAV[rentenIdx] || 1;
-  var einzPeak = dEinz[rentenIdx] || 0;
-  var zulPeak = Math.min(dZulAbs[rentenIdx] || 0, avPeak);
-  var steurPeak = dSteurAbs[rentenIdx] || 0;
-  var ratioEinz = einzPeak / avPeak;
-  var ratioZul = zulPeak / avPeak;
-  var ratioSteur = steurPeak / avPeak;
-  for(var ej=0;ej<entnahmePts.length;ej++){
-   labels.push(entnahmePts[ej].a);
-   var avVal = avEnt[ej+1];
-   var etfVal = etfEnt[ej+1];
-   dAV.push(avVal);
-   dETF.push(etfVal);
-   dEinz.push(Math.round(avVal * ratioEinz));
-   dZulAbs.push(Math.round(avVal * ratioZul));
-   dSteurAbs.push(Math.round(avVal * ratioSteur));
+   labels=[ST.alter];dAV=[0];dETF=[0];dEinz=[0];dZulAbs=[0];dSteurAbs=[0];
+   ansparPts.forEach(function(p){
+    labels.push(p.a);dAV.push(p.mi);dETF.push(p.mo);
+    var jahre=p.a-ST.alter;
+    dEinz.push(Math.round(eoM*jahre*12));
+    dZulAbs.push(Math.round((eoM+zulageM)*jahre*12));
+    dSteurAbs.push(Math.round(p.cumSt||0));
+   });
+   rentenIdx=ansparPts.length;rentenIdx2=null;
+   var avPeak=dAV[rentenIdx]||1;
+   var einzPeak=dEinz[rentenIdx]||0;
+   var zulPeak=Math.min(dZulAbs[rentenIdx]||0,avPeak);
+   var steurPeak=dSteurAbs[rentenIdx]||0;
+   var ratioEinz=einzPeak/avPeak;
+   var ratioZul=zulPeak/avPeak;
+   var ratioSteur=steurPeak/avPeak;
+   for(var ej=0;ej<entnahmePts.length;ej++){
+    labels.push(entnahmePts[ej].a);
+    var avVal=avEnt[ej+1],etfVal=etfEnt[ej+1];
+    dAV.push(avVal);dETF.push(etfVal);
+    dEinz.push(Math.round(avVal*ratioEinz));
+    dZulAbs.push(Math.round(avVal*ratioZul));
+    dSteurAbs.push(Math.round(avVal*ratioSteur));
+   }
   }
   if(window._chartInst){window._chartInst.destroy();window._chartInst=null;}
-  var _rentenIdx = rentenIdx;
-  var rentnerLine={id:'rentnerLine',afterDraw:function(ch){
-   var ri=ch.data._rentenIdx;
+  var _rentenIdx=rentenIdx;
+  var _rentenIdx2=rentenIdx2;
+  function drawRentenMarker(ctx3,ch,ri,lbl,yOffset){
    if(ri==null||ri<=0||ri>=ch.data.labels.length) return;
    var meta=ch.getDatasetMeta(0);
    if(!meta||!meta.data[ri]) return;
-   var ctx3=ch.ctx, x=meta.data[ri].x;
+   var x=meta.data[ri].x;
    var yT=ch.chartArea.top, yB=ch.chartArea.bottom;
-   ctx3.save();
-   ctx3.beginPath();ctx3.moveTo(x,yT+28);ctx3.lineTo(x,yB);
+   ctx3.beginPath();ctx3.moveTo(x,yT+28+yOffset);ctx3.lineTo(x,yB);
    ctx3.strokeStyle='rgba(255,255,255,.35)';ctx3.lineWidth=1.5;ctx3.setLineDash([4,4]);ctx3.stroke();
    ctx3.setLineDash([]);
-   var lbl='Renteneintritt · Alter '+ST.rentenAlter;
    ctx3.font='bold 10.5px DM Sans,system-ui,sans-serif';
    var tw=ctx3.measureText(lbl).width;
-   var ph=19,pw=tw+16,pr=5,bx=x-pw/2,by=yT+5;
+   var ph=19,pw=tw+16,pr=5,bx=x-pw/2,by=yT+5+yOffset;
    if(bx<ch.chartArea.left) bx=ch.chartArea.left;
    if(bx+pw>ch.chartArea.right) bx=ch.chartArea.right-pw;
    ctx3.fillStyle='rgba(1,32,77,0.95)';
@@ -883,6 +1022,16 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
    ctx3.fillText(lbl,bx+pw/2,by+ph/2);
    ctx3.fillStyle='rgba(1,32,77,0.95)';
    ctx3.beginPath();ctx3.moveTo(x-4,by+ph);ctx3.lineTo(x+4,by+ph);ctx3.lineTo(x,by+ph+5);ctx3.closePath();ctx3.fill();
+  }
+  var rentnerLine={id:'rentnerLine',afterDraw:function(ch){
+   var ctx3=ch.ctx;
+   ctx3.save();
+   if(ST.erw===2){
+    drawRentenMarker(ctx3,ch,_rentenIdx,'Rente P1 · '+ST.rentenAlter+' J.',0);
+    drawRentenMarker(ctx3,ch,_rentenIdx2,'Rente P2 · '+ST.rentenAlter2+' J.',26);
+   } else {
+    drawRentenMarker(ctx3,ch,_rentenIdx,'Renteneintritt · Alter '+ST.rentenAlter,0);
+   }
    ctx3.restore();
   }};
   var crosshair={id:'crosshair',afterDraw:function(ch){
@@ -947,7 +1096,7 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
     scales:{
      x:{grid:{display:false},border:{display:false},
       ticks:{color:'rgba(255,255,255,.4)',font:{size:10},maxTicksLimit:9,
-          callback:function(val){return this.getLabelForValue(val)+' J.';}}},
+          callback:function(val){var v=this.getLabelForValue(val);return isTwoPerson?'Jahr '+v:v+' J.';}}},
      y:{grid:{color:'rgba(255,255,255,.08)'},border:{display:false},
       ticks:{color:'rgba(255,255,255,.4)',font:{size:10},
           callback:function(v){return v>=1e6?(v/1e6).toFixed(1)+' Mio.':v>=1000?(v/1000).toFixed(0)+' T.':v;}}}
@@ -959,8 +1108,9 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
      }
      var el=elements[0],x=el.element.x,idx=el.index;
      ch._hoverX=x;ch.draw();
-     var isEntnahme=idx>rentenIdx;
-     document.getElementById('ct-age').textContent='Alter '+labels[idx]+' Jahre';
+     var isEntnahme=rentenIdx!=null&&idx>rentenIdx;
+     var ageLabel=isTwoPerson?('Jahr '+labels[idx]):('Alter '+labels[idx]+' Jahre');
+     document.getElementById('ct-age').textContent=ageLabel;
      document.getElementById('ct-mit').textContent=fEFull(dAV[idx]||0)+(isEntnahme?' (Brutto-Entnahme)':' (Brutto)');
      document.getElementById('ct-ohne').textContent=fEFull(dETF[idx]||0)+(isEntnahme?' (Brutto-Entnahme)':' (Brutto)');
      var eV=dEinz[idx],zV=dZulAbs[idx],sV=dSteurAbs[idx];
@@ -1089,6 +1239,8 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
   b.classList.add('on');
   ST.erw=parseInt(b.dataset.v);
   document.getElementById('zwei-erw-optionen').style.display=ST.erw===2?'block':'none';
+  document.getElementById('person2-params').style.display=ST.erw===2?'block':'none';
+  document.getElementById('srate2-wrap').style.display=(ST.erw===2&&!ST.verheiratet)?'block':'none';
   if(ST.erw===1){var lbl=document.getElementById('label-eink');if(lbl)lbl.textContent='Monatl. Bruttoeinkommen';}
   else updateEinkLabel();
   render();
@@ -1100,6 +1252,7 @@ function updateVerheiratet(v){
  document.getElementById('btn-unverheiratet').classList.toggle('on',!v);
  document.getElementById('eink2-wrap').style.display=v?'none':'block';
  document.getElementById('hint-verheiratet').style.display=v?'block':'none';
+ document.getElementById('srate2-wrap').style.display=(ST.erw===2&&!v)?'block':'none';
  var lbl=document.getElementById('label-eink');
  if(lbl) lbl.textContent=v?'Gemeinsames Bruttoeinkommen':'Monatl. Bruttoeinkommen';
  render();
@@ -1121,6 +1274,41 @@ function updateHintGsatz2(){
 document.getElementById('s-eink2').addEventListener('input',updateHintGsatz2);
 document.getElementById('v-eink2').addEventListener('change',updateHintGsatz2);
 updateHintGsatz2();
+// Person 2 Regler-Bindings
+syncSlider('alter2','s-alter2','v-alter2','f-alter2',null,null);
+syncSlider('steuersatzRente2','s-srate2','v-srate2','f-srate2',null,null);
+(function(){
+ var slRA2=document.getElementById('s-rentenalter2');
+ var viRA2=document.getElementById('v-rentenalter2');
+ var fiRA2=document.getElementById('f-rentenalter2');
+ function upRA2(){
+  var v=parseInt(slRA2.value);if(isNaN(v))v=67;
+  v=Math.min(70,Math.max(62,v));
+  ST.rentenAlter2=v;if(viRA2)viRA2.value=v;
+  var pct=(v-62)/(70-62)*100;if(fiRA2)fiRA2.style.width=pct+'%';
+  debouncedRender();
+ }
+ if(slRA2){slRA2.addEventListener('input',upRA2);if(viRA2)viRA2.addEventListener('change',function(){var v=Math.min(70,Math.max(62,parseInt(this.value)||67));slRA2.value=v;upRA2();});upRA2();}
+})();
+document.getElementById('v-depotalter2').addEventListener('change',function(){
+ var v=Math.max(Math.max(85,ST.rentenAlter2+1),Math.min(120,parseInt(this.value)||85));
+ this.value=v;ST.depotAlter2=v;debouncedRender();
+});
+document.getElementById('v-depotalter2').addEventListener('input',function(){
+ var v=parseInt(this.value)||85;if(v>ST.rentenAlter2){ST.depotAlter2=v;debouncedRender();}
+});
+(function(){
+ var slEP2=document.getElementById('s-einmal-pct2');
+ var fillEP2=document.getElementById('f-einmal-pct2');
+ var lblEP2=document.getElementById('einmal-pct2-label');
+ function upEP2(){
+  var v=parseInt(slEP2.value)||0;
+  ST.einmalPct2=v;fillEP2.style.width=(v/30*100)+'%';
+  if(lblEP2)lblEP2.textContent=v+' %';
+  debouncedRender();
+ }
+ slEP2.addEventListener('input',upEP2);upEP2();
+})();
 document.getElementById('btn-rechenweg').addEventListener('click',function(){
  document.getElementById('rechenweg-modal').style.display='block';
  document.body.style.overflow='hidden';
