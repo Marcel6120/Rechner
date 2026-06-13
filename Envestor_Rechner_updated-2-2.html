@@ -620,7 +620,7 @@ function calc(){
  var gsatz=grenz(s.eink*12);
  var gsatz2,gsatzEff;
  if(s.erw===2&&s.verheiratet){
-  gsatz2=grenz(s.eink*12);gsatzEff=gsatz2;
+  gsatz2=grenz(s.eink2*12);gsatzEff=grenz((s.eink+s.eink2)/2*12);
  } else if(s.erw===2&&!s.verheiratet){
   gsatz2=grenz(s.eink2*12);gsatzEff=(gsatz+gsatz2)/2;
  } else {
