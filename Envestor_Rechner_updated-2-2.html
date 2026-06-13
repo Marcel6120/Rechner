@@ -64,6 +64,45 @@
     <div id="hint-verheiratet" style="font-size:10.5px;color:rgba(255,255,255,.65);line-height:1.5">
      Ehegattensplitting wird angewendet: das gemeinsame Einkommen wird halbiert, jede Person zum halben Betrag besteuert.
     </div>
+    <div id="person2-params" style="display:none;margin-top:8px;border-top:1px solid rgba(255,255,255,.15);padding-top:10px">
+     <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Parameter 2. Person</div>
+     <div class="ev-input-col" style="margin-top:4px">
+      <div class="ev-flabel"><span>Alter 2. Person</span></div>
+      <div class="ev-row">
+       <div class="ev-numbox"><input type="text" id="v-alter2" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-alter2"></div><input type="range" id="s-alter2" min="16" max="66" step="1" value="35"></div>
+      </div>
+     </div>
+     <div class="ev-input-col" style="margin-top:10px">
+      <div class="ev-flabel"><span>Renteneintrittsalter 2. Person</span></div>
+      <div class="ev-row">
+       <div class="ev-numbox"><input type="text" id="v-rentenalter2" value="67" inputmode="numeric"><span class="ev-unit">J.</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rentenalter2"></div><input type="range" id="s-rentenalter2" min="62" max="70" step="1" value="67"></div>
+      </div>
+     </div>
+     <div class="ev-input-col" style="margin-top:10px">
+      <div class="ev-flabel"><span>Rentenzahlung bis / Depotalter 2. Person</span></div>
+      <div style="display:flex;align-items:center;gap:12px">
+       <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-depotalter2" value="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
+      </div>
+     </div>
+     <div class="ev-input-col" style="margin-top:10px">
+      <div class="ev-flabel"><span>Einmalauszahlung % 2. Person</span></div>
+      <div class="ev-row">
+       <div class="ev-numbox" style="width:75px"><span id="einmal-pct2-label" style="display:block;text-align:right;font-size:15px;font-weight:700;color:#fff;padding:0 24px 0 8px;height:36px;line-height:36px">0 %</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-einmal-pct2" style="width:0%"></div><input type="range" id="s-einmal-pct2" min="0" max="30" step="1" value="0"></div>
+      </div>
+     </div>
+     <div id="srate2-wrap" style="display:none;margin-top:10px">
+      <div class="ev-input-col">
+       <div class="ev-flabel"><span>Steuersatz im Rentenalter 2. Person</span></div>
+       <div class="ev-row">
+        <div class="ev-numbox"><input type="text" id="v-srate2" value="0" inputmode="numeric"><span class="ev-unit">%</span></div>
+        <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-srate2"></div><input type="range" id="s-srate2" min="0" max="45" step="1" value="0"></div>
+       </div>
+      </div>
+     </div>
+    </div>
    </div>
    <div class="kinder-ages" id="kinder-ages"></div>
    <div class="kinder-footnote" id="kinder-footnote">* Kinderzulage max. bis 21 J.</div>
@@ -384,7 +423,7 @@
  </div>
  </div>
 </div>
-<script>var ST={eink:5000,eink2:5000,verheiratet:true,alter:35,rentenAlter:67,depotAlter:85,steuersatzRente:0,kosten:1.0,kostenEtf:1.0,kinderAnzahl:0,kinderAlter:[],erw:1,spar:150,rend:6,reinvest:true,einmalPct:0};
+<script>var ST={eink:5000,eink2:5000,verheiratet:true,alter:35,rentenAlter:67,depotAlter:85,steuersatzRente:0,kosten:1.0,kostenEtf:1.0,kinderAnzahl:0,kinderAlter:[],erw:1,spar:150,rend:6,reinvest:true,einmalPct:0,alter2:35,rentenAlter2:67,depotAlter2:85,steuersatzRente2:0,einmalPct2:0};
 function fEFull(v){return new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v);}
 function fE(v,c){
  if(c&&v>=1e6)return(v/1e6).toFixed(2).replace('.',',')+' Mio. €';
