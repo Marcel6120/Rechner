@@ -232,7 +232,6 @@
    </div>
    <div id="r-zul" style="display:none">–</div>
    <div id="r-zul-sub" style="display:none">–</div>
-   <div id="r-zul-p1p2" style="display:none;margin-top:6px;font-size:11px;color:rgba(255,255,255,.75);line-height:1.7"></div>
   </div>
  </div>
  <div class="ev-results-wrap" style="grid-column:2;grid-row:4;max-width:560px">
@@ -444,7 +443,6 @@
   </div>
   <span id="r-st" style="display:none">–</span>
   <span id="r-st-sub" style="display:none">–</span>
-  <div id="r-st-p1p2" style="display:none;margin-top:4px;font-size:11px;color:rgba(255,255,255,.75);line-height:1.7"></div>
  </div>
  </div>
 </div>
@@ -899,23 +897,6 @@ function render(){
   }
  }
  document.getElementById('r-st').textContent=fE(r.st,true);
- var stP1P2El=document.getElementById('r-st-p1p2');
- if(stP1P2El){
-  if(ST.erw===2&&r._r1&&r._r2){
-   stP1P2El.style.display='block';
-   stP1P2El.innerHTML=
-    '<div style="display:flex;justify-content:space-between;padding:2px 0;border-top:1px solid rgba(255,255,255,.15);margin-top:4px">'
-    +'<span>Person 1</span>'
-    +'<strong>'+fE(r._r1.st,true)+'</strong>'
-    +'</div>'
-    +'<div style="display:flex;justify-content:space-between;padding:2px 0;border-top:1px solid rgba(255,255,255,.1)">'
-    +'<span>Person 2</span>'
-    +'<strong>'+fE(r._r2.st,true)+'</strong>'
-    +'</div>';
-  } else {
-   stP1P2El.style.display='none';
-  }
- }
  if(document.getElementById('rw-st-jahr')) document.getElementById('rw-st-jahr').textContent=fEFull(Math.round(r.st/r.lz));
  if(document.getElementById('rw-st-ges')) document.getElementById('rw-st-ges').textContent=fE(r.st,true);
  if(document.getElementById('rw-eigen-foerd')) document.getElementById('rw-eigen-foerd').textContent=fEFull(Math.min(r.eb*12,1800*r.erw))+'€';
