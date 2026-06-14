@@ -229,6 +229,7 @@
    </div>
    <div id="r-zul" style="display:none">–</div>
    <div id="r-zul-sub" style="display:none">–</div>
+   <div id="r-zul-p1p2" style="display:none;margin-top:6px;font-size:11px;color:rgba(255,255,255,.75);line-height:1.7"></div>
   </div>
  </div>
  <div class="ev-results-wrap" style="grid-column:2;grid-row:4;max-width:560px">
@@ -243,7 +244,16 @@
         <div class="ev-info" style="flex-shrink:0"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Monatliche Nettorente nach nachgelagerter Besteuerung mit Ihrem persönlichen Steuersatz im Rentenalter. Der Betrag ist der ausgezahlte Anteil als Annuität über die Entnahmedauer.</div></div>
        </div>
        <div id="r-monat-netto" class="ab-val" style="font-size:24px;font-weight:800;color:#F15A24;line-height:1.1;white-space:nowrap">–</div>
-       <div id="r-monat-p1p2" style="display:none;font-size:10.5px;color:rgba(255,255,255,.65);margin-top:2px;text-align:center"></div>
+       <div id="r-monat-p1p2" style="display:none;margin-top:8px;width:100%">
+ <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-top:1px solid rgba(255,255,255,.15)">
+  <span style="font-size:11px;color:rgba(255,255,255,.6)">Person 1</span>
+  <span id="r-monat-p1" style="font-size:13px;font-weight:700;color:#F15A24">–</span>
+ </div>
+ <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-top:1px solid rgba(255,255,255,.1)">
+  <span style="font-size:11px;color:rgba(255,255,255,.6)">Person 2</span>
+  <span id="r-monat-p2" style="font-size:13px;font-weight:700;color:#F15A24">–</span>
+ </div>
+</div>
        <div id="r-monat-sub" style="display:none">nachgelagert besteuert</div>
       </div>
       <div id="einmal-footer-av" style="display:none;flex-direction:row;justify-content:space-between;align-items:center;gap:6px;width:100%;margin:10px 0 0 0;padding:9px 12px;box-sizing:border-box;border-radius:6px;background:rgba(241,90,36,.15)">
@@ -428,6 +438,7 @@
   </div>
   <span id="r-st" style="display:none">–</span>
   <span id="r-st-sub" style="display:none">–</span>
+  <div id="r-st-p1p2" style="display:none;margin-top:4px;font-size:11px;color:rgba(255,255,255,.75);line-height:1.7"></div>
  </div>
  </div>
 </div>
@@ -871,7 +882,41 @@ function render(){
  if(ST.kinderAnzahl>0&&r.fk<ST.kinderAnzahl)subZul+=' ('+r.fk+' von '+ST.kinderAnzahl+' förderbar)';
  var zulPerJ=fE((r.gz+r.kz)/Math.max(r.lz,1),true);
  document.getElementById('r-zul-sub').textContent=zulPerJ+' /J.';
+ var zulP1P2El=document.getElementById('r-zul-p1p2');
+ if(zulP1P2El){
+  if(ST.erw===2&&r._r1&&r._r2){
+   zulP1P2El.style.display='block';
+   zulP1P2El.innerHTML=
+    '<div style="display:flex;justify-content:space-between;padding:2px 0;border-top:1px solid rgba(255,255,255,.15);margin-top:4px">'
+    +'<span>Person 1</span>'
+    +'<strong>'+fE(r._r1.gz+r._r1.kz,true)+'</strong>'
+    +'</div>'
+    +'<div style="display:flex;justify-content:space-between;padding:2px 0;border-top:1px solid rgba(255,255,255,.1)">'
+    +'<span>Person 2</span>'
+    +'<strong>'+fE(r._r2.gz+r._r2.kz,true)+'</strong>'
+    +'</div>';
+  } else {
+   zulP1P2El.style.display='none';
+  }
+ }
  document.getElementById('r-st').textContent=fE(r.st,true);
+ var stP1P2El=document.getElementById('r-st-p1p2');
+ if(stP1P2El){
+  if(ST.erw===2&&r._r1&&r._r2){
+   stP1P2El.style.display='block';
+   stP1P2El.innerHTML=
+    '<div style="display:flex;justify-content:space-between;padding:2px 0;border-top:1px solid rgba(255,255,255,.15);margin-top:4px">'
+    +'<span>Person 1</span>'
+    +'<strong>'+fE(r._r1.st,true)+'</strong>'
+    +'</div>'
+    +'<div style="display:flex;justify-content:space-between;padding:2px 0;border-top:1px solid rgba(255,255,255,.1)">'
+    +'<span>Person 2</span>'
+    +'<strong>'+fE(r._r2.st,true)+'</strong>'
+    +'</div>';
+  } else {
+   stP1P2El.style.display='none';
+  }
+ }
  if(document.getElementById('rw-st-jahr')) document.getElementById('rw-st-jahr').textContent=fEFull(Math.round(r.st/r.lz));
  if(document.getElementById('rw-st-ges')) document.getElementById('rw-st-ges').textContent=fE(r.st,true);
  if(document.getElementById('rw-eigen-foerd')) document.getElementById('rw-eigen-foerd').textContent=fEFull(Math.min(r.eb*12,1800*r.erw))+'€';
@@ -902,7 +947,17 @@ function render(){
  if(document.getElementById('r-monat-netto')) document.getElementById('r-monat-netto').textContent=fE2(r.auszahlungMonatNetto)+' / Monat';
 if(document.getElementById('r-monat-netto-img')) document.getElementById('r-monat-netto-img').textContent=fE2(r.auszahlungMonatNetto)+' / Monat';
 var p1p2El=document.getElementById('r-monat-p1p2');
-if(p1p2El){if(ST.erw===2&&r._r1&&r._r2){p1p2El.style.display='block';p1p2El.textContent='Gesamt Haushalt: P1: '+fE2(r._r1.auszahlungMonatNetto)+'/M + P2: '+fE2(r._r2.auszahlungMonatNetto)+'/M';}else{p1p2El.style.display='none';}}
+if(p1p2El){
+ if(ST.erw===2&&r._r1&&r._r2){
+  p1p2El.style.display='block';
+  var p1El=document.getElementById('r-monat-p1');
+  var p2El=document.getElementById('r-monat-p2');
+  if(p1El) p1El.textContent=fE2(r._r1.auszahlungMonatNetto)+' /M';
+  if(p2El) p2El.textContent=fE2(r._r2.auszahlungMonatNetto)+' /M';
+ } else {
+  p1p2El.style.display='none';
+ }
+}
  if(document.getElementById('r-etf-monat-netto')) document.getElementById('r-etf-monat-netto').textContent=fE2(r.etfMonatNetto)+'/ Monat';
 var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getElementById('r-etf-diff-text');if(diffEl){var diff=r.auszahlungMonatNetto-r.etfMonatNetto;if(diff>0){diffEl.textContent=fE2(diff);diffEl.style.color='#16a34a';if(diffTxt)diffTxt.textContent=' mehr als das ungeförderte Fondsdepot';}else if(diff<0){diffEl.textContent=fE2(Math.abs(diff));diffEl.style.color='#ef4444';if(diffTxt)diffTxt.textContent=' weniger als das ungeförderte Fondsdepot';}else{diffEl.textContent='–';diffEl.style.color='#fff';if(diffTxt)diffTxt.textContent='';} }
  var footerAV=document.getElementById('einmal-footer-av');
