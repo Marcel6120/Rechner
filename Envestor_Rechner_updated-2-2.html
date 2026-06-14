@@ -67,6 +67,13 @@
     <div id="person2-params" style="display:none;margin-top:8px;border-top:1px solid rgba(255,255,255,.15);padding-top:10px">
      <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Parameter 2. Person</div>
      <div class="ev-input-col" style="margin-top:4px">
+      <div class="ev-flabel"><span>Sparrate 2. Person</span></div>
+      <div class="ev-row">
+       <div class="ev-numbox"><input type="text" id="v-spar2" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar2"></div><input type="range" id="s-spar2" min="10" max="570" step="5" value="150"></div>
+      </div>
+     </div>
+     <div class="ev-input-col" style="margin-top:10px">
       <div class="ev-flabel"><span>Alter 2. Person</span></div>
       <div class="ev-row">
        <div class="ev-numbox"><input type="text" id="v-alter2" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
@@ -424,7 +431,7 @@
  </div>
  </div>
 </div>
-<script>var ST={eink:5000,eink2:5000,verheiratet:true,alter:35,rentenAlter:67,depotAlter:85,steuersatzRente:0,kosten:1.0,kostenEtf:1.0,kinderAnzahl:0,kinderAlter:[],erw:1,spar:150,rend:6,reinvest:true,einmalPct:0,alter2:35,rentenAlter2:67,depotAlter2:85,steuersatzRente2:0,einmalPct2:0};
+<script>var ST={eink:5000,eink2:5000,verheiratet:true,alter:35,rentenAlter:67,depotAlter:85,steuersatzRente:0,kosten:1.0,kostenEtf:1.0,kinderAnzahl:0,kinderAlter:[],erw:1,spar:150,rend:6,reinvest:true,einmalPct:0,alter2:35,rentenAlter2:67,depotAlter2:85,steuersatzRente2:0,einmalPct2:0,spar2:150};
 function fEFull(v){return new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v);}
 function fE(v,c){
  if(c&&v>=1e6)return(v/1e6).toFixed(2).replace('.',',')+' Mio. €';
@@ -639,7 +646,7 @@ function calc(){
   // Person 2 – Steuersatz: verheiratet=gleicher gsatzEff, sonst eigener
   var gsatzEff2=s.verheiratet?gsatzEff:grenz(s.eink2*12);
   var r2=calcSingle({
-   spar:s.spar,eink:s.eink2,gsatzEff:gsatzEff2,
+   spar:s.spar2,eink:s.eink2,gsatzEff:gsatzEff2,
    alter:s.alter2,rentenAlter:s.rentenAlter2,depotAlter:s.depotAlter2,
    steuersatzRente:s.verheiratet?s.steuersatzRente:s.steuersatzRente2,
    einmalPct:s.einmalPct2,
@@ -1275,6 +1282,7 @@ document.getElementById('s-eink2').addEventListener('input',updateHintGsatz2);
 document.getElementById('v-eink2').addEventListener('change',updateHintGsatz2);
 updateHintGsatz2();
 // Person 2 Regler-Bindings
+syncSlider('spar2','s-spar2','v-spar2','f-spar2',null,570);
 syncSlider('alter2','s-alter2','v-alter2','f-alter2',null,null);
 syncSlider('steuersatzRente2','s-srate2','v-srate2','f-srate2',null,null);
 (function(){
