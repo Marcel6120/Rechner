@@ -880,11 +880,16 @@ function render(){
  var stSub='Grenzsteuersatz '+fP(r.gsatzEff*100);
  stSub+=r.guenstiger==='zulage'?' · Zulage günstiger (keine FA-Erstattung)':' · FA erstattet Differenz';
  document.getElementById('r-st-sub').textContent=stSub;
- document.getElementById('chip-lz').textContent=r.lz+(r.lz===1?' Jahr':' Jahre');
+ if(ST.erw===2&&r._r1&&r._r2){
+  var lz2=r._r2.lz;
+  document.getElementById('chip-lz').textContent='P1: '+r.lz+(r.lz===1?' Jahr':' Jahre')+' · P2: '+lz2+(lz2===1?' Jahr':' Jahre');
+ } else {
+  document.getElementById('chip-lz').textContent=r.lz+(r.lz===1?' Jahr':' Jahre');
+ }
  if(document.getElementById('hint-ea')) document.getElementById('hint-ea').textContent=r.ea||17;
  if(document.getElementById('hint-ea-tip')) document.getElementById('hint-ea-tip').textContent=r.ea||17;
  document.getElementById('hint-gsatz').textContent=Math.round(r.gsatzEff*100)+' %';
- document.getElementById('warn-alter').classList.toggle('show',ST.alter>=65);
+ document.getElementById('warn-alter').classList.toggle('show',ST.alter>=65||(ST.erw===2&&ST.alter2>=65));
  var rhEl=document.getElementById('reinvest-hint');
  if(rhEl&&r.reinvestJ>0) rhEl.textContent=fE(r.reinvestJ,true);
  else if(rhEl) rhEl.textContent='0 €';
@@ -925,7 +930,13 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
  if(document.getElementById('r-renta-alter')) document.getElementById('r-renta-alter').textContent=ST.rentenAlter;
  if(document.getElementById('r-depot-alter')) document.getElementById('r-depot-alter').textContent=ST.depotAlter;
  var hEnt=document.getElementById('hint-entnahme');
- if(hEnt) hEnt.textContent=r.entnahmeJahre+' Jahre';
+ if(hEnt){
+  if(ST.erw===2&&r._r1&&r._r2){
+   hEnt.textContent='P1: '+r._r1.entnahmeJahre+' J. · P2: '+r._r2.entnahmeJahre+' J.';
+  } else {
+   hEnt.textContent=r.entnahmeJahre+' Jahre';
+  }
+ }
  var h150el=document.getElementById('h150');
  if(ST.spar>=150&&ST.spar<570){h150el.style.display='';h150el.style.visibility='';h150el.className='hl-green';h150el.textContent='✓ Volle Grundzulage (540 €) erreicht';}
  else if(ST.spar>=10&&ST.spar<150){h150el.style.display='';h150el.style.visibility='';h150el.className='hl-green';h150el.textContent='Grundzulage: ca. '+Math.round(gzProErw(ST.spar*12))+' € / Jahr';}
