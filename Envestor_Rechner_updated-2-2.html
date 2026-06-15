@@ -22,15 +22,15 @@
  </div>
  <div class="ev-main-grid">
  <div class="ev-inputs-bar ev-inputs-top">
-  <div class="ev-input-col">
-   <div class="ev-flabel"><span>Sparrate pro Person</span>
+  <div id="p1-spar-wrap"><div class="ev-input-col">
+   <div class="ev-flabel"><span>Sparrate</span>
     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Eigenbeitrag pro Person und Vertrag. Bei 2 Erwachsenen zahlt jede Person diesen Betrag. Grundzulage: 50 % auf den Erstbeitrag + 25 % auf weitere Beiträge bis 1.800 €/Jahr = max. 540 €/Jahr (volle Zulage ab 150 €/Monat). Maximum: 570 € / Monat = 6.840 € / Jahr (§ 20a EStG).</div></div>
    </div>
    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar"></div><input type="range" id="s-spar" min="10" max="570" step="5" value="150"></div>
    </div>
    <div class="ev-hint"><span id="h150" class="hl-green" style="display:none">✓ Volle Grundzulage erreicht</span><span id="h570"></span></div>
-  </div>
+  </div></div>
   <div class="ev-input-col ev-input-col-steppers">
    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start">
     <div>
@@ -1407,6 +1407,8 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
   document.getElementById('dual-params-top').style.display=isDual?'block':'none';
   document.getElementById('single-params-alter').style.display=isDual?'none':'';
   document.getElementById('single-params-rente').style.display=isDual?'none':'';
+  var sparLabel=document.querySelector('#p1-spar-wrap .ev-flabel span');
+  if(sparLabel) sparLabel.textContent=isDual?'Sparrate':'Sparrate pro Person';
   if(isDual){
    syncDualFromST();
    var dsrate1=document.getElementById('d-srate1-wrap');
