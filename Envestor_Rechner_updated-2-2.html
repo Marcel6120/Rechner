@@ -115,47 +115,81 @@
    <div class="kinder-footnote" id="kinder-footnote">* Kinderzulage max. bis 21 J.</div>
    <div class="ev-warn" id="warn-alter"><strong>Kurze Ansparphase:</strong> Individuelle Prüfung empfohlen.</div>
   </div>
-  <div id="dual-params-top" style="display:none;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:14px">
-   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-    <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:10px 10px;border:1px solid rgba(255,255,255,.1)">
+  <div id="dual-params-top" style="display:none">
+   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:0">
+    <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:10px 12px;border:1px solid rgba(255,255,255,.1)">
      <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Person 1</div>
-     <div style="margin-bottom:8px"><div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:3px">Sparrate</div>
-      <div class="ev-row"><div class="ev-numbox" style="width:76px"><input type="text" id="d-spar1" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-spar1"></div><input type="range" id="ds-spar1" min="10" max="570" step="5" value="150"></div></div></div>
-     <div style="margin-bottom:8px"><div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:3px">Alter</div>
-      <div class="ev-row"><div class="ev-numbox" style="width:76px"><input type="text" id="d-alter1" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-alter1"></div><input type="range" id="ds-alter1" min="16" max="66" step="1" value="35"></div></div></div>
-     <div style="margin-bottom:8px"><div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:3px">Renteneintritt</div>
-      <div class="ev-row"><div class="ev-numbox" style="width:76px"><input type="text" id="d-rentenalter1" value="67" inputmode="numeric"><span class="ev-unit">J.</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-rentenalter1"></div><input type="range" id="ds-rentenalter1" min="62" max="70" step="1" value="67"></div></div></div>
-     <div style="margin-bottom:8px"><div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:3px">Depot bis</div>
-      <div class="ev-row"><div class="ev-numbox" style="width:76px"><input type="text" id="d-depotalter1" value="85" inputmode="numeric"><span class="ev-unit">J.</span></div></div></div>
-     <div style="margin-bottom:8px"><div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:3px">Einmalauszahlung</div>
-      <div class="ev-row"><div class="ev-numbox" style="width:76px"><span id="d-einmal1-lbl" style="display:block;text-align:right;font-size:13px;font-weight:700;color:#fff;padding:0 20px 0 6px;height:36px;line-height:36px">0 %</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-einmal1"></div><input type="range" id="ds-einmal1" min="0" max="30" step="1" value="0"></div></div></div>
-     <div id="d-srate1-wrap" style="display:none"><div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:3px">Steuersatz Rente</div>
-      <div class="ev-row"><div class="ev-numbox" style="width:76px"><input type="text" id="d-srate1" value="0" inputmode="numeric"><span class="ev-unit">%</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-srate1"></div><input type="range" id="ds-srate1" min="0" max="45" step="1" value="0"></div></div></div>
+     <div style="margin-bottom:10px">
+      <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:4px">Sparrate</div>
+      <div class="ev-row"><div class="ev-numbox" style="width:80px"><input type="text" id="d-spar1" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-spar1"></div><input type="range" id="ds-spar1" min="10" max="570" step="5" value="150"></div>
+      </div>
+     </div>
+     <div style="margin-bottom:10px">
+      <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:4px">Alter</div>
+      <div class="ev-row"><div class="ev-numbox" style="width:80px"><input type="text" id="d-alter1" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-alter1"></div><input type="range" id="ds-alter1" min="16" max="66" step="1" value="35"></div>
+      </div>
+     </div>
+     <div style="margin-bottom:10px">
+      <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:4px">Renteneintritt</div>
+      <div class="ev-row"><div class="ev-numbox" style="width:80px"><input type="text" id="d-rentenalter1" value="67" inputmode="numeric"><span class="ev-unit">J.</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-rentenalter1"></div><input type="range" id="ds-rentenalter1" min="62" max="70" step="1" value="67"></div>
+      </div>
+     </div>
+     <div style="margin-bottom:10px">
+      <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:4px">Depot bis</div>
+      <div class="ev-row"><div class="ev-numbox" style="width:80px"><input type="text" id="d-depotalter1" value="85" inputmode="numeric"><span class="ev-unit">J.</span></div></div>
+     </div>
+     <div style="margin-bottom:10px">
+      <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:4px">Einmalauszahlung</div>
+      <div class="ev-row"><div class="ev-numbox" style="width:80px"><span id="d-einmal1-label" style="display:block;text-align:right;font-size:14px;font-weight:700;color:#fff;padding:0 24px 0 8px;height:36px;line-height:36px">0 %</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-einmal1"></div><input type="range" id="ds-einmal1" min="0" max="30" step="1" value="0"></div>
+      </div>
+     </div>
+     <div id="d-srate1-wrap" style="display:none">
+      <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:4px">Steuersatz Rente</div>
+      <div class="ev-row"><div class="ev-numbox" style="width:80px"><input type="text" id="d-srate1" value="0" inputmode="numeric"><span class="ev-unit">%</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-srate1"></div><input type="range" id="ds-srate1" min="0" max="45" step="1" value="0"></div>
+      </div>
+     </div>
     </div>
-    <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:10px 10px;border:1px solid rgba(255,255,255,.1)">
+    <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:10px 12px;border:1px solid rgba(255,255,255,.1)">
      <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Person 2</div>
-     <div style="margin-bottom:8px"><div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:3px">Sparrate</div>
-      <div class="ev-row"><div class="ev-numbox" style="width:76px"><input type="text" id="d-spar2" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-spar2"></div><input type="range" id="ds-spar2" min="10" max="570" step="5" value="150"></div></div></div>
-     <div style="margin-bottom:8px"><div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:3px">Alter</div>
-      <div class="ev-row"><div class="ev-numbox" style="width:76px"><input type="text" id="d-alter2" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-alter2"></div><input type="range" id="ds-alter2" min="16" max="66" step="1" value="35"></div></div></div>
-     <div style="margin-bottom:8px"><div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:3px">Renteneintritt</div>
-      <div class="ev-row"><div class="ev-numbox" style="width:76px"><input type="text" id="d-rentenalter2" value="67" inputmode="numeric"><span class="ev-unit">J.</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-rentenalter2"></div><input type="range" id="ds-rentenalter2" min="62" max="70" step="1" value="67"></div></div></div>
-     <div style="margin-bottom:8px"><div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:3px">Depot bis</div>
-      <div class="ev-row"><div class="ev-numbox" style="width:76px"><input type="text" id="d-depotalter2" value="85" inputmode="numeric"><span class="ev-unit">J.</span></div></div></div>
-     <div style="margin-bottom:8px"><div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:3px">Einmalauszahlung</div>
-      <div class="ev-row"><div class="ev-numbox" style="width:76px"><span id="d-einmal2-lbl" style="display:block;text-align:right;font-size:13px;font-weight:700;color:#fff;padding:0 20px 0 6px;height:36px;line-height:36px">0 %</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-einmal2"></div><input type="range" id="ds-einmal2" min="0" max="30" step="1" value="0"></div></div></div>
-     <div id="d-srate2-wrap" style="display:none"><div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:3px">Steuersatz Rente</div>
-      <div class="ev-row"><div class="ev-numbox" style="width:76px"><input type="text" id="d-srate2" value="0" inputmode="numeric"><span class="ev-unit">%</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-srate2"></div><input type="range" id="ds-srate2" min="0" max="45" step="1" value="0"></div></div></div>
+     <div style="margin-bottom:10px">
+      <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:4px">Sparrate</div>
+      <div class="ev-row"><div class="ev-numbox" style="width:80px"><input type="text" id="d-spar2" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-spar2"></div><input type="range" id="ds-spar2" min="10" max="570" step="5" value="150"></div>
+      </div>
+     </div>
+     <div style="margin-bottom:10px">
+      <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:4px">Alter</div>
+      <div class="ev-row"><div class="ev-numbox" style="width:80px"><input type="text" id="d-alter2" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-alter2"></div><input type="range" id="ds-alter2" min="16" max="66" step="1" value="35"></div>
+      </div>
+     </div>
+     <div style="margin-bottom:10px">
+      <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:4px">Renteneintritt</div>
+      <div class="ev-row"><div class="ev-numbox" style="width:80px"><input type="text" id="d-rentenalter2" value="67" inputmode="numeric"><span class="ev-unit">J.</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-rentenalter2"></div><input type="range" id="ds-rentenalter2" min="62" max="70" step="1" value="67"></div>
+      </div>
+     </div>
+     <div style="margin-bottom:10px">
+      <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:4px">Depot bis</div>
+      <div class="ev-row"><div class="ev-numbox" style="width:80px"><input type="text" id="d-depotalter2" value="85" inputmode="numeric"><span class="ev-unit">J.</span></div></div>
+     </div>
+     <div style="margin-bottom:10px">
+      <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:4px">Einmalauszahlung</div>
+      <div class="ev-row"><div class="ev-numbox" style="width:80px"><span id="d-einmal2-label" style="display:block;text-align:right;font-size:14px;font-weight:700;color:#fff;padding:0 24px 0 8px;height:36px;line-height:36px">0 %</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-einmal2"></div><input type="range" id="ds-einmal2" min="0" max="30" step="1" value="0"></div>
+      </div>
+     </div>
+     <div id="d-srate2-wrap" style="display:none">
+      <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:4px">Steuersatz Rente</div>
+      <div class="ev-row"><div class="ev-numbox" style="width:80px"><input type="text" id="d-srate2" value="0" inputmode="numeric"><span class="ev-unit">%</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="df-srate2"></div><input type="range" id="ds-srate2" min="0" max="45" step="1" value="0"></div>
+      </div>
+     </div>
     </div>
    </div>
   </div>
@@ -681,48 +715,27 @@ function calcSingle(p){
   alter:alter,rentenAlter:rentenAlter,yearOffset:yearOffset
  };
 }
-function syncDualFill(fillId,val,min,max){var f=document.getElementById(fillId);if(f)f.style.width=Math.max(0,Math.min(100,(val-min)/(max-min)*100))+'%';}
-function syncDualFromST(){
- var fields=[
-  ['d-spar1','ds-spar1','df-spar1',ST.spar,10,570],
-  ['d-alter1','ds-alter1','df-alter1',ST.alter,16,66],
-  ['d-rentenalter1','ds-rentenalter1','df-rentenalter1',ST.rentenAlter,62,70],
-  ['d-spar2','ds-spar2','df-spar2',ST.spar2,10,570],
-  ['d-alter2','ds-alter2','df-alter2',ST.alter2,16,66],
-  ['d-rentenalter2','ds-rentenalter2','df-rentenalter2',ST.rentenAlter2,62,70],
-  ['d-srate1','ds-srate1','df-srate1',ST.steuersatzRente,0,45],
-  ['d-srate2','ds-srate2','df-srate2',ST.steuersatzRente2,0,45]
- ];
- fields.forEach(function(f){
-  var inp=document.getElementById(f[0]);var sl=document.getElementById(f[1]);
-  if(inp)inp.value=f[3]>=1000?f[3].toLocaleString('de-DE'):f[3];
-  if(sl)sl.value=f[3];
-  syncDualFill(f[2],f[3],f[4],f[5]);
- });
- var da1=document.getElementById('d-depotalter1');if(da1)da1.value=ST.depotAlter;
- var da2=document.getElementById('d-depotalter2');if(da2)da2.value=ST.depotAlter2;
- var l1=document.getElementById('d-einmal1-lbl');var s1=document.getElementById('ds-einmal1');
- if(l1)l1.textContent=Math.round(ST.einmalPct)+' %';if(s1)s1.value=ST.einmalPct;
- syncDualFill('df-einmal1',ST.einmalPct,0,30);
- var l2=document.getElementById('d-einmal2-lbl');var s2=document.getElementById('ds-einmal2');
- if(l2)l2.textContent=Math.round(ST.einmalPct2)+' %';if(s2)s2.value=ST.einmalPct2;
- syncDualFill('df-einmal2',ST.einmalPct2,0,30);
-}
-function bindDualSlider(inputId,slId,fillId,stKey,min,max){
+function syncDualField(inputId,slId,fillId,val,min,max){
  var inp=document.getElementById(inputId);
  var sl=document.getElementById(slId);
- function applyVal(raw){
-  var n=parseInt(String(raw).replace(/\D/g,''));
-  if(isNaN(n))return;
-  n=Math.max(min,Math.min(max,n));
-  ST[stKey]=n;
-  if(inp)inp.value=n>=1000?n.toLocaleString('de-DE'):n;
-  if(sl)sl.value=n;
-  syncDualFill(fillId,n,min,max);
-  calc();
- }
- if(sl)sl.addEventListener('input',function(){applyVal(this.value);});
- if(inp)inp.addEventListener('change',function(){applyVal(this.value);});
+ var fill=document.getElementById(fillId);
+ if(inp) inp.value=typeof val==='number'&&val>=1000?val.toLocaleString('de-DE'):val;
+ if(sl) sl.value=val;
+ if(fill) fill.style.width=((val-min)/(max-min)*100)+'%';
+}
+function syncDualFromST(){
+ syncDualField('d-spar1','ds-spar1','df-spar1',ST.spar,10,570);
+ syncDualField('d-alter1','ds-alter1','df-alter1',ST.alter,16,66);
+ syncDualField('d-rentenalter1','ds-rentenalter1','df-rentenalter1',ST.rentenAlter,62,70);
+ var da1=document.getElementById('d-depotalter1');if(da1)da1.value=ST.depotAlter;
+ var dei1=document.getElementById('ds-einmal1');if(dei1){dei1.value=ST.einmalPct;var l1=document.getElementById('d-einmal1-label');if(l1)l1.textContent=Math.round(ST.einmalPct)+' %';var df1=document.getElementById('df-einmal1');if(df1)df1.style.width=(ST.einmalPct/30*100)+'%';}
+ syncDualField('d-srate1','ds-srate1','df-srate1',ST.steuersatzRente,0,45);
+ syncDualField('d-spar2','ds-spar2','df-spar2',ST.spar2,10,570);
+ syncDualField('d-alter2','ds-alter2','df-alter2',ST.alter2,16,66);
+ syncDualField('d-rentenalter2','ds-rentenalter2','df-rentenalter2',ST.rentenAlter2,62,70);
+ var da2=document.getElementById('d-depotalter2');if(da2)da2.value=ST.depotAlter2;
+ var dei2=document.getElementById('ds-einmal2');if(dei2){dei2.value=ST.einmalPct2;var l2=document.getElementById('d-einmal2-label');if(l2)l2.textContent=Math.round(ST.einmalPct2)+' %';var df2=document.getElementById('df-einmal2');if(df2)df2.style.width=(ST.einmalPct2/30*100)+'%';}
+ syncDualField('d-srate2','ds-srate2','df-srate2',ST.steuersatzRente2,0,45);
 }
 function calc(){
  var s=ST;
@@ -1394,8 +1407,19 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
   document.getElementById('dual-params-top').style.display=isDual?'block':'none';
   document.getElementById('single-params-alter').style.display=isDual?'none':'';
   document.getElementById('single-params-rente').style.display=isDual?'none':'';
-  if(isDual) syncDualFromST();
+  if(isDual){
+   syncDualFromST();
+   var dsrate1=document.getElementById('d-srate1-wrap');
+   var dsrate2=document.getElementById('d-srate2-wrap');
+   if(dsrate1) dsrate1.style.display='block';
+   if(dsrate2) dsrate2.style.display='block';
+  }
   document.getElementById('srate2-wrap').style.display=(ST.erw===2&&!ST.verheiratet)?'block':'none';
+  var showSrate1=(ST.erw===2&&!ST.verheiratet);
+  var dsr1=document.getElementById('d-srate1-wrap');
+  var dsr2=document.getElementById('d-srate2-wrap');
+  if(dsr1) dsr1.style.display=showSrate1?'block':'none';
+  if(dsr2) dsr2.style.display=showSrate1?'block':'none';
   if(ST.erw===1){var lbl=document.getElementById('label-eink');if(lbl)lbl.textContent='Monatl. Bruttoeinkommen';}
   else updateEinkLabel();
   render();
@@ -1408,6 +1432,11 @@ function updateVerheiratet(v){
  document.getElementById('eink2-wrap').style.display=v?'none':'block';
  document.getElementById('hint-verheiratet').style.display=v?'block':'none';
  document.getElementById('srate2-wrap').style.display=(ST.erw===2&&!v)?'block':'none';
+ var showSrate=(ST.erw===2&&!v);
+ var dsr1=document.getElementById('d-srate1-wrap');
+ var dsr2=document.getElementById('d-srate2-wrap');
+ if(dsr1) dsr1.style.display=showSrate?'block':'none';
+ if(dsr2) dsr2.style.display=showSrate?'block':'none';
  var lbl=document.getElementById('label-eink');
  if(lbl) lbl.textContent=v?'Gemeinsames Bruttoeinkommen':'Monatl. Bruttoeinkommen';
  render();
@@ -1433,27 +1462,67 @@ updateHintGsatz2();
 syncSlider('spar2','s-spar2','v-spar2','f-spar2',null,570);
 syncSlider('alter2','s-alter2','v-alter2','f-alter2',null,null);
 syncSlider('steuersatzRente2','s-srate2','v-srate2','f-srate2',null,null);
-bindDualSlider('d-spar1','ds-spar1','df-spar1','spar',10,570);
-bindDualSlider('d-alter1','ds-alter1','df-alter1','alter',16,66);
-bindDualSlider('d-rentenalter1','ds-rentenalter1','df-rentenalter1','rentenAlter',62,70);
-bindDualSlider('d-srate1','ds-srate1','df-srate1','steuersatzRente',0,45);
-bindDualSlider('d-spar2','ds-spar2','df-spar2','spar2',10,570);
-bindDualSlider('d-alter2','ds-alter2','df-alter2','alter2',16,66);
-bindDualSlider('d-rentenalter2','ds-rentenalter2','df-rentenalter2','rentenAlter2',62,70);
-bindDualSlider('d-srate2','ds-srate2','df-srate2','steuersatzRente2',0,45);
+// Dual-param listeners
+function bindDual(inputId,slId,fillId,stKey,min,max,isFloat){
+ var inp=document.getElementById(inputId);
+ var sl=document.getElementById(slId);
+ var fill=document.getElementById(fillId);
+ function update(v){
+  var n=isFloat?parseFloat(String(v).replace(',','.')):parseInt(String(v).replace(/\D/g,''));
+  if(isNaN(n))return;
+  n=Math.max(min,Math.min(max,n));
+  ST[stKey]=n;
+  if(sl)sl.value=n;
+  if(fill)fill.style.width=((n-min)/(max-min)*100)+'%';
+  if(inp)inp.value=n>=1000?n.toLocaleString('de-DE'):n;
+  var origMap={spar:'v-spar',alter:'v-alter',rentenAlter:'v-rentenalter',depotAlter:'v-depotalter',
+               einmalPct:null,steuersatzRente:'v-srate',
+               spar2:'v-spar2',alter2:'v-alter2',rentenAlter2:'v-rentenalter2',depotAlter2:'v-depotalter2',
+               einmalPct2:null,steuersatzRente2:'v-srate2'};
+  var origId=origMap[stKey];
+  if(origId){var oi=document.getElementById(origId);if(oi)oi.value=n>=1000?n.toLocaleString('de-DE'):n;}
+  calc();
+ }
+ if(inp)inp.addEventListener('change',function(){update(this.value);});
+ if(sl)sl.addEventListener('input',function(){
+  update(this.value);
+  if(fill)fill.style.width=((this.value-min)/(max-min)*100)+'%';
+ });
+}
+bindDual('d-spar1','ds-spar1','df-spar1','spar',10,570,false);
+bindDual('d-alter1','ds-alter1','df-alter1','alter',16,66,false);
+bindDual('d-rentenalter1','ds-rentenalter1','df-rentenalter1','rentenAlter',62,70,false);
+bindDual('d-spar2','ds-spar2','df-spar2','spar2',10,570,false);
+bindDual('d-alter2','ds-alter2','df-alter2','alter2',16,66,false);
+bindDual('d-rentenalter2','ds-rentenalter2','df-rentenalter2','rentenAlter2',62,70,false);
+bindDual('d-srate1','ds-srate1','df-srate1','steuersatzRente',0,45,false);
+bindDual('d-srate2','ds-srate2','df-srate2','steuersatzRente2',0,45,false);
 (function(){
- var da1=document.getElementById('d-depotalter1');
- if(da1)da1.addEventListener('change',function(){var n=parseInt(this.value);if(!isNaN(n)&&n>=85){ST.depotAlter=n;calc();}});
- var da2=document.getElementById('d-depotalter2');
- if(da2)da2.addEventListener('change',function(){var n=parseInt(this.value);if(!isNaN(n)&&n>=85){ST.depotAlter2=n;calc();}});
- var se1=document.getElementById('ds-einmal1');
- var fe1=document.getElementById('df-einmal1');
- var le1=document.getElementById('d-einmal1-lbl');
- if(se1)se1.addEventListener('input',function(){ST.einmalPct=parseInt(this.value);if(le1)le1.textContent=ST.einmalPct+' %';syncDualFill('df-einmal1',ST.einmalPct,0,30);calc();});
- var se2=document.getElementById('ds-einmal2');
- var fe2=document.getElementById('df-einmal2');
- var le2=document.getElementById('d-einmal2-lbl');
- if(se2)se2.addEventListener('input',function(){ST.einmalPct2=parseInt(this.value);if(le2)le2.textContent=ST.einmalPct2+' %';syncDualFill('df-einmal2',ST.einmalPct2,0,30);calc();});
+ var d1=document.getElementById('d-depotalter1');
+ if(d1)d1.addEventListener('change',function(){var n=parseInt(this.value);if(!isNaN(n)&&n>=85){ST.depotAlter=n;var o=document.getElementById('v-depotalter');if(o)o.value=n;calc();}});
+ var d2=document.getElementById('d-depotalter2');
+ if(d2)d2.addEventListener('change',function(){var n=parseInt(this.value);if(!isNaN(n)&&n>=85){ST.depotAlter2=n;calc();}});
+})();
+(function(){
+ var s1=document.getElementById('ds-einmal1');
+ var f1=document.getElementById('df-einmal1');
+ var l1=document.getElementById('d-einmal1-label');
+ if(s1)s1.addEventListener('input',function(){
+  ST.einmalPct=parseInt(this.value);
+  if(l1)l1.textContent=ST.einmalPct+' %';
+  if(f1)f1.style.width=(ST.einmalPct/30*100)+'%';
+  var o=document.getElementById('s-einmal-pct');if(o)o.value=ST.einmalPct;
+  calc();
+ });
+ var s2=document.getElementById('ds-einmal2');
+ var f2=document.getElementById('df-einmal2');
+ var l2=document.getElementById('d-einmal2-label');
+ if(s2)s2.addEventListener('input',function(){
+  ST.einmalPct2=parseInt(this.value);
+  if(l2)l2.textContent=ST.einmalPct2+' %';
+  if(f2)f2.style.width=(ST.einmalPct2/30*100)+'%';
+  calc();
+ });
 })();
 (function(){
  var slRA2=document.getElementById('s-rentenalter2');
