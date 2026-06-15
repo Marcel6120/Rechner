@@ -1436,7 +1436,7 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
   var showP2Getrennt=ST.erw===2&&!ST.verheiratet;
   document.getElementById('depotalter2-row').style.display=showP2Bot?'block':'none';
   document.getElementById('einmal2-row').style.display=showP2Bot?'block':'none';
-  document.getElementById('srate2-bot-row').style.display=showP2Bot?'block':'none';
+  document.getElementById('srate2-bot-row').style.display=showP2Getrennt?'block':'none';
   document.getElementById('eink2-bottom-row').style.display=showP2Getrennt?'block':'none';
   if(document.getElementById('label-eink')) document.getElementById('label-eink').textContent=showP2Bot?'Bruttoeinkommen (Person 1)':'Monatl. Bruttoeinkommen';
   var showSrate1=(ST.erw===2&&!ST.verheiratet);
@@ -1466,7 +1466,7 @@ function updateVerheiratet(v){
  var e2bot=document.getElementById('eink2-bottom-row');
  if(e2bot) e2bot.style.display=(ST.erw===2&&!v)?'block':'none';
  var srate2bot=document.getElementById('srate2-bot-row');
- if(srate2bot) srate2bot.style.display=ST.erw===2?'block':'none';
+ if(srate2bot) srate2bot.style.display=(ST.erw===2&&!v)?'block':'none';
  render();
 }
 function updateEinkLabel(){
