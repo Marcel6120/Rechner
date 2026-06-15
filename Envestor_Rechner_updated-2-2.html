@@ -160,7 +160,7 @@
  <div class="ev-inputs-bar ev-inputs-bottom" style="grid-row:4!important">
   <div class="ev-input-col">
    <div style="margin-top:0">
-    <div class="ev-flabel" style="margin-bottom:4px"><span>Rentenzahlung bis</span>
+    <div class="ev-flabel" style="margin-bottom:4px"><span id="lbl-depotalter-p1">Rentenzahlung bis</span>
      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll die Rentenzahlung laufen? Gesetzlich mindestens bis 85 (§ 20a EStG). Daraus ergibt sich die Entnahmedauer für die monatliche Rente.</div></div>
     </div>
     <div style="display:flex;align-items:center;gap:12px">
@@ -168,8 +168,14 @@
      <span class="ev-hint" style="color:rgba(255,255,255,.85);margin:0">Entnahmedauer: <strong id="hint-entnahme" style="color:#F15A24">18 Jahre</strong></span>
     </div>
    </div>
+   <div id="depotalter2-row" style="display:none;margin-top:8px">
+    <div class="ev-flabel" style="margin-bottom:4px"><span style="font-size:12px;color:rgba(255,255,255,.7)">Rentenzahlung bis (Person 2)</span></div>
+    <div style="display:flex;align-items:center;gap:12px">
+     <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-depotalter2-bot" value="85" min="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
+    </div>
+   </div>
    <div style="margin-top:18px">
-    <div class="ev-flabel" style="margin-bottom:5px"><span>Einmalauszahlung bei Renteneintritt</span>
+    <div class="ev-flabel" style="margin-bottom:5px"><span id="lbl-einmal-p1">Einmalauszahlung bei Renteneintritt</span>
      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30 % des AV-Depots können als Einmalauszahlung ausgezahlt werden (§ 20a EStG). Die restlichen 70 % fließen als monatliche Rente über mindestens 10 Jahre.</div></div>
     </div>
     <div class="ev-row">
@@ -178,11 +184,26 @@
     </div>
     <div id="einmal-hint" style="display:none"></div>
    </div>
-   <div style="margin-top:18px" class="ev-flabel"><span>Voraussichtlicher Steuersatz im Rentenalter</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">AV-Depot wird bei Auszahlung mit dem pers. Einkommensteuersatz versteuert (§ 20a EStG). Liegt häufig unter dem Erwerbssteuersatz.</div></div>
+   <div id="einmal2-row" style="display:none;margin-top:8px">
+    <div class="ev-flabel" style="margin-bottom:4px"><span style="font-size:12px;color:rgba(255,255,255,.7)">Einmalauszahlung (Person 2)</span></div>
+    <div class="ev-row">
+     <div class="ev-numbox" style="width:75px"><span id="einmal-pct2-label-bot" style="display:block;text-align:right;font-size:15px;font-weight:700;color:#fff;padding:0 24px 0 8px;height:36px;line-height:36px">0 %</span></div>
+     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-einmal-pct2-bot" style="width:0%"></div><input type="range" id="s-einmal-pct2-bot" min="0" max="30" step="1" value="0"></div>
+    </div>
    </div>
-   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-srate" value="0" inputmode="numeric"><span class="ev-unit">%</span></div>
-    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-srate"></div><input type="range" id="s-srate" min="0" max="45" step="1" value="0"></div>
+   <div style="margin-top:18px">
+    <div class="ev-flabel" style="margin-bottom:4px"><span id="lbl-srate-p1">Steuersatz im Rentenalter</span>
+     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">AV-Depot wird bei Auszahlung mit dem pers. Einkommensteuersatz versteuert (§ 20a EStG). Liegt häufig unter dem Erwerbssteuersatz.</div></div>
+    </div>
+    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-srate" value="0" inputmode="numeric"><span class="ev-unit">%</span></div>
+     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-srate"></div><input type="range" id="s-srate" min="0" max="45" step="1" value="0"></div>
+    </div>
+   </div>
+   <div id="srate2-bot-row" style="display:none;margin-top:8px">
+    <div class="ev-flabel" style="margin-bottom:4px"><span style="font-size:12px;color:rgba(255,255,255,.7)">Steuersatz Rentenalter (Person 2)</span></div>
+    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-srate2-bot" value="0" inputmode="numeric"><span class="ev-unit">%</span></div>
+     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-srate2-bot"></div><input type="range" id="s-srate2-bot" min="0" max="45" step="1" value="0"></div>
+    </div>
    </div>
   </div>
   <div class="ev-input-col">
@@ -193,6 +214,13 @@
     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-eink"></div><input type="range" id="s-eink" min="1000" max="25000" step="250" value="5000"></div>
    </div>
    <div class="ev-hint">Ihr aktueller Steuersatz: <strong id="hint-gsatz" style="color:#fff">25 %</strong></div>
+   <div id="eink2-bottom-row" style="display:none;margin-top:10px">
+    <div class="ev-flabel" style="margin-bottom:4px"><span style="font-size:12px;color:rgba(255,255,255,.7)">Bruttoeinkommen (Person 2)</span></div>
+    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-eink2-bot" value="5.000" inputmode="decimal"><span class="ev-unit">€</span></div>
+     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-eink2-bot"></div><input type="range" id="s-eink2-bot" min="1000" max="25000" step="250" value="5000"></div>
+    </div>
+    <div class="ev-hint">Steuersatz P2: <strong id="hint-gsatz2-bot" style="color:#fff">–</strong></div>
+   </div>
   </div>
   <div style="grid-column:1/-1;margin-top:14px;margin-bottom:16px">
    <div class="ev-flabel" style="margin-bottom:6px">
@@ -1403,6 +1431,14 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
    if(dsrate2) dsrate2.style.display='block';
   }
   document.getElementById('srate2-wrap').style.display=(ST.erw===2&&!ST.verheiratet)?'block':'none';
+  // P2 bottom rows
+  var showP2Bot=ST.erw===2;
+  var showP2Getrennt=ST.erw===2&&!ST.verheiratet;
+  document.getElementById('depotalter2-row').style.display=showP2Bot?'block':'none';
+  document.getElementById('einmal2-row').style.display=showP2Bot?'block':'none';
+  document.getElementById('srate2-bot-row').style.display=showP2Bot?'block':'none';
+  document.getElementById('eink2-bottom-row').style.display=showP2Getrennt?'block':'none';
+  if(document.getElementById('label-eink')) document.getElementById('label-eink').textContent=showP2Bot?'Bruttoeinkommen (Person 1)':'Monatl. Bruttoeinkommen';
   var showSrate1=(ST.erw===2&&!ST.verheiratet);
   var dsr1=document.getElementById('d-srate1-wrap');
   var dsr2=document.getElementById('d-srate2-wrap');
@@ -1426,7 +1462,11 @@ function updateVerheiratet(v){
  if(dsr1) dsr1.style.display=showSrate?'block':'none';
  if(dsr2) dsr2.style.display=showSrate?'block':'none';
  var lbl=document.getElementById('label-eink');
- if(lbl) lbl.textContent=v?'Gemeinsames Bruttoeinkommen':'Monatl. Bruttoeinkommen';
+ if(lbl) lbl.textContent=v?'Gemeinsames Bruttoeinkommen':'Bruttoeinkommen (Person 1)';
+ var e2bot=document.getElementById('eink2-bottom-row');
+ if(e2bot) e2bot.style.display=(ST.erw===2&&!v)?'block':'none';
+ var srate2bot=document.getElementById('srate2-bot-row');
+ if(srate2bot) srate2bot.style.display=ST.erw===2?'block':'none';
  render();
 }
 function updateEinkLabel(){
@@ -1572,6 +1612,56 @@ document.getElementById('rechenweg-modal').addEventListener('click',function(e){
  }
  slEP.addEventListener('input',upEP);
  upEP();
+})();
+// P2 bottom row bindings
+(function(){
+ // Depotalter P2
+ var da2b=document.getElementById('v-depotalter2-bot');
+ if(da2b)da2b.addEventListener('change',function(){var n=parseInt(this.value);if(!isNaN(n)&&n>=85){ST.depotAlter2=n;var h=document.getElementById('v-depotalter2');if(h)h.value=n;render();}});
+ // Einmalauszahlung P2
+ var se2b=document.getElementById('s-einmal-pct2-bot');
+ var fe2b=document.getElementById('f-einmal-pct2-bot');
+ var le2b=document.getElementById('einmal-pct2-label-bot');
+ if(se2b)se2b.addEventListener('input',function(){
+  ST.einmalPct2=parseInt(this.value);
+  if(le2b)le2b.textContent=ST.einmalPct2+' %';
+  if(fe2b)fe2b.style.width=(ST.einmalPct2/30*100)+'%';
+  var h=document.getElementById('s-einmal-pct2');if(h)h.value=ST.einmalPct2;
+  debouncedRender();
+ });
+ // Steuersatz P2
+ var ss2b=document.getElementById('s-srate2-bot');
+ var fs2b=document.getElementById('f-srate2-bot');
+ var vs2b=document.getElementById('v-srate2-bot');
+ function upSR2(v){
+  var n=parseInt(v);if(isNaN(n))return;n=Math.max(0,Math.min(45,n));
+  ST.steuersatzRente2=n;
+  if(vs2b)vs2b.value=n;if(ss2b)ss2b.value=n;
+  if(fs2b)fs2b.style.width=(n/45*100)+'%';
+  var h=document.getElementById('v-srate2');if(h)h.value=n;
+  debouncedRender();
+ }
+ if(ss2b)ss2b.addEventListener('input',function(){upSR2(this.value);});
+ if(vs2b)vs2b.addEventListener('change',function(){upSR2(this.value);});
+ // Einkommen P2 bottom
+ var se2eink=document.getElementById('s-eink2-bot');
+ var fe2eink=document.getElementById('f-eink2-bot');
+ var ve2eink=document.getElementById('v-eink2-bot');
+ var h2gsatz=document.getElementById('hint-gsatz2-bot');
+ function upEink2Bot(v){
+  var n=parseInt(String(v).replace(/\./g,'').replace(',','.'));if(isNaN(n))return;
+  n=Math.max(1000,Math.min(25000,n));
+  ST.eink2=n;
+  if(ve2eink)ve2eink.value=n.toLocaleString('de-DE');
+  if(se2eink)se2eink.value=n;
+  if(fe2eink)fe2eink.style.width=((n-1000)/(25000-1000)*100)+'%';
+  var h=document.getElementById('v-eink2');if(h)h.value=n.toLocaleString('de-DE');
+  var h2=document.getElementById('s-eink2');if(h2)h2.value=n;
+  if(h2gsatz)h2gsatz.textContent=Math.round(grenz(n*12)*100)+' %';
+  debouncedRender();
+ }
+ if(se2eink)se2eink.addEventListener('input',function(){upEink2Bot(this.value);});
+ if(ve2eink)ve2eink.addEventListener('change',function(){upEink2Bot(this.value);});
 })();
 var _renderTimer=null;
 var lastCalcResult={};
