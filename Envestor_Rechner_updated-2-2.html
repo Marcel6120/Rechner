@@ -159,7 +159,7 @@
   <div class="ev-grid-sep-inner"></div>
  </div>
  <div style="grid-column:1/-1;display:flex;justify-content:center;align-items:center;height:44px;position:relative;z-index:20;margin-top:-22px">
-  <button id="lower-toggle" type="button" aria-expanded="false" style="background:#012660;border:2px solid rgba(255,255,255,.25);border-radius:50%;width:40px;height:40px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s,background .2s;flex-shrink:0" onmouseenter="this.style.borderColor='rgba(255,255,255,.7)'" onmouseleave="this.style.borderColor='rgba(255,255,255,.25)'">
+  <button id="lower-toggle" type="button" onclick="var h=document.getElementById('lower-heading'),i=document.getElementById('lower-inputs'),r=document.getElementById('lower-right'),ic=document.getElementById('lower-toggle-icon'),t=document.querySelector('.ev-inputs-top'),open=h&&h.style.display!=='none'&&h.style.display!=='';if(h)h.style.display=open?'none':'block';if(i)i.style.display=open?'none':'flex';if(r)r.style.display=open?'none':'flex';if(ic)ic.style.transform=open?'rotate(0deg)':'rotate(180deg)';if(t)t.classList[open?'add':'remove']('lower-closed');this.setAttribute('aria-expanded',String(!open));" style="background:#012660;border:2px solid rgba(255,255,255,.25);border-radius:50%;width:40px;height:40px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s;flex-shrink:0" onmouseenter="this.style.borderColor='rgba(255,255,255,.7)'" onmouseleave="this.style.borderColor='rgba(255,255,255,.25)'">
    <svg id="lower-toggle-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" style="transition:transform .3s;pointer-events:none"><path d="M3 6l5 5 5-5" stroke="#F15A24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
  </div>
@@ -1678,37 +1678,7 @@ function debouncedRender(){
 }
 render();
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){var m=document.getElementById('rechenweg-modal');if(m){m.style.display='none';document.body.style.overflow='';}}});
-(function(){
- var btn=document.getElementById('lower-toggle');
- var heading=document.getElementById('lower-heading');
- var inputs=document.getElementById('lower-inputs');
- var secR=document.getElementById('lower-right');
- var icon=document.getElementById('lower-toggle-icon');
- var topBar=document.querySelector('.ev-inputs-top');
- if(!btn)return;
- function setOpen(open){
-  if(open){
-   if(heading)heading.style.display='block';
-   if(inputs)inputs.style.display='flex';
-   if(secR)secR.style.display='flex';
-   if(topBar)topBar.classList.remove('lower-closed');
-   btn.setAttribute('aria-expanded','true');
-   icon.style.transform='rotate(180deg)';
-  }else{
-   if(heading)heading.style.display='none';
-   if(inputs)inputs.style.display='none';
-   if(secR)secR.style.display='none';
-   if(topBar)topBar.classList.add('lower-closed');
-   btn.setAttribute('aria-expanded','false');
-   icon.style.transform='rotate(0deg)';
-  }
- }
- setOpen(false);
- btn.addEventListener('click',function(){
-  var closed=!heading||heading.style.display==='none'||heading.style.display==='';
-  setOpen(closed);
- });
-})();
+// lower-toggle handled via inline onclick
 </script>
 </body>
 </html>
