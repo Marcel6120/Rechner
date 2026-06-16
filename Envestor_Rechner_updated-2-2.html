@@ -158,13 +158,13 @@
  <div class="ev-grid-sep" style="grid-column:1/-1">
   <div class="ev-grid-sep-inner"></div>
  </div>
- <div style="grid-column:1/-1;display:flex;justify-content:center;align-items:center;height:44px;position:relative;z-index:20;margin-top:-22px">
+ <div style="grid-column:1/-1;grid-row:3;display:flex;justify-content:center;align-items:center;padding:16px 0 8px;position:relative;z-index:20">
   <button id="lower-toggle" type="button" onclick="var h=document.getElementById('lower-heading'),i=document.getElementById('lower-inputs'),r=document.getElementById('lower-right'),ic=document.getElementById('lower-toggle-icon'),t=document.querySelector('.ev-inputs-top'),open=h&&h.style.display!=='none'&&h.style.display!=='';if(h)h.style.display=open?'none':'block';if(i)i.style.display=open?'none':'flex';if(r)r.style.display=open?'none':'flex';if(ic)ic.style.transform=open?'rotate(0deg)':'rotate(180deg)';if(t)t.classList[open?'add':'remove']('lower-closed');this.setAttribute('aria-expanded',String(!open));" style="background:#012660;border:2px solid rgba(255,255,255,.25);border-radius:50%;width:40px;height:40px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s;flex-shrink:0" onmouseenter="this.style.borderColor='rgba(255,255,255,.7)'" onmouseleave="this.style.borderColor='rgba(255,255,255,.25)'">
    <svg id="lower-toggle-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" style="transition:transform .3s;pointer-events:none"><path d="M3 6l5 5 5-5" stroke="#F15A24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
  </div>
- <div id="lower-heading" style="grid-column:1/-1;display:none;padding:14px 0 12px"><p style="color:#fff;font-size:27px;font-weight:400;line-height:1.4;white-space:nowrap">Rente berechnen und mit ungefördertem Fondssparen vergleichen.</p></div>
- <div id="lower-inputs" class="ev-inputs-bar ev-inputs-bottom" style="max-width:420px;display:none">
+ <div id="lower-heading" style="grid-column:1/-1;grid-row:4;display:none;padding:14px 0 12px"><p style="color:#fff;font-size:27px;font-weight:400;line-height:1.4;white-space:nowrap">Rente berechnen und mit ungefördertem Fondssparen vergleichen.</p></div>
+ <div id="lower-inputs" class="ev-inputs-bar ev-inputs-bottom" style="max-width:420px;grid-row:5;display:none">
   <div class="ev-input-col">
    <div style="margin-top:0">
     <div class="ev-flabel" style="margin-bottom:4px"><span id="lbl-depotalter-p1">Rentenzahlung bis</span>
@@ -289,7 +289,7 @@
    <div id="r-zul-sub" style="display:none">–</div>
   </div>
  </div>
- <div id="lower-right" class="ev-results-wrap" style="grid-column:2;grid-row:4;max-width:560px;display:none">
+ <div id="lower-right" class="ev-results-wrap" style="grid-column:2;grid-row:5;max-width:560px;display:none">
   <div style="display:none" id="auszahlungs-block">
    <div style="padding-top:0">
     <div style="text-align:center;font-size:30px;font-weight:800;color:#F15A24;letter-spacing:.01em;margin-bottom:12px">Ihre zusätzliche Nettorente</div>
