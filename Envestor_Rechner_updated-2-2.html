@@ -31,6 +31,12 @@
    </div>
    <div class="ev-hint"><span id="h150" class="hl-green" style="display:none">✓ Volle Grundzulage erreicht</span><span id="h570"></span></div>
   </div>
+  <div class="p2-ind-row ev-input-col" style="display:none">
+   <div class="ev-flabel" style="margin-bottom:4px"><span style="font-size:13px">Sparrate</span><span style="font-size:11px;color:rgba(255,255,255,.5);margin-left:6px">2. Person</span></div>
+   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar2" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
+    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar2"></div><input type="range" id="s-spar2" min="10" max="570" step="5" value="150"></div>
+   </div>
+  </div>
   <div class="ev-input-col ev-input-col-steppers">
    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start">
     <div>
@@ -68,27 +74,7 @@
      <span style="font-size:11px;color:rgba(255,255,255,.75)">Person 2 wird mit gleichen Parametern wie Person 1 berechnet.</span>
      <button id="btn-p2-expand" type="button" style="display:block;margin-top:5px;background:none;border:none;color:#F15A24;font-size:11px;font-weight:700;cursor:pointer;padding:0;font-family:inherit;text-decoration:underline;text-underline-offset:2px">Individuelle Parameter für Person 2 ▸</button>
     </div>
-    <div id="p2-individual-params" style="display:none;margin-top:12px">
-     <div style="font-size:11px;font-weight:700;color:#F15A24;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Person 2 – Individuelle Parameter</div>
-     <div style="margin-bottom:10px">
-      <div class="ev-flabel" style="margin-bottom:4px"><span style="font-size:13px">Sparrate</span><span style="font-size:11px;color:rgba(255,255,255,.5);margin-left:6px">2. Person</span></div>
-      <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar2" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar2"></div><input type="range" id="s-spar2" min="10" max="570" step="5" value="150"></div>
-      </div>
-     </div>
-     <div style="margin-bottom:10px">
-      <div class="ev-flabel" style="margin-bottom:4px"><span style="font-size:13px">Alter</span><span style="font-size:11px;color:rgba(255,255,255,.5);margin-left:6px">2. Person</span></div>
-      <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-alter2" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-alter2"></div><input type="range" id="s-alter2" min="16" max="66" step="1" value="35"></div>
-      </div>
-     </div>
-     <div style="margin-bottom:6px">
-      <div class="ev-flabel" style="margin-bottom:4px"><span style="font-size:13px">Renteneintritt</span><span style="font-size:11px;color:rgba(255,255,255,.5);margin-left:6px">2. Person</span></div>
-      <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-rentenalter2" value="67" inputmode="numeric"><span class="ev-unit">J.</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rentenalter2"></div><input type="range" id="s-rentenalter2" min="62" max="70" step="1" value="67"></div>
-      </div>
-     </div>
-    </div>
+    <div id="p2-individual-params"></div>
    </div>
    <div class="kinder-ages" id="kinder-ages"></div>
    <div class="kinder-footnote" id="kinder-footnote">* Kinderzulage max. bis 21 J.</div>
@@ -103,6 +89,12 @@
    </div>
    <div class="ev-hint" id="chip-lz-hint" style="color:rgba(255,255,255,.85)">Noch <strong id="chip-lz" style="color:#F15A24">32 Jahre</strong> bis Rente</div>
   </div>
+  <div class="p2-ind-row ev-input-col" style="display:none">
+   <div class="ev-flabel" style="margin-bottom:4px"><span style="font-size:13px">Alter</span><span style="font-size:11px;color:rgba(255,255,255,.5);margin-left:6px">2. Person</span></div>
+   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-alter2" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
+    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-alter2"></div><input type="range" id="s-alter2" min="16" max="66" step="1" value="35"></div>
+   </div>
+  </div>
   <div class="ev-input-col">
    <div class="ev-flabel"><span>Renteneintrittsalter</span>
     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ab welchem Alter möchten Sie Ihr AV-Depot auszahlen? Korridor: frühestens 62, spätestens 70 Jahre (§ 20a EStG). Je später der Rentenbeginn, desto länger die Ansparphase. Für Überzahlungen gilt die Ertragsanteilsbesteuerung nach § 22 EStG – bei 67 Jahren sind nur 17 % der Gewinne steuerpflichtig (Ertragsanteil aktuell: <span id="hint-ea-tip">17</span> %).</div></div>
@@ -111,7 +103,12 @@
     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rentenalter"></div><input type="range" id="s-rentenalter" min="62" max="70" step="1" value="67"></div>
    </div>
    <div class="ev-hint" style="display:none"><span id="hint-ea">17</span></div>
-
+  </div>
+  <div class="p2-ind-row ev-input-col" style="display:none">
+   <div class="ev-flabel" style="margin-bottom:4px"><span style="font-size:13px">Renteneintritt</span><span style="font-size:11px;color:rgba(255,255,255,.5);margin-left:6px">2. Person</span></div>
+   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-rentenalter2" value="67" inputmode="numeric"><span class="ev-unit">J.</span></div>
+    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rentenalter2"></div><input type="range" id="s-rentenalter2" min="62" max="70" step="1" value="67"></div>
+   </div>
   </div>
  </div>
  <div class="ev-grid-sep"><div class="ev-grid-sep-inner"></div></div>
@@ -427,11 +424,11 @@ function syncP2FromP1(){
 function setP2Individual(val){
  p2Individual=val;
  var hint=document.getElementById('p2-simple-hint');
- var params=document.getElementById('p2-individual-params');
  var btn=document.getElementById('btn-p2-expand');
- if(ST.erw!==2){if(hint)hint.style.display='none';if(params)params.style.display='none';return;}
+ var rows=document.querySelectorAll('.p2-ind-row');
+ if(ST.erw!==2){if(hint)hint.style.display='none';rows.forEach(function(r){r.style.display='none';});return;}
  if(hint)hint.style.display='block';
- if(params)params.style.display=val?'block':'none';
+ rows.forEach(function(r){r.style.display=val?'':'none';});
  if(btn)btn.textContent=val?'◂ Gleiche Parameter verwenden':'Individuelle Parameter für Person 2 ▸';
  if(!val)syncP2FromP1();
 }
@@ -693,13 +690,23 @@ function calc(){
   else{geff1=gsatz1;geff2=grenz(s.eink2*12);}
   var r1=calcSingle({spar:s.spar,alter:s.alter,rentenAlter:s.rentenAlter,depotAlter:s.depotAlter,steuersatzRente:s.steuersatzRente,gsatzEff:geff1});
   var r2=calcSingle({spar:s.spar2,alter:s.alter2,rentenAlter:s.rentenAlter2,depotAlter:s.depotAlter2,steuersatzRente:s.steuersatzRente2,gsatzEff:geff2});
-  return{gz:r1.gz+r2.gz,kz:r1.kz+r2.kz,st:r1.st+r2.st,
-   avBrutto:r1.avBrutto+r2.avBrutto,avNetto:r1.avNetto+r2.avNetto,
-   etfBrutto:r1.etfBrutto+r2.etfBrutto,etfNetto:r1.etfNetto+r2.etfNetto,
+  var cAvNetto=r1.avNetto+r2.avNetto,cEtfNetto=r1.etfNetto+r2.etfNetto;
+  var einmalFrac=s.einmalPct/100,renteFrac=1-einmalFrac;
+  return{
+   gz:r1.gz+r2.gz,kz:0,st:r1.st+r2.st,
+   end:cAvNetto,etf:cEtfNetto,vort:cAvNetto-cEtfNetto,
+   avBrutto:r1.avBrutto+r2.avBrutto,avNetto:cAvNetto,
+   etfBrutto:r1.etfBrutto+r2.etfBrutto,etfNetto:cEtfNetto,
    avEntnahmeM:r1.avEntnahmeM+r2.avEntnahmeM,etfEntnahmeM:r1.etfEntnahmeM+r2.etfEntnahmeM,
+   el:r1.avEntnahmeM+r2.avEntnahmeM,eb:s.spar*2,
    lz:r1.lz,entnahmeJahre:r1.entnahmeJahre,
-   srente:s.steuersatzRente,el:r1.avEntnahmeM+r2.avEntnahmeM,
-   einmalPct:s.einmalPct,renteFrac:1-s.einmalPct/100,
+   srente:s.steuersatzRente,erw:2,alter:s.alter,fk:0,zulageJ:r1.gz+r2.gz,zulageM:(r1.gz+r2.gz)/12,
+   einmalPct:s.einmalPct,renteFrac:renteFrac,
+   auszahlungEinmal:Math.round(cAvNetto*einmalFrac),auszahlungEinmalNetto:Math.round(cAvNetto*einmalFrac),
+   auszahlungMonatNetto:Math.round(r1.avEntnahmeM+r2.avEntnahmeM),
+   etfEinmalNetto:Math.round(cEtfNetto*einmalFrac),etfMonatNetto:Math.round(r1.etfEntnahmeM+r2.etfEntnahmeM),
+   avSteuerGesamt:0,etfSteuerAufloesung:0,gsatz:geff1,gsatz2:geff2,gsatzEff:geff1,
+   breakeven:null,totalVapPaid:0,reinvest:s.reinvest,
    pts:r1.pts,_r1:r1,_r2:r2};
  }
  return result;
