@@ -161,9 +161,8 @@
    <svg id="lower-toggle-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" style="transition:transform .3s"><path d="M3 6l5 5 5-5" stroke="#F15A24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
  </div>
- <div id="lower-section" style="grid-column:1/-1;display:none;overflow:hidden">
- <div style="padding:14px 0 12px"><p style="color:#fff;font-size:27px;font-weight:400;line-height:1.4;white-space:nowrap">Rente berechnen und mit ungefördertem Fondssparen vergleichen.</p></div>
- <div class="ev-inputs-bar ev-inputs-bottom" style="max-width:420px">
+ <div id="lower-heading" style="grid-column:1/-1;display:none;padding:14px 0 12px"><p style="color:#fff;font-size:27px;font-weight:400;line-height:1.4;white-space:nowrap">Rente berechnen und mit ungefördertem Fondssparen vergleichen.</p></div>
+ <div id="lower-inputs" class="ev-inputs-bar ev-inputs-bottom" style="max-width:420px;display:none">
   <div class="ev-input-col">
    <div style="margin-top:0">
     <div class="ev-flabel" style="margin-bottom:4px"><span id="lbl-depotalter-p1">Rentenzahlung bis</span>
@@ -523,7 +522,6 @@
   <span id="r-st-sub" style="display:none">–</span>
  </div>
  </div>
- </div><!-- /lower-section -->
 </div>
 <script>var ST={eink:5000,eink2:5000,verheiratet:true,alter:35,rentenAlter:67,depotAlter:85,steuersatzRente:0,kosten:1.0,kostenEtf:1.0,kinderAnzahl:0,kinderAlter:[],erw:1,spar:150,rend:6,reinvest:true,einmalPct:0,alter2:35,rentenAlter2:67,depotAlter2:85,steuersatzRente2:0,einmalPct2:0,spar2:150};
 function fEFull(v){return new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v);}
@@ -1680,20 +1678,23 @@ render();
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){var m=document.getElementById('rechenweg-modal');if(m){m.style.display='none';document.body.style.overflow='';}}}})
 (function(){
  var btn=document.getElementById('lower-toggle');
- var sec=document.getElementById('lower-section');
+ var heading=document.getElementById('lower-heading');
+ var inputs=document.getElementById('lower-inputs');
  var secR=document.getElementById('lower-right');
  var icon=document.getElementById('lower-toggle-icon');
  var topBar=document.querySelector('.ev-inputs-top');
- if(!btn||!sec)return;
+ if(!btn)return;
  function setOpen(open){
   if(open){
-   sec.style.display='block';
+   if(heading)heading.style.display='block';
+   if(inputs)inputs.style.display='flex';
    if(secR)secR.style.display='flex';
    if(topBar)topBar.classList.remove('lower-closed');
    btn.setAttribute('aria-expanded','true');
    icon.style.transform='rotate(180deg)';
   }else{
-   sec.style.display='none';
+   if(heading)heading.style.display='none';
+   if(inputs)inputs.style.display='none';
    if(secR)secR.style.display='none';
    if(topBar)topBar.classList.add('lower-closed');
    btn.setAttribute('aria-expanded','false');
@@ -1702,7 +1703,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){var m=docum
  }
  setOpen(false);
  btn.addEventListener('click',function(){
-  setOpen(sec.style.display==='none'||sec.style.display==='');
+  var closed=!heading||heading.style.display==='none'||heading.style.display==='';
+  setOpen(closed);
  });
 })();
 </script>
