@@ -64,6 +64,10 @@
     <div id="hint-verheiratet" style="font-size:10.5px;color:rgba(255,255,255,.65);line-height:1.5">
      Ehegattensplitting wird angewendet: das gemeinsame Einkommen wird halbiert, jede Person zum halben Betrag besteuert.
     </div>
+    <div id="p2-simple-hint" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,.7);line-height:1.5;display:none">
+     Person 2 wird mit gleichen Parametern wie Person 1 berechnet.
+     <button id="btn-p2-expand" type="button" style="background:none;border:none;color:#F15A24;font-size:11px;font-weight:700;cursor:pointer;padding:0;font-family:inherit;text-decoration:underline;text-underline-offset:2px;margin-left:4px">Individuelle Parameter ▸</button>
+    </div>
         <div id="person2-params" style="display:none">
          <input type="hidden" id="v-spar2" value="150">
          <input type="hidden" id="v-alter2" value="35">
@@ -444,7 +448,10 @@
     </table>
     <div id="rw-zwei-personen" style="display:none;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)">
      <p style="font-weight:700;color:#F15A24;font-size:13px;margin:0 0 10px">👥 Berechnung für 2 Personen</p>
-     <p style="font-size:11px;color:rgba(255,255,255,.75);margin:0 0 10px;line-height:1.7">Jede Person wird <strong style="color:#fff">vollständig separat</strong> berechnet – mit eigenem Alter, eigenem Renteneintritt, eigener Sparrate und eigenem Steuersatz. Die Ergebnisse werden anschließend zum Haushaltswert addiert.</p>
+     <div id="rw-p2-mode-hint" style="margin-bottom:10px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)">
+      <p id="rw-p2-simple-txt" style="font-size:11px;color:rgba(255,255,255,.8);margin:0;line-height:1.6"><strong style="color:#fff">Vereinfachter Modus:</strong> Beide Personen haben identische Parameter (Sparrate, Alter, Renteneintritt). Das Ergebnis entspricht dem Doppelten einer Einzelperson. Für unterschiedliche Parameter kann der individuelle Modus aktiviert werden.</p>
+      <p id="rw-p2-individual-txt" style="font-size:11px;color:rgba(255,255,255,.8);margin:0;line-height:1.6;display:none"><strong style="color:#fff">Individueller Modus:</strong> Jede Person wird <strong style="color:#fff">vollständig separat</strong> berechnet – mit eigenem Alter, Renteneintritt, Sparrate und Steuersatz. Die Ergebnisse werden zum Haushaltswert addiert.</p>
+     </div>
      <p style="font-weight:600;color:#fff;font-size:12px;margin:0 0 6px">Staatliche Zulagen</p>
      <table style="width:100%;font-size:12px;border-collapse:collapse;color:#fff;margin-bottom:10px">
       <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Grundzulage P1</td><td id="rw2-gz1" style="text-align:right;font-weight:600;color:#4ade80">–</td></tr>
@@ -519,6 +526,34 @@
  </div>
 </div>
 <script>var ST={eink:5000,eink2:5000,verheiratet:true,alter:35,rentenAlter:67,depotAlter:85,steuersatzRente:0,kosten:1.0,kostenEtf:1.0,kinderAnzahl:0,kinderAlter:[],erw:1,spar:150,rend:6,reinvest:true,einmalPct:0,alter2:35,rentenAlter2:67,depotAlter2:85,steuersatzRente2:0,einmalPct2:0,spar2:150};
+var p2Individual=false;
+function syncP2FromP1(){
+ ST.spar2=ST.spar;ST.alter2=ST.alter;ST.rentenAlter2=ST.rentenAlter;
+ ST.depotAlter2=ST.depotAlter;ST.einmalPct2=ST.einmalPct;ST.steuersatzRente2=ST.steuersatzRente;
+ // sync dual grid display
+ var ds2=document.getElementById('ds-spar2');if(ds2){ds2.value=ST.spar2;var df2=document.getElementById('df-spar2');if(df2)df2.style.width=((ST.spar2-10)/(570-10)*100)+'%';}
+ var da2=document.getElementById('da-alter2');if(da2)da2.value=ST.alter2;
+ var dr2=document.getElementById('dr-rente2');if(dr2)dr2.value=ST.rentenAlter2;
+}
+function setP2Individual(val){
+ p2Individual=val;
+ var hint=document.getElementById('p2-simple-hint');
+ var btn=document.getElementById('btn-p2-expand');
+ var dualGrid=document.getElementById('dual-params-top');
+ if(!hint)return;
+ if(ST.erw!==2){hint.style.display='none';return;}
+ hint.style.display='block';
+ if(btn)btn.textContent=val?'◂ Gleiche Parameter verwenden':'Individuelle Parameter ▸';
+ // P2 column in dual grid
+ var p2cols=document.querySelectorAll('.d-p2-col');
+ p2cols.forEach(function(el){el.style.display=val?'':'none';});
+ // P2 bottom rows (depotalter2, einmal2 always shown when dual; srate2/eink2 only getrennt)
+ var d2r=document.getElementById('depotalter2-row');
+ var e2r=document.getElementById('einmal2-row');
+ if(d2r)d2r.style.display=val?'block':'none';
+ if(e2r)e2r.style.display=val?'block':'none';
+ if(!val){syncP2FromP1();}
+}
 function fEFull(v){return new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v);}
 function fE(v,c){
  if(c&&v>=1e6)return(v/1e6).toFixed(2).replace('.',',')+' Mio. €';
@@ -911,6 +946,10 @@ function render(){
  if(rw2){
   if(ST.erw===2&&r._r1&&r._r2){
    rw2.style.display='block';
+   var st=document.getElementById('rw-p2-simple-txt');
+   var it=document.getElementById('rw-p2-individual-txt');
+   if(st)st.style.display=p2Individual?'none':'block';
+   if(it)it.style.display=p2Individual?'block':'none';
    document.getElementById('rw2-gz1').textContent=fE(r._r1.gz,true);
    document.getElementById('rw2-gz2').textContent=fE(r._r2.gz,true);
    document.getElementById('rw2-kz1').textContent=fE(r._r1.kz,true);
@@ -1316,13 +1355,13 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
 function syncSlider(key,sId,vId,fId,fmt,maxCap){
  var sl=document.getElementById(sId),vi=document.getElementById(vId),fi=document.getElementById(fId);
  function upFill(){var pct=(parseFloat(sl.value)-parseFloat(sl.min))/(parseFloat(sl.max)-parseFloat(sl.min))*100;fi.style.width=pct+'%';}
- sl.addEventListener('input',function(){var v=parseFloat(sl.value);ST[key]=v;vi.value=fmt?fmt(v):v;upFill();debouncedRender();});
+ sl.addEventListener('input',function(){var v=parseFloat(sl.value);ST[key]=v;vi.value=fmt?fmt(v):v;upFill();if(!p2Individual&&ST.erw===2)syncP2FromP1();debouncedRender();});
  vi.addEventListener('change',function(){
   var raw=vi.value.replace(/\./g,'').replace(',','.').replace(/[^\d.]/g,'');
   var v=parseFloat(raw);if(isNaN(v))return;
   if(maxCap!=null)v=Math.min(v,maxCap);
   v=Math.min(parseFloat(sl.max),Math.max(parseFloat(sl.min),v));
-  ST[key]=v;sl.value=v;vi.value=fmt?fmt(v):v;upFill();debouncedRender();
+  ST[key]=v;sl.value=v;vi.value=fmt?fmt(v):v;upFill();if(!p2Individual&&ST.erw===2)syncP2FromP1();debouncedRender();
  });
  upFill();
 }
@@ -1333,6 +1372,7 @@ document.getElementById('v-depotalter').addEventListener('change',function(){
  var v=Math.max(Math.max(85,ST.rentenAlter+1),Math.min(120,parseInt(this.value)||85));
  this.value=v;
  ST.depotAlter=v;
+ if(!p2Individual&&ST.erw===2)syncP2FromP1();
  debouncedRender();
 });
 document.getElementById('v-depotalter').addEventListener('input',function(){
@@ -1352,6 +1392,7 @@ function upRA(){
  if(isNaN(v))v=67;
  v=Math.min(70,Math.max(62,v));
  ST.rentenAlter=v;
+ if(!p2Individual&&ST.erw===2)syncP2FromP1();
  if(viRA) viRA.value=v;
  var pct=(v-62)/(70-62)*100;
  if(fiRA) fiRA.style.width=pct+'%';
@@ -1417,6 +1458,8 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
   ST.erw=parseInt(b.dataset.v);
   document.getElementById('zwei-erw-optionen').style.display=ST.erw===2?'block':'none';
   document.getElementById('person2-params').style.display='none';
+  if(ST.erw===2){p2Individual=false;syncP2FromP1();}
+  else{var h=document.getElementById('p2-simple-hint');if(h)h.style.display='none';}
   var isDual=ST.erw===2;
   document.getElementById('dual-params-top').style.display=isDual?'block':'none';
   document.getElementById('single-params-alter').style.display=isDual?'none':'';
@@ -1431,13 +1474,11 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
    if(dsrate2) dsrate2.style.display='block';
   }
   document.getElementById('srate2-wrap').style.display=(ST.erw===2&&!ST.verheiratet)?'block':'none';
-  // P2 bottom rows
-  var showP2Bot=ST.erw===2;
+  // P2 bottom rows — controlled by setP2Individual
   var showP2Getrennt=ST.erw===2&&!ST.verheiratet;
-  document.getElementById('depotalter2-row').style.display=showP2Bot?'block':'none';
-  document.getElementById('einmal2-row').style.display=showP2Bot?'block':'none';
   document.getElementById('srate2-bot-row').style.display=showP2Getrennt?'block':'none';
   document.getElementById('eink2-bottom-row').style.display=showP2Getrennt?'block':'none';
+  setP2Individual(false);
   if(document.getElementById('label-eink')) document.getElementById('label-eink').textContent=showP2Bot?'Bruttoeinkommen (Person 1)':'Monatl. Bruttoeinkommen';
   var showSrate1=(ST.erw===2&&!ST.verheiratet);
   var dsr1=document.getElementById('d-srate1-wrap');
@@ -1670,6 +1711,13 @@ function debouncedRender(){
  _renderTimer=setTimeout(function(){render();},60);
 }
 render();
+(function(){
+ var bpe=document.getElementById('btn-p2-expand');
+ if(bpe)bpe.addEventListener('click',function(){
+  setP2Individual(!p2Individual);
+  render();
+ });
+})();
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){var m=document.getElementById('rechenweg-modal');if(m){m.style.display='none';document.body.style.overflow='';}}})</script>
 </body>
 </html>
