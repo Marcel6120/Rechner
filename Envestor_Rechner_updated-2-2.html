@@ -706,21 +706,28 @@ function calc(){
   var r1=calcSingle({spar:s.spar,alter:s.alter,rentenAlter:s.rentenAlter,depotAlter:s.depotAlter,steuersatzRente:s.steuersatzRente,gsatzEff:geff1});
   var r2=calcSingle({spar:s.spar2,alter:s.alter2,rentenAlter:s.rentenAlter2,depotAlter:s.depotAlter2,steuersatzRente:s.steuersatzRente2,gsatzEff:geff2});
   var cAvNetto=r1.avNetto+r2.avNetto,cEtfNetto=r1.etfNetto+r2.etfNetto;
+  var cAvBrutto=r1.avBrutto+r2.avBrutto,cEtfBrutto=r1.etfBrutto+r2.etfBrutto;
+  var cAvSteuer=(cAvBrutto-cAvNetto),cEtfSteuer=(cEtfBrutto-cEtfNetto);
   var einmalFrac=s.einmalPct/100,renteFrac=1-einmalFrac;
+  var cGz=r1.gz+r2.gz,cEoM=s.spar+s.spar2,cZulageM=cGz/(r1.lz*12);
   return{
-   gz:r1.gz+r2.gz,kz:0,st:r1.st+r2.st,
-   end:cAvNetto,etf:cEtfNetto,vort:cAvNetto-cEtfNetto,
-   avBrutto:r1.avBrutto+r2.avBrutto,avNetto:cAvNetto,
-   etfBrutto:r1.etfBrutto+r2.etfBrutto,etfNetto:cEtfNetto,
+   gz:cGz,kz:0,st:r1.st+r2.st,
+   end:cAvNetto,endBrutto:cAvBrutto,etf:cEtfNetto,etfBrutto:cEtfBrutto,vort:cAvNetto-cEtfNetto,
+   avBrutto:cAvBrutto,avNetto:cAvNetto,
+   avSteuer:Math.round(cAvSteuer),
+   etfBrutto:cEtfBrutto,etfNetto:cEtfNetto,
+   etfSteuerAufloesung:Math.round(cEtfSteuer),
    avEntnahmeM:r1.avEntnahmeM+r2.avEntnahmeM,etfEntnahmeM:r1.etfEntnahmeM+r2.etfEntnahmeM,
-   el:r1.avEntnahmeM+r2.avEntnahmeM,eb:s.spar*2,
+   el:r1.avEntnahmeM+r2.avEntnahmeM,eb:cEoM,eoM:cEoM,
    lz:r1.lz,entnahmeJahre:r1.entnahmeJahre,
-   srente:s.steuersatzRente,erw:2,alter:s.alter,fk:0,zulageJ:r1.gz+r2.gz,zulageM:(r1.gz+r2.gz)/12,
+   srente:s.steuersatzRente,erw:2,alter:s.alter,fk:0,
+   zulageJ:cGz,zulageM:cZulageM,
    einmalPct:s.einmalPct,renteFrac:renteFrac,
    auszahlungEinmal:Math.round(cAvNetto*einmalFrac),auszahlungEinmalNetto:Math.round(cAvNetto*einmalFrac),
    auszahlungMonatNetto:Math.round(r1.avEntnahmeM+r2.avEntnahmeM),
    etfEinmalNetto:Math.round(cEtfNetto*einmalFrac),etfMonatNetto:Math.round(r1.etfEntnahmeM+r2.etfEntnahmeM),
-   avSteuerGesamt:0,etfSteuerAufloesung:0,gsatz:geff1,gsatz2:geff2,gsatzEff:geff1,
+   avSteuerGesamt:Math.round(cAvSteuer),etfEinzahlungen:Math.round(cEoM*r1.lz*12),
+   gsatz:geff1,gsatz2:geff2,gsatzEff:geff1,
    breakeven:null,totalVapPaid:0,reinvest:s.reinvest,
    pts:result.pts,_r1:r1,_r2:r2};
  }
