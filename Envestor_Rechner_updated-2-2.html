@@ -487,17 +487,18 @@ function calcSingle(p){
  var jb=p.spar*12,gzErw=gzProErw(jb),gzJ=gzErw,ebM=p.spar;
  var MINDEST_J=120,gzFaktor=(jb<MINDEST_J)?Math.max(0,jb/MINDEST_J):1,gzJKorr=gzJ*gzFaktor;
  var gsatzEff=p.gsatzEff;
- var zulageJ=gzJKorr,zulageM=zulageJ/12;
+ var kzJ=p.kzJ||0;
+ var zulageJ=gzJKorr+kzJ,zulageM=zulageJ/12;
  var foerdJ=Math.min(jb,1800),abzugJ=foerdJ+zulageJ;
  var steuerBrutto=abzugJ*gsatzEff,steuerNetto=Math.max(0,steuerBrutto-zulageJ);
  var elM=Math.max(0,ebM-steuerNetto/12),eoM=ebM;
- var BASISZINS=0.025,VAP_STEUER=0.26375*0.70,VAP_FAKTOR=BASISZINS*0.70;
- var steuerNettoGesamt=0,gzGesamtReal=0,pts=[];
+ var BASISZINS=0.025,VAP_STEUER=0.26375,VAP_FAKTOR=BASISZINS*0.70;
+ var steuerNettoGesamt=0,gzGesamtReal=0,kzGesamtReal=0,pts=[];
  var mr12=Math.pow(1+rendNetto/100,1/12)-1,mr12Etf=Math.pow(1+rendNettoEtf/100,1/12)-1;
  var depotMit=0,depotOhne=0,totalVapPaid=0;
  for(var j=1;j<=lz;j++){
   var gzFJ=(jb<MINDEST_J)?Math.max(0,jb/MINDEST_J):1,gzJJ=gzJ*gzFJ;
-  var zulJahr=gzJJ;gzGesamtReal+=gzJJ;
+  var zulJahr=gzJJ+kzJ;gzGesamtReal+=gzJJ;kzGesamtReal+=kzJ;
   var foJ=Math.min(jb,1800),abJ=foJ+zulJahr,stBJ=abJ*gsatzEff,stNJ=Math.max(0,stBJ-zulJahr);
   steuerNettoGesamt+=stNJ;
   var zulM=zulJahr/12,eiM=ebM+zulM;
@@ -508,8 +509,7 @@ function calcSingle(p){
  }
  var avBrutto=depotMit,etfBrutto=depotOhne;
  var gefoJ=Math.min(1800,jb),ueberJ=Math.max(0,jb-1800);
- var einzGes=jb*lz,zulGes=gzGesamtReal,totEinz=einzGes+zulGes;
- var aGef=totEinz>0?(gefoJ+gzJKorr)*lz/lz:1;
+ var einzGes=jb*lz,zulGes=gzGesamtReal+kzGesamtReal,totEinz=einzGes+zulGes;
  var gefoGes=(gefoJ)*lz,aGefPct=totEinz>0?(gefoGes+zulGes)/totEinz:1;
  var aUbPct=totEinz>0?(ueberJ*lz)/totEinz:0;
  var avGef=avBrutto*aGefPct,avUb=avBrutto*aUbPct;
@@ -527,7 +527,7 @@ function calcSingle(p){
  var nEnt=entnahmeJ*12;
  var avM=mr12E>0?avNetto*mr12E*Math.pow(1+mr12E,nEnt)/(Math.pow(1+mr12E,nEnt)-1):avNetto/nEnt;
  var etfM=mr12EE>0?etfNetto*mr12EE*Math.pow(1+mr12EE,nEnt)/(Math.pow(1+mr12EE,nEnt)-1):etfNetto/nEnt;
- return{gz:gzGesamtReal,kz:0,st:steuerNettoGesamt,avBrutto:avBrutto,avNetto:avNetto,etfBrutto:etfBrutto,etfNetto:etfNetto,avEntnahmeM:avM,etfEntnahmeM:etfM,lz:lz,entnahmeJahre:entnahmeJ,pts:pts};
+ return{gz:gzGesamtReal,kz:kzGesamtReal,st:steuerNettoGesamt,avBrutto:avBrutto,avNetto:avNetto,etfBrutto:etfBrutto,etfNetto:etfNetto,avEntnahmeM:avM,etfEntnahmeM:etfM,lz:lz,entnahmeJahre:entnahmeJ,pts:pts};
 }
 function calc(){
  var s=ST,lz=Math.max(s.rentenAlter-s.alter,1);
@@ -567,7 +567,7 @@ function calc(){
  var elM=Math.max(0,ebM-steuerNettoM);
  var eoM=ebM;
  var BASISZINS=0.025;
- var VAP_STEUER=0.26375*0.70;
+ var VAP_STEUER=0.26375;
  var VAP_FAKTOR=BASISZINS*0.70;
  var steuerNettoGesamt=0;
  var gzGesamtReal=0; 
@@ -706,15 +706,16 @@ function calc(){
   var geff1,geff2;
   if(s.verheiratet){geff1=grenz((s.eink+s.eink2)/2*12);geff2=geff1;}
   else{geff1=gsatz1;geff2=grenz(s.eink2*12);}
-  var r1=calcSingle({spar:s.spar,alter:s.alter,rentenAlter:s.rentenAlter,depotAlter:s.depotAlter,steuersatzRente:s.steuersatzRente,gsatzEff:geff1});
-  var r2=calcSingle({spar:s.spar2,alter:s.alter2,rentenAlter:s.rentenAlter2,depotAlter:s.depotAlter2,steuersatzRente:s.steuersatzRente2,gsatzEff:geff2});
+  var kzJP1=foerderKinder()*300;
+  var r1=calcSingle({spar:s.spar,alter:s.alter,rentenAlter:s.rentenAlter,depotAlter:s.depotAlter,steuersatzRente:s.steuersatzRente,gsatzEff:geff1,kzJ:kzJP1});
+  var r2=calcSingle({spar:s.spar2,alter:s.alter2,rentenAlter:s.rentenAlter2,depotAlter:s.depotAlter2,steuersatzRente:s.steuersatzRente2,gsatzEff:geff2,kzJ:0});
   var cAvNetto=r1.avNetto+r2.avNetto,cEtfNetto=r1.etfNetto+r2.etfNetto;
   var cAvBrutto=r1.avBrutto+r2.avBrutto,cEtfBrutto=r1.etfBrutto+r2.etfBrutto;
   var cAvSteuer=(cAvBrutto-cAvNetto),cEtfSteuer=(cEtfBrutto-cEtfNetto);
   var einmalFrac=s.einmalPct/100,renteFrac=1-einmalFrac;
   var cGz=r1.gz+r2.gz,cEoM=s.spar+s.spar2,cZulageM=cGz/(r1.lz*12);
   return{
-   gz:cGz,kz:0,st:r1.st+r2.st,
+   gz:cGz,kz:r1.kz+r2.kz,st:r1.st+r2.st,
    end:cAvNetto,endBrutto:cAvBrutto,etf:cEtfNetto,etfBrutto:cEtfBrutto,vort:cAvNetto-cEtfNetto,
    avBrutto:cAvBrutto,avNetto:cAvNetto,
    avSteuer:Math.round(cAvSteuer),
