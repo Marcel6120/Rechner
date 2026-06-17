@@ -33,22 +33,21 @@
       <button class="ev-sbtn" data-v="2" style="flex:1;height:30px;padding:0;font-size:13px;font-weight:700;text-align:center;border-radius:6px">2</button>
      </div>
     </div>
-    <div>
+    <div id="verh-toggle-wrap" style="display:none;flex:1;text-align:center;align-self:flex-end;padding-bottom:2px">
+     <label style="display:inline-flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;font-weight:600;color:#fff;user-select:none">
+      <input type="checkbox" id="cb-verheiratet" checked style="width:15px;height:15px;cursor:pointer;accent-color:#F15A24;flex-shrink:0">
+      Steuerlich gemeinsam veranlagt
+      <div class="ev-info" style="display:inline-block"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ehegattensplitting wird angewendet: das gemeinsame Einkommen wird halbiert, jede Person zum halben Betrag besteuert.</div></div>
+     </label>
+    </div>
+    <div style="margin-left:auto">
      <div class="ev-flabel" style="margin-bottom:5px"><span>Kinder</span>
       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">300 € Kinderzulage pro Kind und Jahr – sofern das Kind sich in Ausbildung oder Studium befindet. Als Förderdauer werden durchschnittlich 21 Jahre angenommen.</div></div>
      </div>
      <input type="text" id="v-kinder" value="0" inputmode="numeric" style="display:block;width:72px;height:30px;border:1px solid rgba(255,255,255,.25);border-radius:6px;background:rgba(255,255,255,.1);font-size:13px;font-weight:700;color:#fff;text-align:center;font-family:inherit;padding:0">
     </div>
    </div>
-   <div id="zwei-erw-optionen" style="display:none;margin-top:12px">
-    <div style="display:flex;gap:10px;margin-bottom:10px">
-     <button id="btn-verheiratet" class="ev-sbtn on" style="padding:6px 14px;font-size:12px">Steuerlich gemeinsam veranlagt</button>
-     <button id="btn-unverheiratet" class="ev-sbtn" style="padding:6px 14px;font-size:12px">Einzeln veranlagt</button>
-    </div>
-
-    <div id="hint-verheiratet" style="font-size:10.5px;color:rgba(255,255,255,.65);line-height:1.5">
-     Ehegattensplitting wird angewendet: das gemeinsame Einkommen wird halbiert, jede Person zum halben Betrag besteuert.
-    </div>
+   <div id="zwei-erw-optionen" style="display:none;margin-top:6px">
     <div id="p2-individual-params"></div>
    </div>
    <div class="kinder-ages" id="kinder-ages"></div>
@@ -1270,6 +1269,7 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
   b.classList.add('on');
   ST.erw=parseInt(b.dataset.v);
   document.getElementById('zwei-erw-optionen').style.display=ST.erw===2?'block':'none';
+  var vtw=document.getElementById('verh-toggle-wrap');if(vtw)vtw.style.display=ST.erw===2?'':'none';
   if(ST.erw===1){var lbl=document.getElementById('label-eink');if(lbl)lbl.textContent='Monatl. Bruttoeinkommen';}
   else updateEinkLabel();
   setP2Individual(ST.erw===2);
@@ -1296,10 +1296,9 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
 })();
 function updateVerheiratet(v){
  ST.verheiratet=v;
- document.getElementById('btn-verheiratet').classList.toggle('on',v);
- document.getElementById('btn-unverheiratet').classList.toggle('on',!v);
+ var cb=document.getElementById('cb-verheiratet');if(cb)cb.checked=v;
  document.getElementById('eink2-wrap').style.display=v?'none':'block';
- document.getElementById('hint-verheiratet').style.display=v?'block':'none';
+ 
  var lbl=document.getElementById('label-eink');
  if(lbl) lbl.textContent=v?'Gemeinsames Bruttoeinkommen':'Monatl. Bruttoeinkommen';
  render();
@@ -1310,8 +1309,7 @@ function updateEinkLabel(){
  if(ST.erw===2&&ST.verheiratet) lbl.textContent='Gemeinsames Bruttoeinkommen';
  else lbl.textContent='Monatl. Bruttoeinkommen';
 }
-document.getElementById('btn-verheiratet').addEventListener('click',function(){updateVerheiratet(true);});
-document.getElementById('btn-unverheiratet').addEventListener('click',function(){updateVerheiratet(false);});
+document.getElementById('cb-verheiratet').addEventListener('change',function(){updateVerheiratet(this.checked);});
 syncSlider('eink2','s-eink2','v-eink2','f-eink2',function(v){return Math.round(v).toLocaleString('de-DE');},null);
 function updateHintGsatz2(){
  var gs2=grenz(ST.eink2*12);
