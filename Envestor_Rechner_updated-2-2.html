@@ -981,31 +981,45 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
   }
   if(window._chartInst){window._chartInst.destroy();window._chartInst=null;}
   var _rentenIdx = rentenIdx;
+  var _rentenIdx2 = null;
+  if(p2Individual && ST.rentenAlter2 !== ST.rentenAlter){
+   var p2RetAge = ST.alter + (ST.rentenAlter2 - ST.alter2);
+   for(var _li=0;_li<labels.length;_li++){if(labels[_li]>=p2RetAge){_rentenIdx2=_li;break;}}
+  }
   var rentnerLine={id:'rentnerLine',afterDraw:function(ch){
+   function drawMarker(ctx3,x,yT,yB,lbl,byOffset,chartArea){
+    ctx3.beginPath();ctx3.moveTo(x,yT+28);ctx3.lineTo(x,yB);
+    ctx3.strokeStyle='rgba(255,255,255,.35)';ctx3.lineWidth=1.5;ctx3.setLineDash([4,4]);ctx3.stroke();
+    ctx3.setLineDash([]);
+    ctx3.font='bold 10.5px DM Sans,system-ui,sans-serif';
+    var tw=ctx3.measureText(lbl).width;
+    var ph=19,pw=tw+16,pr=5,bx=x-pw/2,by=yT+5+byOffset;
+    if(bx<chartArea.left) bx=chartArea.left;
+    if(bx+pw>chartArea.right) bx=chartArea.right-pw;
+    ctx3.fillStyle='rgba(1,32,77,0.95)';
+    ctx3.beginPath();ctx3.roundRect(bx,by,pw,ph,pr);ctx3.fill();
+    ctx3.strokeStyle='rgba(255,255,255,.25)';ctx3.lineWidth=1;
+    ctx3.beginPath();ctx3.roundRect(bx,by,pw,ph,pr);ctx3.stroke();
+    ctx3.fillStyle='#fff';ctx3.textAlign='center';ctx3.textBaseline='middle';
+    ctx3.fillText(lbl,bx+pw/2,by+ph/2);
+    ctx3.fillStyle='rgba(1,32,77,0.95)';
+    ctx3.beginPath();ctx3.moveTo(x-4,by+ph);ctx3.lineTo(x+4,by+ph);ctx3.lineTo(x,by+ph+5);ctx3.closePath();ctx3.fill();
+   }
    var ri=ch.data._rentenIdx;
-   if(ri==null||ri<=0||ri>=ch.data.labels.length) return;
+   var ri2=ch.data._rentenIdx2;
    var meta=ch.getDatasetMeta(0);
-   if(!meta||!meta.data[ri]) return;
-   var ctx3=ch.ctx, x=meta.data[ri].x;
-   var yT=ch.chartArea.top, yB=ch.chartArea.bottom;
+   if(!meta) return;
+   var ctx3=ch.ctx,yT=ch.chartArea.top,yB=ch.chartArea.bottom;
    ctx3.save();
-   ctx3.beginPath();ctx3.moveTo(x,yT+28);ctx3.lineTo(x,yB);
-   ctx3.strokeStyle='rgba(255,255,255,.35)';ctx3.lineWidth=1.5;ctx3.setLineDash([4,4]);ctx3.stroke();
-   ctx3.setLineDash([]);
-   var lbl='Renteneintritt · Alter '+ST.rentenAlter;
-   ctx3.font='bold 10.5px DM Sans,system-ui,sans-serif';
-   var tw=ctx3.measureText(lbl).width;
-   var ph=19,pw=tw+16,pr=5,bx=x-pw/2,by=yT+5;
-   if(bx<ch.chartArea.left) bx=ch.chartArea.left;
-   if(bx+pw>ch.chartArea.right) bx=ch.chartArea.right-pw;
-   ctx3.fillStyle='rgba(1,32,77,0.95)';
-   ctx3.beginPath();ctx3.roundRect(bx,by,pw,ph,pr);ctx3.fill();
-   ctx3.strokeStyle='rgba(255,255,255,.25)';ctx3.lineWidth=1;
-   ctx3.beginPath();ctx3.roundRect(bx,by,pw,ph,pr);ctx3.stroke();
-   ctx3.fillStyle='#fff';ctx3.textAlign='center';ctx3.textBaseline='middle';
-   ctx3.fillText(lbl,bx+pw/2,by+ph/2);
-   ctx3.fillStyle='rgba(1,32,77,0.95)';
-   ctx3.beginPath();ctx3.moveTo(x-4,by+ph);ctx3.lineTo(x+4,by+ph);ctx3.lineTo(x,by+ph+5);ctx3.closePath();ctx3.fill();
+   if(ri!=null&&ri>0&&ri<ch.data.labels.length&&meta.data[ri]){
+    var lbl1=p2Individual?'Rente 1. Erw. · Alter '+ST.rentenAlter:'Renteneintritt · Alter '+ST.rentenAlter;
+    drawMarker(ctx3,meta.data[ri].x,yT,yB,lbl1,0,ch.chartArea);
+   }
+   if(ri2!=null&&ri2>0&&ri2<ch.data.labels.length&&meta.data[ri2]){
+    var x2=meta.data[ri2].x;
+    var samePos=(ri!=null&&Math.abs(meta.data[ri].x-x2)<4);
+    drawMarker(ctx3,x2,yT,yB,'Rente 2. Erw. · Alter '+ST.rentenAlter2,samePos?24:0,ch.chartArea);
+   }
    ctx3.restore();
   }};
   var crosshair={id:'crosshair',afterDraw:function(ch){
@@ -1051,6 +1065,7 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
    data:{
     labels:labels,
     _rentenIdx:_rentenIdx,
+    _rentenIdx2:_rentenIdx2,
     datasets:[
      {label:'AV-Depot',data:dAV,borderColor:'#F15A24',backgroundColor:'rgba(0,0,0,0)',borderWidth:2.5,pointRadius:0,pointHoverRadius:6,pointHoverBackgroundColor:'#F15A24',pointHoverBorderColor:'#fff',pointHoverBorderWidth:2,fill:false,tension:0,spanGaps:true},
      {label:'Fonds-Depot',data:dETF,borderColor:'#ffffff',backgroundColor:'rgba(0,0,0,0)',borderWidth:2,borderDash:[8,5],pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:'#ffffff',pointHoverBorderColor:'#F15A24',pointHoverBorderWidth:2,fill:false,tension:0,spanGaps:true},
