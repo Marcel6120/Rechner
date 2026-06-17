@@ -45,13 +45,7 @@
      <button id="btn-verheiratet" class="ev-sbtn on" style="padding:6px 14px;font-size:12px">Steuerlich gemeinsam veranlagt</button>
      <button id="btn-unverheiratet" class="ev-sbtn" style="padding:6px 14px;font-size:12px">Einzeln veranlagt</button>
     </div>
-    <div id="eink2-wrap" style="display:none">
-     <div class="ev-flabel" style="margin-bottom:4px"><span>Bruttoeinkommen 2. Person</span></div>
-     <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-eink2" value="5.000" inputmode="decimal"><span class="ev-unit">€</span></div>
-      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-eink2"></div><input type="range" id="s-eink2" min="1000" max="25000" step="250" value="5000"></div>
-     </div>
-     <div class="ev-hint" style="color:rgba(255,255,255,.75)">Steuersatz 2. Person: <strong id="hint-gsatz2" style="color:#fff">39 %</strong></div>
-    </div>
+
     <div id="hint-verheiratet" style="font-size:10.5px;color:rgba(255,255,255,.65);line-height:1.5">
      Ehegattensplitting wird angewendet: das gemeinsame Einkommen wird halbiert, jede Person zum halben Betrag besteuert.
     </div>
@@ -64,7 +58,7 @@
   <!-- Sparrate pair -->
   <div class="ev-input-col" style="border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:14px;margin-bottom:14px">
    <div class="ev-flabel" style="margin-bottom:6px">
-    <span>Sparrate</span>
+    <span style="font-size:15px;color:#F15A24">Sparrate</span>
     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Eigenbeitrag pro Person und Vertrag. Grundzulage: 50 % auf den Erstbeitrag + 25 % auf weitere Beiträge bis 1.800 €/Jahr = max. 540 €/Jahr. Maximum: 570 €/Monat (§ 20a EStG).</div></div>
    </div>
    <div class="p2-pair-grid">
@@ -86,7 +80,7 @@
   <!-- Alter pair -->
   <div class="ev-input-col" style="border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:14px;margin-bottom:14px">
    <div class="ev-flabel" style="margin-bottom:6px">
-    <span>Alter</span>
+    <span style="font-size:15px;color:#F15A24">Alter</span>
     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ansparphase bis Renteneintritt. Je früher Sie starten, desto stärker wirkt der Zinseszins.</div></div>
    </div>
    <div class="p2-pair-grid">
@@ -108,7 +102,7 @@
   <!-- Renteneintritt pair -->
   <div class="ev-input-col" style="padding-bottom:0;margin-bottom:0;border-bottom:none">
    <div class="ev-flabel" style="margin-bottom:6px">
-    <span>Renteneintritt</span>
+    <span style="font-size:15px;color:#F15A24">Renteneintritt</span>
     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ab welchem Alter möchten Sie Ihr AV-Depot auszahlen? Korridor: frühestens 62, spätestens 70 Jahre (§ 20a EStG). Je später der Rentenbeginn, desto länger die Ansparphase. Ertragsanteil bei 67 Jahren: <span id="hint-ea-tip">17</span> %.</div></div>
    </div>
    <div class="p2-pair-grid">
@@ -166,6 +160,13 @@
     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-eink"></div><input type="range" id="s-eink" min="1000" max="25000" step="250" value="5000"></div>
    </div>
    <div class="ev-hint">Ihr aktueller Steuersatz: <strong id="hint-gsatz" style="color:#fff">25 %</strong></div>
+   <div id="eink2-wrap" style="display:none;margin-top:12px">
+    <div class="ev-flabel" style="margin-bottom:4px"><span>Bruttoeinkommen 2. Person</span></div>
+    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-eink2" value="5.000" inputmode="decimal"><span class="ev-unit">€</span></div>
+     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-eink2"></div><input type="range" id="s-eink2" min="1000" max="25000" step="250" value="5000"></div>
+    </div>
+    <div class="ev-hint" style="color:rgba(255,255,255,.75)">Steuersatz 2. Person: <strong id="hint-gsatz2" style="color:#fff">39 %</strong></div>
+   </div>
   </div>
   <div style="grid-column:1/-1;margin-top:14px;margin-bottom:16px">
    <div class="ev-flabel" style="margin-bottom:6px">
