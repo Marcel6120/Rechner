@@ -228,6 +228,10 @@
    </div>
    <div id="r-zul" style="display:none">–</div>
    <div id="r-zul-sub" style="display:none">–</div>
+   <div id="r-nettorente-box" style="display:none;margin-top:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:12px 16px;text-align:center">
+    <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,.75);margin-bottom:4px">Ihre geschätzte Nettorente</div>
+    <div id="r-nettorente-val" style="font-size:22px;font-weight:800;color:#fff">–</div>
+   </div>
   </div>
  </div>
  <div class="ev-results-wrap" style="grid-column:2;grid-row:4;min-width:0">
@@ -957,6 +961,8 @@ function render(){
  if(lblMonatEtf) lblMonatEtf.textContent='Klassisches Fondsdepot';
  if(document.getElementById('r-monat-netto')) document.getElementById('r-monat-netto').textContent=fE2(r.auszahlungMonatNetto)+' / Monat';
 if(document.getElementById('r-monat-netto-img')) document.getElementById('r-monat-netto-img').textContent=fE2(r.auszahlungMonatNetto)+' / Monat';
+ var nrBox=document.getElementById('r-nettorente-box');
+ if(nrBox){nrBox.style.display=r.auszahlungMonatNetto?'block':'none';var nrVal=document.getElementById('r-nettorente-val');if(nrVal)nrVal.textContent=fE2(r.auszahlungMonatNetto)+' / Monat';}
 (function(){
  var show=!!(r._r1&&r._r2);
  var p1txt=show?fE2(Math.round(r._r1.avEntnahmeM)):'';
