@@ -1272,7 +1272,7 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
   ST.erw=parseInt(b.dataset.v);
   document.getElementById('zwei-erw-optionen').style.display=ST.erw===2?'block':'none';
   document.getElementById('eink2-wrap').style.display=(ST.erw===2&&!ST.verheiratet)?'block':'none';
-  var vtw=document.getElementById('verh-toggle-wrap');if(vtw)vtw.style.display=ST.erw===2?'flex':'none';
+  var vtw=document.getElementById('verh-toggle-wrap');if(vtw)vtw.style.display=ST.erw===2?'block':'none';
   if(ST.erw===1){var lbl=document.getElementById('label-eink');if(lbl)lbl.textContent='Monatl. Bruttoeinkommen';}
   else updateEinkLabel();
   setP2Individual(ST.erw===2);
