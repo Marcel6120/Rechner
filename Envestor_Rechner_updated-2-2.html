@@ -55,68 +55,73 @@
     <div id="hint-verheiratet" style="font-size:10.5px;color:rgba(255,255,255,.65);line-height:1.5">
      Ehegattensplitting wird angewendet: das gemeinsame Einkommen wird halbiert, jede Person zum halben Betrag besteuert.
     </div>
-    <div id="p2-simple-hint" style="display:none;margin-top:8px;padding:8px 10px;background:rgba(255,255,255,.06);border-radius:8px;border:1px solid rgba(255,255,255,.1)">
-     <span style="font-size:11px;color:rgba(255,255,255,.75)">Person 2 wird mit gleichen Parametern wie Person 1 berechnet.</span>
-     <button id="btn-p2-expand" type="button" style="display:block;margin-top:5px;background:none;border:none;color:#F15A24;font-size:11px;font-weight:700;cursor:pointer;padding:0;font-family:inherit;text-decoration:underline;text-underline-offset:2px">Individuelle Parameter für Person 2 ▸</button>
-    </div>
     <div id="p2-individual-params"></div>
    </div>
    <div class="kinder-ages" id="kinder-ages"></div>
    <div class="kinder-footnote" id="kinder-footnote">* Kinderzulage max. bis 21 J.</div>
    <div class="ev-warn" id="warn-alter"><strong>Kurze Ansparphase:</strong> Individuelle Prüfung empfohlen.</div>
   </div>
-  <div class="ev-input-col">
-   <div class="ev-flabel"><span>Sparrate pro Person</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Eigenbeitrag pro Person und Vertrag. Bei 2 Erwachsenen zahlt jede Person diesen Betrag. Grundzulage: 50 % auf den Erstbeitrag + 25 % auf weitere Beiträge bis 1.800 €/Jahr = max. 540 €/Jahr (volle Zulage ab 150 €/Monat). Maximum: 570 € / Monat = 6.840 € / Jahr (§ 20a EStG).</div></div>
-   </div>
-   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
-    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar"></div><input type="range" id="s-spar" min="10" max="570" step="5" value="150"></div>
-   </div>
-   <div class="ev-hint"><span id="h150" class="hl-green" style="display:none">✓ Volle Grundzulage erreicht</span><span id="h570"></span></div>
-  </div>
-  <div class="p2-ind-row ev-input-col" style="display:none">
-   <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-    <span style="font-size:14px;font-weight:600;color:#fff">Sparrate</span>
-    <span style="font-size:11px;color:rgba(255,255,255,.45);font-weight:500">2. Person</span>
-   </div>
-   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar2" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
-    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar2"></div><input type="range" id="s-spar2" min="10" max="570" step="5" value="150"></div>
-   </div>
-  </div>
-  <div class="ev-input-col">
-   <div class="ev-flabel"><span>Ihr Alter</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ansparphase bis Alter 67. Je früher Sie starten, desto stärker wirkt der Zinseszins.</div></div>
-   </div>
-   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-alter" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
-    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-alter"></div><input type="range" id="s-alter" min="16" max="66" step="1" value="35"></div>
-   </div>
-   <div class="ev-hint" id="chip-lz-hint" style="color:rgba(255,255,255,.85)">Noch <strong id="chip-lz" style="color:#F15A24">32 Jahre</strong> bis Rente</div>
-  </div>
-  <div class="p2-ind-row ev-input-col" style="display:none">
-   <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-    <span style="font-size:14px;font-weight:600;color:#fff">Alter</span>
-    <span style="font-size:11px;color:rgba(255,255,255,.45);font-weight:500">2. Person</span>
-   </div>
-   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-alter2" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
-    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-alter2"></div><input type="range" id="s-alter2" min="16" max="66" step="1" value="35"></div>
+  <!-- Sparrate pair -->
+  <div class="ev-input-col" style="border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:14px;margin-bottom:14px">
+   <div style="display:flex;gap:12px;align-items:flex-start">
+    <div style="flex:1;min-width:0">
+     <div class="ev-flabel" style="margin-bottom:4px">
+      <span id="lbl-spar">Sparrate</span>
+      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Eigenbeitrag pro Person und Vertrag. Grundzulage: 50 % auf den Erstbeitrag + 25 % auf weitere Beiträge bis 1.800 €/Jahr = max. 540 €/Jahr. Maximum: 570 €/Monat (§ 20a EStG).</div></div>
+     </div>
+     <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
+      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar"></div><input type="range" id="s-spar" min="10" max="570" step="5" value="150"></div>
+     </div>
+     <div class="ev-hint"><span id="h150" class="hl-green" style="display:none">✓ Volle Grundzulage erreicht</span><span id="h570"></span></div>
+    </div>
+    <div class="p2-ind-row" style="display:none;flex:1;min-width:0">
+     <div class="ev-flabel" style="margin-bottom:4px"><span>Sparrate<br><small style="font-size:10px;font-weight:500;color:rgba(255,255,255,.5)">2. Erwachsener</small></span></div>
+     <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar2" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
+      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar2"></div><input type="range" id="s-spar2" min="10" max="570" step="5" value="150"></div>
+     </div>
+    </div>
    </div>
   </div>
-  <div class="ev-input-col">
-   <div class="ev-flabel"><span>Renteneintrittsalter</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ab welchem Alter möchten Sie Ihr AV-Depot auszahlen? Korridor: frühestens 62, spätestens 70 Jahre (§ 20a EStG). Je später der Rentenbeginn, desto länger die Ansparphase. Für Überzahlungen gilt die Ertragsanteilsbesteuerung nach § 22 EStG – bei 67 Jahren sind nur 17 % der Gewinne steuerpflichtig (Ertragsanteil aktuell: <span id="hint-ea-tip">17</span> %).</div></div>
+  <!-- Alter pair -->
+  <div class="ev-input-col" style="border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:14px;margin-bottom:14px">
+   <div style="display:flex;gap:12px;align-items:flex-start">
+    <div style="flex:1;min-width:0">
+     <div class="ev-flabel" style="margin-bottom:4px">
+      <span id="lbl-alter">Ihr Alter</span>
+      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ansparphase bis Renteneintritt. Je früher Sie starten, desto stärker wirkt der Zinseszins.</div></div>
+     </div>
+     <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-alter" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
+      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-alter"></div><input type="range" id="s-alter" min="16" max="66" step="1" value="35"></div>
+     </div>
+     <div class="ev-hint" id="chip-lz-hint" style="color:rgba(255,255,255,.85)">Noch <strong id="chip-lz" style="color:#F15A24">32 Jahre</strong> bis Rente</div>
+    </div>
+    <div class="p2-ind-row" style="display:none;flex:1;min-width:0">
+     <div class="ev-flabel" style="margin-bottom:4px"><span>Alter<br><small style="font-size:10px;font-weight:500;color:rgba(255,255,255,.5)">2. Erwachsener</small></span></div>
+     <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-alter2" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
+      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-alter2"></div><input type="range" id="s-alter2" min="16" max="66" step="1" value="35"></div>
+     </div>
+    </div>
    </div>
-   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-rentenalter" value="67" inputmode="numeric"><span class="ev-unit">J.</span></div>
-    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rentenalter"></div><input type="range" id="s-rentenalter" min="62" max="70" step="1" value="67"></div>
-   </div>
-   <div class="ev-hint" style="display:none"><span id="hint-ea">17</span></div>
   </div>
-  <div class="p2-ind-row ev-input-col" style="display:none">
-   <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-    <span style="font-size:14px;font-weight:600;color:#fff">Renteneintritt</span>
-    <span style="font-size:11px;color:rgba(255,255,255,.45);font-weight:500">2. Person</span>
-   </div>
-   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-rentenalter2" value="67" inputmode="numeric"><span class="ev-unit">J.</span></div>
-    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rentenalter2"></div><input type="range" id="s-rentenalter2" min="62" max="70" step="1" value="67"></div>
+  <!-- Renteneintritt pair -->
+  <div class="ev-input-col" style="padding-bottom:0;margin-bottom:0;border-bottom:none">
+   <div style="display:flex;gap:12px;align-items:flex-start">
+    <div style="flex:1;min-width:0">
+     <div class="ev-flabel" style="margin-bottom:4px">
+      <span id="lbl-rente">Renteneintrittsalter</span>
+      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ab welchem Alter möchten Sie Ihr AV-Depot auszahlen? Korridor: frühestens 62, spätestens 70 Jahre (§ 20a EStG). Je später der Rentenbeginn, desto länger die Ansparphase. Ertragsanteil bei 67 Jahren: <span id="hint-ea-tip">17</span> %.</div></div>
+     </div>
+     <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-rentenalter" value="67" inputmode="numeric"><span class="ev-unit">J.</span></div>
+      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rentenalter"></div><input type="range" id="s-rentenalter" min="62" max="70" step="1" value="67"></div>
+     </div>
+     <div class="ev-hint" style="display:none"><span id="hint-ea">17</span></div>
+    </div>
+    <div class="p2-ind-row" style="display:none;flex:1;min-width:0">
+     <div class="ev-flabel" style="margin-bottom:4px"><span>Renteneintritt<br><small style="font-size:10px;font-weight:500;color:rgba(255,255,255,.5)">2. Erwachsener</small></span></div>
+     <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-rentenalter2" value="67" inputmode="numeric"><span class="ev-unit">J.</span></div>
+      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rentenalter2"></div><input type="range" id="s-rentenalter2" min="62" max="70" step="1" value="67"></div>
+     </div>
+    </div>
    </div>
   </div>
  </div>
@@ -426,29 +431,16 @@
 </div>
 <script>var ST={eink:5000,eink2:5000,verheiratet:true,alter:35,rentenAlter:67,depotAlter:85,steuersatzRente:0,kosten:1.0,kostenEtf:1.0,kinderAnzahl:0,kinderAlter:[],erw:1,spar:150,rend:6,reinvest:true,einmalPct:0,alter2:35,rentenAlter2:67,depotAlter2:85,steuersatzRente2:0,einmalPct2:0,spar2:150};
 var p2Individual=false;
-function syncP2FromP1(){
- ST.spar2=ST.spar;ST.alter2=ST.alter;ST.rentenAlter2=ST.rentenAlter;
- ST.depotAlter2=ST.depotAlter;ST.einmalPct2=ST.einmalPct;ST.steuersatzRente2=ST.steuersatzRente;
- var vs2=document.getElementById('v-spar2');if(vs2)vs2.value=ST.spar2;
- var fs2=document.getElementById('f-spar2');var ss2=document.getElementById('s-spar2');
- if(ss2){ss2.value=ST.spar2;if(fs2)fs2.style.width=((ST.spar2-10)/(570-10)*100)+'%';}
- var va2=document.getElementById('v-alter2');if(va2)va2.value=ST.alter2;
- var fa2=document.getElementById('f-alter2');var sa2=document.getElementById('s-alter2');
- if(sa2){sa2.value=ST.alter2;if(fa2)fa2.style.width=((ST.alter2-16)/(66-16)*100)+'%';}
- var vr2=document.getElementById('v-rentenalter2');if(vr2)vr2.value=ST.rentenAlter2;
- var fr2=document.getElementById('f-rentenalter2');var sr2=document.getElementById('s-rentenalter2');
- if(sr2){sr2.value=ST.rentenAlter2;if(fr2)fr2.style.width=((ST.rentenAlter2-62)/(70-62)*100)+'%';}
-}
 function setP2Individual(val){
  p2Individual=val;
- var hint=document.getElementById('p2-simple-hint');
- var btn=document.getElementById('btn-p2-expand');
  var rows=document.querySelectorAll('.p2-ind-row');
- if(ST.erw!==2){if(hint)hint.style.display='none';rows.forEach(function(r){r.style.display='none';});return;}
- if(hint)hint.style.display='block';
- rows.forEach(function(r){r.style.display=val?'':'none';});
- if(btn)btn.textContent=val?'◂ Gleiche Parameter verwenden':'Individuelle Parameter für Person 2 ▸';
- if(!val)syncP2FromP1();
+ rows.forEach(function(r){r.style.display=val?'flex':'none';});
+ var lSpar=document.getElementById('lbl-spar');
+ var lAlter=document.getElementById('lbl-alter');
+ var lRente=document.getElementById('lbl-rente');
+ if(lSpar)lSpar.textContent=val?'Sparrate 1. Erwachsener':'Sparrate';
+ if(lAlter)lAlter.textContent=val?'Alter 1. Erwachsener':'Ihr Alter';
+ if(lRente)lRente.textContent=val?'Renteneintritt 1. Erwachsener':'Renteneintrittsalter';
 }
 function fEFull(v){return new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v);}
 function fE(v,c){
@@ -1221,20 +1213,10 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
   document.getElementById('zwei-erw-optionen').style.display=ST.erw===2?'block':'none';
   if(ST.erw===1){var lbl=document.getElementById('label-eink');if(lbl)lbl.textContent='Monatl. Bruttoeinkommen';}
   else updateEinkLabel();
-  setP2Individual(false);
+  setP2Individual(ST.erw===2);
   render();
  });
 });
-// Sync P2 when P1 sliders change (simplified mode)
-['s-spar','s-alter'].forEach(function(id){
- var el=document.getElementById(id);
- if(el)el.addEventListener('input',function(){if(!p2Individual&&ST.erw===2)syncP2FromP1();});
-});
-(function(){
- var origUpRA=typeof upRA==='function'?upRA:null;
- var slRAOrig=document.getElementById('s-rentenalter');
- if(slRAOrig)slRAOrig.addEventListener('input',function(){if(!p2Individual&&ST.erw===2)syncP2FromP1();});
-})();
 // P2 individual sliders
 (function(){
  var ss2=document.getElementById('s-spar2'),vs2=document.getElementById('v-spar2'),fs2=document.getElementById('f-spar2');
@@ -1252,8 +1234,6 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
   sr2.addEventListener('input',function(){var v=parseInt(sr2.value);ST.rentenAlter2=v;if(vr2)vr2.value=v;if(fr2)fr2.style.width=((v-62)/(70-62)*100)+'%';debouncedRender();});
   if(vr2)vr2.addEventListener('change',function(){var v=Math.min(70,Math.max(62,parseInt(this.value)||67));ST.rentenAlter2=v;sr2.value=v;this.value=v;if(fr2)fr2.style.width=((v-62)/(70-62)*100)+'%';debouncedRender();});
  }
- var bpe=document.getElementById('btn-p2-expand');
- if(bpe)bpe.addEventListener('click',function(){setP2Individual(!p2Individual);render();});
 })();
 function updateVerheiratet(v){
  ST.verheiratet=v;
