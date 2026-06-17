@@ -382,6 +382,46 @@
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">− Zulage = Erstattung/J</td><td id="rw-st-jahr" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Steuererstattung gesamt</td><td id="rw-st-ges" style="text-align:right;font-weight:700;color:#4ade80">–</td></tr>
     </table>
+    <div id="rw-p2-section" style="display:none;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)">
+     <p style="font-weight:700;color:#F15A24;font-size:13px;margin:0 0 10px">4. Aufteilung 1. und 2. Erwachsener</p>
+     <table style="width:100%;font-size:12px;border-collapse:collapse;color:#fff">
+      <tr style="border-bottom:1px solid rgba(255,255,255,.12)">
+       <td style="padding:4px 0;color:rgba(255,255,255,.6)"></td>
+       <td style="padding:4px 6px;font-weight:700;color:#fff;text-align:right">1. Erwachsener</td>
+       <td style="padding:4px 0;font-weight:700;color:#fff;text-align:right">2. Erwachsener</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
+       <td style="padding:3px 0;color:rgba(255,255,255,.85)">Sparrate / Monat</td>
+       <td id="rw-p1-spar" style="text-align:right;padding-right:6px;font-weight:600;color:#fff">–</td>
+       <td id="rw-p2-spar" style="text-align:right;font-weight:600;color:#fff">–</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
+       <td style="padding:3px 0;color:rgba(255,255,255,.85)">Alter</td>
+       <td id="rw-p1-alter" style="text-align:right;padding-right:6px;font-weight:600;color:#fff">–</td>
+       <td id="rw-p2-alter" style="text-align:right;font-weight:600;color:#fff">–</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
+       <td style="padding:3px 0;color:rgba(255,255,255,.85)">Renteneintritt</td>
+       <td id="rw-p1-rente" style="text-align:right;padding-right:6px;font-weight:600;color:#fff">–</td>
+       <td id="rw-p2-rente" style="text-align:right;font-weight:600;color:#fff">–</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
+       <td style="padding:3px 0;color:rgba(255,255,255,.85)">Grundzulage gesamt</td>
+       <td id="rw-p1-gz" style="text-align:right;padding-right:6px;font-weight:600;color:#4ade80">–</td>
+       <td id="rw-p2-gz" style="text-align:right;font-weight:600;color:#4ade80">–</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
+       <td style="padding:3px 0;color:rgba(255,255,255,.85)">Endkapital (netto)</td>
+       <td id="rw-p1-end" style="text-align:right;padding-right:6px;font-weight:600;color:#fff">–</td>
+       <td id="rw-p2-end" style="text-align:right;font-weight:600;color:#fff">–</td>
+      </tr>
+      <tr>
+       <td style="padding:4px 0;font-weight:700;color:#fff">Monatliche Nettorente</td>
+       <td id="rw-p1-monat" style="text-align:right;padding-right:6px;font-weight:700;color:#F15A24">–</td>
+       <td id="rw-p2-monat" style="text-align:right;font-weight:700;color:#F15A24">–</td>
+      </tr>
+     </table>
+    </div>
     <p style="font-size:10px;color:rgba(255,255,255,.7);padding-top:10px">Vorabpauschale: Basiszins 2,5 % p.a. · § 20a EStG (JStG 2024) · Ertragsanteil nach § 22 EStG (60J=22%, 67J=17%, 70J=15%) · Ansparphase bis Renteneintrittsalter · Max. 1.800&nbsp;€/Person/J Eigenbeitrag gefördert · Kirchensteuer nicht berücksichtigt · Steuerberatung empfohlen.</p>
     <div style="margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)">
      <p style="font-weight:700;color:#F15A24;font-size:13px;margin:0 0 10px">📌 Unsere Annahmen</p>
@@ -417,6 +457,14 @@
       <tr>
        <td style="padding:5px 0;font-weight:600;color:#fff">Kosten</td>
        <td style="padding:5px 0">Konstante Kostenquote über die gesamte Laufzeit. Ausgabeaufschläge, Transaktionskosten oder Depotgebühren sind nicht gesondert berücksichtigt.</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
+       <td style="padding:5px 0;font-weight:600;color:#fff">Rendite vor Kosten</td>
+       <td style="padding:5px 0"><span id="rw-rendite">–</span> % p.a. (gewählte Einstellung)</td>
+      </tr>
+      <tr>
+       <td style="padding:5px 0;font-weight:600;color:#fff">Kosten AV-Depot / Fondsdepot</td>
+       <td style="padding:5px 0"><span id="rw-kosten">–</span> % p.a. / <span id="rw-kosten-etf">–</span> % p.a.</td>
       </tr>
      </table>
      <p style="font-size:10px;color:rgba(255,255,255,.5);margin-top:10px;line-height:1.5">Dieser Rechner dient ausschließlich der Orientierung und stellt keine Steuer- oder Anlageberatung dar. Für verbindliche Aussagen wenden Sie sich bitte an einen zugelassenen Steuerberater oder Finanzberater.</p>
@@ -856,6 +904,28 @@ function render(){
  document.getElementById('r-st').textContent=fE(r.st,true);
  if(document.getElementById('rw-st-jahr')) document.getElementById('rw-st-jahr').textContent=fEFull(Math.round(r.st/r.lz));
  if(document.getElementById('rw-st-ges')) document.getElementById('rw-st-ges').textContent=fE(r.st,true);
+ if(document.getElementById('rw-rendite')) document.getElementById('rw-rendite').textContent=ST.rend;
+ if(document.getElementById('rw-kosten')) document.getElementById('rw-kosten').textContent=ST.kosten.toFixed(1);
+ if(document.getElementById('rw-kosten-etf')) document.getElementById('rw-kosten-etf').textContent=(ST.kostenEtf||1).toFixed(1);
+ var rwP2=document.getElementById('rw-p2-section');
+ if(rwP2){
+  rwP2.style.display=p2Individual?'block':'none';
+  if(p2Individual&&r._r1&&r._r2){
+   var s=ST;
+   if(document.getElementById('rw-p1-spar')) document.getElementById('rw-p1-spar').textContent=fEFull(s.spar)+' €';
+   if(document.getElementById('rw-p2-spar')) document.getElementById('rw-p2-spar').textContent=fEFull(s.spar2)+' €';
+   if(document.getElementById('rw-p1-alter')) document.getElementById('rw-p1-alter').textContent=s.alter+' J.';
+   if(document.getElementById('rw-p2-alter')) document.getElementById('rw-p2-alter').textContent=s.alter2+' J.';
+   if(document.getElementById('rw-p1-rente')) document.getElementById('rw-p1-rente').textContent=s.rentenAlter+' J.';
+   if(document.getElementById('rw-p2-rente')) document.getElementById('rw-p2-rente').textContent=s.rentenAlter2+' J.';
+   if(document.getElementById('rw-p1-gz')) document.getElementById('rw-p1-gz').textContent=fE(r._r1.gz,true);
+   if(document.getElementById('rw-p2-gz')) document.getElementById('rw-p2-gz').textContent=fE(r._r2.gz,true);
+   if(document.getElementById('rw-p1-end')) document.getElementById('rw-p1-end').textContent=fEFull(r._r1.avNetto);
+   if(document.getElementById('rw-p2-end')) document.getElementById('rw-p2-end').textContent=fEFull(r._r2.avNetto);
+   if(document.getElementById('rw-p1-monat')) document.getElementById('rw-p1-monat').textContent=fEFull(Math.round(r._r1.avEntnahmeM))+' / Monat';
+   if(document.getElementById('rw-p2-monat')) document.getElementById('rw-p2-monat').textContent=fEFull(Math.round(r._r2.avEntnahmeM))+' / Monat';
+  }
+ }
  if(document.getElementById('rw-eigen-foerd')) document.getElementById('rw-eigen-foerd').textContent=fEFull(Math.min(r.eb*12,1800*r.erw))+'€';
  if(document.getElementById('rw-abzug-gz')) document.getElementById('rw-abzug-gz').textContent=fEFull(r.abzug)+'€';
  if(document.getElementById('rw-gsatz-pct')) document.getElementById('rw-gsatz-pct').textContent=(r.gsatzEff*100).toFixed(0)+' %';
