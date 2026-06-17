@@ -986,42 +986,6 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
    var p2RetAge = ST.alter + (ST.rentenAlter2 - ST.alter2);
    for(var _li=0;_li<labels.length;_li++){if(labels[_li]>=p2RetAge){_rentenIdx2=_li;break;}}
   }
-  var rentnerLine={id:'rentnerLine',afterDraw:function(ch){
-   function drawMarker(ctx3,x,yT,yB,lbl,byOffset,chartArea){
-    ctx3.beginPath();ctx3.moveTo(x,yT+28);ctx3.lineTo(x,yB);
-    ctx3.strokeStyle='rgba(255,255,255,.35)';ctx3.lineWidth=1.5;ctx3.setLineDash([4,4]);ctx3.stroke();
-    ctx3.setLineDash([]);
-    ctx3.font='bold 10.5px DM Sans,system-ui,sans-serif';
-    var tw=ctx3.measureText(lbl).width;
-    var ph=19,pw=tw+16,pr=5,bx=x-pw/2,by=yT+5+byOffset;
-    if(bx<chartArea.left) bx=chartArea.left;
-    if(bx+pw>chartArea.right) bx=chartArea.right-pw;
-    ctx3.fillStyle='rgba(1,32,77,0.95)';
-    ctx3.beginPath();ctx3.roundRect(bx,by,pw,ph,pr);ctx3.fill();
-    ctx3.strokeStyle='rgba(255,255,255,.25)';ctx3.lineWidth=1;
-    ctx3.beginPath();ctx3.roundRect(bx,by,pw,ph,pr);ctx3.stroke();
-    ctx3.fillStyle='#fff';ctx3.textAlign='center';ctx3.textBaseline='middle';
-    ctx3.fillText(lbl,bx+pw/2,by+ph/2);
-    ctx3.fillStyle='rgba(1,32,77,0.95)';
-    ctx3.beginPath();ctx3.moveTo(x-4,by+ph);ctx3.lineTo(x+4,by+ph);ctx3.lineTo(x,by+ph+5);ctx3.closePath();ctx3.fill();
-   }
-   var ri=ch.data._rentenIdx;
-   var ri2=ch.data._rentenIdx2;
-   var meta=ch.getDatasetMeta(0);
-   if(!meta) return;
-   var ctx3=ch.ctx,yT=ch.chartArea.top,yB=ch.chartArea.bottom;
-   ctx3.save();
-   if(ri!=null&&ri>0&&ri<ch.data.labels.length&&meta.data[ri]){
-    var lbl1=p2Individual?'Rente 1. Erw. · Alter '+ST.rentenAlter:'Renteneintritt · Alter '+ST.rentenAlter;
-    drawMarker(ctx3,meta.data[ri].x,yT,yB,lbl1,0,ch.chartArea);
-   }
-   if(ri2!=null&&ri2>0&&ri2<ch.data.labels.length&&meta.data[ri2]){
-    var x2=meta.data[ri2].x;
-    var samePos=(ri!=null&&Math.abs(meta.data[ri].x-x2)<4);
-    drawMarker(ctx3,x2,yT,yB,'Rente 2. Erw. · Alter '+ST.rentenAlter2,samePos?24:0,ch.chartArea);
-   }
-   ctx3.restore();
-  }};
   var crosshair={id:'crosshair',afterDraw:function(ch){
    if(ch._hoverX==null) return;
    var ctx3=ch.ctx,yA=ch.scales.y;
@@ -1074,7 +1038,7 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
      {label:'_steur',data:dSteurAbs,borderColor:'rgba(0,0,0,0)',borderWidth:0,pointRadius:0,fill:false,spanGaps:false}
     ]
    },
-   plugins:[rentnerLine, areaFill],
+   plugins:[areaFill,crosshair],
    options:{
     responsive:true,maintainAspectRatio:false,animation:false,
     interaction:{mode:'index',intersect:false},
