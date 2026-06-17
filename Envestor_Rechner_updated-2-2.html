@@ -63,19 +63,20 @@
   </div>
   <!-- Sparrate pair -->
   <div class="ev-input-col" style="border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:14px;margin-bottom:14px">
+   <div class="ev-flabel" style="margin-bottom:6px">
+    <span>Sparrate</span>
+    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Eigenbeitrag pro Person und Vertrag. Grundzulage: 50 % auf den Erstbeitrag + 25 % auf weitere Beiträge bis 1.800 €/Jahr = max. 540 €/Jahr. Maximum: 570 €/Monat (§ 20a EStG).</div></div>
+   </div>
    <div class="p2-pair-grid">
-    <div class="ev-flabel" style="margin-bottom:4px;grid-column:1">
-     <span id="lbl-spar">Sparrate</span>
-     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Eigenbeitrag pro Person und Vertrag. Grundzulage: 50 % auf den Erstbeitrag + 25 % auf weitere Beiträge bis 1.800 €/Jahr = max. 540 €/Jahr. Maximum: 570 €/Monat (§ 20a EStG).</div></div>
-    </div>
-    <div class="p2-ind-row ev-flabel" style="display:none;margin-bottom:4px;grid-column:2"><span>Sparrate <small style="font-size:10px;font-weight:500;color:rgba(255,255,255,.5)">2. Erwachsener</small></span></div>
-    <div style="grid-column:1;min-width:0">
+    <div style="min-width:0">
+     <div class="p2-person-lbl" style="display:none;font-size:14px;font-weight:600;color:#fff;margin-bottom:4px">1. Erwachsener</div>
      <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar"></div><input type="range" id="s-spar" min="10" max="570" step="5" value="150"></div>
      </div>
      <div class="ev-hint"><span id="h150" class="hl-green" style="display:none">✓ Volle Grundzulage erreicht</span><span id="h570"></span></div>
     </div>
-    <div class="p2-ind-row" style="display:none;grid-column:2;min-width:0">
+    <div class="p2-ind-row" style="display:none;min-width:0">
+     <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:4px">2. Erwachsener</div>
      <div class="ev-row"><div class="ev-numbox" style="width:76px"><input type="text" id="v-spar2" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar2"></div><input type="range" id="s-spar2" min="10" max="570" step="5" value="150"></div>
      </div>
@@ -84,19 +85,20 @@
   </div>
   <!-- Alter pair -->
   <div class="ev-input-col" style="border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:14px;margin-bottom:14px">
+   <div class="ev-flabel" style="margin-bottom:6px">
+    <span>Alter</span>
+    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ansparphase bis Renteneintritt. Je früher Sie starten, desto stärker wirkt der Zinseszins.</div></div>
+   </div>
    <div class="p2-pair-grid">
-    <div class="ev-flabel" style="margin-bottom:4px;grid-column:1">
-     <span id="lbl-alter">Ihr Alter</span>
-     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ansparphase bis Renteneintritt. Je früher Sie starten, desto stärker wirkt der Zinseszins.</div></div>
-    </div>
-    <div class="p2-ind-row ev-flabel" style="display:none;margin-bottom:4px;grid-column:2"><span>Alter <small style="font-size:10px;font-weight:500;color:rgba(255,255,255,.5)">2. Erwachsener</small></span></div>
-    <div style="grid-column:1;min-width:0">
+    <div style="min-width:0">
+     <div class="p2-person-lbl" style="display:none;font-size:14px;font-weight:600;color:#fff;margin-bottom:4px">1. Erwachsener</div>
      <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-alter" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-alter"></div><input type="range" id="s-alter" min="16" max="66" step="1" value="35"></div>
      </div>
      <div class="ev-hint" id="chip-lz-hint" style="color:rgba(255,255,255,.85)">Noch <strong id="chip-lz" style="color:#F15A24">32 Jahre</strong> bis Rente</div>
     </div>
-    <div class="p2-ind-row" style="display:none;grid-column:2;min-width:0">
+    <div class="p2-ind-row" style="display:none;min-width:0">
+     <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:4px">2. Erwachsener</div>
      <div class="ev-row"><div class="ev-numbox" style="width:76px"><input type="text" id="v-alter2" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-alter2"></div><input type="range" id="s-alter2" min="16" max="66" step="1" value="35"></div>
      </div>
@@ -105,19 +107,20 @@
   </div>
   <!-- Renteneintritt pair -->
   <div class="ev-input-col" style="padding-bottom:0;margin-bottom:0;border-bottom:none">
+   <div class="ev-flabel" style="margin-bottom:6px">
+    <span>Renteneintritt</span>
+    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ab welchem Alter möchten Sie Ihr AV-Depot auszahlen? Korridor: frühestens 62, spätestens 70 Jahre (§ 20a EStG). Je später der Rentenbeginn, desto länger die Ansparphase. Ertragsanteil bei 67 Jahren: <span id="hint-ea-tip">17</span> %.</div></div>
+   </div>
    <div class="p2-pair-grid">
-    <div class="ev-flabel" style="margin-bottom:4px;grid-column:1">
-     <span id="lbl-rente">Renteneintrittsalter</span>
-     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ab welchem Alter möchten Sie Ihr AV-Depot auszahlen? Korridor: frühestens 62, spätestens 70 Jahre (§ 20a EStG). Je später der Rentenbeginn, desto länger die Ansparphase. Ertragsanteil bei 67 Jahren: <span id="hint-ea-tip">17</span> %.</div></div>
-    </div>
-    <div class="p2-ind-row ev-flabel" style="display:none;margin-bottom:4px;grid-column:2"><span>Renteneintritt <small style="font-size:10px;font-weight:500;color:rgba(255,255,255,.5)">2. Erwachsener</small></span></div>
-    <div style="grid-column:1;min-width:0">
+    <div style="min-width:0">
+     <div class="p2-person-lbl" style="display:none;font-size:14px;font-weight:600;color:#fff;margin-bottom:4px">1. Erwachsener</div>
      <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-rentenalter" value="67" inputmode="numeric"><span class="ev-unit">J.</span></div>
       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rentenalter"></div><input type="range" id="s-rentenalter" min="62" max="70" step="1" value="67"></div>
      </div>
      <div class="ev-hint" style="display:none"><span id="hint-ea">17</span></div>
     </div>
-    <div class="p2-ind-row" style="display:none;grid-column:2;min-width:0">
+    <div class="p2-ind-row" style="display:none;min-width:0">
+     <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:4px">2. Erwachsener</div>
      <div class="ev-row"><div class="ev-numbox" style="width:76px"><input type="text" id="v-rentenalter2" value="67" inputmode="numeric"><span class="ev-unit">J.</span></div>
       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rentenalter2"></div><input type="range" id="s-rentenalter2" min="62" max="70" step="1" value="67"></div>
      </div>
@@ -436,12 +439,7 @@ function setP2Individual(val){
  var rows=document.querySelectorAll('.p2-ind-row');
  rows.forEach(function(r){r.style.display=val?'':'none';});
  document.querySelectorAll('.p2-pair-grid').forEach(function(g){g.classList.toggle('p2-single',!val);});
- var lSpar=document.getElementById('lbl-spar');
- var lAlter=document.getElementById('lbl-alter');
- var lRente=document.getElementById('lbl-rente');
- if(lSpar)lSpar.textContent=val?'Sparrate 1. Erwachsener':'Sparrate';
- if(lAlter)lAlter.textContent=val?'Alter 1. Erwachsener':'Ihr Alter';
- if(lRente)lRente.textContent=val?'Renteneintritt 1. Erwachsener':'Renteneintrittsalter';
+ document.querySelectorAll('.p2-person-lbl').forEach(function(l){l.style.display=val?'block':'none';});
 }
 setP2Individual(false);
 function fEFull(v){return new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v);}
