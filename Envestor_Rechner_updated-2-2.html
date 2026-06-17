@@ -22,21 +22,6 @@
  </div>
  <div class="ev-main-grid">
  <div class="ev-inputs-bar ev-inputs-top">
-  <div class="ev-input-col">
-   <div class="ev-flabel"><span>Sparrate pro Person</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Eigenbeitrag pro Person und Vertrag. Bei 2 Erwachsenen zahlt jede Person diesen Betrag. Grundzulage: 50 % auf den Erstbeitrag + 25 % auf weitere Beiträge bis 1.800 €/Jahr = max. 540 €/Jahr (volle Zulage ab 150 €/Monat). Maximum: 570 € / Monat = 6.840 € / Jahr (§ 20a EStG).</div></div>
-   </div>
-   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
-    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar"></div><input type="range" id="s-spar" min="10" max="570" step="5" value="150"></div>
-   </div>
-   <div class="ev-hint"><span id="h150" class="hl-green" style="display:none">✓ Volle Grundzulage erreicht</span><span id="h570"></span></div>
-  </div>
-  <div class="p2-ind-row ev-input-col" style="display:none">
-   <div class="ev-flabel" style="margin-bottom:4px"><span style="font-size:13px">Sparrate</span><span style="font-size:11px;color:rgba(255,255,255,.5);margin-left:6px">2. Person</span></div>
-   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar2" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
-    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar2"></div><input type="range" id="s-spar2" min="10" max="570" step="5" value="150"></div>
-   </div>
-  </div>
   <div class="ev-input-col ev-input-col-steppers">
    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start">
     <div>
@@ -81,6 +66,24 @@
    <div class="ev-warn" id="warn-alter"><strong>Kurze Ansparphase:</strong> Individuelle Prüfung empfohlen.</div>
   </div>
   <div class="ev-input-col">
+   <div class="ev-flabel"><span>Sparrate pro Person</span>
+    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Eigenbeitrag pro Person und Vertrag. Bei 2 Erwachsenen zahlt jede Person diesen Betrag. Grundzulage: 50 % auf den Erstbeitrag + 25 % auf weitere Beiträge bis 1.800 €/Jahr = max. 540 €/Jahr (volle Zulage ab 150 €/Monat). Maximum: 570 € / Monat = 6.840 € / Jahr (§ 20a EStG).</div></div>
+   </div>
+   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
+    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar"></div><input type="range" id="s-spar" min="10" max="570" step="5" value="150"></div>
+   </div>
+   <div class="ev-hint"><span id="h150" class="hl-green" style="display:none">✓ Volle Grundzulage erreicht</span><span id="h570"></span></div>
+  </div>
+  <div class="p2-ind-row ev-input-col" style="display:none">
+   <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+    <span style="font-size:14px;font-weight:600;color:#fff">Sparrate</span>
+    <span style="font-size:11px;color:rgba(255,255,255,.45);font-weight:500">2. Person</span>
+   </div>
+   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar2" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
+    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar2"></div><input type="range" id="s-spar2" min="10" max="570" step="5" value="150"></div>
+   </div>
+  </div>
+  <div class="ev-input-col">
    <div class="ev-flabel"><span>Ihr Alter</span>
     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ansparphase bis Alter 67. Je früher Sie starten, desto stärker wirkt der Zinseszins.</div></div>
    </div>
@@ -90,7 +93,10 @@
    <div class="ev-hint" id="chip-lz-hint" style="color:rgba(255,255,255,.85)">Noch <strong id="chip-lz" style="color:#F15A24">32 Jahre</strong> bis Rente</div>
   </div>
   <div class="p2-ind-row ev-input-col" style="display:none">
-   <div class="ev-flabel" style="margin-bottom:4px"><span style="font-size:13px">Alter</span><span style="font-size:11px;color:rgba(255,255,255,.5);margin-left:6px">2. Person</span></div>
+   <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+    <span style="font-size:14px;font-weight:600;color:#fff">Alter</span>
+    <span style="font-size:11px;color:rgba(255,255,255,.45);font-weight:500">2. Person</span>
+   </div>
    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-alter2" value="35" inputmode="numeric"><span class="ev-unit">J.</span></div>
     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-alter2"></div><input type="range" id="s-alter2" min="16" max="66" step="1" value="35"></div>
    </div>
@@ -105,7 +111,10 @@
    <div class="ev-hint" style="display:none"><span id="hint-ea">17</span></div>
   </div>
   <div class="p2-ind-row ev-input-col" style="display:none">
-   <div class="ev-flabel" style="margin-bottom:4px"><span style="font-size:13px">Renteneintritt</span><span style="font-size:11px;color:rgba(255,255,255,.5);margin-left:6px">2. Person</span></div>
+   <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+    <span style="font-size:14px;font-weight:600;color:#fff">Renteneintritt</span>
+    <span style="font-size:11px;color:rgba(255,255,255,.45);font-weight:500">2. Person</span>
+   </div>
    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-rentenalter2" value="67" inputmode="numeric"><span class="ev-unit">J.</span></div>
     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rentenalter2"></div><input type="range" id="s-rentenalter2" min="62" max="70" step="1" value="67"></div>
    </div>
