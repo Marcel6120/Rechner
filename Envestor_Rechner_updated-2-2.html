@@ -223,7 +223,7 @@
     </div>
     <a class="ev-cta-link" href="https://envestor.de/altersvorsorgedepot/" target="_blank" rel="noopener noreferrer" aria-label="Jetzt vormerken lassen"></a>
    </div>
-   <div id="r-zul-split" style="display:none;margin-top:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:9px 16px;text-align:center">
+   <div id="r-zul-split" style="display:none;margin-top:8px;flex:1;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:9px 16px;text-align:center;align-items:center;justify-content:center">
     <span style="font-size:14px;font-weight:600;color:#fff">1. Erwachsener: <span id="r-zul-p1">–</span>,&nbsp;&nbsp;2. Erwachsener: <span id="r-zul-p2">–</span></span>
    </div>
    <div id="r-zul" style="display:none">–</div>
@@ -899,7 +899,7 @@ function render(){
   var sp=document.getElementById('r-zul-split');
   if(!sp)return;
   if(r._r1&&r._r2){
-   sp.style.display='block';
+   sp.style.display='flex';
    document.getElementById('r-zul-p1').textContent=fE(r._r1.gz,true);
    document.getElementById('r-zul-p2').textContent=fE(r._r2.gz,true);
   } else {
