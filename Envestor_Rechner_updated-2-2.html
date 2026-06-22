@@ -208,18 +208,18 @@
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
    <!-- Riester -->
    <div id="riester-card-r" style="background:#012660;border:2px solid #0a3070;border-radius:16px;padding:22px;transition:border-color .2s">
-    <div style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:16px">Ihr Riester-Vertrag</div>
-    <div style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:4px">Endkapital</div>
+    <div style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;margin-bottom:16px">Ihr Riester-Vertrag</div>
+    <div style="font-size:13px;color:#fff;margin-bottom:4px">Endkapital</div>
     <div id="r1-kapital" style="font-size:22px;font-weight:800;color:#fff;margin-bottom:16px;line-height:1">–</div>
-    <div style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:6px">Monatsrente</div>
+    <div style="font-size:13px;color:#fff;margin-bottom:6px">Monatsrente</div>
     <div id="r1-rente" style="font-size:32px;font-weight:800;color:#F15A24;line-height:1">–</div>
    </div>
    <!-- AVD -->
    <div id="riester-card-avd" style="background:#012660;border:2px solid #0a3070;border-radius:16px;padding:22px;transition:border-color .2s">
-    <div style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:16px">Altersvorsorgedepot</div>
-    <div style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:4px">Endkapital</div>
+    <div style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;margin-bottom:16px">Altersvorsorgedepot</div>
+    <div style="font-size:13px;color:#fff;margin-bottom:4px">Endkapital</div>
     <div id="r2-kapital" style="font-size:22px;font-weight:800;color:#fff;margin-bottom:16px;line-height:1">–</div>
-    <div style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:6px">Monatsrente</div>
+    <div style="font-size:13px;color:#fff;margin-bottom:6px">Monatsrente</div>
     <div id="r2-rente" style="font-size:32px;font-weight:800;color:#F15A24;line-height:1">–</div>
    </div>
   </div>
@@ -227,20 +227,11 @@
    <div id="riester-tendenz-titel" style="font-size:14px;font-weight:700;color:#F15A24;flex:1">–</div>
    <div id="riester-tendenz-text" style="font-size:12px;color:rgba(255,255,255,.55)">–</div>
   </div>
-  <!-- So haben wir gerechnet -->
-  <div style="margin-top:8px;border-radius:10px;overflow:hidden;background:#012660;border:1px solid #0a3070">
-   <button onclick="this.classList.toggle('open');var b=this.nextElementSibling;b.style.display=b.style.display==='block'?'none':'block'" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;color:#fff;text-align:left">
-    <span>So haben wir gerechnet</span>
-    <span style="font-size:12px;transition:transform .2s;color:rgba(255,255,255,.8)" class="ev-ib-arrow">▼</span>
-   </button>
-   <div style="display:none;padding:0 14px 12px;border-top:1px solid rgba(255,255,255,.07);font-size:11px;color:rgba(255,255,255,.5);line-height:1.7">
-    <p style="padding-top:10px"><strong style="color:rgba(255,255,255,.75)">Riester-Rendite:</strong> Netto-Rendite nach allen internen Kosten. <span id="r-calc-riester-rend">–</span></p>
-    <p style="padding-top:6px"><strong style="color:rgba(255,255,255,.75)">Altersvorsorgedepot:</strong> <span id="r-calc-avd-rend">–</span></p>
-    <p style="padding-top:6px"><strong style="color:rgba(255,255,255,.75)">Zulagen:</strong> <span id="r-calc-zulagen">–</span></p>
-    <p style="padding-top:6px"><strong style="color:rgba(255,255,255,.75)">Entnahmedauer:</strong> <span id="r-calc-entnahme">–</span></p>
-    <p style="padding-top:6px">Orientierungshilfe ohne Gewähr. Annahme: Guthaben übertragbar ohne Rückforderungsabzug. Keine Anlageberatung. Individuelle Vertragsdetails können das Ergebnis wesentlich verändern.</p>
-   </div>
-  </div>
+  <!-- hidden spans for calcRiester (nicht sichtbar) -->
+  <span id="r-calc-riester-rend" style="display:none"></span>
+  <span id="r-calc-avd-rend" style="display:none"></span>
+  <span id="r-calc-zulagen" style="display:none"></span>
+  <span id="r-calc-entnahme" style="display:none"></span>
  </div>
  <div id="ev-details-title" style="grid-column:1/-1;grid-row:4;padding:14px 0 12px;display:none"><p style="color:#fff;font-size:27px;font-weight:400;line-height:1.4;white-space:nowrap">Rente berechnen und mit ungefördertem Fondssparen vergleichen.</p></div>
  <div class="ev-inputs-bar ev-inputs-bottom" style="grid-row:5!important;display:none">
