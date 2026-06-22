@@ -222,11 +222,13 @@
     </div>
     <div id="einmal-hint" style="display:none"></div>
    </div>
-   <div id="lower-steuersatz-row" style="margin-top:18px" class="ev-flabel"><span>Voraussichtlicher Steuersatz im Rentenalter</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">AV-Depot wird bei Auszahlung mit dem pers. Einkommensteuersatz versteuert (§ 20a EStG). Liegt häufig unter dem Erwerbssteuersatz.</div></div>
-   </div>
-   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-srate" value="0" inputmode="numeric"><span class="ev-unit">%</span></div>
-    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-srate"></div><input type="range" id="s-srate" min="0" max="45" step="1" value="0"></div>
+   <div id="lower-steuersatz-row" style="margin-top:18px">
+    <div class="ev-flabel"><span>Voraussichtlicher Steuersatz im Rentenalter</span>
+     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">AV-Depot wird bei Auszahlung mit dem pers. Einkommensteuersatz versteuert (§ 20a EStG). Liegt häufig unter dem Erwerbssteuersatz.</div></div>
+    </div>
+    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-srate" value="0" inputmode="numeric"><span class="ev-unit">%</span></div>
+     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-srate"></div><input type="range" id="s-srate" min="0" max="45" step="1" value="0"></div>
+    </div>
    </div>
   </div>
   <div id="lower-eink-col" class="ev-input-col">
@@ -575,13 +577,12 @@ function openSection(mode){
  if(btn)btn.classList.toggle('open',sectionMode==='wissen');
  if(btnR)btnR.classList.toggle('open',sectionMode==='riester');
  var show=sectionMode!==null;
+ var isRiester=sectionMode==='riester';
  var title=document.getElementById('ev-details-title');
  var inputsBottom=document.querySelector('.ev-inputs-bottom');
  var resultsWrap=document.querySelector('.ev-results-wrap');
- if(title)title.style.display=show?'':'none';
+ if(title)title.style.display=(show&&!isRiester)?'':'none';
  if(inputsBottom)inputsBottom.style.display=show?'':'none';
- // Riester mode: hide chart+results, hide irrelevant inputs
- var isRiester=sectionMode==='riester';
  if(resultsWrap)resultsWrap.style.display=(!show||isRiester)?'none':'';
  riesterOnlyHide.forEach(function(id){
   var el=document.getElementById(id);
@@ -589,6 +590,7 @@ function openSection(mode){
  });
  var rb=document.getElementById('riester-block');
  if(rb)rb.style.display=isRiester?'':'none';
+ if(inputsBottom)inputsBottom.style.gridColumn=isRiester?'1/-1':'';
  if(isRiester)calcRiester();
 }
 function toggleDetails(){openSection('wissen');}
