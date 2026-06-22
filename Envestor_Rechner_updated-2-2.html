@@ -1519,16 +1519,6 @@ function initRiesterDepotControls(){
    calcRiester();
   });
  }
- // Kosten AV-Depot (Riester-eigenes Feld)
- var vkr=document.getElementById('v-riester-kosten');
- var skr=document.getElementById('s-riester-kosten');
- var fkr=document.getElementById('f-riester-kosten');
- var lkr=document.getElementById('riester-kosten-label');
- function syncRK(v){riesterKostenAvd=v;skr.value=v;fkr.style.width=(v/3*100)+'%';var fmt=v.toFixed(1).replace('.',',');vkr.value=fmt;lkr.textContent=fmt+' %';}
- if(vkr){
-  skr.addEventListener('input',function(){syncRK(parseFloat(this.value));calcRiester();});
-  vkr.addEventListener('change',function(){var v=Math.min(3,Math.max(0,parseFloat(this.value.replace(',','.'))||0));syncRK(v);calcRiester();});
- }
 }
 
 function setEinstieg(modus){
@@ -1618,7 +1608,7 @@ function calcRiester(){
  var diff=avdMonatFair-r1Monat;
  var diffPct=Math.round(Math.abs(diff)/Math.max(r1Monat,1)*100);
  if(cardR&&cardA){
-  cardR.style.borderColor=diff<=-diffPct*0?'#F15A24':'#0a3070';
+  cardR.style.borderColor=diff<=0?'#F15A24':'#0a3070';
   cardA.style.borderColor=diff>0?'#F15A24':'#0a3070';
   if(diffPct<5){cardR.style.borderColor='#0a3070';cardA.style.borderColor='#0a3070';}
  }
@@ -1626,16 +1616,16 @@ function calcRiester(){
  var tendenzEl=document.getElementById('riester-tendenz');
  var tTitel=document.getElementById('riester-tendenz-titel');
  var tText=document.getElementById('riester-tendenz-text');
- tendenzEl.style.display='flex';
+ if(tendenzEl)tendenzEl.style.display='flex';
  if(diffPct<5){
-  tTitel.textContent='Kein klarer Unterschied';
-  tText.textContent='';
+  if(tTitel)tTitel.textContent='Kein klarer Unterschied';
+  if(tText)tText.textContent='';
  } else if(diff>0){
-  tTitel.textContent='Altersvorsorgedepot ca. '+diffPct+' % ertragreicher';
-  tText.textContent='';
+  if(tTitel)tTitel.textContent='Altersvorsorgedepot ca. '+diffPct+' % ertragreicher';
+  if(tText)tText.textContent='';
  } else {
-  tTitel.textContent='Riester ca. '+diffPct+' % ertragreicher';
-  tText.textContent='';
+  if(tTitel)tTitel.textContent='Riester ca. '+diffPct+' % ertragreicher';
+  if(tText)tText.textContent='';
  }
 }
 </script>
