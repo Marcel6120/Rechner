@@ -232,17 +232,23 @@
    <!-- Riester -->
    <div id="riester-card-r" style="background:#012660;border:2px solid #0a3070;border-radius:16px;padding:22px;transition:border-color .2s">
     <div style="font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;margin-bottom:16px">Ihr Riester-Vertrag</div>
-    <div style="font-size:13px;color:#fff;margin-bottom:4px">Endkapital</div>
+    <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px">
+     <span style="font-size:13px;color:#fff">Endkapital netto</span>
+     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Geschätztes Endkapital nach Abzug des eingestellten Steuersatzes im Alter. Nachgelagerte Besteuerung: die gesamte Auszahlung wird mit Ihrem persönlichen Einkommensteuersatz versteuert.</div></div>
+    </div>
     <div id="r1-kapital" style="font-size:22px;font-weight:800;color:#fff;margin-bottom:16px;line-height:1">–</div>
-    <div style="font-size:13px;color:#fff;margin-bottom:6px">Monatsrente</div>
+    <div style="font-size:13px;color:#fff;margin-bottom:6px">Monatsrente netto</div>
     <div id="r1-rente" style="font-size:32px;font-weight:800;color:#F15A24;line-height:1">–</div>
    </div>
    <!-- AVD -->
    <div id="riester-card-avd" style="background:#012660;border:2px solid #0a3070;border-radius:16px;padding:22px;transition:border-color .2s">
     <div style="font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;margin-bottom:16px">Altersvorsorgedepot</div>
-    <div style="font-size:13px;color:#fff;margin-bottom:4px">Endkapital</div>
+    <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px">
+     <span style="font-size:13px;color:#fff">Endkapital netto</span>
+     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Geschätztes Endkapital nach Abzug des eingestellten Steuersatzes im Alter. Nachgelagerte Besteuerung: die gesamte Auszahlung wird mit Ihrem persönlichen Einkommensteuersatz versteuert.</div></div>
+    </div>
     <div id="r2-kapital" style="font-size:22px;font-weight:800;color:#fff;margin-bottom:16px;line-height:1">–</div>
-    <div style="font-size:13px;color:#fff;margin-bottom:6px">Monatsrente</div>
+    <div style="font-size:13px;color:#fff;margin-bottom:6px">Monatsrente netto</div>
     <div id="r2-rente" style="font-size:32px;font-weight:800;color:#F15A24;line-height:1">–</div>
    </div>
   </div>
@@ -1670,10 +1676,10 @@ function calcRiester(){
  var avdMonatFair=Math.round(avdMonatBrutto*steuerFaktor);
  function fmtCurrency(v){return v.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:0})+' €';}
  // Beide Karten befüllen (Nettowerte nach Steuer)
- document.getElementById('r1-kapital').textContent=fmtCurrency(Math.round(r1End));
- document.getElementById('r1-rente').textContent=fmtCurrency(r1Monat)+' / Mon. netto';
- document.getElementById('r2-kapital').textContent=fmtCurrency(Math.round(avdEnd));
- document.getElementById('r2-rente').textContent=fmtCurrency(avdMonatFair)+' / Mon. netto';
+ document.getElementById('r1-kapital').textContent=fmtCurrency(Math.round(r1End*steuerFaktor));
+ document.getElementById('r1-rente').textContent=fmtCurrency(r1Monat)+' / Mon.';
+ document.getElementById('r2-kapital').textContent=fmtCurrency(Math.round(avdEnd*steuerFaktor));
+ document.getElementById('r2-rente').textContent=fmtCurrency(avdMonatFair)+' / Mon.';
  // Fülle "So haben wir gerechnet"
  var rCalcR=document.getElementById('r-calc-riester-rend');
  var rCalcA=document.getElementById('r-calc-avd-rend');
