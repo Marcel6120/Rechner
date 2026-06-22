@@ -147,8 +147,9 @@
    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:start">
     <!-- Guthaben -->
     <div>
-     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+     <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
       <span style="font-size:16px;font-weight:600;color:#fff">Aktuelles Guthaben</span>
+      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Dein bestehendes Riester-Guthaben. Für den Vergleich wird angenommen, dass dieser Betrag beim Wechsel zum Altersvorsorgedepot vollständig übertragen wird – ohne Rückforderungsabzug.</div></div>
      </div>
      <div style="display:flex;align-items:center;gap:8px">
       <div style="position:relative;flex-shrink:0;width:110px"><input type="text" id="v-riester-gut" value="15.000" inputmode="decimal" style="width:100%;height:36px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 26px 0 8px;font-size:15px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">€</span></div>
@@ -181,7 +182,7 @@
      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
       <div style="display:flex;align-items:center;gap:6px">
        <span style="font-size:16px;font-weight:600;color:#fff">Rendite Ihres Riester-Vertrags p.a.</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Netto-Rendite nach allen internen Kosten Ihres Riester-Vertrags. Hier den Netto-Wert eintragen (nicht Brutto). Versicherungen: oft 1–2 % netto, Fondssparpläne: 3–5 %. Steht meist im Jahresauszug.</div></div>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bruttorendite Ihres Riester-Vertrags. Die Produktkosten werden automatisch abgezogen. Versicherungen: oft 2–4 % brutto, Fondssparpläne: 4–6 %. Steht meist im Jahresauszug.</div></div>
       </div>
      </div>
      <div class="ev-row">
@@ -214,8 +215,8 @@
     </div>
     <div>
      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
-      <span style="font-size:16px;font-weight:600;color:#fff">Produktkosten AV-Depot p.a.</span>
-      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Jährliche Kosten des Altersvorsorgedepots (ETF-Kosten + ggf. Depotgebühren). Wird von der Bruttorendite abgezogen.</div></div>
+      <span style="font-size:16px;font-weight:600;color:#fff">Produktkosten p.a.</span>
+      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Jährliche Produktkosten – gilt für beide Produkte. Bei Riester und beim Altersvorsorgedepot wird dieser Wert von der jeweiligen Bruttorendite abgezogen.</div></div>
      </div>
      <div class="ev-row">
       <div class="ev-numbox" style="width:70px"><input type="text" id="v-riester-avdkosten" value="0,2" inputmode="decimal"><span class="ev-unit">%</span></div>
@@ -1642,7 +1643,7 @@ function calcRiester(){
  var n=ST.rentenAlter-ST.alter;
  if(n<=0)return;
  // Fix 1: eigene Riester-Rendite statt AVD-Rendite minus Pauschale
- var rRendNetto=riesterRenditeEigen/100;
+ var rRendNetto=Math.max(0,riesterRenditeEigen/100-riesterAvdKosten/100);
  // Fix 2: Grundzulage = 175 € pro Vertrag (ein Vertrag = eine Person)
  var gz=175;
  // Fix 3: ST.kinderAnzahl statt ST.kinder (war immer 0 wegen falscher Variable)
