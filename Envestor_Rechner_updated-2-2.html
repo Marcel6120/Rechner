@@ -1332,6 +1332,39 @@ document.getElementById('v-depotalter').addEventListener('input',function(){
  if(v>ST.rentenAlter){ST.depotAlter=v;debouncedRender();}
 });
 syncSlider('spar','s-spar','v-spar','f-spar',null,570);
+// Sparrate ↔ Riester-Beitrag synchron halten
+(function(){
+ function syncRiesterBeitrag(v){
+  var sb=document.getElementById('s-riester-bei'),vb=document.getElementById('v-riester-bei'),fb=document.getElementById('f-riester-bei');
+  if(!sb)return;
+  var capped=Math.min(500,Math.max(0,v));
+  riesterBeitrag=capped;
+  sb.value=capped;
+  vb.value=capped.toLocaleString('de-DE');
+  fb.style.width=(capped/500*100)+'%';
+ }
+ function syncHauptSpar(v){
+  var ss=document.getElementById('s-spar'),vs=document.getElementById('v-spar'),fs=document.getElementById('f-spar');
+  if(!ss)return;
+  var capped=Math.min(570,Math.max(10,v));
+  ST.spar=capped;
+  ss.value=capped;
+  vs.value=capped;
+  fs.style.width=((capped-10)/(570-10)*100)+'%';
+ }
+ // Haupt-Sparrate → Riester
+ var sSpar=document.getElementById('s-spar'),vSpar=document.getElementById('v-spar');
+ if(sSpar){
+  sSpar.addEventListener('input',function(){syncRiesterBeitrag(parseFloat(this.value));},true);
+  vSpar.addEventListener('change',function(){syncRiesterBeitrag(parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0);},true);
+ }
+ // Riester-Beitrag → Haupt-Sparrate
+ var sRiester=document.getElementById('s-riester-bei'),vRiester=document.getElementById('v-riester-bei');
+ if(sRiester){
+  sRiester.addEventListener('input',function(){syncHauptSpar(parseFloat(this.value));debouncedRender();});
+  vRiester.addEventListener('change',function(){syncHauptSpar(parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0);debouncedRender();});
+ }
+})();
 syncSlider('rend','s-rend','v-rend','f-rend',function(v){return parseFloat(v).toFixed(1).replace('.',',');},null);
 syncSlider('kosten','s-kosten','v-kosten','f-kosten',function(v){return parseFloat(v).toFixed(1).replace('.',',');},null);
 syncSlider('kostenEtf','s-kosten-etf','v-kosten-etf','f-kosten-etf',function(v){return parseFloat(v).toFixed(1).replace('.',',');},null);
