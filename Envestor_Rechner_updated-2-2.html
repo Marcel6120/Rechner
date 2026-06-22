@@ -222,14 +222,14 @@
     </div>
     <div id="einmal-hint" style="display:none"></div>
    </div>
-   <div style="margin-top:18px" class="ev-flabel"><span>Voraussichtlicher Steuersatz im Rentenalter</span>
+   <div id="lower-steuersatz-row" style="margin-top:18px" class="ev-flabel"><span>Voraussichtlicher Steuersatz im Rentenalter</span>
     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">AV-Depot wird bei Auszahlung mit dem pers. Einkommensteuersatz versteuert (§ 20a EStG). Liegt häufig unter dem Erwerbssteuersatz.</div></div>
    </div>
    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-srate" value="0" inputmode="numeric"><span class="ev-unit">%</span></div>
     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-srate"></div><input type="range" id="s-srate" min="0" max="45" step="1" value="0"></div>
    </div>
   </div>
-  <div class="ev-input-col">
+  <div id="lower-eink-col" class="ev-input-col">
    <div class="ev-flabel" style="font-size:16px;font-weight:700"><span id="label-eink">Monatl. Bruttoeinkommen</span>
     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bestimmt den Grenzsteuersatz für die Günstigerprüfung.</div></div>
    </div>
@@ -245,7 +245,7 @@
     <div class="ev-hint" style="color:rgba(255,255,255,.75)">Steuersatz 2. Person: <strong id="hint-gsatz2" style="color:#fff">39 %</strong></div>
    </div>
   </div>
-  <div style="grid-column:1/-1;margin-top:14px;margin-bottom:16px">
+  <div id="lower-reinvest-row" style="grid-column:1/-1;margin-top:14px;margin-bottom:16px">
    <div class="ev-flabel" style="margin-bottom:6px">
     <span style="font-size:14px;font-weight:700;color:#fff">Steuererstattung reinvestieren</span>
     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip"><span id="reinvest-hint">–</span> pro Jahr an Steuervorteilen werden immer zum Jahresende fiktiv als Zusatzrendite auf das Ergebnis des Altersvorsorge-Depots zum Rentenstart ausgewiesen.</div></div>
@@ -269,7 +269,7 @@
     </div>
     <div class="ev-hint" style="display:none">Max. 1 % beim Standarddepot</div>
    </div>
-   <div>
+   <div id="lower-kosten-etf-row">
     <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:4px;display:flex;justify-content:space-between"><span>Kosten Fondsdepot (TER)</span><span id="v-kosten-etf-label" style="color:#F15A24">1,0 %</span></div>
     <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-kosten-etf" value="1,0" inputmode="decimal"><span class="ev-unit">%</span></div>
      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-kosten-etf"></div><input type="range" id="s-kosten-etf" min="0" max="3" step="0.1" value="1.0"></div>
@@ -567,6 +567,7 @@ function setP2Individual(val){
 }
 setP2Individual(false);
 var sectionMode=null;
+var riesterOnlyHide=['lower-steuersatz-row','lower-eink-col','lower-reinvest-row','lower-kosten-etf-row'];
 function openSection(mode){
  if(sectionMode===mode){sectionMode=null;}else{sectionMode=mode;}
  var btn=document.getElementById('btn-details');
@@ -574,11 +575,21 @@ function openSection(mode){
  if(btn)btn.classList.toggle('open',sectionMode==='wissen');
  if(btnR)btnR.classList.toggle('open',sectionMode==='riester');
  var show=sectionMode!==null;
- var els=[document.getElementById('ev-details-title'),document.querySelector('.ev-inputs-bottom'),document.querySelector('.ev-results-wrap')];
- els.forEach(function(el){if(el)el.style.display=show?'':'none';});
+ var title=document.getElementById('ev-details-title');
+ var inputsBottom=document.querySelector('.ev-inputs-bottom');
+ var resultsWrap=document.querySelector('.ev-results-wrap');
+ if(title)title.style.display=show?'':'none';
+ if(inputsBottom)inputsBottom.style.display=show?'':'none';
+ // Riester mode: hide chart+results, hide irrelevant inputs
+ var isRiester=sectionMode==='riester';
+ if(resultsWrap)resultsWrap.style.display=(!show||isRiester)?'none':'';
+ riesterOnlyHide.forEach(function(id){
+  var el=document.getElementById(id);
+  if(el)el.style.display=isRiester?'none':'';
+ });
  var rb=document.getElementById('riester-block');
- if(rb)rb.style.display=sectionMode==='riester'?'':'none';
- if(sectionMode==='riester')calcRiester();
+ if(rb)rb.style.display=isRiester?'':'none';
+ if(isRiester)calcRiester();
 }
 function toggleDetails(){openSection('wissen');}
 function fEFull(v){return new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v);}
