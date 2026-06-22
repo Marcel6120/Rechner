@@ -173,30 +173,32 @@
       <button class="ev-sbtn" data-v="fonds">Fondssparplan</button>
       <button class="ev-sbtn" data-v="unbekannt">Weiß nicht</button>
      </div>
-     <div style="margin-top:10px">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
-       <span style="font-size:14px;font-weight:600;color:#fff">Rentenzahlung bis</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll die Rentenzahlung laufen? Bestimmt die Entnahmedauer für die monatliche Rente.</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px">
-       <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-riester-depotalter" value="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
-       <span style="font-size:11px;color:rgba(255,255,255,.7)">Entnahme: <strong id="riester-hint-entnahme" style="color:#F15A24">18 J.</strong></span>
-      </div>
-     </div>
     </div>
    </div>
-   <!-- Rendite (full width) -->
-   <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08)">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-     <div style="display:flex;align-items:center;gap:6px">
-      <span style="font-size:14px;font-weight:600;color:#fff">Rendite Ihres Riester-Vertrags p.a. <span style="font-size:11px;font-weight:400;color:rgba(255,255,255,.5)">(netto, nach Kosten)</span></span>
-      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Netto-Rendite nach allen internen Kosten Ihres Riester-Vertrags. Hier den Netto-Wert eintragen (nicht Brutto). Versicherungen: oft 1–2 % netto, Fondssparpläne: 3–5 %. Steht meist im Jahresauszug.</div></div>
+   <!-- Rendite + Rentenzahlung bis nebeneinander -->
+   <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start">
+    <div>
+     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:6px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Rendite Ihres Riester-Vertrags p.a. <span style="font-size:11px;font-weight:400;color:rgba(255,255,255,.5)">(netto, nach Kosten)</span></span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Netto-Rendite nach allen internen Kosten Ihres Riester-Vertrags. Hier den Netto-Wert eintragen (nicht Brutto). Versicherungen: oft 1–2 % netto, Fondssparpläne: 3–5 %. Steht meist im Jahresauszug.</div></div>
+      </div>
+      <span id="riester-rend-label" style="font-size:13px;font-weight:700;color:#F15A24">1,5 %</span>
      </div>
-     <span id="riester-rend-label" style="font-size:13px;font-weight:700;color:#F15A24">1,5 %</span>
+     <div class="ev-row">
+      <div class="ev-numbox" style="width:70px"><input type="text" id="v-riester-rend" value="1,5" inputmode="decimal"><span class="ev-unit">%</span></div>
+      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-rend" style="width:18.75%"></div><input type="range" id="s-riester-rend" min="0" max="8" step="0.5" value="1.5"></div>
+     </div>
     </div>
-    <div class="ev-row">
-     <div class="ev-numbox" style="width:70px"><input type="text" id="v-riester-rend" value="1,5" inputmode="decimal"><span class="ev-unit">%</span></div>
-     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-rend" style="width:18.75%"></div><input type="range" id="s-riester-rend" min="0" max="8" step="0.5" value="1.5"></div>
+    <div>
+     <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+      <span style="font-size:14px;font-weight:600;color:#fff">Rentenzahlung bis</span>
+      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll die Rentenzahlung laufen? Bestimmt die Entnahmedauer für die monatliche Rente.</div></div>
+     </div>
+     <div style="display:flex;align-items:center;gap:10px">
+      <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-riester-depotalter" value="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
+      <span style="font-size:11px;color:rgba(255,255,255,.7)">Entnahme: <strong id="riester-hint-entnahme" style="color:#F15A24">18 J.</strong></span>
+     </div>
     </div>
    </div>
   </div>
