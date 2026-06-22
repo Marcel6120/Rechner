@@ -189,9 +189,34 @@
      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-rend" style="width:18.75%"></div><input type="range" id="s-riester-rend" min="0" max="8" step="0.5" value="1.5"></div>
     </div>
    </div>
+   <!-- Rentenzahlung bis (in Riester-Inputs integriert) -->
+   <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start">
+    <div>
+     <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+      <span style="font-size:14px;font-weight:600;color:#fff">Rentenzahlung bis</span>
+      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll die Rentenzahlung laufen? Bestimmt die Entnahmedauer für die monatliche Rente.</div></div>
+     </div>
+     <div style="display:flex;align-items:center;gap:10px">
+      <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-riester-depotalter" value="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
+      <span style="font-size:11px;color:rgba(255,255,255,.7)">Entnahme: <strong id="riester-hint-entnahme" style="color:#F15A24">18 J.</strong></span>
+     </div>
+    </div>
+    <div>
+     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <span style="font-size:14px;font-weight:600;color:#fff">Kosten AV-Depot (Vergleich)</span>
+      <span id="riester-kosten-label" style="font-size:13px;font-weight:700;color:#F15A24">1,0 %</span>
+     </div>
+     <div class="ev-row">
+      <div class="ev-numbox" style="width:70px"><input type="text" id="v-riester-kosten" value="1,0" inputmode="decimal"><span class="ev-unit">%</span></div>
+      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-kosten" style="width:33.3%"></div><input type="range" id="s-riester-kosten" min="0" max="3" step="0.1" value="1.0"></div>
+     </div>
+    </div>
+   </div>
   </div>
-  <!-- Vergleich: Riester vs. AVD -->
-  <div id="riester-ergebnis" style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+ </div>
+ <!-- Ergebnisblock ganz unten -->
+ <div id="riester-results-block" style="display:none;grid-column:1/-1;grid-row:6">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
    <!-- Riester -->
    <div id="riester-card-r" style="background:#012660;border:2px solid #0a3070;border-radius:16px;padding:18px;transition:border-color .2s">
     <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:12px">Ihr Riester-Vertrag</div>
@@ -211,7 +236,6 @@
     <div style="margin-top:10px;font-size:11px;color:rgba(255,255,255,.45)">gleiche Sparrate · gleiche Zulagen</div>
    </div>
   </div>
-  <!-- Tendenz-Zeile -->
   <div id="riester-tendenz" style="margin-top:8px;border-radius:10px;padding:10px 14px;background:rgba(241,90,36,.1);border:1px solid rgba(241,90,36,.25);display:none;align-items:center;gap:10px">
    <div id="riester-tendenz-titel" style="font-size:13px;font-weight:700;color:#F15A24;flex:1">–</div>
    <div id="riester-tendenz-text" style="font-size:11px;color:rgba(255,255,255,.55)">–</div>
@@ -608,7 +632,9 @@ function openSection(mode){
  });
  var rb=document.getElementById('riester-block');
  if(rb)rb.style.display=isRiester?'':'none';
- if(inputsBottom)inputsBottom.style.gridColumn=isRiester?'1/-1':'';
+ var rr=document.getElementById('riester-results-block');
+ if(rr)rr.style.display=isRiester?'':'none';
+ if(inputsBottom)inputsBottom.style.display=isRiester?'none':(show?'':'none');
  if(isRiester)calcRiester();
 }
 function toggleDetails(){openSection('wissen');}
@@ -1487,10 +1513,38 @@ var riesterRenditeEigen=1.5; // vom Slider gesteuert
 
 // Rendite-Defaults je Vertragsart (nach Kosten, realistisch)
 var riesterRenditeDefaults={versicherung:1.5,fonds:4.5,unbekannt:2.5};
+var riesterKostenAvd=1.0; // Kosten AV-Depot für den Vergleich
+
+function initRiesterDepotControls(){
+ // Rentenzahlung bis (Riester-eigenes Feld, synct ST.depotAlter)
+ var vrd=document.getElementById('v-riester-depotalter');
+ var hre=document.getElementById('riester-hint-entnahme');
+ if(vrd){
+  vrd.value=ST.depotAlter||85;
+  if(hre)hre.textContent=((ST.depotAlter||85)-ST.rentenAlter)+' J.';
+  vrd.addEventListener('change',function(){
+   var v=Math.max(ST.rentenAlter+1,Math.min(120,parseInt(this.value)||85));
+   ST.depotAlter=v;vrd.value=v;
+   if(hre)hre.textContent=(v-ST.rentenAlter)+' J.';
+   calcRiester();
+  });
+ }
+ // Kosten AV-Depot (Riester-eigenes Feld)
+ var vkr=document.getElementById('v-riester-kosten');
+ var skr=document.getElementById('s-riester-kosten');
+ var fkr=document.getElementById('f-riester-kosten');
+ var lkr=document.getElementById('riester-kosten-label');
+ function syncRK(v){riesterKostenAvd=v;skr.value=v;fkr.style.width=(v/3*100)+'%';var fmt=v.toFixed(1).replace('.',',');vkr.value=fmt;lkr.textContent=fmt+' %';}
+ if(vkr){
+  skr.addEventListener('input',function(){syncRK(parseFloat(this.value));calcRiester();});
+  vkr.addEventListener('change',function(){var v=Math.min(3,Math.max(0,parseFloat(this.value.replace(',','.'))||0));syncRK(v);calcRiester();});
+ }
+}
 
 function setEinstieg(modus){
  einstiegModus=modus;
 }
+initRiesterDepotControls();
 
 // Vertragsart-Handler: setzt auch Rendite-Default
 document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forEach(function(b){
@@ -1543,9 +1597,11 @@ function calcRiester(){
  else r1End+=(beitragJ+zulagenJ)*n;
  // Fix 4: Entnahmedauer aus Rechner-Einstellungen (Rentenzahlung bis - Renteneintritt)
  var entnahmeJahre=Math.max(1,(ST.depotAlter||85)-ST.rentenAlter);
+ var hre2=document.getElementById('riester-hint-entnahme');
+ if(hre2)hre2.textContent=entnahmeJahre+' J.';
  var r1Monat=Math.round(r1End/(entnahmeJahre*12));
  // Fix 3 (Vergleich): AVD mit GLEICHER Sparrate wie Riester → fairer Vergleich
- var avdRendNetto=Math.max(0,ST.rend/100-ST.kosten/100);
+ var avdRendNetto=Math.max(0,ST.rend/100-riesterKostenAvd/100);
  // AVD-Szenario: Guthaben transferiert (optimistisch, ohne Rückforderungsabzug) + gleiche Beiträge + gleiche Zulagen
  var avdEnd=riesterGuthaben*Math.pow(1+avdRendNetto,n);
  if(avdRendNetto>0)avdEnd+=(beitragJ+zulagenJ)*(Math.pow(1+avdRendNetto,n)-1)/avdRendNetto;
