@@ -203,7 +203,17 @@
      </div>
     </div>
    </div>
+  
+  <div class="ev-input-col">
+   <div class="ev-flabel"><span>Rendite vor Kosten</span>
+    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Langfristig rentieren Aktien bei nominal 8–10 % pro Jahr, Staatsanleihen mit 4,0 bis 5,5 % und diversifizierte Rohstoffkörbe bei 4,0 bis 6,0 % jährlich.</div></div>
+   </div>
+   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-rend" value="6,0" inputmode="decimal"><span class="ev-unit">%</span></div>
+    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rend"></div><input type="range" id="s-rend" min="0" max="12" step="0.5" value="6"></div>
+   </div>
+   <div class="ev-hint" style="display:none"><strong id="rend-netto-hint" style="color:#fff">5,5 %</strong></div>
   </div>
+</div>
  </div>
  <div class="ev-grid-sep"><div class="ev-grid-sep-inner"></div><button id="btn-details" class="ev-sep-circle" onclick="toggleDetails()"><span>Sie wollen es<br>genau wissen?</span><span class="ev-sep-arrow">▼</span></button></div>
  <div id="ev-details-title" style="grid-column:1/-1;grid-row:4;padding:14px 0 12px;display:none"><p style="color:#fff;font-size:27px;font-weight:400;line-height:1.4;white-space:nowrap">Rente berechnen und mit ungefördertem Fondssparen vergleichen.</p></div>
@@ -266,15 +276,6 @@
    </label>
   </div>
   <div class="ev-input-col">
-   <div class="ev-flabel"><span>Rendite vor Kosten</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Langfristig rentieren Aktien bei nominal 8–10 % pro Jahr, Staatsanleihen mit 4,0 bis 5,5 % und diversifizierte Rohstoffkörbe bei 4,0 bis 6,0 % jährlich.</div></div>
-   </div>
-   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-rend" value="6,0" inputmode="decimal"><span class="ev-unit">%</span></div>
-    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rend"></div><input type="range" id="s-rend" min="0" max="12" step="0.5" value="6"></div>
-   </div>
-   <div class="ev-hint" style="display:none"><strong id="rend-netto-hint" style="color:#fff">5,5 %</strong></div>
-  </div>
-  <div class="ev-input-col">
    <div class="ev-flabel" style="margin-bottom:7px"><span>Produktkosten (p.a.)</span>
    </div>
    <div style="margin-bottom:10px">
@@ -310,12 +311,12 @@
    </div>
    <div id="r-zul" style="display:none">–</div>
    <div id="r-zul-sub" style="display:none">–</div>
-  </div>
- </div>
- <div id="r-nettorente-box" style="display:none;grid-column:1/-1;grid-row:2;margin:6px 0 0;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:10px 20px;text-align:center">
-  <div style="display:inline-flex;align-items:center;gap:10px">
-   <span style="font-size:22px;font-weight:800;color:#fff">Ihre geschätzte Nettorente</span>
-   <span id="r-nettorente-val" style="font-size:22px;font-weight:800;color:#F15A24">–</span>
+   <div id="r-nettorente-box" style="display:none;margin-top:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:10px 20px;text-align:center">
+    <div style="display:inline-flex;align-items:center;gap:10px">
+     <span style="font-size:22px;font-weight:800;color:#fff">Ihre geschätzte Nettorente</span>
+     <span id="r-nettorente-val" style="font-size:22px;font-weight:800;color:#F15A24">–</span>
+    </div>
+   </div>
   </div>
  </div>
  <div class="ev-results-wrap" style="grid-column:2;grid-row:5;min-width:0;display:none">
