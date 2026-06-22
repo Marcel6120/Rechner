@@ -183,7 +183,6 @@
        <span style="font-size:14px;font-weight:600;color:#fff">Rendite Ihres Riester-Vertrags p.a. <span style="font-size:11px;font-weight:400;color:rgba(255,255,255,.5)">(netto, nach Kosten)</span></span>
        <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Netto-Rendite nach allen internen Kosten Ihres Riester-Vertrags. Hier den Netto-Wert eintragen (nicht Brutto). Versicherungen: oft 1–2 % netto, Fondssparpläne: 3–5 %. Steht meist im Jahresauszug.</div></div>
       </div>
-      <span id="riester-rend-label" style="font-size:13px;font-weight:700;color:#F15A24">1,5 %</span>
      </div>
      <div class="ev-row">
       <div class="ev-numbox" style="width:70px"><input type="text" id="v-riester-rend" value="1,5" inputmode="decimal"><span class="ev-unit">%</span></div>
@@ -1550,7 +1549,7 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
   var fl=document.getElementById('f-riester-rend');
   var vl=document.getElementById('v-riester-rend');
   var lb=document.getElementById('riester-rend-label');
-  if(sl){sl.value=def;fl.style.width=(def/8*100)+'%';vl.value=def.toFixed(1).replace('.',',');lb.textContent=def.toFixed(1).replace('.',',')+' %';}
+  if(sl){sl.value=def;fl.style.width=(def/8*100)+'%';vl.value=def.toFixed(1).replace('.',',');if(lb)lb.textContent=def.toFixed(1).replace('.',',')+' %';}
   calcRiester();
  });
 });
@@ -1564,10 +1563,10 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
  function fmtDE(n){return n.toLocaleString('de-DE');}
  sg.addEventListener('input',function(){riesterGuthaben=parseFloat(this.value);vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg,0,80000);calcRiester();});
  sb.addEventListener('input',function(){riesterBeitrag=parseFloat(this.value);vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb,0,500);calcRiester();});
- sr.addEventListener('input',function(){riesterRenditeEigen=parseFloat(this.value);var fmt=riesterRenditeEigen.toFixed(1).replace('.',',');vr.value=fmt;lb.textContent=fmt+' %';syncFill(sr,fr,0,8);calcRiester();});
+ sr.addEventListener('input',function(){riesterRenditeEigen=parseFloat(this.value);var fmt=riesterRenditeEigen.toFixed(1).replace('.',',');vr.value=fmt;if(lb)lb.textContent=fmt+' %';syncFill(sr,fr,0,8);calcRiester();});
  vg.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterGuthaben=Math.min(80000,Math.max(0,v));sg.value=riesterGuthaben;vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg,0,80000);calcRiester();});
  vb.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterBeitrag=Math.min(500,Math.max(0,v));sb.value=riesterBeitrag;vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb,0,500);calcRiester();});
- vr.addEventListener('change',function(){var v=parseFloat(this.value.replace(',','.'))||0;riesterRenditeEigen=Math.min(8,Math.max(0,v));sr.value=riesterRenditeEigen;var fmt=riesterRenditeEigen.toFixed(1).replace('.',',');vr.value=fmt;lb.textContent=fmt+' %';syncFill(sr,fr,0,8);calcRiester();});
+ vr.addEventListener('change',function(){var v=parseFloat(this.value.replace(',','.'))||0;riesterRenditeEigen=Math.min(8,Math.max(0,v));sr.value=riesterRenditeEigen;var fmt=riesterRenditeEigen.toFixed(1).replace('.',',');vr.value=fmt;if(lb)lb.textContent=fmt+' %';syncFill(sr,fr,0,8);calcRiester();});
  syncFill(sg,fg,0,80000);syncFill(sb,fb,0,500);syncFill(sr,fr,0,8);
 })();
 
