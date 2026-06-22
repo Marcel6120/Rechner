@@ -279,7 +279,7 @@
     </div>
    </label>
   </div>
-  <div class="ev-input-col">
+  <div id="lower-kosten-col" class="ev-input-col">
    <div class="ev-flabel" style="margin-bottom:7px"><span>Produktkosten (p.a.)</span>
    </div>
    <div style="margin-bottom:10px">
@@ -587,7 +587,7 @@ function setP2Individual(val){
 }
 setP2Individual(false);
 var sectionMode=null;
-var riesterOnlyHide=['lower-einmal-row','lower-steuersatz-row','lower-eink-col','lower-reinvest-row','lower-kosten-etf-row'];
+var riesterOnlyHide=['lower-einmal-row','lower-steuersatz-row','lower-eink-col','lower-reinvest-row','lower-kosten-col'];
 function openSection(mode){
  if(sectionMode===mode){sectionMode=null;}else{sectionMode=mode;}
  var btn=document.getElementById('btn-details');
