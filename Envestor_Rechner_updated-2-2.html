@@ -229,9 +229,9 @@
   </div>
   <!-- So haben wir gerechnet -->
   <div style="margin-top:8px;border-radius:10px;overflow:hidden;background:#012660;border:1px solid #0a3070">
-   <button onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show')" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;color:rgba(255,255,255,.6);text-align:left">
+   <button onclick="this.classList.toggle('open');var b=this.nextElementSibling;b.style.display=b.style.display==='block'?'none':'block'" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;color:#fff;text-align:left">
     <span>So haben wir gerechnet</span>
-    <span style="font-size:12px;transition:transform .2s;color:rgba(255,255,255,.4)" class="ev-ib-arrow">▼</span>
+    <span style="font-size:12px;transition:transform .2s;color:rgba(255,255,255,.8)" class="ev-ib-arrow">▼</span>
    </button>
    <div style="display:none;padding:0 14px 12px;border-top:1px solid rgba(255,255,255,.07);font-size:11px;color:rgba(255,255,255,.5);line-height:1.7">
     <p style="padding-top:10px"><strong style="color:rgba(255,255,255,.75)">Riester-Rendite:</strong> Netto-Rendite nach allen internen Kosten. <span id="r-calc-riester-rend">–</span></p>
@@ -1639,13 +1639,13 @@ function calcRiester(){
  tendenzEl.style.display='flex';
  if(diffPct<5){
   tTitel.textContent='Kein klarer Unterschied';
-  tText.textContent='Beide Wege liegen nah beieinander';
+  tText.textContent='';
  } else if(diff>0){
   tTitel.textContent='Altersvorsorgedepot ca. '+diffPct+' % ertragreicher';
-  tText.textContent='bei gleicher Sparrate & Zulagen';
+  tText.textContent='';
  } else {
   tTitel.textContent='Riester ca. '+diffPct+' % ertragreicher';
-  tText.textContent='bei diesen Annahmen';
+  tText.textContent='';
  }
 }
 </script>
