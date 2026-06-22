@@ -1055,7 +1055,7 @@ function render(){
  if(document.getElementById('r-monat-netto')) document.getElementById('r-monat-netto').textContent=fE2(r.auszahlungMonatNetto)+' / Monat';
 if(document.getElementById('r-monat-netto-img')) document.getElementById('r-monat-netto-img').textContent=fE2(r.auszahlungMonatNetto)+' / Monat';
  var nrBox=document.getElementById('r-nettorente-box');
- if(nrBox){nrBox.style.display=r.auszahlungMonatNetto?'block':'none';var nrVal=document.getElementById('r-nettorente-val');if(nrVal)nrVal.textContent=fE2(r.auszahlungMonatNetto)+' / Monat';}
+ if(nrBox){nrBox.style.display=r.auszahlungMonatNetto?'flex':'none';var nrVal=document.getElementById('r-nettorente-val');if(nrVal)nrVal.textContent=fE2(r.auszahlungMonatNetto)+' / Monat';}
 (function(){
  var show=!!(r._r1&&r._r2);
  var p1txt=show?fE2(Math.round(r._r1.avEntnahmeM)):'';
