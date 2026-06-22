@@ -175,6 +175,20 @@
      </div>
     </div>
    </div>
+   <!-- Rendite Riester -->
+   <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+     <div style="display:flex;align-items:center;gap:6px">
+      <span style="font-size:14px;font-weight:600;color:#fff">Rendite Ihres Riester-Vertrags p.a.</span>
+      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Durchschnittliche jährliche Rendite Ihres Riester-Vertrags nach allen internen Kosten. Versicherungen: oft 1–2 %, Fondssparpläne: 3–5 % je nach Anlage. Steht meist im Jahresauszug.</div></div>
+     </div>
+     <span id="riester-rend-label" style="font-size:13px;font-weight:700;color:#F15A24">1,5 %</span>
+    </div>
+    <div class="ev-row">
+     <div class="ev-numbox" style="width:70px"><input type="text" id="v-riester-rend" value="1,5" inputmode="decimal"><span class="ev-unit">%</span></div>
+     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-rend" style="width:18.75%"></div><input type="range" id="s-riester-rend" min="0" max="8" step="0.5" value="1.5"></div>
+    </div>
+   </div>
   </div>
   <!-- Riester-Ergebnis -->
   <div id="riester-ergebnis" style="margin-top:12px">
@@ -1465,16 +1479,29 @@ var einstiegModus='neu';
 var riesterVertragsart='versicherung';
 var riesterGuthaben=15000;
 var riesterBeitrag=100;
+var riesterRenditeEigen=1.5; // vom Slider gesteuert
+
+// Rendite-Defaults je Vertragsart (nach Kosten, realistisch)
+var riesterRenditeDefaults={versicherung:1.5,fonds:4.5,unbekannt:2.5};
 
 function setEinstieg(modus){
  einstiegModus=modus;
 }
 
+// Vertragsart-Handler: setzt auch Rendite-Default
 document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forEach(function(b){
  b.addEventListener('click',function(){
   riesterVertragsart=this.dataset.v;
   document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forEach(function(x){x.classList.remove('on');});
   this.classList.add('on');
+  // Update rendite slider to type-specific default
+  var def=riesterRenditeDefaults[riesterVertragsart]||2;
+  riesterRenditeEigen=def;
+  var sl=document.getElementById('s-riester-rend');
+  var fl=document.getElementById('f-riester-rend');
+  var vl=document.getElementById('v-riester-rend');
+  var lb=document.getElementById('riester-rend-label');
+  if(sl){sl.value=def;fl.style.width=(def/8*100)+'%';vl.value=def.toFixed(1).replace('.',',');lb.textContent=def.toFixed(1).replace('.',',')+' %';}
   calcRiester();
  });
 });
@@ -1482,69 +1509,64 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
 (function(){
  var sg=document.getElementById('s-riester-gut'),vg=document.getElementById('v-riester-gut'),fg=document.getElementById('f-riester-gut');
  var sb=document.getElementById('s-riester-bei'),vb=document.getElementById('v-riester-bei'),fb=document.getElementById('f-riester-bei');
- function syncFill(s,f){var pct=(s.value-s.min)/(s.max-s.min)*100;f.style.width=pct+'%';}
+ var sr=document.getElementById('s-riester-rend'),vr=document.getElementById('v-riester-rend'),fr=document.getElementById('f-riester-rend');
+ var lb=document.getElementById('riester-rend-label');
+ function syncFill(s,f,mn,mx){var pct=(s.value-mn)/(mx-mn)*100;f.style.width=pct+'%';}
  function fmtDE(n){return n.toLocaleString('de-DE');}
- sg.addEventListener('input',function(){riesterGuthaben=parseFloat(this.value);vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg);calcRiester();});
- sb.addEventListener('input',function(){riesterBeitrag=parseFloat(this.value);vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb);calcRiester();});
- vg.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterGuthaben=Math.min(80000,Math.max(0,v));sg.value=riesterGuthaben;vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg);calcRiester();});
- vb.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterBeitrag=Math.min(500,Math.max(0,v));sb.value=riesterBeitrag;vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb);calcRiester();});
- syncFill(sg,fg);syncFill(sb,fb);
+ sg.addEventListener('input',function(){riesterGuthaben=parseFloat(this.value);vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg,0,80000);calcRiester();});
+ sb.addEventListener('input',function(){riesterBeitrag=parseFloat(this.value);vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb,0,500);calcRiester();});
+ sr.addEventListener('input',function(){riesterRenditeEigen=parseFloat(this.value);var fmt=riesterRenditeEigen.toFixed(1).replace('.',',');vr.value=fmt;lb.textContent=fmt+' %';syncFill(sr,fr,0,8);calcRiester();});
+ vg.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterGuthaben=Math.min(80000,Math.max(0,v));sg.value=riesterGuthaben;vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg,0,80000);calcRiester();});
+ vb.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterBeitrag=Math.min(500,Math.max(0,v));sb.value=riesterBeitrag;vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb,0,500);calcRiester();});
+ vr.addEventListener('change',function(){var v=parseFloat(this.value.replace(',','.'))||0;riesterRenditeEigen=Math.min(8,Math.max(0,v));sr.value=riesterRenditeEigen;var fmt=riesterRenditeEigen.toFixed(1).replace('.',',');vr.value=fmt;lb.textContent=fmt+' %';syncFill(sr,fr,0,8);calcRiester();});
+ syncFill(sg,fg,0,80000);syncFill(sb,fb,0,500);syncFill(sr,fr,0,8);
 })();
 
 function calcRiester(){
  var n=ST.rentenAlter-ST.alter;
  if(n<=0)return;
- var rend=ST.rend/100;
- var gz=ST.erw>=1?175:0;
- var kz=0;
- for(var i=0;i<ST.kinder;i++)kz+=300;
+ // Fix 1: eigene Riester-Rendite statt AVD-Rendite minus Pauschale
+ var rRendNetto=riesterRenditeEigen/100;
+ // Fix 2: Grundzulage = 175 € pro Vertrag (ein Vertrag = eine Person)
+ var gz=175;
+ // Fix 3: ST.kinderAnzahl statt ST.kinder (war immer 0 wegen falscher Variable)
+ var kz=ST.kinderAnzahl*300;
  var zulagenJ=gz+kz;
- // Kosten je Vertragsart
- var rKosten=riesterVertragsart==='versicherung'?0.015:riesterVertragsart==='fonds'?0.01:0.013;
- var rRendNetto=Math.max(0,rend-rKosten);
  var beitragJ=riesterBeitrag*12;
- // Option 1: Riester weiterführen
+ // Riester-Endkapital: Bestandsguthaben + künftige Beiträge + Zulagen
  var r1End=riesterGuthaben*Math.pow(1+rRendNetto,n);
  if(rRendNetto>0)r1End+=(beitragJ+zulagenJ)*(Math.pow(1+rRendNetto,n)-1)/rRendNetto;
  else r1End+=(beitragJ+zulagenJ)*n;
- // Option 2: Riester stilllegen (wächst mit 1% Garantiezins) + AVD mit bisherigem Beitrag
- var rRestRend=riesterVertragsart==='versicherung'?0.01:rend*0.4;
- var riesterRest=riesterGuthaben*Math.pow(1+rRestRend,n);
- // AVD: beitragJ ins Altersvorsorgedepot mit Zulagen
- var avdRend=rend-ST.kosten/100;
- var avdJ=beitragJ+zulagenJ;
- var avdEnd=avdRend>0?avdJ*(Math.pow(1+avdRend,n)-1)/avdRend:avdJ*n;
- var r2End=riesterRest+avdEnd;
- // Auszahlung (vereinfacht: 20 Jahre Entnahme)
- var entnahmeJahre=20;
+ // Fix 4: Entnahmedauer aus Rechner-Einstellungen (Rentenzahlung bis - Renteneintritt)
+ var entnahmeJahre=Math.max(1,(ST.depotAlter||85)-ST.rentenAlter);
  var r1Monat=Math.round(r1End/(entnahmeJahre*12));
- var r2Monat=Math.round(r2End/(entnahmeJahre*12));
+ // Fix 3 (Vergleich): AVD mit GLEICHER Sparrate wie Riester → fairer Vergleich
+ var avdRendNetto=Math.max(0,ST.rend/100-ST.kosten/100);
+ // AVD-Szenario: Guthaben transferiert (optimistisch, ohne Rückforderungsabzug) + gleiche Beiträge + gleiche Zulagen
+ var avdEnd=riesterGuthaben*Math.pow(1+avdRendNetto,n);
+ if(avdRendNetto>0)avdEnd+=(beitragJ+zulagenJ)*(Math.pow(1+avdRendNetto,n)-1)/avdRendNetto;
+ else avdEnd+=(beitragJ+zulagenJ)*n;
+ var avdMonatFair=Math.round(avdEnd/(entnahmeJahre*12));
  function fmtCurrency(v){return v.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:0})+' €';}
  document.getElementById('r1-kapital').textContent=fmtCurrency(Math.round(r1End));
  document.getElementById('r1-rente').textContent=fmtCurrency(r1Monat)+' / Mon.';
- // Tendenz: Riester vs. AVD (aus Hauptrechner)
- var avdMonat=lastCalcResult.auszahlungMonatNetto||0;
+ // Tendenz: Riester vs. AVD mit gleicher Sparrate (fairer Vergleich)
  var tendenzEl=document.getElementById('riester-tendenz');
  var tTitel=document.getElementById('riester-tendenz-titel');
  var tText=document.getElementById('riester-tendenz-text');
  tendenzEl.style.display='block';
- if(!avdMonat){
-  tTitel.textContent='Riester-Hochrechnung berechnet';
-  tText.textContent='Passen Sie oben Alter und Renteneintritt an, um die geschätzte Rente Ihres Riester-Vertrags mit dem Altersvorsorgedepot zu vergleichen.';
+ var diff=avdMonatFair-r1Monat;
+ var base=Math.max(r1Monat,1);
+ var diffPct=Math.round(Math.abs(diff)/base*100);
+ if(diffPct<5){
+  tTitel.textContent='Kein klarer Unterschied – beide Wege liegen nah beieinander';
+  tText.textContent='Bei gleicher monatlicher Einzahlung ('+fmtCurrency(riesterBeitrag)+' / Mon.) liefern Riester-Vertrag und Altersvorsorgedepot unter diesen Annahmen ähnliche Ergebnisse. Tatsächliche Vertragskosten und Garantiekapital können das Bild verändern.';
+ } else if(diff>0){
+  tTitel.textContent='Tendenz: Altersvorsorgedepot voraussichtlich ca. '+diffPct+' % ertragreicher';
+  tText.textContent='Bei gleicher Sparrate ('+fmtCurrency(riesterBeitrag)+' / Mon.) und identischen Zulagen ('+fmtCurrency(gz+ST.kinderAnzahl*300)+' € / J.) käme das Altersvorsorgedepot auf ca. '+fmtCurrency(avdMonatFair)+' / Mon. gegenüber '+fmtCurrency(r1Monat)+' / Mon. aus Ihrem Riester-Vertrag. Annahme: Guthaben übertragbar ohne Rückforderungsabzug.';
  } else {
-  var diff=avdMonat-r1Monat;
-  var base=Math.max(r1Monat,1);
-  var diffPct=Math.round(Math.abs(diff)/base*100);
-  if(diffPct<5){
-   tTitel.textContent='Kein klarer Unterschied – beide Werte liegen nah beieinander';
-   tText.textContent='Riester-Vertrag und Altersvorsorgedepot liefern unter diesen Annahmen ähnliche monatliche Renten. Die tatsächlichen Kosten Ihres Vertrags können das Bild deutlich verändern.';
-  } else if(diff>0){
-   tTitel.textContent='Tendenz: Altersvorsorgedepot voraussichtlich ca. '+diffPct+' % ertragreicher';
-   tText.textContent='Das Altersvorsorgedepot (oben im Bild: '+fmtCurrency(avdMonat)+' / Mon.) läge in diesem Szenario vor Ihrem Riester-Vertrag ('+fmtCurrency(r1Monat)+' / Mon.). Haupttreiber: geringere Kosten und volle Flexibilität beim Altersvorsorgedepot.';
-  } else {
-   tTitel.textContent='Tendenz: Riester-Vertrag könnte ca. '+diffPct+' % mehr liefern';
-   tText.textContent='Ihr Riester-Vertrag ('+fmtCurrency(r1Monat)+' / Mon.) läge in diesem Szenario vor dem Altersvorsorgedepot ('+fmtCurrency(avdMonat)+' / Mon.). Meist durch hohe staatliche Zulagen oder günstige Vertragsbedingungen bedingt.';
-  }
+  tTitel.textContent='Tendenz: Riester-Vertrag könnte ca. '+diffPct+' % mehr liefern';
+  tText.textContent='Bei gleicher Sparrate ('+fmtCurrency(riesterBeitrag)+' / Mon.) käme Ihr Riester-Vertrag auf ca. '+fmtCurrency(r1Monat)+' / Mon. gegenüber '+fmtCurrency(avdMonatFair)+' / Mon. beim Altersvorsorgedepot. Meist durch günstige Vertragsbedingungen oder hohe Kinderzulagen bedingt.';
  }
 }
 </script>
