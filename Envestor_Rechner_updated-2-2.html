@@ -190,29 +190,33 @@
     </div>
    </div>
   </div>
-  <!-- Riester-Ergebnis -->
-  <div id="riester-ergebnis" style="margin-top:12px">
-   <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:20px">
-    <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;margin-bottom:14px">Ihr Riester-Vertrag – Hochrechnung</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:end">
-     <div>
-      <div style="font-size:13px;color:#fff;margin-bottom:6px">Kapital bei Rentenbeginn</div>
-      <div id="r1-kapital" style="font-size:28px;font-weight:800;color:#fff;line-height:1">–</div>
-     </div>
-     <div>
-      <div style="font-size:13px;color:#fff;margin-bottom:6px">Geschätzte monatliche Zusatzrente</div>
-      <div id="r1-rente" style="font-size:28px;font-weight:800;color:#F15A24;line-height:1">–</div>
-     </div>
-    </div>
-    <div style="margin-top:14px;font-size:11px;color:rgba(255,255,255,.75);line-height:1.5">Riester-Beiträge + Zulagen fließen weiter in Ihren bestehenden Vertrag. Kosten & Rendite abhängig von der Vertragsart.</div>
+  <!-- Vergleich: Riester vs. AVD -->
+  <div id="riester-ergebnis" style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+   <!-- Riester -->
+   <div id="riester-card-r" style="background:#012660;border:2px solid #0a3070;border-radius:16px;padding:18px;transition:border-color .2s">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:12px">Ihr Riester-Vertrag</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:2px">Endkapital</div>
+    <div id="r1-kapital" style="font-size:18px;font-weight:800;color:#fff;margin-bottom:12px;line-height:1">–</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:4px">Monatsrente</div>
+    <div id="r1-rente" style="font-size:26px;font-weight:800;color:#F15A24;line-height:1">–</div>
+    <div id="r1-rendite-tag" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,.45)">–</div>
+   </div>
+   <!-- AVD -->
+   <div id="riester-card-avd" style="background:#012660;border:2px solid #0a3070;border-radius:16px;padding:18px;transition:border-color .2s">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:12px">Altersvorsorgedepot</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:2px">Endkapital</div>
+    <div id="r2-kapital" style="font-size:18px;font-weight:800;color:#fff;margin-bottom:12px;line-height:1">–</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:4px">Monatsrente</div>
+    <div id="r2-rente" style="font-size:26px;font-weight:800;color:#F15A24;line-height:1">–</div>
+    <div style="margin-top:10px;font-size:11px;color:rgba(255,255,255,.45)">gleiche Sparrate · gleiche Zulagen</div>
    </div>
   </div>
-  <!-- Tendenz-Banner -->
-  <div id="riester-tendenz" style="margin-top:10px;border-radius:12px;padding:14px 18px;background:rgba(241,90,36,.12);border:1px solid rgba(241,90,36,.3);display:none">
-   <div style="font-size:13px;font-weight:700;color:#F15A24;margin-bottom:3px" id="riester-tendenz-titel">–</div>
-   <div style="font-size:12px;color:rgba(255,255,255,.8);line-height:1.5" id="riester-tendenz-text">–</div>
-   <div style="margin-top:8px;font-size:10px;color:#fff;line-height:1.4">Orientierungshilfe ohne Gewähr. Basiert auf Standardannahmen zu Kosten und Rendite. Keine Anlageberatung. Individuelle Vertragsdetails (Garantiekapital, Rentenfaktor, Übertragungskosten) können das Ergebnis wesentlich verändern.</div>
+  <!-- Tendenz-Zeile -->
+  <div id="riester-tendenz" style="margin-top:8px;border-radius:10px;padding:10px 14px;background:rgba(241,90,36,.1);border:1px solid rgba(241,90,36,.25);display:none;align-items:center;gap:10px">
+   <div id="riester-tendenz-titel" style="font-size:13px;font-weight:700;color:#F15A24;flex:1">–</div>
+   <div id="riester-tendenz-text" style="font-size:11px;color:rgba(255,255,255,.55)">–</div>
   </div>
+  <div style="margin-top:6px;font-size:10px;color:rgba(255,255,255,.3);line-height:1.4">Orientierungshilfe. Annahme: Guthaben übertragbar ohne Rückforderungsabzug. Keine Anlageberatung.</div>
  </div>
  <div id="ev-details-title" style="grid-column:1/-1;grid-row:4;padding:14px 0 12px;display:none"><p style="color:#fff;font-size:27px;font-weight:400;line-height:1.4;white-space:nowrap">Rente berechnen und mit ungefördertem Fondssparen vergleichen.</p></div>
  <div class="ev-inputs-bar ev-inputs-bottom" style="grid-row:5!important;display:none">
@@ -226,7 +230,7 @@
      <span class="ev-hint" style="color:rgba(255,255,255,.85);margin:0">Entnahmedauer: <strong id="hint-entnahme" style="color:#F15A24">18 Jahre</strong></span>
     </div>
    </div>
-   <div style="margin-top:18px">
+   <div id="lower-einmal-row" style="margin-top:18px">
     <div class="ev-flabel" style="margin-bottom:5px"><span>Einmalauszahlung bei Renteneintritt</span>
      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30 % des AV-Depots können als Einmalauszahlung ausgezahlt werden (§ 20a EStG). Die restlichen 70 % fließen als monatliche Rente über mindestens 10 Jahre.</div></div>
     </div>
@@ -583,7 +587,7 @@ function setP2Individual(val){
 }
 setP2Individual(false);
 var sectionMode=null;
-var riesterOnlyHide=['lower-steuersatz-row','lower-eink-col','lower-reinvest-row','lower-kosten-etf-row'];
+var riesterOnlyHide=['lower-einmal-row','lower-steuersatz-row','lower-eink-col','lower-reinvest-row','lower-kosten-etf-row'];
 function openSection(mode){
  if(sectionMode===mode){sectionMode=null;}else{sectionMode=mode;}
  var btn=document.getElementById('btn-details');
@@ -1548,25 +1552,37 @@ function calcRiester(){
  else avdEnd+=(beitragJ+zulagenJ)*n;
  var avdMonatFair=Math.round(avdEnd/(entnahmeJahre*12));
  function fmtCurrency(v){return v.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:0})+' €';}
+ // Beide Karten befüllen
  document.getElementById('r1-kapital').textContent=fmtCurrency(Math.round(r1End));
  document.getElementById('r1-rente').textContent=fmtCurrency(r1Monat)+' / Mon.';
- // Tendenz: Riester vs. AVD mit gleicher Sparrate (fairer Vergleich)
+ document.getElementById('r2-kapital').textContent=fmtCurrency(Math.round(avdEnd));
+ document.getElementById('r2-rente').textContent=fmtCurrency(avdMonatFair)+' / Mon.';
+ var r1Tag=document.getElementById('r1-rendite-tag');
+ if(r1Tag)r1Tag.textContent=riesterRenditeEigen.toFixed(1).replace('.',',')+' % p.a. · '+riesterVertragsart;
+ // Gewinner-Karte hervorheben
+ var cardR=document.getElementById('riester-card-r');
+ var cardA=document.getElementById('riester-card-avd');
+ var diff=avdMonatFair-r1Monat;
+ var diffPct=Math.round(Math.abs(diff)/Math.max(r1Monat,1)*100);
+ if(cardR&&cardA){
+  cardR.style.borderColor=diff<=-diffPct*0?'#F15A24':'#0a3070';
+  cardA.style.borderColor=diff>0?'#F15A24':'#0a3070';
+  if(diffPct<5){cardR.style.borderColor='#0a3070';cardA.style.borderColor='#0a3070';}
+ }
+ // Tendenz-Zeile (kurz)
  var tendenzEl=document.getElementById('riester-tendenz');
  var tTitel=document.getElementById('riester-tendenz-titel');
  var tText=document.getElementById('riester-tendenz-text');
- tendenzEl.style.display='block';
- var diff=avdMonatFair-r1Monat;
- var base=Math.max(r1Monat,1);
- var diffPct=Math.round(Math.abs(diff)/base*100);
+ tendenzEl.style.display='flex';
  if(diffPct<5){
-  tTitel.textContent='Kein klarer Unterschied – beide Wege liegen nah beieinander';
-  tText.textContent='Bei gleicher monatlicher Einzahlung ('+fmtCurrency(riesterBeitrag)+' / Mon.) liefern Riester-Vertrag und Altersvorsorgedepot unter diesen Annahmen ähnliche Ergebnisse. Tatsächliche Vertragskosten und Garantiekapital können das Bild verändern.';
+  tTitel.textContent='Kein klarer Unterschied';
+  tText.textContent='Beide Wege liegen nah beieinander';
  } else if(diff>0){
-  tTitel.textContent='Tendenz: Altersvorsorgedepot voraussichtlich ca. '+diffPct+' % ertragreicher';
-  tText.textContent='Bei gleicher Sparrate ('+fmtCurrency(riesterBeitrag)+' / Mon.) und identischen Zulagen ('+fmtCurrency(gz+ST.kinderAnzahl*300)+' € / J.) käme das Altersvorsorgedepot auf ca. '+fmtCurrency(avdMonatFair)+' / Mon. gegenüber '+fmtCurrency(r1Monat)+' / Mon. aus Ihrem Riester-Vertrag. Annahme: Guthaben übertragbar ohne Rückforderungsabzug.';
+  tTitel.textContent='Altersvorsorgedepot ca. '+diffPct+' % ertragreicher';
+  tText.textContent='bei gleicher Sparrate & Zulagen';
  } else {
-  tTitel.textContent='Tendenz: Riester-Vertrag könnte ca. '+diffPct+' % mehr liefern';
-  tText.textContent='Bei gleicher Sparrate ('+fmtCurrency(riesterBeitrag)+' / Mon.) käme Ihr Riester-Vertrag auf ca. '+fmtCurrency(r1Monat)+' / Mon. gegenüber '+fmtCurrency(avdMonatFair)+' / Mon. beim Altersvorsorgedepot. Meist durch günstige Vertragsbedingungen oder hohe Kinderzulagen bedingt.';
+  tTitel.textContent='Riester ca. '+diffPct+' % ertragreicher';
+  tText.textContent='bei diesen Annahmen';
  }
 }
 </script>
