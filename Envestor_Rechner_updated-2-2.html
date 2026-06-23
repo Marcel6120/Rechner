@@ -644,7 +644,7 @@ function openSection(mode){
  var inputsBottom=document.querySelector('.ev-inputs-bottom');
  var resultsWrap=document.querySelector('.ev-results-wrap');
  if(title)title.style.display=(show&&!isRiester)?'':'none';
- if(inputsBottom)inputsBottom.style.display=show?'':'none';
+ if(inputsBottom)inputsBottom.style.display=isRiester?'none':(show?'':'none');
  if(resultsWrap)resultsWrap.style.display=(!show||isRiester)?'none':'';
  riesterOnlyHide.forEach(function(id){
   var el=document.getElementById(id);
@@ -654,7 +654,6 @@ function openSection(mode){
  if(rb)rb.style.display=isRiester?'':'none';
  var rr=document.getElementById('riester-results-block');
  if(rr)rr.style.display=isRiester?'':'none';
- if(inputsBottom)inputsBottom.style.display=isRiester?'none':(show?'':'none');
  if(isRiester)calcRiester();
 }
 function toggleDetails(){openSection('wissen');}
@@ -1396,6 +1395,8 @@ syncSlider('spar','s-spar','v-spar','f-spar',null,570);
  }
 })();
 syncSlider('rend','s-rend','v-rend','f-rend',function(v){return parseFloat(v).toFixed(1).replace('.',',');},null);
+document.getElementById('s-rend').addEventListener('input',function(){if(sectionMode==='riester')calcRiester();});
+document.getElementById('v-rend').addEventListener('change',function(){if(sectionMode==='riester')calcRiester();});
 syncSlider('kosten','s-kosten','v-kosten','f-kosten',function(v){return parseFloat(v).toFixed(1).replace('.',',');},null);
 syncSlider('kostenEtf','s-kosten-etf','v-kosten-etf','f-kosten-etf',function(v){return parseFloat(v).toFixed(1).replace('.',',');},null);
 var EA_JS={60:22,61:22,62:21,63:20,64:19,65:18,66:18,67:17,68:16,69:16,70:15};
