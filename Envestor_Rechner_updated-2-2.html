@@ -256,6 +256,44 @@
    <div id="riester-tendenz-titel" style="font-size:20px;font-weight:700;color:#F15A24;flex:1">–</div>
    <div id="riester-tendenz-text" style="font-size:12px;color:rgba(255,255,255,.55)">–</div>
   </div>
+  <!-- So haben wir gerechnet – Riester -->
+  <div style="text-align:center;padding:10px 0 4px">
+   <button id="btn-riester-rechenweg" class="ev-rechenweg-btn" type="button" onclick="toggleRiesterRechenweg()">📊 So haben wir gerechnet</button>
+  </div>
+  <div id="riester-rechenweg-panel" style="display:none;margin-top:8px;background:#012660;border:1px solid #0a3070;border-radius:14px;padding:18px 20px;font-size:12px;color:rgba(255,255,255,.85);line-height:1.7">
+   <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px;letter-spacing:.04em">So funktioniert der Riester-Vergleich</div>
+   <!-- Zulagen -->
+   <div style="margin-bottom:10px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Staatliche Zulagen</div>
+    <div>Grundzulage: <strong style="color:#fff">175 € / Jahr</strong> (1 Person, 1 Vertrag)</div>
+    <div id="rw-kinderzulage">Kinderzulage: wird aus den eingetragenen Kindern oben berechnet (300 € / Kind / Jahr)</div>
+    <div style="margin-top:3px">Gesamtzulage = Grundzulage + Kinderzulage → wird zu beiden Vergleichsprodukten <strong style="color:#fff">gleich</strong> addiert</div>
+   </div>
+   <!-- Rendite -->
+   <div style="margin-bottom:10px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Rendite (netto, nach Kosten)</div>
+    <div>Riester-Vertrag: <strong id="rw-r-rend" style="color:#fff">–</strong> brutto − <strong id="rw-r-kosten" style="color:#fff">–</strong> Produktkosten = <strong id="rw-r-netto" style="color:#fff">–</strong> netto p.a.</div>
+    <div>Altersvorsorgedepot: <strong id="rw-avd-rend" style="color:#fff">–</strong> brutto − <strong id="rw-avd-kosten" style="color:#fff">–</strong> Produktkosten = <strong id="rw-avd-netto" style="color:#fff">–</strong> netto p.a.</div>
+   </div>
+   <!-- Endkapital -->
+   <div style="margin-bottom:10px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Endkapitalberechnung (für beide Produkte gleich)</div>
+    <div>Bestandsguthaben × (1 + Rendite)<sup>n</sup> + (Monatsbeitrag × 12 + Zulagen) × <span style="white-space:nowrap">[(1 + Rendite)<sup>n</sup> − 1] / Rendite</span></div>
+    <div style="margin-top:3px">Sparphase: <strong id="rw-jahre" style="color:#fff">–</strong> Jahre (aktuelles Alter bis Renteneintritt)</div>
+   </div>
+   <!-- Besteuerung -->
+   <div style="margin-bottom:10px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Besteuerung bei Auszahlung</div>
+    <div>Beide Produkte werden <strong style="color:#fff">nachgelagert</strong> besteuert – d.h. Auszahlungen werden mit dem persönlichen Einkommensteuersatz im Alter versteuert.</div>
+    <div style="margin-top:3px">Eingestellter Steuersatz: <strong id="rw-steuer" style="color:#fff">–</strong> → Nettofaktor: <strong id="rw-nettofaktor" style="color:#fff">–</strong></div>
+   </div>
+   <!-- Monatsrente -->
+   <div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Monatsrente netto</div>
+    <div>Endkapital (brutto) ÷ (Entnahmedauer in Jahren × 12 Monate) × Nettofaktor</div>
+    <div style="margin-top:3px">Entnahmedauer: <strong id="rw-entnahme" style="color:#fff">–</strong> Jahre (Renteneintritt bis Alter <strong id="rw-bisalter" style="color:#fff">–</strong>)</div>
+   </div>
+  </div>
   <!-- hidden spans for calcRiester (nicht sichtbar) -->
   <span id="r-calc-riester-rend" style="display:none"></span>
   <span id="r-calc-avd-rend" style="display:none"></span>
@@ -654,6 +692,17 @@ function openSection(mode){
  if(rb)rb.style.display=isRiester?'':'none';
  var rr=document.getElementById('riester-results-block');
  if(rr)rr.style.display=isRiester?'':'none';
+ // Im Riester-Modus: Erwachsene immer auf 1 fixieren
+ var erwBtn2=document.querySelector('#st-erw [data-v="2"]');
+ if(isRiester){
+  if(erwBtn2){erwBtn2.disabled=true;erwBtn2.style.opacity='0.35';erwBtn2.style.cursor='not-allowed';erwBtn2.title='Riester-Vergleich gilt pro Person';}
+  // Auf 1 Person zurücksetzen falls 2 aktiv
+  if(ST.erw===2){
+   document.querySelector('#st-erw [data-v="1"]').click();
+  }
+ } else {
+  if(erwBtn2){erwBtn2.disabled=false;erwBtn2.style.opacity='';erwBtn2.style.cursor='';erwBtn2.title='';}
+ }
  if(isRiester)calcRiester();
 }
 function toggleDetails(){openSection('wissen');}
@@ -1649,6 +1698,15 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
  syncFill(sg,fg,0,80000);syncFill(sb,fb,0,500);syncFill(sr,fr,0,8);
 })();
 
+function toggleRiesterRechenweg(){
+ var panel=document.getElementById('riester-rechenweg-panel');
+ var btn=document.getElementById('btn-riester-rechenweg');
+ if(!panel)return;
+ var open=panel.style.display==='none';
+ panel.style.display=open?'':'none';
+ if(btn)btn.classList.toggle('open',open);
+}
+
 function calcRiester(){
  var n=ST.rentenAlter-ST.alter;
  if(n<=0)return;
@@ -1717,6 +1775,24 @@ function calcRiester(){
  } else {
   if(tTitel)tTitel.textContent='Riester ca. '+diffPct+' % ertragreicher';
   if(tText)tText.textContent='';
+ }
+ // Rechenweg-Panel befüllen
+ var fmt1=function(v){return v.toFixed(1).replace('.',',')+' %';};
+ setEl('rw-r-rend',fmt1(riesterRenditeEigen));
+ setEl('rw-r-kosten',fmt1(riesterAvdKosten));
+ setEl('rw-r-netto',fmt1(Math.max(0,riesterRenditeEigen-riesterAvdKosten)));
+ setEl('rw-avd-rend',fmt1(ST.rend));
+ setEl('rw-avd-kosten',fmt1(riesterAvdKosten));
+ setEl('rw-avd-netto',fmt1(Math.max(0,ST.rend-riesterAvdKosten)));
+ setEl('rw-jahre',n+' Jahre');
+ setEl('rw-steuer',fmt1(riesterSteuer));
+ setEl('rw-nettofaktor',(steuerFaktor*100).toFixed(0)+' %');
+ setEl('rw-entnahme',entnahmeJahre);
+ setEl('rw-bisalter',(ST.depotAlter||85));
+ var rwKind=document.getElementById('rw-kinderzulage');
+ if(rwKind){
+  if(ST.kinderAnzahl>0)rwKind.textContent='Kinderzulage: '+ST.kinderAnzahl+' × 300 € = '+fmtCurrency(kz)+' / Jahr';
+  else rwKind.textContent='Kinderzulage: keine Kinder eingetragen';
  }
 }
 </script>
