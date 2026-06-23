@@ -1032,8 +1032,7 @@ function render(){
  setEl('r-vorteil',(r.vort>=0?'+ ':'')+fE(r.vort,true));
  var vortEl=document.getElementById('r-vorteil-kpi');
  var vortSign=r.vort>=0?'+':'';
- vortEl.textContent=vortSign+fE(Math.abs(r.vort),true);
- vortEl.style.color='#F15A24';
+ if(vortEl){vortEl.textContent=vortSign+fE(Math.abs(r.vort),true);vortEl.style.color='#F15A24';}
  var lblVorteil=document.getElementById('label-vorteil');
  if(lblVorteil){
   lblVorteil.textContent=r.vort>=0?'Vorteil AV-Depot':'Nachteil AV-Depot';
@@ -1050,13 +1049,12 @@ function render(){
  if(r.breakeven!==null){
   var beStr=r.breakeven.toFixed(1).replace('.',',')+' %';
   var diff=r.srente-r.breakeven;
-  beVal.textContent=beStr;
-  beVal.style.color=diff<0?'#4ade80':'#ef4444';
-  beSub.textContent=diff<0
+  if(beVal){beVal.textContent=beStr;beVal.style.color=diff<0?'#4ade80':'#ef4444';}
+  if(beSub){beSub.textContent=diff<0
    ? '✓ AV-Depot vorne – Ihr Satz ('+r.srente+' %) liegt darunter'
    : diff>0
     ? '⚠ Fonds-Depot vorne – Ihr Satz ('+r.srente+' %) liegt darüber'
-    : '≈ Genau der Break-even-Punkt';
+    : '≈ Genau der Break-even-Punkt';}
  }
  setEl('r-zul',fE(r.gz+r.kz,true));
  setEl('r-zul-overlay',fE(r.gz+r.kz,true));
