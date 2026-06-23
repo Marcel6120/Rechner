@@ -1217,6 +1217,7 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
  h570.textContent=ST.spar>=570?'✓ Volle Grundzulage und volle steuerliche Förderung erreicht':'';
  h570.className=ST.spar>=570?'hl-orange':'';
  (function(){
+  if(typeof Chart==='undefined') return;
   var ptsAll=r.pts;
   if(!ptsAll||!ptsAll.length) return;
   var zulageM=r.zulageM||0;
