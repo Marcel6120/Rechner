@@ -142,187 +142,182 @@
  </div>
  <div class="ev-grid-sep"><div class="ev-grid-sep-inner"></div><button id="btn-details" class="ev-sep-rect" style="position:absolute;left:25%;top:50%;transform:translate(-50%,-50%);z-index:5;max-width:460px;width:44%;text-align:center;white-space:normal;line-height:1.3;padding:10px 20px;font-size:16px" onclick="openSection('wissen')"><span>Sie wollen es ganz genau wissen?<br>Genaue Nettorente berechnen und mit ungefördertem Depot vergleichen</span><span class="ev-sep-arrow">▼</span></button><button id="btn-riester" class="ev-sep-rect" style="position:absolute;left:75%;top:50%;transform:translate(-50%,-50%);z-index:5;max-width:460px;width:44%;text-align:center;white-space:normal;line-height:1.3;padding:10px 20px;font-size:16px" onclick="openSection('riester')"><span>Sie haben schon einen Riester-Vertrag?<br>So viel bringt Ihnen der Wechsel zum Altersvorsorgedepot</span><span class="ev-sep-arrow">▼</span></button></div>
  <div id="riester-block" style="display:none;grid-column:1/-1;grid-row:4;padding:0">
-  <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 18px 14px">
-   <div style="font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4ade80;margin-bottom:16px"><span>♻</span> Recycle deinen Riester</div>
-   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:start">
-    <!-- Guthaben -->
-    <div>
-     <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
-      <span style="font-size:16px;font-weight:600;color:#fff">Aktuelles Guthaben</span>
-      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Dein bestehendes Riester-Guthaben. Für den Vergleich wird angenommen, dass dieser Betrag beim Wechsel zum Altersvorsorgedepot vollständig übertragen wird – ohne Rückforderungsabzug.</div></div>
-     </div>
-     <div style="display:flex;align-items:center;gap:8px">
-      <div style="position:relative;flex-shrink:0;width:110px"><input type="text" id="v-riester-gut" value="15.000" inputmode="decimal" style="width:100%;height:36px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 26px 0 8px;font-size:15px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">€</span></div>
-      <div style="flex:1;position:relative;height:20px;display:flex;align-items:center"><div class="ev-track"></div><div class="ev-fill" id="f-riester-gut"></div><input type="range" id="s-riester-gut" min="0" max="80000" step="500" value="15000"></div>
-     </div>
-    </div>
-    <!-- Monatlicher Beitrag -->
-    <div>
-     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
-      <span style="font-size:16px;font-weight:600;color:#fff">Monatlicher Beitrag</span>
-     </div>
-     <div style="display:flex;align-items:center;gap:8px">
-      <div style="position:relative;flex-shrink:0;width:110px"><input type="text" id="v-riester-bei" value="100" inputmode="decimal" style="width:100%;height:36px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 26px 0 8px;font-size:15px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">€</span></div>
-      <div style="flex:1;position:relative;height:20px;display:flex;align-items:center"><div class="ev-track"></div><div class="ev-fill" id="f-riester-bei"></div><input type="range" id="s-riester-bei" min="0" max="500" step="10" value="100"></div>
-     </div>
-    </div>
-    <!-- Vertragsart -->
-    <div>
-     <div style="margin-bottom:5px"><span style="font-size:16px;font-weight:600;color:#fff">Vertragsart</span></div>
-     <div style="display:flex;gap:5px" id="riester-vertragsart">
-      <button class="ev-sbtn on" data-v="versicherung">Versicherung</button>
-      <button class="ev-sbtn" data-v="fonds">Fondssparplan</button>
-      <button class="ev-sbtn" data-v="unbekannt">Weiß nicht</button>
-     </div>
-    </div>
-   </div>
-   <!-- Zeile 2: Rendite | Bruttoeinkommen | Rentenzahlung bis -->
-   <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:start">
-    <div>
-     <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
-      <span style="font-size:16px;font-weight:600;color:#fff">Rendite Ihres Riester-Vertrags p.a.</span>
-      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bruttorendite Ihres Riester-Vertrags vor Produktkosten. Die eingestellten Produktkosten werden automatisch abgezogen. Versicherungen: oft 2–4 % brutto, Fondssparpläne: 4–6 % brutto.</div></div>
-     </div>
-     <div class="ev-row">
-      <div class="ev-numbox" style="width:70px"><input type="text" id="v-riester-rend" value="1,5" inputmode="decimal"><span class="ev-unit">%</span></div>
-      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-rend" style="width:18.75%"></div><input type="range" id="s-riester-rend" min="0" max="8" step="0.5" value="1.5"></div>
-     </div>
-    </div>
-    <div>
-     <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
-      <span style="font-size:16px;font-weight:600;color:#fff">Monatl. Bruttoeinkommen</span>
-      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ihr aktuelles monatliches Bruttoeinkommen. Wird für die Günstigerprüfung verwendet: Übersteigt die Steuerersparnis durch den Sonderausgabenabzug (max. 2.100 €/Jahr) Ihre Zulage, erhalten Sie die Differenz als Steuererstattung.</div></div>
-     </div>
-     <div style="display:flex;align-items:center;gap:8px">
-      <div style="position:relative;flex-shrink:0;width:110px"><input type="text" id="v-riester-eink" value="4.000" inputmode="decimal" style="width:100%;height:36px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 26px 0 8px;font-size:15px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">€</span></div>
-      <div style="flex:1;position:relative;height:20px;display:flex;align-items:center"><div class="ev-track"></div><div class="ev-fill" id="f-riester-eink" style="width:12.2%"></div><input type="range" id="s-riester-eink" min="1000" max="25000" step="250" value="4000"></div>
-     </div>
-     <div id="riester-hint-gz" style="margin-top:4px;font-size:11px;color:rgba(255,255,255,.7)"></div>
-    </div>
-    <div>
-     <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
-      <span style="font-size:16px;font-weight:600;color:#fff">Rentenzahlung bis</span>
-      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll die Rentenzahlung laufen? Bestimmt die Entnahmedauer für die monatliche Rente.</div></div>
-     </div>
-     <div style="display:flex;align-items:center;gap:10px">
-      <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-riester-depotalter" value="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
-      <span style="font-size:11px;color:rgba(255,255,255,.7)">Entnahme: <strong id="riester-hint-entnahme" style="color:#F15A24">18 J.</strong></span>
-     </div>
-    </div>
-   </div>
-   <!-- Zeile 3: Steuersatz | Produktkosten AV-Depot | Produktkosten Riester -->
-   <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:start">
-    <div>
-     <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
-      <span style="font-size:16px;font-weight:600;color:#fff">Steuersatz im Alter</span>
-      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ihr persönlicher Einkommensteuersatz im Rentenalter. Gilt für beide Produkte gleich – Riester und Altersvorsorgedepot werden identisch nachgelagert besteuert.</div></div>
-     </div>
-     <div class="ev-row">
-      <div class="ev-numbox" style="width:70px"><input type="text" id="v-riester-steuer" value="20" inputmode="decimal"><span class="ev-unit">%</span></div>
-      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-steuer" style="width:40%"></div><input type="range" id="s-riester-steuer" min="0" max="50" step="1" value="20"></div>
-     </div>
-    </div>
-    <div>
-     <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
-      <span style="font-size:16px;font-weight:600;color:#fff">Produktkosten AV-Depot p.a.</span>
-      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Jährliche Produktkosten des Altersvorsorgedepots. Wird von der AV-Depot-Bruttorendite abgezogen.</div></div>
-     </div>
-     <div class="ev-row">
-      <div class="ev-numbox" style="width:70px"><input type="text" id="v-riester-avdkosten" value="0,2" inputmode="decimal"><span class="ev-unit">%</span></div>
-      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-avdkosten" style="width:6.67%"></div><input type="range" id="s-riester-avdkosten" min="0" max="3" step="0.1" value="0.2"></div>
-     </div>
-    </div>
-    <div>
-     <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
-      <span style="font-size:16px;font-weight:600;color:#fff">Produktkosten Riester-Vertrag p.a.</span>
-      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Jährliche Produktkosten Ihres Riester-Vertrags. Wird von der Riester-Bruttorendite abgezogen.</div></div>
-     </div>
-     <div class="ev-row">
-      <div class="ev-numbox" style="width:70px"><input type="text" id="v-riester-kosten" value="1,0" inputmode="decimal"><span class="ev-unit">%</span></div>
-      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-kosten" style="width:33.3%"></div><input type="range" id="s-riester-kosten" min="0" max="3" step="0.1" value="1.0"></div>
-     </div>
-    </div>
-   </div>
-  </div>
- </div>
- <!-- Ergebnisblock ganz unten -->
- <div id="riester-results-block" style="display:none;grid-column:1/-1;grid-row:6">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-   <!-- Riester -->
-   <div id="riester-card-r" style="background:#012660;border:2px solid #0a3070;border-radius:16px;padding:16px 18px;transition:border-color .2s">
-    <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;margin-bottom:12px">Ihr Riester-Vertrag</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+  <div style="display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start">
+   <!-- LINKE SEITE: Regler -->
+   <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 18px 14px">
+    <div style="font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4ade80;margin-bottom:16px"><span>♻</span> Recycle deinen Riester</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:x 16px;gap:14px 20px;align-items:start">
+
+     <!-- Zeile 1: Aktuelles Guthaben | Monatlicher Beitrag -->
      <div>
-      <div style="font-size:12px;color:rgba(255,255,255,.7);margin-bottom:4px">Monatsrente netto</div>
-      <div id="r1-rente" style="font-size:24px;font-weight:800;color:#F15A24;line-height:1">–</div>
-     </div>
-     <div>
-      <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px">
-       <span style="font-size:12px;color:rgba(255,255,255,.7)">Endkapital netto</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Geschätztes Endkapital nach Abzug des eingestellten Steuersatzes im Alter. Nachgelagerte Besteuerung: die gesamte Auszahlung wird mit Ihrem persönlichen Einkommensteuersatz versteuert.</div></div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Aktuelles Guthaben</span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Dein bestehendes Riester-Guthaben. Für den Vergleich wird angenommen, dass dieser Betrag beim Wechsel zum Altersvorsorgedepot vollständig übertragen wird – ohne Rückforderungsabzug.</div></div>
       </div>
-      <div id="r1-kapital" style="font-size:16px;font-weight:700;color:#fff;line-height:1">–</div>
-     </div>
-    </div>
-   </div>
-   <!-- AVD -->
-   <div id="riester-card-avd" style="background:#012660;border:2px solid #0a3070;border-radius:16px;padding:16px 18px;transition:border-color .2s">
-    <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;margin-bottom:12px">Altersvorsorgedepot</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
-     <div>
-      <div style="font-size:12px;color:rgba(255,255,255,.7);margin-bottom:4px">Monatsrente netto</div>
-      <div id="r2-rente" style="font-size:24px;font-weight:800;color:#F15A24;line-height:1">–</div>
-     </div>
-     <div>
-      <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px">
-       <span style="font-size:12px;color:rgba(255,255,255,.7)">Endkapital netto</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Geschätztes Endkapital nach Abzug des eingestellten Steuersatzes im Alter. Nachgelagerte Besteuerung: die gesamte Auszahlung wird mit Ihrem persönlichen Einkommensteuersatz versteuert.</div></div>
+      <div style="display:flex;align-items:center;gap:8px">
+       <div style="position:relative;flex-shrink:0;width:100px"><input type="text" id="v-riester-gut" value="15.000" inputmode="decimal" style="width:100%;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 24px 0 8px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">€</span></div>
+       <div style="flex:1;position:relative;height:20px;display:flex;align-items:center"><div class="ev-track"></div><div class="ev-fill" id="f-riester-gut"></div><input type="range" id="s-riester-gut" min="0" max="80000" step="500" value="15000"></div>
       </div>
-      <div id="r2-kapital" style="font-size:16px;font-weight:700;color:#fff;line-height:1">–</div>
+     </div>
+     <div>
+      <div style="margin-bottom:5px"><span style="font-size:14px;font-weight:600;color:#fff">Monatlicher Beitrag</span></div>
+      <div style="display:flex;align-items:center;gap:8px">
+       <div style="position:relative;flex-shrink:0;width:100px"><input type="text" id="v-riester-bei" value="100" inputmode="decimal" style="width:100%;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 24px 0 8px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">€</span></div>
+       <div style="flex:1;position:relative;height:20px;display:flex;align-items:center"><div class="ev-track"></div><div class="ev-fill" id="f-riester-bei"></div><input type="range" id="s-riester-bei" min="0" max="500" step="10" value="100"></div>
+      </div>
+     </div>
+
+     <!-- Zeile 2: Vertragsart | Rendite -->
+     <div>
+      <div style="margin-bottom:5px"><span style="font-size:14px;font-weight:600;color:#fff">Vertragsart</span></div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap" id="riester-vertragsart">
+       <button class="ev-sbtn on" data-v="versicherung">Versicherung</button>
+       <button class="ev-sbtn" data-v="fonds">Fondssparplan</button>
+       <button class="ev-sbtn" data-v="unbekannt">Weiß nicht</button>
+      </div>
+     </div>
+     <div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Rendite Riester-Vertrag p.a.</span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bruttorendite Ihres Riester-Vertrags vor Produktkosten. Versicherungen: oft 2–4 % brutto, Fondssparpläne: 4–6 % brutto.</div></div>
+      </div>
+      <div class="ev-row">
+       <div class="ev-numbox" style="width:65px"><input type="text" id="v-riester-rend" value="1,5" inputmode="decimal"><span class="ev-unit">%</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-rend" style="width:18.75%"></div><input type="range" id="s-riester-rend" min="0" max="8" step="0.5" value="1.5"></div>
+      </div>
+     </div>
+
+     <!-- Zeile 3: Bruttoeinkommen | Rentenzahlung bis -->
+     <div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Monatl. Bruttoeinkommen</span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Für die Günstigerprüfung: Übersteigt die Steuerersparnis (Sonderausgabenabzug max. 2.100 €/Jahr) Ihre Zulage, erhalten Sie die Differenz als Steuererstattung.</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+       <div style="position:relative;flex-shrink:0;width:100px"><input type="text" id="v-riester-eink" value="4.000" inputmode="decimal" style="width:100%;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 24px 0 8px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">€</span></div>
+       <div style="flex:1;position:relative;height:20px;display:flex;align-items:center"><div class="ev-track"></div><div class="ev-fill" id="f-riester-eink" style="width:12.2%"></div><input type="range" id="s-riester-eink" min="1000" max="25000" step="250" value="4000"></div>
+      </div>
+      <div id="riester-hint-gz" style="margin-top:4px;font-size:11px;color:rgba(255,255,255,.7)"></div>
+     </div>
+     <div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Rentenzahlung bis</span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll die Rentenzahlung laufen? Bestimmt die Entnahmedauer für die monatliche Rente.</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+       <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-riester-depotalter" value="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
+       <span style="font-size:11px;color:rgba(255,255,255,.7)">Entnahme: <strong id="riester-hint-entnahme" style="color:#F15A24">18 J.</strong></span>
+      </div>
+     </div>
+
+     <!-- Zeile 4: Steuersatz | Steuererstattung reinvestieren -->
+     <div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Steuersatz im Alter</span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ihr persönlicher Einkommensteuersatz im Rentenalter. Gilt für beide Produkte gleich.</div></div>
+      </div>
+      <div class="ev-row">
+       <div class="ev-numbox" style="width:65px"><input type="text" id="v-riester-steuer" value="20" inputmode="decimal"><span class="ev-unit">%</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-steuer" style="width:40%"></div><input type="range" id="s-riester-steuer" min="0" max="50" step="1" value="20"></div>
+      </div>
+     </div>
+     <div style="display:flex;flex-direction:column;justify-content:center">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Steuererstattung reinvestieren</span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Wenn aktiv: Die jährliche Steuererstattung aus der Günstigerprüfung wird direkt wieder in den Riester-Vertrag eingezahlt und wächst mit.</div></div>
+      </div>
+      <div style="display:flex;gap:5px">
+       <button class="ev-sbtn on" id="riester-reinvest-on" onclick="setRiesterReinvest(true)">An</button>
+       <button class="ev-sbtn" id="riester-reinvest-off" onclick="setRiesterReinvest(false)">Aus</button>
+      </div>
+     </div>
+
+     <!-- Zeile 5: Produktkosten AVD | Produktkosten Riester -->
+     <div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Produktkosten AV-Depot p.a.</span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Jährliche Produktkosten des Altersvorsorgedepots. Wird von der AV-Depot-Bruttorendite abgezogen.</div></div>
+      </div>
+      <div class="ev-row">
+       <div class="ev-numbox" style="width:65px"><input type="text" id="v-riester-avdkosten" value="0,2" inputmode="decimal"><span class="ev-unit">%</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-avdkosten" style="width:6.67%"></div><input type="range" id="s-riester-avdkosten" min="0" max="3" step="0.1" value="0.2"></div>
+      </div>
+     </div>
+     <div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Produktkosten Riester-Vertrag p.a.</span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Jährliche Produktkosten Ihres Riester-Vertrags. Wird von der Riester-Bruttorendite abgezogen.</div></div>
+      </div>
+      <div class="ev-row">
+       <div class="ev-numbox" style="width:65px"><input type="text" id="v-riester-kosten" value="1,0" inputmode="decimal"><span class="ev-unit">%</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-kosten" style="width:33.3%"></div><input type="range" id="s-riester-kosten" min="0" max="3" step="0.1" value="1.0"></div>
+      </div>
+     </div>
+
+    </div><!-- end 2-col grid -->
+   </div><!-- end linke Seite -->
+
+   <!-- RECHTE SEITE: Ergebnis-Box -->
+   <div style="display:flex;flex-direction:column;gap:10px">
+    <!-- AVD Hauptkarte -->
+    <div id="riester-card-avd" style="background:#F15A24;border-radius:16px;padding:20px;transition:opacity .2s">
+     <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:6px">Altersvorsorgedepot</div>
+     <div style="font-size:11px;color:rgba(255,255,255,.75);margin-bottom:2px">Monatsrente netto</div>
+     <div id="r2-rente" style="font-size:40px;font-weight:800;color:#fff;line-height:1;margin-bottom:10px">–</div>
+     <div id="r2-diff" style="font-size:13px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:12px">–</div>
+     <div style="display:flex;align-items:center;gap:6px;border-top:1px solid rgba(255,255,255,.25);padding-top:10px">
+      <span style="font-size:11px;color:rgba(255,255,255,.75)">Endkapital netto</span>
+      <div class="ev-info"><button class="ev-info-btn" type="button" style="background:rgba(255,255,255,.3);color:#fff">i</button><div class="ev-tip" style="left:0;right:auto">Endkapital nach nachgelagerter Besteuerung: <strong id="r2-kapital">–</strong></div></div>
      </div>
     </div>
-   </div>
-  </div>
-  <!-- So haben wir gerechnet – Riester -->
-  <div style="text-align:left;padding:10px 0 4px">
-   <button id="btn-riester-rechenweg" class="ev-rechenweg-btn" type="button" onclick="toggleRiesterRechenweg()">📊 So haben wir gerechnet</button>
-  </div>
-  <div id="riester-rechenweg-panel" style="display:none;margin-top:8px;background:#012660;border:1px solid #0a3070;border-radius:14px;padding:18px 20px;font-size:12px;color:rgba(255,255,255,.85);line-height:1.7">
+    <!-- Riester Referenzkarte -->
+    <div id="riester-card-r" style="background:#012660;border:1px solid #0a3070;border-radius:14px;padding:14px 16px;transition:border-color .2s">
+     <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:6px">Ihr Riester-Vertrag</div>
+     <div style="font-size:11px;color:rgba(255,255,255,.6);margin-bottom:2px">Monatsrente netto</div>
+     <div id="r1-rente" style="font-size:26px;font-weight:800;color:#fff;line-height:1;margin-bottom:8px">–</div>
+     <div style="display:flex;align-items:center;gap:6px;border-top:1px solid rgba(255,255,255,.08);padding-top:8px">
+      <span style="font-size:11px;color:rgba(255,255,255,.5)">Endkapital netto</span>
+      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip" style="left:0;right:auto">Endkapital nach nachgelagerter Besteuerung: <strong id="r1-kapital">–</strong></div></div>
+     </div>
+    </div>
+    <!-- So haben wir gerechnet -->
+    <div style="text-align:left;padding:2px 0">
+     <button id="btn-riester-rechenweg" class="ev-rechenweg-btn" type="button" onclick="toggleRiesterRechenweg()">📊 So haben wir gerechnet</button>
+    </div>
+   </div><!-- end rechte Seite -->
+
+  </div><!-- end outer grid -->
+
+  <!-- Rechenweg-Panel (volle Breite) -->
+  <div id="riester-rechenweg-panel" style="display:none;margin-top:12px;background:#012660;border:1px solid #0a3070;border-radius:14px;padding:18px 20px;font-size:12px;color:rgba(255,255,255,.85);line-height:1.7">
    <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px;letter-spacing:.04em">So funktioniert der Riester-Vergleich</div>
-   <!-- Zulagen -->
    <div style="margin-bottom:10px">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Staatliche Zulagen</div>
     <div>Grundzulage: <strong style="color:#fff">175 € / Jahr</strong> (1 Person, 1 Vertrag)</div>
-    <div id="rw-kinderzulage">Kinderzulage: wird aus den eingetragenen Kindern oben berechnet (300 € / Kind / Jahr)</div>
+    <div id="rw-kinderzulage">Kinderzulage: keine Kinder eingetragen</div>
     <div style="margin-top:3px">Gesamtzulage = Grundzulage + Kinderzulage → wird zu beiden Vergleichsprodukten <strong style="color:#fff">gleich</strong> addiert</div>
     <div style="margin-top:5px;font-size:11px;color:rgba(255,255,255,.45);font-style:italic">* Volle Zulage setzt Mindestbeitrag von 4 % des Bruttoeinkommens voraus.</div>
    </div>
-   <!-- Rendite -->
    <div style="margin-bottom:10px">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Rendite (netto, nach Kosten)</div>
     <div>Riester-Vertrag: <strong id="rw-r-rend" style="color:#fff">–</strong> brutto − <strong id="rw-r-kosten" style="color:#fff">–</strong> Produktkosten = <strong id="rw-r-netto" style="color:#fff">–</strong> netto p.a.</div>
     <div>Altersvorsorgedepot: <strong id="rw-avd-rend" style="color:#fff">–</strong> brutto − <strong id="rw-avd-kosten" style="color:#fff">–</strong> Produktkosten = <strong id="rw-avd-netto" style="color:#fff">–</strong> netto p.a.</div>
    </div>
-   <!-- Endkapital -->
    <div style="margin-bottom:10px">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Endkapitalberechnung (für beide Produkte gleich)</div>
-    <div>Bestandsguthaben × (1 + Rendite)<sup>n</sup> + (Monatsbeitrag × 12 + Zulagen) × <span style="white-space:nowrap">[(1 + Rendite)<sup>n</sup> − 1] / Rendite</span></div>
-    <div style="margin-top:3px">Sparphase: <strong id="rw-jahre" style="color:#fff">–</strong> Jahre (aktuelles Alter bis Renteneintritt)</div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Endkapitalberechnung</div>
+    <div>Bestandsguthaben × (1 + Rendite)<sup>n</sup> + (Monatsbeitrag × 12 + Zulagen) × [(1 + Rendite)<sup>n</sup> − 1] / Rendite</div>
+    <div style="margin-top:3px">Sparphase: <strong id="rw-jahre" style="color:#fff">–</strong> Jahre</div>
    </div>
-   <!-- Besteuerung -->
    <div style="margin-bottom:10px">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Besteuerung bei Auszahlung</div>
-    <div>Beide Produkte werden <strong style="color:#fff">nachgelagert</strong> besteuert – d.h. Auszahlungen werden mit dem persönlichen Einkommensteuersatz im Alter versteuert.</div>
-    <div style="margin-top:3px">Eingestellter Steuersatz: <strong id="rw-steuer" style="color:#fff">–</strong> → Nettofaktor: <strong id="rw-nettofaktor" style="color:#fff">–</strong></div>
+    <div>Beide Produkte nachgelagert besteuert. Steuersatz: <strong id="rw-steuer" style="color:#fff">–</strong> → Nettofaktor: <strong id="rw-nettofaktor" style="color:#fff">–</strong></div>
    </div>
-   <!-- Monatsrente -->
    <div>
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Monatsrente netto</div>
-    <div>Endkapital (brutto) ÷ (Entnahmedauer in Jahren × 12 Monate) × Nettofaktor</div>
-    <div style="margin-top:3px">Entnahmedauer: <strong id="rw-entnahme" style="color:#fff">–</strong> Jahre (Renteneintritt bis Alter <strong id="rw-bisalter" style="color:#fff">–</strong>)</div>
+    <div>Endkapital (brutto) ÷ (Entnahmedauer × 12) × Nettofaktor. Entnahmedauer: <strong id="rw-entnahme" style="color:#fff">–</strong> Jahre (bis Alter <strong id="rw-bisalter" style="color:#fff">–</strong>)</div>
    </div>
   </div>
-  <!-- hidden spans for calcRiester (nicht sichtbar) -->
+  <!-- hidden spans -->
   <span id="r-calc-riester-rend" style="display:none"></span>
   <span id="r-calc-avd-rend" style="display:none"></span>
   <span id="r-calc-zulagen" style="display:none"></span>
@@ -718,8 +713,6 @@ function openSection(mode){
  });
  var rb=document.getElementById('riester-block');
  if(rb)rb.style.display=isRiester?'':'none';
- var rr=document.getElementById('riester-results-block');
- if(rr)rr.style.display=isRiester?'':'none';
  // Im Riester-Modus: Erwachsene immer auf 1 fixieren
  var erwBtn2=document.querySelector('#st-erw [data-v="2"]');
  if(isRiester){
@@ -1653,6 +1646,16 @@ var riesterRenditeDefaults={versicherung:1.5,fonds:4.5,unbekannt:2.5};
 var riesterKostenAvd=1.0; // Kosten AV-Depot für den Vergleich
 var riesterKosten=1.0;    // Produktkosten Riester-Vertrag
 var riesterEinkM=4000;    // Monatl. Bruttoeinkommen für Günstigerprüfung
+var riesterReinvest=true; // Steuererstattung reinvestieren
+
+function setRiesterReinvest(val){
+ riesterReinvest=val;
+ var on=document.getElementById('riester-reinvest-on');
+ var off=document.getElementById('riester-reinvest-off');
+ if(on){on.classList.toggle('on',val);}
+ if(off){off.classList.toggle('on',!val);}
+ calcRiester();
+}
 
 function initRiesterDepotControls(){
  // Rentenzahlung bis (Riester-eigenes Feld, synct ST.depotAlter)
@@ -1772,10 +1775,11 @@ function calcRiester(){
  // Günstigerprüfung: Steuerersparnis durch Sonderausgabenabzug (max. 2.100 €/Jahr)
  var grenzSatz=grenz(riesterEinkM*12);
  var steuererstattung=Math.max(0,Math.min(beitragJ+zulagenJ,2100)*grenzSatz-zulagenJ);
- // Riester-Endkapital inkl. Steuererstattung (erhöht effektiven Jahresbeitrag)
+ // Riester-Endkapital: Steuererstattung nur reinvestieren wenn Toggle an
+ var effBeitragR=beitragJ+zulagenJ+(riesterReinvest?steuererstattung:0);
  var r1End=riesterGuthaben*Math.pow(1+rRendNetto,n);
- if(rRendNetto>0)r1End+=(beitragJ+zulagenJ+steuererstattung)*(Math.pow(1+rRendNetto,n)-1)/rRendNetto;
- else r1End+=(beitragJ+zulagenJ+steuererstattung)*n;
+ if(rRendNetto>0)r1End+=effBeitragR*(Math.pow(1+rRendNetto,n)-1)/rRendNetto;
+ else r1End+=effBeitragR*n;
  // Fix 4: Entnahmedauer aus Rechner-Einstellungen (Rentenzahlung bis - Renteneintritt)
  var entnahmeJahre=Math.max(1,(ST.depotAlter||85)-ST.rentenAlter);
  var hre2=document.getElementById('riester-hint-entnahme');
@@ -1802,6 +1806,14 @@ function calcRiester(){
  setEl('r1-rente',fmtCurrency(r1Monat)+' / Mon.');
  setEl('r2-kapital',fmtCurrency(Math.round(avdEnd*steuerFaktor)));
  setEl('r2-rente',fmtCurrency(avdMonatFair)+' / Mon.');
+ // Diff AVD vs Riester
+ var diffM=avdMonatFair-r1Monat;
+ var diffEl=document.getElementById('r2-diff');
+ if(diffEl){
+  if(Math.abs(diffM)<5){diffEl.textContent='≈ Kein wesentlicher Unterschied';}
+  else if(diffM>0){diffEl.innerHTML='<strong>+'+fmtCurrency(diffM)+'</strong> mehr als Riester / Mon.';}
+  else{diffEl.innerHTML='<strong>'+fmtCurrency(diffM)+'</strong> weniger als Riester / Mon.';}
+ }
  // Fülle "So haben wir gerechnet"
  var rCalcR=document.getElementById('r-calc-riester-rend');
  var rCalcA=document.getElementById('r-calc-avd-rend');
