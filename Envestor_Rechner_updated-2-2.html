@@ -252,10 +252,6 @@
     <div id="r2-rente" style="font-size:32px;font-weight:800;color:#F15A24;line-height:1">–</div>
    </div>
   </div>
-  <div id="riester-tendenz" style="margin-top:10px;border-radius:10px;padding:12px 16px;background:rgba(241,90,36,.1);border:1px solid rgba(241,90,36,.25);display:none;align-items:center;gap:12px">
-   <div id="riester-tendenz-titel" style="font-size:20px;font-weight:700;color:#F15A24;flex:1">–</div>
-   <div id="riester-tendenz-text" style="font-size:12px;color:rgba(255,255,255,.55)">–</div>
-  </div>
   <!-- So haben wir gerechnet – Riester -->
   <div style="text-align:left;padding:10px 0 4px">
    <button id="btn-riester-rechenweg" class="ev-rechenweg-btn" type="button" onclick="toggleRiesterRechenweg()">📊 So haben wir gerechnet</button>
@@ -301,7 +297,7 @@
   <span id="r-calc-zulagen" style="display:none"></span>
   <span id="r-calc-entnahme" style="display:none"></span>
  </div>
- <div id="ev-details-title" style="grid-column:1/-1;grid-row:4;padding:14px 0 12px;display:none"><p style="color:#fff;font-size:27px;font-weight:400;line-height:1.4;white-space:nowrap">Rente berechnen und mit ungefördertem Fondssparen vergleichen.</p></div>
+ <div id="ev-details-title" style="grid-column:1/-1;grid-row:4;display:none"></div>
  <div class="ev-inputs-bar ev-inputs-bottom" style="grid-row:5!important;display:none">
   <div class="ev-input-col">
    <div style="margin-top:0">
@@ -1762,21 +1758,6 @@ function calcRiester(){
   cardR.style.borderColor=diff<=0?'#F15A24':'#0a3070';
   cardA.style.borderColor=diff>0?'#F15A24':'#0a3070';
   if(diffPct<5){cardR.style.borderColor='#0a3070';cardA.style.borderColor='#0a3070';}
- }
- // Tendenz-Zeile (kurz)
- var tendenzEl=document.getElementById('riester-tendenz');
- var tTitel=document.getElementById('riester-tendenz-titel');
- var tText=document.getElementById('riester-tendenz-text');
- if(tendenzEl)tendenzEl.style.display='flex';
- if(diffPct<5){
-  if(tTitel)tTitel.textContent='Kein klarer Unterschied';
-  if(tText)tText.textContent='';
- } else if(diff>0){
-  if(tTitel)tTitel.textContent='Altersvorsorgedepot ca. '+diffPct+' % ertragreicher';
-  if(tText)tText.textContent='';
- } else {
-  if(tTitel)tTitel.textContent='Riester ca. '+diffPct+' % ertragreicher';
-  if(tText)tText.textContent='';
  }
  // Rechenweg-Panel befüllen
  var fmt1=function(v){return v.toFixed(1).replace('.',',')+' %';};
