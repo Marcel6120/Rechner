@@ -182,7 +182,7 @@
      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
       <div style="display:flex;align-items:center;gap:6px">
        <span style="font-size:16px;font-weight:600;color:#fff">Rendite Ihres Riester-Vertrags p.a.</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bruttorendite Ihres Riester-Vertrags. Die Produktkosten werden automatisch abgezogen. Versicherungen: oft 2–4 % brutto, Fondssparpläne: 4–6 %. Steht meist im Jahresauszug.</div></div>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Nettorendite Ihres Riester-Vertrags nach allen internen Kosten. Versicherungen: oft 1–2 % netto, Fondssparpläne: 3–5 % netto. Steht meist im Jahresauszug.</div></div>
       </div>
      </div>
      <div class="ev-row">
@@ -1649,7 +1649,7 @@ function calcRiester(){
  var n=ST.rentenAlter-ST.alter;
  if(n<=0)return;
  // Fix 1: eigene Riester-Rendite statt AVD-Rendite minus Pauschale
- var rRendNetto=Math.max(0,riesterRenditeEigen/100-riesterAvdKosten/100);
+ var rRendNetto=Math.max(0,riesterRenditeEigen/100);
  // Fix 2: Grundzulage = 175 € pro Vertrag (ein Vertrag = eine Person)
  var gz=175;
  // Fix 3: ST.kinderAnzahl statt ST.kinder (war immer 0 wegen falscher Variable)
