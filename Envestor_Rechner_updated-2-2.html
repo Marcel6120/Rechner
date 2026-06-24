@@ -1913,9 +1913,10 @@ function calcRiester(){
  setEl('rw-nettofaktor',(riesterSteuerFaktor*100).toFixed(0)+' %');
  setEl('rw-entnahme',entnahmeJahre);
  setEl('rw-bisalter',(ST.depotAlter||85));
+ var kzJDurchschnitt=n>0?(totalZulagenRiester/n-gzRiester):0;
  var rwKind=document.getElementById('rw-kinderzulage');
  if(rwKind){
-  if(foerderKinderAnz>0)rwKind.textContent='Kinderzulage: '+foerderKinderAnz+' × 300 € = Ø '+fmtCurrency(Math.round(kzJ))+' / Jahr (laufzeitgewichtet)';
+  if(foerderKinderAnz>0)rwKind.textContent='Kinderzulage: '+foerderKinderAnz+' × 300 € = Ø '+fmtCurrency(Math.round(kzJDurchschnitt))+' / Jahr (laufzeitgewichtet)';
   else rwKind.textContent='Kinderzulage: keine förderbaren Kinder';
  }
  var rCalcR=document.getElementById('r-calc-riester-rend');
@@ -1924,7 +1925,7 @@ function calcRiester(){
  var rCalcE=document.getElementById('r-calc-entnahme');
  if(rCalcR)rCalcR.textContent=riesterRenditeEigen.toFixed(1).replace('.',',')+' % p.a. ('+riesterVertragsart+')';
  if(rCalcA)rCalcA.textContent=ST.rend.toFixed(1).replace('.',',')+' % brutto − '+riesterAvdKosten.toFixed(1).replace('.',',')+' % Kosten = '+(avdRendNetto*100).toFixed(1).replace('.',',')+' % netto p.a.';
- if(rCalcZ)rCalcZ.textContent='Grundzulage '+fmtCurrency(gz)+(foerderKinderAnz>0?', Kinderzulage Ø '+fmtCurrency(Math.round(kzJ))+' / Jahr ('+foerderKinderAnz+' Kind'+(foerderKinderAnz>1?'er':'')+')':'');
+ if(rCalcZ)rCalcZ.textContent='Grundzulage Riester '+fmtCurrency(gzRiester)+' / AVD '+fmtCurrency(Math.round(gzAvd))+(foerderKinderAnz>0?', Kinderzulage Ø '+fmtCurrency(Math.round(kzJDurchschnitt))+' / Jahr ('+foerderKinderAnz+' Kind'+(foerderKinderAnz>1?'er':'')+')':'');
  if(rCalcE)rCalcE.textContent=entnahmeJahre+' Jahre (Renteneintritt bis Alter '+(ST.depotAlter||85)+')';
 }
 </script>
