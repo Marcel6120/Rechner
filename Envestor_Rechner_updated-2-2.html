@@ -1792,33 +1792,45 @@ function calcRiester(){
  var rRendNetto=Math.max(0,riesterRenditeEigen/100-riesterKosten/100);
  var avdRendNetto=Math.max(0,ST.rend/100-riesterAvdKosten/100);
 
- // Grundzulage 175 € + Kinderzulage: nur Kinder ≤ 21 Jahre, nur für die Jahre in denen sie noch förderbar sind
- var gz=175;
- // Kinderzulage über die gesamte Ansparphase (gewichtet nach verbleibenden Förderjahren pro Kind)
- var kzGesamt=kinderZulageGesamt(n); // €-Gesamtbetrag über alle Jahre
- var kzJ=n>0?kzGesamt/n:0;           // durchschnittliche jährliche Kinderzulage
- var zulagenJ=gz+kzJ;
  var beitragJ=riesterBeitrag*12;
-
- // Günstigerprüfung: Sonderausgabenabzug max. 2.100 €/Jahr
  var grenzSatz=grenz(riesterEinkM*12);
- var steuererstattung=Math.max(0,Math.min(beitragJ+zulagenJ,2100)*grenzSatz-zulagenJ);
-
- // Riester-Endkapital (100% nachgelagert besteuert)
- var effBeitragR=beitragJ+zulagenJ+(riesterReinvest?steuererstattung:0);
- var r1End=riesterGuthaben*Math.pow(1+rRendNetto,n);
- if(rRendNetto>0)r1End+=effBeitragR*(Math.pow(1+rRendNetto,n)-1)/rRendNetto;
- else r1End+=effBeitragR*n;
-
- // AVD-Endkapital: Jahresschleife mit Vorabpauschale (wie Hauptrechner)
- var effBeitragA=beitragJ+zulagenJ+(riesterReinvest?steuererstattung:0);
  var BASISZINS=0.025,VAP_STEUER=0.26375,VAP_FAKTOR=BASISZINS*0.70;
- var avdDepot=riesterGuthaben,totalVapPaidR=0;
+
+ // AVD Grundzulage: identisch zum Hauptrechner (gzProErw, bis 540€)
+ var gzAvd=gzProErw(beitragJ);
+ // Riester Grundzulage: fest 175€ (gesetzlich)
+ var gzRiester=175;
+
+ // Jahresschleife für beide Seiten
+ var r1End=riesterGuthaben;
+ var avdDepot=riesterGuthaben;
+ var mr12R=Math.pow(1+rRendNetto,1/12)-1;
  var mr12Avd=Math.pow(1+avdRendNetto,1/12)-1;
- var monatsBeitragA=effBeitragA/12;
+ var totalVapPaidR=0;
+ var totalZulagenAvd=0,totalSteuererstattungA=0;
+ var totalZulagenRiester=0,totalSteuererstattungR=0;
+
  for(var jj=1;jj<=n;jj++){
-  for(var mm=1;mm<=12;mm++){avdDepot=avdDepot*(1+mr12Avd)+monatsBeitragA;}
-  if(riesterReinvest&&jj===1){}// steuererstattung bereits in monatsBeitragA enthalten
+  // Kinderzulage dieses Jahr (jahresweise, Kinder laufen einzeln bis 21 aus)
+  var kzDiesesJahr=0;
+  (ST.kinderAlter||[]).forEach(function(kAlter){if(kAlter+(jj-1)<=21)kzDiesesJahr+=300;});
+
+  // --- Riester-Seite ---
+  var zulagenRJ=gzRiester+kzDiesesJahr;
+  totalZulagenRiester+=zulagenRJ;
+  var stErstRJ=Math.max(0,Math.min(beitragJ+zulagenRJ,2100)*grenzSatz-zulagenRJ);
+  totalSteuererstattungR+=stErstRJ;
+  var monatRJ=(beitragJ+zulagenRJ+(riesterReinvest?stErstRJ:0))/12;
+  for(var mm=1;mm<=12;mm++){r1End=r1End*(1+mr12R)+monatRJ;}
+
+  // --- AVD-Seite (gleiche Logik wie Hauptrechner) ---
+  var zulagenAJ=gzAvd+kzDiesesJahr;
+  totalZulagenAvd+=zulagenAJ;
+  var stErstAJ=Math.max(0,(Math.min(beitragJ,1800)+zulagenAJ)*grenzSatz-zulagenAJ);
+  totalSteuererstattungA+=stErstAJ;
+  var monatAJ=(beitragJ+zulagenAJ+(riesterReinvest?stErstAJ:0))/12;
+  for(var mm2=1;mm2<=12;mm2++){avdDepot=avdDepot*(1+mr12Avd)+monatAJ;}
+  // Vorabpauschale jährlich
   var vapJ=avdDepot*VAP_FAKTOR*VAP_STEUER;
   totalVapPaidR+=vapJ;
   avdDepot=Math.max(0,avdDepot-vapJ);
@@ -1833,11 +1845,14 @@ function calcRiester(){
  // Steuer:
  // Riester → 100% nachgelagert mit persönlichem Steuersatz
  var riesterSteuerFaktor=1-riesterSteuer/100;
- // AVD → Abgeltungsteuer auf 70% des Gewinns, abzgl. bereits gezahlter Vorabpauschale
- var avdEinzahlungen=beitragJ*n+zulagenJ*n+(riesterReinvest?steuererstattung*n:0);
+ // AVD → Abgeltungsteuer auf 70% des Gewinns, abzgl. gezahlter Vorabpauschale
+ var avdEinzahlungen=beitragJ*n+totalZulagenAvd+(riesterReinvest?totalSteuererstattungA:0);
  var avdGewinn=Math.max(0,avdEnd-riesterGuthaben-avdEinzahlungen);
  var avdAbgst=Math.max(0,avdGewinn*0.7*0.26375-totalVapPaidR);
  var avdEndNetto=avdEnd-avdAbgst;
+
+ // Günstigerprüfung-Hint (Riester, Durchschnitt pro Jahr)
+ var steuererstattung=n>0?totalSteuererstattungR/n:0;
 
  // Rentenbarwertformel: monatliche Rente bei weiter verzinstem Kapital während Entnahme
  function monatRente(kapital,renditeJahrlich,jahreEntnahme){
