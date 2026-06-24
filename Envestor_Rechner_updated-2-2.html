@@ -1820,7 +1820,7 @@ function calcRiester(){
  var riesterSteuerFaktor=1-riesterSteuer/100;
  // AVD → nur Ertragsanteil: Gewinn * 0.7 * 25% (Abgeltungsteuer mit Teilfreistellung)
  // Endkapital netto = Einzahlungen + Gewinn * (1 - 0.7 * 0.25)
- var avdEinzahlungen=beitragJ*n + (riesterReinvest?steuererstattung*n:0);
+ var avdEinzahlungen=beitragJ*n+zulagenJ*n+(riesterReinvest?steuererstattung*n:0);
  var avdGewinn=Math.max(0,avdEnd-riesterGuthaben-avdEinzahlungen);
  var avdEndNetto=avdEnd-avdGewinn*0.7*0.25; // Teilfreistellung 30%, Abgeltungsteuer 25%
 
