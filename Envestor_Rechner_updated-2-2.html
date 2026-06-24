@@ -187,13 +187,13 @@
       <div style="display:flex;gap:4px;flex-wrap:wrap" id="riester-vertragsart">
        <button class="ev-sbtn on" data-v="versicherung">Versicherung</button>
        <button class="ev-sbtn" data-v="fonds">Fondssparplan</button>
-       <button class="ev-sbtn" data-v="unbekannt">Weiß nicht</button>
+       <button class="ev-sbtn" data-v="bauspar">Bausparvertrag</button>
       </div>
      </div>
      <div>
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Rendite Riester-Vertrag p.a.</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bruttorendite Ihres Riester-Vertrags vor Produktkosten. Versicherungen: oft 2–4 % brutto, Fondssparpläne: 4–6 % brutto.</div></div>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bruttorendite Ihres Riester-Vertrags vor Produktkosten. Versicherungen: ~1,5 % brutto, Fondssparpläne: ~4,5 % brutto, Bausparverträge: ~1,0 % brutto.</div></div>
       </div>
       <div class="ev-row">
        <div class="ev-numbox" style="width:65px"><input type="text" id="v-riester-rend" value="1,5" inputmode="decimal"><span class="ev-unit">%</span></div>
@@ -1657,7 +1657,7 @@ var riesterBeitrag=150;
 var riesterRenditeEigen=1.5; // vom Slider gesteuert
 
 // Rendite-Defaults je Vertragsart (nach Kosten, realistisch)
-var riesterRenditeDefaults={versicherung:1.5,fonds:4.5,unbekannt:2.5};
+var riesterRenditeDefaults={versicherung:1.5,fonds:4.5,bauspar:1.0};
 var riesterKostenAvd=1.0; // Kosten AV-Depot für den Vergleich
 var riesterKosten=1.0;    // Produktkosten Riester-Vertrag
 var riesterEinkM=4000;    // Monatl. Bruttoeinkommen für Günstigerprüfung
