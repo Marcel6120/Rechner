@@ -219,7 +219,7 @@
        <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Gleich wie beim AV-Depot – beide Produkte enden zum selben Zeitpunkt für einen fairen Vergleich.</div></div>
       </div>
       <div style="display:flex;align-items:center;gap:10px">
-       <span style="font-size:20px;font-weight:800;color:#F15A24" id="riester-depotalter-display">85 J.</span>
+       <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-riester-depotalter" value="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
        <span style="font-size:11px;color:rgba(255,255,255,.7)">Entnahme: <strong id="riester-hint-entnahme" style="color:#F15A24">18 J.</strong></span>
       </div>
      </div>
@@ -1673,14 +1673,24 @@ function setRiesterReinvest(val){
 }
 
 function initRiesterDepotControls(){
- // Rentenzahlung bis: nur Anzeige, immer gleich wie Haupt-AV-Depot (ST.depotAlter)
- updateRiesterDepotDisplay();
+ var vrd=document.getElementById('v-riester-depotalter');
+ var hre=document.getElementById('riester-hint-entnahme');
+ if(vrd){
+  vrd.value=ST.depotAlter||85;
+  if(hre)hre.textContent=Math.max(1,(ST.depotAlter||85)-ST.rentenAlter)+' J.';
+  vrd.addEventListener('change',function(){
+   var v=Math.max(ST.rentenAlter+1,Math.min(120,parseInt(this.value)||85));
+   ST.depotAlter=v;vrd.value=v;
+   if(hre)hre.textContent=Math.max(1,v-ST.rentenAlter)+' J.';
+   calcRiester();
+  });
+ }
 }
 function updateRiesterDepotDisplay(){
- var disp=document.getElementById('riester-depotalter-display');
+ var vrd=document.getElementById('v-riester-depotalter');
  var hre=document.getElementById('riester-hint-entnahme');
  var alter=ST.depotAlter||85;
- if(disp)disp.textContent=alter+' J.';
+ if(vrd)vrd.value=alter;
  if(hre)hre.textContent=Math.max(1,alter-ST.rentenAlter)+' J.';
 }
 
@@ -1758,10 +1768,10 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
 (function(){
  var sk=document.getElementById('s-riester-kosten'),vk=document.getElementById('v-riester-kosten'),fk=document.getElementById('f-riester-kosten');
  if(!sk)return;
- function sync(v){riesterKosten=Math.min(3,Math.max(0,v));sk.value=riesterKosten;vk.value=riesterKosten.toFixed(1).replace('.',',');fk.style.width=(riesterKosten/3*100)+'%';calcRiester();}
+ function sync(v){riesterKosten=Math.min(4,Math.max(1,v));sk.value=riesterKosten;vk.value=riesterKosten.toFixed(1).replace('.',',');fk.style.width=((riesterKosten-1)/3*100)+'%';calcRiester();}
  sk.addEventListener('input',function(){sync(parseFloat(this.value));});
- vk.addEventListener('change',function(){sync(parseFloat(this.value.replace(',','.'))||0);});
- fk.style.width=(riesterKosten/3*100)+'%';
+ vk.addEventListener('change',function(){sync(parseFloat(this.value.replace(',','.'))||1);});
+ fk.style.width=((riesterKosten-1)/3*100)+'%';
 })();
 
 function toggleRiesterRechenweg(){
