@@ -217,10 +217,10 @@
      <div>
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Rentenzahlung bis</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll die Rentenzahlung laufen? Bestimmt die Entnahmedauer für die monatliche Rente.</div></div>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Gleich wie beim AV-Depot – beide Produkte enden zum selben Zeitpunkt für einen fairen Vergleich.</div></div>
       </div>
       <div style="display:flex;align-items:center;gap:10px">
-       <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-riester-depotalter" value="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
+       <span style="font-size:20px;font-weight:800;color:#F15A24" id="riester-depotalter-display">85 J.</span>
        <span style="font-size:11px;color:rgba(255,255,255,.7)">Entnahme: <strong id="riester-hint-entnahme" style="color:#F15A24">18 J.</strong></span>
       </div>
      </div>
@@ -1439,11 +1439,12 @@ document.getElementById('v-depotalter').addEventListener('change',function(){
  var v=Math.max(Math.max(85,ST.rentenAlter+1),Math.min(120,parseInt(this.value)||85));
  this.value=v;
  ST.depotAlter=v;
+ updateRiesterDepotDisplay();
  debouncedRender();
 });
 document.getElementById('v-depotalter').addEventListener('input',function(){
  var v=parseInt(this.value)||85;
- if(v>ST.rentenAlter){ST.depotAlter=v;debouncedRender();}
+ if(v>ST.rentenAlter){ST.depotAlter=v;updateRiesterDepotDisplay();debouncedRender();}
 });
 syncSlider('spar','s-spar','v-spar','f-spar',null,570);
 // Sparrate ↔ Riester-Beitrag synchron halten
@@ -1673,19 +1674,15 @@ function setRiesterReinvest(val){
 }
 
 function initRiesterDepotControls(){
- // Rentenzahlung bis (Riester-eigenes Feld, synct ST.depotAlter)
- var vrd=document.getElementById('v-riester-depotalter');
+ // Rentenzahlung bis: nur Anzeige, immer gleich wie Haupt-AV-Depot (ST.depotAlter)
+ updateRiesterDepotDisplay();
+}
+function updateRiesterDepotDisplay(){
+ var disp=document.getElementById('riester-depotalter-display');
  var hre=document.getElementById('riester-hint-entnahme');
- if(vrd){
-  vrd.value=ST.depotAlter||85;
-  if(hre)hre.textContent=((ST.depotAlter||85)-ST.rentenAlter)+' J.';
-  vrd.addEventListener('change',function(){
-   var v=Math.max(ST.rentenAlter+1,Math.min(120,parseInt(this.value)||85));
-   ST.depotAlter=v;vrd.value=v;
-   if(hre)hre.textContent=(v-ST.rentenAlter)+' J.';
-   calcRiester();
-  });
- }
+ var alter=ST.depotAlter||85;
+ if(disp)disp.textContent=alter+' J.';
+ if(hre)hre.textContent=Math.max(1,alter-ST.rentenAlter)+' J.';
 }
 
 function setEinstieg(modus){
