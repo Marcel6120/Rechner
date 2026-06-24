@@ -1810,12 +1810,20 @@ function calcRiester(){
  if(rRendNetto>0)r1End+=effBeitragR*(Math.pow(1+rRendNetto,n)-1)/rRendNetto;
  else r1End+=effBeitragR*n;
 
- // AVD-Endkapital: fairer Vergleich — gleiche Einzahlung inkl. Zulagen
- // Bei Reinvest auch Steuererstattung fürs AVD berücksichtigen (Symmetrie)
+ // AVD-Endkapital: Jahresschleife mit Vorabpauschale (wie Hauptrechner)
  var effBeitragA=beitragJ+zulagenJ+(riesterReinvest?steuererstattung:0);
- var avdEnd=riesterGuthaben*Math.pow(1+avdRendNetto,n);
- if(avdRendNetto>0)avdEnd+=effBeitragA*(Math.pow(1+avdRendNetto,n)-1)/avdRendNetto;
- else avdEnd+=effBeitragA*n;
+ var BASISZINS=0.025,VAP_STEUER=0.26375,VAP_FAKTOR=BASISZINS*0.70;
+ var avdDepot=riesterGuthaben,totalVapPaidR=0;
+ var mr12Avd=Math.pow(1+avdRendNetto,1/12)-1;
+ var monatsBeitragA=effBeitragA/12;
+ for(var jj=1;jj<=n;jj++){
+  for(var mm=1;mm<=12;mm++){avdDepot=avdDepot*(1+mr12Avd)+monatsBeitragA;}
+  if(riesterReinvest&&jj===1){}// steuererstattung bereits in monatsBeitragA enthalten
+  var vapJ=avdDepot*VAP_FAKTOR*VAP_STEUER;
+  totalVapPaidR+=vapJ;
+  avdDepot=Math.max(0,avdDepot-vapJ);
+ }
+ var avdEnd=avdDepot;
 
  // Entnahmedauer
  var entnahmeJahre=Math.max(1,(ST.depotAlter||85)-ST.rentenAlter);
@@ -1825,11 +1833,11 @@ function calcRiester(){
  // Steuer:
  // Riester → 100% nachgelagert mit persönlichem Steuersatz
  var riesterSteuerFaktor=1-riesterSteuer/100;
- // AVD → nur Ertragsanteil: Gewinn * 0.7 * 25% (Abgeltungsteuer mit Teilfreistellung)
- // Endkapital netto = Einzahlungen + Gewinn * (1 - 0.7 * 0.25)
+ // AVD → Abgeltungsteuer auf 70% des Gewinns, abzgl. bereits gezahlter Vorabpauschale
  var avdEinzahlungen=beitragJ*n+zulagenJ*n+(riesterReinvest?steuererstattung*n:0);
  var avdGewinn=Math.max(0,avdEnd-riesterGuthaben-avdEinzahlungen);
- var avdEndNetto=avdEnd-avdGewinn*0.7*0.25; // Teilfreistellung 30%, Abgeltungsteuer 25%
+ var avdAbgst=Math.max(0,avdGewinn*0.7*0.26375-totalVapPaidR);
+ var avdEndNetto=avdEnd-avdAbgst;
 
  // Rentenbarwertformel: monatliche Rente bei weiter verzinstem Kapital während Entnahme
  function monatRente(kapital,renditeJahrlich,jahreEntnahme){
