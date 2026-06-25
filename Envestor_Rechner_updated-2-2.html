@@ -1866,9 +1866,10 @@ function calcRiester(){
   return kapital*mr12*Math.pow(1+mr12,nMon)/(Math.pow(1+mr12,nMon)-1);
  }
 
+ var renditeAuszahlung=0.02; // konservative 2% p.a. für beide Produkte in der Auszahlphase
  var r1EndNetto=r1End*riesterSteuerFaktor;
- var r1Monat=Math.round(monatRente(r1EndNetto,rRendNetto,entnahmeJahreRiester));
- var avdMonatFair=Math.round(monatRente(avdEndNetto,avdRendNetto,entnahmeJahre));
+ var r1Monat=Math.round(monatRente(r1EndNetto,renditeAuszahlung,entnahmeJahreRiester));
+ var avdMonatFair=Math.round(monatRente(avdEndNetto,renditeAuszahlung,entnahmeJahre));
 
  // Günstigerprüfung-Hint
  var hintGz=document.getElementById('riester-hint-gz');
