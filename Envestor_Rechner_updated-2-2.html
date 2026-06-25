@@ -323,8 +323,8 @@
    </div>
    <div style="margin-bottom:10px">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Besteuerung bei Auszahlung</div>
-    <div>Riester: nachgelagert mit persönl. Steuersatz <strong id="rw-steuer" style="color:#fff">–</strong> → Nettofaktor: <strong id="rw-nettofaktor" style="color:#fff">–</strong></div>
-    <div>Altersvorsorgedepot: Abgeltungsteuer 25 % + Soli auf 70 % des Gewinns (Teilfreistellung)</div>
+    <div>Beide Produkte: nachgelagert mit persönl. Steuersatz <strong id="rw-steuer" style="color:#fff">–</strong> → Nettofaktor: <strong id="rw-nettofaktor" style="color:#fff">–</strong></div>
+    <div>AVD ist gefördertes Produkt — keine Abgeltungsteuer, keine Vorabpauschale in der Ansparphase</div>
    </div>
    <div style="margin-bottom:10px">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Rendite in der Auszahlphase</div>
@@ -1799,7 +1799,6 @@ function calcRiester(){
 
  var beitragJ=riesterBeitrag*12;
  var grenzSatz=grenz(riesterEinkM*12);
- var BASISZINS=0.025,VAP_STEUER=0.26375,VAP_FAKTOR=BASISZINS*0.70;
 
  // AVD Grundzulage: identisch zum Hauptrechner (gzProErw, bis 540€)
  var gzAvd=gzProErw(beitragJ);
@@ -1811,7 +1810,6 @@ function calcRiester(){
  var avdDepot=riesterGuthaben;
  var mr12R=Math.pow(1+rRendNetto,1/12)-1;
  var mr12Avd=Math.pow(1+avdRendNetto,1/12)-1;
- var totalVapPaidR=0;
  var totalZulagenAvd=0,totalSteuererstattungA=0;
  var totalZulagenRiester=0,totalSteuererstattungR=0;
 
@@ -1835,10 +1833,7 @@ function calcRiester(){
   totalSteuererstattungA+=stErstAJ;
   var monatAJ=(beitragJ+zulagenAJ+(riesterReinvest?stErstAJ:0))/12;
   for(var mm2=1;mm2<=12;mm2++){avdDepot=avdDepot*(1+mr12Avd)+monatAJ;}
-  // Vorabpauschale jährlich
-  var vapJ=avdDepot*VAP_FAKTOR*VAP_STEUER;
-  totalVapPaidR+=vapJ;
-  avdDepot=Math.max(0,avdDepot-vapJ);
+  // Kein VAP: AVD ist gefördertes Produkt, steuerfrei in der Ansparphase
  }
  var avdEnd=avdDepot;
 
@@ -1852,13 +1847,10 @@ function calcRiester(){
  if(hre2)hre2.textContent=entnahmeJahre+' J.';
 
  // Steuer:
- // Riester → 100% nachgelagert mit persönlichem Steuersatz
+ // Beide Produkte nachgelagert mit persönlichem Steuersatz (§ 22 Nr. 5 EStG)
+ // AVD ist gefördertes Produkt — keine Abgeltungsteuer, keine VAP
  var riesterSteuerFaktor=1-riesterSteuer/100;
- // AVD → Abgeltungsteuer auf 70% des Gewinns, abzgl. gezahlter Vorabpauschale
- var avdEinzahlungen=beitragJ*n+totalZulagenAvd+(riesterReinvest?totalSteuererstattungA:0);
- var avdGewinn=Math.max(0,avdEnd-riesterGuthaben-avdEinzahlungen);
- var avdAbgst=Math.max(0,avdGewinn*0.7*0.26375-totalVapPaidR);
- var avdEndNetto=avdEnd-avdAbgst;
+ var avdEndNetto=avdEnd*riesterSteuerFaktor;
 
  // Günstigerprüfung-Hint (Riester, Durchschnitt pro Jahr)
  var steuererstattung=n>0?totalSteuererstattungR/n:0;
