@@ -31,6 +31,8 @@
 }
 #ev-toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#1e293b;color:#fff;font-size:13px;font-weight:600;padding:10px 20px;border-radius:10px;border:1px solid #F15A24;box-shadow:0 4px 20px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:9999;white-space:nowrap}
 #ev-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@keyframes ev-pulse{0%,100%{text-shadow:0 0 0px rgba(241,90,36,0)}50%{text-shadow:0 0 18px rgba(241,90,36,.9),0 0 40px rgba(241,90,36,.4)}}
+#r-monat-netto-img{animation:ev-pulse 1.2s ease-in-out infinite}
 </style>
 </head>
 <body>
