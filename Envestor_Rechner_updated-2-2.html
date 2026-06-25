@@ -218,10 +218,9 @@
        <span style="font-size:14px;font-weight:600;color:#fff">Rentenzahlung bis</span>
        <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Gleich wie beim AV-Depot – beide Produkte enden zum selben Zeitpunkt für einen fairen Vergleich.</div></div>
       </div>
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:10px">
        <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-riester-depotalter" value="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
        <span style="font-size:11px;color:rgba(255,255,255,.7)">Entnahme: <strong id="riester-hint-entnahme" style="color:#F15A24">18 J.</strong></span>
-       <span id="riester-hint-min85" style="display:none;font-size:11px;color:#f87171;font-weight:600">Für das Altersvorsorgedepot wird gesetzlich mindestens bis 85 gerechnet.</span>
       </div>
      </div>
 
@@ -1681,16 +1680,12 @@ function setRiesterReinvest(val){
 function initRiesterDepotControls(){
  var vrd=document.getElementById('v-riester-depotalter');
  var hre=document.getElementById('riester-hint-entnahme');
- var hint85=document.getElementById('riester-hint-min85');
- function updateHint85(v){if(hint85)hint85.style.display=v<85?'inline':'none';}
  if(vrd){
   vrd.value=ST.depotAlter||85;
-  updateHint85(ST.depotAlter||85);
   if(hre)hre.textContent=Math.max(1,(ST.depotAlter||85)-ST.rentenAlter)+' J.';
   vrd.addEventListener('change',function(){
-   var v=Math.max(ST.rentenAlter+1,Math.min(120,parseInt(this.value)||85));
+   var v=Math.max(Math.max(85,ST.rentenAlter+1),Math.min(120,parseInt(this.value)||85));
    ST.depotAlter=v;vrd.value=v;
-   updateHint85(v);
    if(hre)hre.textContent=Math.max(1,v-ST.rentenAlter)+' J.';
    calcRiester();
   });
@@ -1843,9 +1838,8 @@ function calcRiester(){
  var avdEnd=avdDepot;
 
  // Entnahmedauer:
- // AVD: min. 85 gesetzlich vorgeschrieben (Auszahlungsplan muss mind. bis 85 laufen)
- var avdDepotAlterEff=Math.max(85,ST.depotAlter||85);
- var entnahmeJahre=Math.max(1,avdDepotAlterEff-ST.rentenAlter);
+ // AVD: Mindest-Entnahmedauer bis 85 (gesetzlich, Regler geht nicht unter 85)
+ var entnahmeJahre=Math.max(1,(ST.depotAlter||85)-ST.rentenAlter);
  // Riester: feste stat. Lebenserwartung (85 - rentenAlter), unabhängig vom depotAlter-Regler
  // weil echte Leibrente lebenslang fix ist und nicht vom Entnahmehorizont abhängt
  var entnahmeJahreRiester=Math.max(10,85-ST.rentenAlter);
