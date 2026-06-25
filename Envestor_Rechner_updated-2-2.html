@@ -29,9 +29,12 @@
  .ev-tip{width:160px!important}
  .ev-kpi-key{min-width:100px!important}
 }
+#ev-toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#1e293b;color:#fff;font-size:13px;font-weight:600;padding:10px 20px;border-radius:10px;border:1px solid #F15A24;box-shadow:0 4px 20px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:9999;white-space:nowrap}
+#ev-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
+<div id="ev-toast"></div>
 <div class="ev-wrap">
  <div style="padding:20px 24px 0">
   <div style="background:rgba(241,90,36,.12);border:1px solid rgba(241,90,36,.35);border-radius:12px;padding:14px 18px">
@@ -1441,6 +1444,19 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
   });
  })();
 }
+var _toastTimer=null;
+function showToast(msg){
+ var t=document.getElementById('ev-toast');
+ if(!t)return;
+ t.textContent=msg;t.classList.add('show');
+ clearTimeout(_toastTimer);
+ _toastTimer=setTimeout(function(){t.classList.remove('show');},2800);
+}
+function clampWithToast(v,min,max,labelMin,labelMax){
+ if(v<min){showToast('Mindestwert: '+labelMin);return min;}
+ if(v>max){showToast('Maximalwert: '+labelMax);return max;}
+ return v;
+}
 function syncSlider(key,sId,vId,fId,fmt,maxCap){
  var sl=document.getElementById(sId),vi=document.getElementById(vId),fi=document.getElementById(fId);
  function upFill(){var pct=(parseFloat(sl.value)-parseFloat(sl.min))/(parseFloat(sl.max)-parseFloat(sl.min))*100;fi.style.width=pct+'%';}
@@ -1449,7 +1465,8 @@ function syncSlider(key,sId,vId,fId,fmt,maxCap){
   var raw=vi.value.replace(/\./g,'').replace(',','.').replace(/[^\d.]/g,'');
   var v=parseFloat(raw);if(isNaN(v))return;
   if(maxCap!=null)v=Math.min(v,maxCap);
-  v=Math.min(parseFloat(sl.max),Math.max(parseFloat(sl.min),v));
+  var mn=parseFloat(sl.min),mx=parseFloat(sl.max);
+  v=clampWithToast(v,mn,mx,mn,mx);
   ST[key]=v;sl.value=v;vi.value=fmt?fmt(v):v;upFill();debouncedRender();
  });
  upFill();
@@ -1458,11 +1475,11 @@ syncSlider('eink','s-eink','v-eink','f-eink',function(v){return Math.round(v).to
 syncSlider('alter','s-alter','v-alter','f-alter',null,null);
 syncSlider('steuersatzRente','s-srate','v-srate','f-srate',null,null);
 document.getElementById('v-depotalter').addEventListener('change',function(){
- var v=Math.max(Math.max(85,ST.rentenAlter+1),Math.min(120,parseInt(this.value)||85));
- this.value=v;
- ST.depotAlter=v;
- updateRiesterDepotDisplay();
- debouncedRender();
+ var raw=parseInt(this.value)||85;
+ var mn=Math.max(85,ST.rentenAlter+1),mx=120;
+ var v=clampWithToast(raw,mn,mx,'mind. '+mn+' J.','max. '+mx+' J.');
+ this.value=v;ST.depotAlter=v;
+ updateRiesterDepotDisplay();debouncedRender();
 });
 document.getElementById('v-depotalter').addEventListener('input',function(){
  var v=parseInt(this.value)||85;
@@ -1530,8 +1547,8 @@ function upRA(){
 if(slRA){
  slRA.addEventListener('input',upRA);
  if(viRA) viRA.addEventListener('change',function(){
-  var v=Math.min(70,Math.max(62,parseInt(this.value)||67));
-  slRA.value=v; upRA();
+  var v=clampWithToast(parseInt(this.value)||67,62,70,'62 J.','70 J.');
+  slRA.value=v;this.value=v;upRA();
  });
  upRA();
 }
@@ -1602,12 +1619,12 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
  var sa2=document.getElementById('s-alter2'),va2=document.getElementById('v-alter2'),fa2=document.getElementById('f-alter2');
  if(sa2){
   sa2.addEventListener('input',function(){var v=parseFloat(sa2.value);ST.alter2=v;if(va2)va2.value=v;if(fa2)fa2.style.width=((v-16)/(66-16)*100)+'%';debouncedRender();});
-  if(va2)va2.addEventListener('change',function(){var v=Math.min(66,Math.max(16,parseInt(this.value)||35));ST.alter2=v;sa2.value=v;this.value=v;if(fa2)fa2.style.width=((v-16)/(66-16)*100)+'%';debouncedRender();});
+  if(va2)va2.addEventListener('change',function(){var v=clampWithToast(parseInt(this.value)||35,16,66,'16 J.','66 J.');ST.alter2=v;sa2.value=v;this.value=v;if(fa2)fa2.style.width=((v-16)/(66-16)*100)+'%';debouncedRender();});
  }
  var sr2=document.getElementById('s-rentenalter2'),vr2=document.getElementById('v-rentenalter2'),fr2=document.getElementById('f-rentenalter2');
  if(sr2){
   sr2.addEventListener('input',function(){var v=parseInt(sr2.value);ST.rentenAlter2=v;if(vr2)vr2.value=v;if(fr2)fr2.style.width=((v-62)/(70-62)*100)+'%';debouncedRender();});
-  if(vr2)vr2.addEventListener('change',function(){var v=Math.min(70,Math.max(62,parseInt(this.value)||67));ST.rentenAlter2=v;sr2.value=v;this.value=v;if(fr2)fr2.style.width=((v-62)/(70-62)*100)+'%';debouncedRender();});
+  if(vr2)vr2.addEventListener('change',function(){var v=clampWithToast(parseInt(this.value)||67,62,70,'62 J.','70 J.');ST.rentenAlter2=v;sr2.value=v;this.value=v;if(fr2)fr2.style.width=((v-62)/(70-62)*100)+'%';debouncedRender();});
  }
 })();
 function updateVerheiratet(v){
@@ -1702,7 +1719,8 @@ function initRiesterDepotControls(){
   vrd.value=ST.depotAlter||85;
   if(hre)hre.textContent=Math.max(1,(ST.depotAlter||85)-ST.rentenAlter)+' J.';
   vrd.addEventListener('change',function(){
-   var v=Math.max(Math.max(85,ST.rentenAlter+1),Math.min(120,parseInt(this.value)||85));
+   var mn=Math.max(85,ST.rentenAlter+1),mx=120;
+   var v=clampWithToast(parseInt(this.value)||85,mn,mx,'mind. '+mn+' J.','max. '+mx+' J.');
    ST.depotAlter=v;vrd.value=v;
    if(hre)hre.textContent=Math.max(1,v-ST.rentenAlter)+' J.';
    calcRiester();
