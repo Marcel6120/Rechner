@@ -1837,8 +1837,12 @@ function calcRiester(){
  }
  var avdEnd=avdDepot;
 
- // Entnahmedauer
+ // Entnahmedauer:
+ // AVD: nutzerkontrolliert über depotAlter
  var entnahmeJahre=Math.max(1,(ST.depotAlter||85)-ST.rentenAlter);
+ // Riester: feste stat. Lebenserwartung (85 - rentenAlter), unabhängig vom depotAlter-Regler
+ // weil echte Leibrente lebenslang fix ist und nicht vom Entnahmehorizont abhängt
+ var entnahmeJahreRiester=Math.max(10,85-ST.rentenAlter);
  var hre2=document.getElementById('riester-hint-entnahme');
  if(hre2)hre2.textContent=entnahmeJahre+' J.';
 
@@ -1863,7 +1867,7 @@ function calcRiester(){
  }
 
  var r1EndNetto=r1End*riesterSteuerFaktor;
- var r1Monat=Math.round(monatRente(r1EndNetto,rRendNetto,entnahmeJahre));
+ var r1Monat=Math.round(monatRente(r1EndNetto,rRendNetto,entnahmeJahreRiester));
  var avdMonatFair=Math.round(monatRente(avdEndNetto,avdRendNetto,entnahmeJahre));
 
  // Günstigerprüfung-Hint
