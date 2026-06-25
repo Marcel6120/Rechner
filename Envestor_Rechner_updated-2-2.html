@@ -14,6 +14,21 @@
 .ev-einstieg-card.on{background:rgba(241,90,36,.12);border-color:#F15A24}
 #riester-card-avd,#riester-card-r{transition:box-shadow .2s,border-color .2s;cursor:pointer}
 #riester-card-avd:hover,#riester-card-r:hover{box-shadow:0 0 16px rgba(241,90,36,.8), inset 0 0 8px rgba(241,90,36,.2)}
+.riester-input-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 24px;align-items:start}
+.riester-outer-grid{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:stretch}
+@media(max-width:700px){
+ .riester-outer-grid{grid-template-columns:1fr}
+ .riester-input-grid{grid-template-columns:1fr}
+ .ev-sep-rect{font-size:15px!important;padding:11px 16px!important;white-space:normal!important}
+ .ev-tip{width:180px!important;font-size:10px!important}
+ .ev-kpi-key{min-width:120px!important}
+}
+@media(max-width:480px){
+ .riester-input-grid{gap:16px 0}
+ .ev-sep-rect{font-size:13px!important;padding:10px 12px!important}
+ .ev-tip{width:160px!important}
+ .ev-kpi-key{min-width:100px!important}
+}
 </style>
 </head>
 <body>
@@ -157,10 +172,10 @@
 })();
 </script></div>
  <div id="riester-block" style="display:none;grid-column:1/-1;grid-row:4;padding:0">
-  <div style="display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:stretch">
+  <div class="riester-outer-grid">
    <!-- LINKE SEITE: Regler -->
    <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 18px 14px">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px 24px;align-items:start">
+    <div class="riester-input-grid">
 
      <!-- Zeile 1: Aktuelles Guthaben | Monatlicher Beitrag -->
      <div>
