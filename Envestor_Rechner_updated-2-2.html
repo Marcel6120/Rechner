@@ -129,7 +129,7 @@
   <div class="ev-input-col">
    <div style="margin-top:0">
     <div class="ev-flabel" style="margin-bottom:4px"><span>Freie Auszahlung bis Alter</span>
-     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll frei aus dem Depot entnommen werden? Max. 85 Jahre (bis dahin frei verfügbar). Ab 85 Jahren tritt automatisch die Leibrente in Kraft (gesetzlich gefordert § 20a EStG).</div></div>
+     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll frei aus dem Depot entnommen werden? Max. 85 Jahre (bis dahin frei verfügbar). Ab 85 Jahren tritt automatisch die Leibrente in Kraft (gesetzlich gefordert AltZertG).</div></div>
     </div>
     <div style="display:flex;align-items:center;gap:12px">
      <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-depotalter" value="85" min="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
@@ -527,8 +527,12 @@ function kinderZulageGesamt(lz){
  return total;
 }
 function calcRueckstellung(endKapital,rentenAlter){
+ if(rentenAlter>=85) return endKapital;
  var jahreZu85=85-rentenAlter;
- if(jahreZu85<=0) return endKapital;
+ var rendNetto=Math.max(0,ST.rend-ST.kosten)/100;
+ var mr=Math.pow(1+rendNetto,1/12)-1;
+ var leibrenteDauer=15;
+ var nEntnahmen=leibrenteDauer*12;
  var jahreVon85Bis100=15;
  var gesamtJahre=100-rentenAlter;
  var reserve=endKapital*(jahreVon85Bis100/gesamtJahre);
@@ -539,6 +543,7 @@ function splitKapital(gesamtKapital,rueckstellung){
 }
 function calcLeibrenteAb85(rueckstellungKapital,rentenAlter){
  if(rueckstellungKapital<=0) return 0;
+
  var jahreZu85=85-rentenAlter;
  var rendNetto=Math.max(0,ST.rend-ST.kosten)/100;
  var mr=Math.pow(1+rendNetto,1/12)-1;
@@ -1259,7 +1264,7 @@ document.getElementById('v-depotalter').addEventListener('input',function(){
  var hintEl=document.createElement('div');
  hintEl.id='warn-depotalter';
  hintEl.className='ev-warn';
- hintEl.innerHTML='<strong>Frei verfügbar nur bis 85:</strong> Ab 85 Jahren tritt die Leibrente in Kraft.';
+ hintEl.innerHTML='<strong>Frei verfügbar nur bis 85:</strong> Ab 85 Jahren tritt die Leibrente in Kraft (AltZertG).';
  var inputEl=document.getElementById('v-depotalter').parentElement;
  if(inputEl) inputEl.parentElement.insertBefore(hintEl,inputEl.nextSibling);
 })();
