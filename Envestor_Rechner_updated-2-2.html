@@ -104,7 +104,7 @@
   <div class="ev-input-col" style="padding-bottom:0;margin-bottom:0;border-bottom:none">
    <div class="ev-flabel" style="margin-bottom:6px">
     <span style="font-size:15px;color:#F15A24">Renteneintrittsalter</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ab welchem Alter möchten Sie Ihr AV-Depot auszahlen? Korridor: frühestens 62, spätestens 70 Jahre (§ 20a EStG). Je später der Rentenbeginn, desto länger die Ansparphase. Ertragsanteil bei 67 Jahren: <span id="hint-ea-tip">17</span> %.</div></div>
+    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ab welchem Alter möchten Sie Ihr AV-Depot auszahlen? Korridor: frühestens 62, spätestens 70 Jahre (AltZertG). Je später der Rentenbeginn, desto länger die Ansparphase. Ertragsanteil bei 67 Jahren: <span id="hint-ea-tip">17</span> %.</div></div>
    </div>
    <div class="p2-pair-grid">
     <div style="min-width:0">
@@ -138,7 +138,7 @@
    </div>
    <div style="margin-top:18px">
     <div class="ev-flabel" style="margin-bottom:5px"><span>Einmalauszahlung bei Renteneintritt</span>
-     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30 % des AV-Depots können als Einmalauszahlung ausgezahlt werden (§ 20a EStG). Die restlichen 70 % fließen als monatliche Rente über mindestens 10 Jahre.</div></div>
+     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30 % des AV-Depots können zu Rentenbeginn als Einmalauszahlung entnommen werden. Der verbleibende Betrag wird als monatlicher Auszahlungsplan bis zum eingestellten Alter ausgezahlt.</div></div>
     </div>
     <div class="ev-row">
      <div class="ev-numbox" style="width:75px"><span id="einmal-pct-label" style="display:block;text-align:right;font-size:15px;font-weight:700;color:#fff;padding:0 24px 0 8px;height:36px;line-height:36px">0 %</span></div>
@@ -147,7 +147,7 @@
     <div id="einmal-hint" style="display:none"></div>
    </div>
    <div style="margin-top:18px" class="ev-flabel"><span>Voraussichtlicher Steuersatz im Rentenalter</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">AV-Depot wird bei Auszahlung mit dem pers. Einkommensteuersatz versteuert (§ 20a EStG). Liegt häufig unter dem Erwerbssteuersatz.</div></div>
+    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">AV-Depot wird bei Auszahlung mit dem pers. Einkommensteuersatz versteuert (AltZertG, nachgelagerte Besteuerung). Liegt häufig unter dem Erwerbssteuersatz.</div></div>
    </div>
    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-srate" value="0" inputmode="numeric"><span class="ev-unit">%</span></div>
     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-srate"></div><input type="range" id="s-srate" min="0" max="45" step="1" value="0"></div>
@@ -362,7 +362,7 @@
     <p style="font-weight:700;color:#F15A24;font-size:13px;margin:18px 0 6px">3. Berechnung der monatlichen Nettorente</p>
     <ul style="font-size:11px;color:rgba(255,255,255,.85);margin:0 0 8px;padding-left:18px;line-height:1.7">
      <li>Nach Abzug der Steuern steht Ihnen das <strong>Netto-Endkapital</strong> zur Verfügung.</li>
-     <li>Bis zu <strong>30 %</strong> des Kapitals können Sie als steuerfreien Einmalbetrag entnehmen (§ 20a EStG); der verbleibende Anteil fließt als monatliche Rente über die gewählte Entnahmedauer.</li>
+     <li>Bis zu <strong>30 %</strong> des Kapitals können Sie als Einmalbetrag entnehmen (AltZertG); der verbleibende Anteil fließt als monatliche Rente über die gewählte Entnahmedauer.</li>
      <li>Das Kapital arbeitet während der Auszahlungsphase weiter – die Rente wird als konstante Annuität berechnet, sodass das Kapital am Laufzeitende genau aufgebraucht ist.</li>
      <li>Formel: <strong style="color:#F15A24">Monatsrente = Kapital × r × (1+r)ⁿ / ((1+r)ⁿ − 1)</strong><br>
       <span style="color:rgba(255,255,255,.65)">wobei r = monatliche Nettorendite, n = Entnahmedauer in Monaten.</span></li>
@@ -568,10 +568,12 @@ function calcSingle(p){
  var s=ST,lz=Math.max(p.rentenAlter-p.alter,1);
  var rendNetto=Math.max(0,s.rend-s.kosten),rendNettoEtf=Math.max(0,s.rend-s.kostenEtf);
  var jb=p.spar*12,gzErw=gzProErw(jb),gzJ=gzErw,ebM=p.spar;
- var MINDEST_J=120,gzFaktor=(jb<MINDEST_J)?Math.max(0,jb/MINDEST_J):1,gzJKorr=gzJ*gzFaktor;
+ var MINDEST_J=120;
+ var gzJKorr=jb<MINDEST_J?0:gzJ; // § 86 EStG: Grundzulage nur wenn Eigenbeitrag ≥ 120€
  var gsatzEff=p.gsatzEff;
  var kzJ=p.kzJ||0;
- var zulageJ=gzJKorr+kzJ,zulageM=zulageJ/12;
+ var kzJKorr=jb<MINDEST_J?0:kzJ; // § 86 EStG: Kinderzulage nur wenn Eigenbeitrag ≥ 120€
+ var zulageJ=gzJKorr+kzJKorr,zulageM=zulageJ/12;
  var foerdJ=Math.min(jb,1800),abzugJ=foerdJ+zulageJ;
  var steuerBrutto=abzugJ*gsatzEff,steuerNetto=Math.max(0,steuerBrutto-zulageJ);
  var elM=Math.max(0,ebM-steuerNetto/12),eoM=ebM;
@@ -580,8 +582,9 @@ function calcSingle(p){
  var mr12=Math.pow(1+rendNetto/100,1/12)-1,mr12Etf=Math.pow(1+rendNettoEtf/100,1/12)-1;
  var depotMit=0,depotOhne=0,totalVapPaid=0;
  for(var j=1;j<=lz;j++){
-  var gzFJ=(jb<MINDEST_J)?Math.max(0,jb/MINDEST_J):1,gzJJ=gzJ*gzFJ;
-  var zulJahr=gzJJ+kzJ;gzGesamtReal+=gzJJ;kzGesamtReal+=kzJ;
+  var gzJJ=jb<MINDEST_J?0:gzJ;
+  var kzJJ=jb<MINDEST_J?0:kzJ;
+  var zulJahr=gzJJ+kzJJ;gzGesamtReal+=gzJJ;kzGesamtReal+=kzJJ;
   var foJ=Math.min(jb,1800),abJ=foJ+zulJahr,stBJ=abJ*gsatzEff,stNJ=Math.max(0,stBJ-zulJahr);
   steuerNettoGesamt+=stNJ;
   var zulM=zulJahr/12,eiM=ebM+zulM;
