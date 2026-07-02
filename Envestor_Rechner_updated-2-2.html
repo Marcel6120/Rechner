@@ -320,7 +320,7 @@
       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip" style="left:0;right:auto">Endkapital nach nachgelagerter Besteuerung: <strong id="r1-kapital">–</strong></div></div>
      </div>
      <div id="r1-rente" style="font-size:38px;font-weight:800;color:#fff;line-height:1">–</div>
-     <div id="r1-hinweis-leibrente" style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.7);line-height:1.5">Die Riester-Leibrente wird lebenslang ausgezahlt — auch über das eingestellte Alter hinaus. Der Betrag bleibt konstant, der Versicherer trägt das Langlebigkeitsrisiko.</div>
+     <div id="r1-hinweis-leibrente" style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.7);line-height:1.5">Die Riester-Leibrente wird lebenslang ausgezahlt — auch über das eingestellte Alter hinaus. Der Betrag bleibt konstant, der Versicherer trägt das Langlebigkeitsrisiko. Hinweis: Die tatsächliche Leibrente kann je nach Versicherungskosten und Verrentungskonditionen des Anbieters niedriger ausfallen als hier berechnet.</div>
     </div>
     <!-- Box 3: Vergleich AV-Depot vs Riester -->
     <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 20px;flex:1;display:flex;flex-direction:column;justify-content:center">
@@ -1899,11 +1899,10 @@ function calcRiester(){
  var avdEnd=avdDepot;
 
  // Entnahmedauer:
- // AVD: Mindest-Entnahmedauer bis 85 (gesetzlich, Regler geht nicht unter 85)
+ // Beide Produkte: Regler-basierte Entnahmedauer (ReglerAlter - Renteneintrittsalter)
+ // Damit bleibt der Vergleich auf der gleichen Zeitachse, und der Regler steuert beide identisch
  var entnahmeJahre=Math.max(1,(ST.depotAlter||85)-ST.rentenAlter);
- // Riester: feste stat. Lebenserwartung (85 - rentenAlter), unabhängig vom depotAlter-Regler
- // weil echte Leibrente lebenslang fix ist und nicht vom Entnahmehorizont abhängt
- var entnahmeJahreRiester=Math.max(10,85-ST.rentenAlter);
+ var entnahmeJahreRiester=entnahmeJahre; // Identisch zu AVD für konsistenten Vergleich
  var hre2=document.getElementById('riester-hint-entnahme');
  if(hre2)hre2.textContent=entnahmeJahre+' J.';
 
