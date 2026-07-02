@@ -1923,17 +1923,22 @@ function calcRiester(){
   return kapital*mr12*Math.pow(1+mr12,nMon)/(Math.pow(1+mr12,nMon)-1);
  }
 
- var renditeAuszahlung=0.02; // konservative 2% p.a. für beide Produkte in der Auszahlphase
+ // Auszahlungsrenditen: Beide Produkte verwenden ihre jeweilige Nutzer-Rendite aus der Ansparphase
+ var renditeAuszahlungRiester=Math.max(0,riesterRenditeEigen-riesterKosten)/100;
+ var renditeAuszahlungAvd=Math.max(0,ST.rend-riesterAvdKosten)/100;
+
  var r1EndNetto=r1End*riesterSteuerFaktor;
 
  // Korrektur 1 & 2: Riester mit Einmalauszahlung (max 30%) und Leibrente
  var r1EinmalAuszahlung=Math.round(r1EndNetto*(riesterEinmalPct/100));
  var r1KapitalLeibr=r1EndNetto-r1EinmalAuszahlung;
  // Leibrente wird sofort ab Renteneintritt aus dem verbleibenden Kapital berechnet
- var r1Monat=r1KapitalLeibr>0?Math.round(monatRente(r1KapitalLeibr,renditeAuszahlung,entnahmeJahreRiester)):0;
+ // mit Riester-Nettorendite (riesterRenditeEigen - riesterKosten)
+ var r1Monat=r1KapitalLeibr>0?Math.round(monatRente(r1KapitalLeibr,renditeAuszahlungRiester,entnahmeJahreRiester)):0;
  var r1AnzeigeKapital=r1EndNetto; // Für Anzeige: das Gesamtkapital (inkl. Einmalausszahlung)
 
- var avdMonatFair=Math.round(monatRente(avdEndNetto,renditeAuszahlung,entnahmeJahre));
+ // AVD-Rente mit AVD-Nettorendite (ST.rend - riesterAvdKosten)
+ var avdMonatFair=Math.round(monatRente(avdEndNetto,renditeAuszahlungAvd,entnahmeJahre));
 
  // Günstigerprüfung-Hint
  var hintGz=document.getElementById('riester-hint-gz');
