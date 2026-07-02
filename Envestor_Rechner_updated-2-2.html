@@ -128,8 +128,8 @@
  <div class="ev-inputs-bar ev-inputs-bottom" style="grid-row:4!important">
   <div class="ev-input-col">
    <div style="margin-top:0">
-    <div class="ev-flabel" style="margin-bottom:4px"><span>Rentenzahlung bis</span>
-     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll die Rentenzahlung laufen? Gesetzlich mindestens bis 85 (§ 20a EStG). Daraus ergibt sich die Entnahmedauer für die monatliche Rente.</div></div>
+    <div class="ev-flabel" style="margin-bottom:4px"><span>Freie Auszahlung bis Alter</span>
+     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll frei aus dem Depot entnommen werden? Max. 85 Jahre (bis dahin frei verfügbar). Ab 85 Jahren tritt automatisch die Leibrente in Kraft (gesetzlich gefordert § 20a EStG).</div></div>
     </div>
     <div style="display:flex;align-items:center;gap:12px">
      <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-depotalter" value="85" min="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
@@ -477,6 +477,8 @@
    <span id="r-etf-netto" style="display:none">–</span>
    <span id="r-etf-netto-sub" style="display:none">–</span>
    <span id="r-vorteil" style="display:none">–</span><span id="r-vorteil-sub" style="display:none">–</span>
+  <span id="r-rueckstellung" style="display:none">–</span>
+  <span id="r-leibrente-ab85" style="display:none">–</span>
   </div>
   <span id="r-st" style="display:none">–</span>
   <span id="r-st-sub" style="display:none">–</span>
@@ -523,6 +525,41 @@ function kinderZulageGesamt(lz){
   total+=jahreNoch*300;
  });
  return total;
+}
+function calcRueckstellung(endKapital,rentenAlter){
+ var jahreZu85=85-rentenAlter;
+ if(jahreZu85<=0) return 0;
+ var rendNetto=Math.max(0,ST.rend-ST.kosten)/100;
+ var leibrenteDauer=100-85;
+ var mr=Math.pow(1+rendNetto,1/12)-1;
+ var nEntnahmen=leibrenteDauer*12;
+ if(mr>0){
+  var monatsrente=endKapital*mr*Math.pow(1+mr,nEntnahmen)/(Math.pow(1+mr,nEntnahmen)-1);
+ }else{
+  var monatsrente=endKapital/nEntnahmen;
+ }
+ var disc=(1+rendNetto);
+ var pv=0;
+ for(var m=1;m<=nEntnahmen;m++){
+  pv+=monatsrente/Math.pow(disc,m/12);
+ }
+ return Math.round(pv);
+}
+function splitKapital(gesamtKapital,rueckstellung){
+ return{rueckstellung:Math.min(rueckstellung,gesamtKapital),freibetrag:Math.max(0,gesamtKapital-rueckstellung)};
+}
+function calcLeibrenteAb85(rueckstellungKapital,rentenAlter){
+ var leibrenteDauer=100-85;
+ var rendNetto=Math.max(0,ST.rend-ST.kosten)/100;
+ var mr=Math.pow(1+rendNetto,1/12)-1;
+ var nEntnahmen=leibrenteDauer*12;
+ if(rueckstellungKapital<=0) return 0;
+ if(mr>0){
+  var monatsrente=rueckstellungKapital*mr*Math.pow(1+mr,nEntnahmen)/(Math.pow(1+mr,nEntnahmen)-1);
+ }else{
+  var monatsrente=rueckstellungKapital/nEntnahmen;
+ }
+ return Math.round(monatsrente);
 }
 function calcSingle(p){
  var s=ST,lz=Math.max(p.rentenAlter-p.alter,1);
@@ -672,19 +709,29 @@ function calc(){
  var etfAbgstBrutto=etfStpfl*0.26375;
  var etfSteuerAufloesung=Math.max(0,etfAbgstBrutto-totalVapPaid);
  var etfNetto=Math.round(etfBrutto-etfSteuerAufloesung);
- var entnahmeJ=Math.max(10,s.depotAlter-s.rentenAlter);
+ var entnahmeJ=Math.max(10,Math.min(s.depotAlter,85)-s.rentenAlter);
+ var entnahmeJTotal=Math.max(10,s.depotAlter-s.rentenAlter);
+ var rueuckstellungAV=calcRueckstellung(avNetto,s.rentenAlter);
+ var splitAV=splitKapital(avNetto,rueuckstellungAV);
+ var freiAV=splitAV.freibetrag;
  var mr12Ent=Math.pow(1+Math.max(0,s.rend-s.kosten)/100,1/12)-1;
  var mr12EntEtf=Math.pow(1+Math.max(0,s.rend-s.kostenEtf)/100,1/12)-1;
  var nEnt=entnahmeJ*12;
- var avEntnahmeM=mr12Ent>0?avNetto*mr12Ent*Math.pow(1+mr12Ent,nEnt)/(Math.pow(1+mr12Ent,nEnt)-1):avNetto/nEnt;
+ var avEntnahmeM=mr12Ent>0?freiAV*mr12Ent*Math.pow(1+mr12Ent,nEnt)/(Math.pow(1+mr12Ent,nEnt)-1):freiAV/nEnt;
  var etfEntnahmeM=mr12EntEtf>0?etfNetto*mr12EntEtf*Math.pow(1+mr12EntEtf,nEnt)/(Math.pow(1+mr12EntEtf,nEnt)-1):etfNetto/nEnt;
- var depotAV=avNetto, depotETF=etfNetto;
+ var depotAV=freiAV, depotETF=etfNetto;
  for(var ej=1;ej<=entnahmeJ;ej++){
   for(var em=1;em<=12;em++){
    depotAV=Math.max(0,depotAV*(1+mr12Ent)-avEntnahmeM);
    depotETF=Math.max(0,depotETF*(1+mr12EntEtf)-etfEntnahmeM);
   }
   pts.push({a:s.rentenAlter+ej,mi:Math.round(depotAV),mo:Math.round(depotETF),cumVap:totalVapPaid,phase:'entnahme'});
+ }
+ if(s.rentenAlter<85){
+  var avLeibrenteM=calcLeibrenteAb85(splitAV.rueckstellung,s.rentenAlter);
+  for(var ej=entnahmeJ+1;ej<=entnahmeJTotal;ej++){
+   pts.push({a:s.rentenAlter+ej,mi:Math.round(avLeibrenteM*12),mo:0,cumVap:totalVapPaid,phase:'leibrente'});
+  }
  }
  var breakeven=null;
  if(avBrutto>0&&avGef>0){
@@ -719,8 +766,8 @@ function calc(){
   auszahlungEinmal:Math.round(avNetto*einmalFrac),
   auszahlungEinmalNetto:Math.round(avNetto*einmalFrac),
   auszahlungMonatNetto:(function(){
-   var kapital=avNetto*renteFrac;
-   var entnahmeJ=Math.max(10,s.depotAlter-s.rentenAlter);
+   var kapital=freiAV*renteFrac;
+   var entnahmeJ=Math.max(10,Math.min(s.depotAlter,85)-s.rentenAlter);
    var rendEnt=Math.max(0,s.rend-s.kosten)/100;
    var mr12Ent=Math.pow(1+rendEnt,1/12)-1;
    var n=entnahmeJ*12;
@@ -741,7 +788,10 @@ function calc(){
   })(),
   einmalPct:einmalFrac*100,
   renteFrac:renteFrac,
-  entnahmeJahre:Math.max(10,s.depotAlter-s.rentenAlter)
+  entnahmeJahre:Math.max(10,s.depotAlter-s.rentenAlter),
+  rueuckstellungAV:Math.round(splitAV.rueckstellung),
+  freiAV:Math.round(freiAV),
+  avLeibrenteM:s.rentenAlter<85?Math.round(calcLeibrenteAb85(splitAV.rueckstellung,s.rentenAlter)):0
  };
  // If individual P2 mode: override with calcSingle for each person
  if(ST.erw===2&&p2Individual){
@@ -783,7 +833,8 @@ function calc(){
    etfKursgewinn:Math.round(cEtfBrutto-cEoM*r1.lz*12),
    etfStpfl:Math.round((cEtfBrutto-cEoM*r1.lz*12)*0.7),
    etfAbgstBrutto:Math.round((cEtfBrutto-cEoM*r1.lz*12)*0.7*0.26375),
-   pts:result.pts,_r1:r1,_r2:r2};
+   pts:result.pts,_r1:r1,_r2:r2,
+   rueuckstellungAV:0,freiAV:cAvNetto,avLeibrenteM:0};
  }
  return result;
 }
@@ -895,6 +946,22 @@ function render(){
  }
  document.getElementById('r-zul').textContent=fE(r.gz+r.kz,true);
  document.getElementById('r-zul-overlay').textContent=fE(r.gz+r.kz,true);
+ if(document.getElementById('r-rueckstellung')){
+  if(r.rueuckstellungAV>0){
+   document.getElementById('r-rueckstellung').textContent='Rückstellung für Leibrente ab 85: '+fE(r.rueuckstellungAV,true);
+   document.getElementById('r-rueckstellung').style.display='block';
+  }else{
+   document.getElementById('r-rueckstellung').style.display='none';
+  }
+ }
+ if(document.getElementById('r-leibrente-ab85')){
+  if(r.avLeibrenteM>0){
+   document.getElementById('r-leibrente-ab85').textContent='Monatliche Leibrente ab 85: '+fE(r.avLeibrenteM,true)+' / Monat';
+   document.getElementById('r-leibrente-ab85').style.display='block';
+  }else{
+   document.getElementById('r-leibrente-ab85').style.display='none';
+  }
+ }
  (function(){
   var sp=document.getElementById('r-zul-split');
   if(!sp)return;
@@ -1188,12 +1255,22 @@ document.getElementById('v-depotalter').addEventListener('change',function(){
  var v=Math.max(Math.max(85,ST.rentenAlter+1),Math.min(120,parseInt(this.value)||85));
  this.value=v;
  ST.depotAlter=v;
+ var warnEl=document.getElementById('warn-depotalter');
+ if(warnEl) warnEl.classList.toggle('show',v>85);
  debouncedRender();
 });
 document.getElementById('v-depotalter').addEventListener('input',function(){
  var v=parseInt(this.value)||85;
  if(v>ST.rentenAlter){ST.depotAlter=v;debouncedRender();}
 });
+(function(){
+ var hintEl=document.createElement('div');
+ hintEl.id='warn-depotalter';
+ hintEl.className='ev-warn';
+ hintEl.innerHTML='<strong>Frei verfügbar nur bis 85:</strong> Ab 85 Jahren tritt die Leibrente in Kraft.';
+ var inputEl=document.getElementById('v-depotalter').parentElement;
+ if(inputEl) inputEl.parentElement.insertBefore(hintEl,inputEl.nextSibling);
+})();
 syncSlider('spar','s-spar','v-spar','f-spar',null,570);
 syncSlider('rend','s-rend','v-rend','f-rend',function(v){return parseFloat(v).toFixed(1).replace('.',',');},null);
 syncSlider('kosten','s-kosten','v-kosten','f-kosten',function(v){return parseFloat(v).toFixed(1).replace('.',',');},null);
