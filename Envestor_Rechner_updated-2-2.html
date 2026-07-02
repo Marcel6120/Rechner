@@ -532,11 +532,17 @@ function calcRueckstellung(endKapital,rentenAlter){
  var rendNetto=Math.max(0,ST.rend-ST.kosten)/100;
  var mr=Math.pow(1+rendNetto,1/12)-1;
  var leibrenteDauer=15;
- var nEntnahmen=leibrenteDauer*12;
- var jahreVon85Bis100=15;
- var gesamtJahre=100-rentenAlter;
- var reserve=endKapital*(jahreVon85Bis100/gesamtJahre);
- return Math.round(reserve);
+ var nMonate=leibrenteDauer*12;
+ var annuitaetsfaktor;
+ if(mr>0.00001){
+  annuitaetsfaktor=mr*Math.pow(1+mr,nMonate)/(Math.pow(1+mr,nMonate)-1);
+ }else{
+  annuitaetsfaktor=1/nMonate;
+ }
+ var pvAb85=endKapital*annuitaetsfaktor;
+ var diskontFaktor=Math.pow(1+mr,jahreZu85*12);
+ var rueckstellung=pvAb85/diskontFaktor;
+ return Math.round(rueckstellung);
 }
 function splitKapital(gesamtKapital,rueckstellung){
  return{rueckstellung:Math.min(rueckstellung,gesamtKapital),freibetrag:Math.max(0,gesamtKapital-rueckstellung)};
@@ -608,14 +614,17 @@ function calcSingle(p){
 }
 function calc(){
  var s=ST,lz=Math.max(s.rentenAlter-s.alter,1);
+ var BASISZINS=0.025; // BMF-Basiszins für Vorabpauschale, aktualisieren gemäß BMF-Schreiben (zuletzt 2.5% für 2024)
+ var VAP_STEUER=0.26375;
+ var VAP_FAKTOR=BASISZINS*0.70;
  var rendNetto=Math.max(0,s.rend-s.kosten);
  var rendNettoEtf=Math.max(0,s.rend-s.kostenEtf);
  var jbErw=s.spar*12;
  var gzErw=gzProErw(jbErw);
  var gzJ=gzErw*s.erw;
  var fk=foerderKinder();
- var kzJ=fk*300; 
- var kzGesamt=kinderZulageGesamt(lz); 
+ var kzJ=fk*300;
+ var kzGesamt=kinderZulageGesamt(lz);
  var eigenbeitragJ=s.spar*12*s.erw;
  var ebM=s.spar*s.erw;
  var gsatz=grenz(s.eink*12);
@@ -623,18 +632,18 @@ function calc(){
  if(s.erw===2&&s.verheiratet){
   var gsatzSplit=grenz(s.eink*12);
   gsatz2=gsatzSplit;
-  gsatzEff=gsatzSplit; 
+  gsatzEff=gsatzSplit;
  } else if(s.erw===2&&!s.verheiratet){
   gsatz2=grenz(s.eink2*12);
-  gsatzEff=(gsatz+gsatz2)/2; 
+  gsatzEff=(gsatz+gsatz2)/2;
  } else {
   gsatz2=gsatz;
   gsatzEff=gsatz;
  }
- var MINDEST_J=120*s.erw; 
- var gzFaktor=(eigenbeitragJ<MINDEST_J&&MINDEST_J>0)?Math.max(0,eigenbeitragJ/MINDEST_J):1;
- var gzJKorr=gzJ*gzFaktor;
- var zulageJ=gzJKorr+kzJ;
+ var MINDEST_J=120*s.erw;
+ var gzJKorr=eigenbeitragJ<MINDEST_J?0:gzJ;
+ var kzJKorr=eigenbeitragJ<MINDEST_J?0:kzJ;
+ var zulageJ=gzJKorr+kzJKorr;
  var zulageM=zulageJ/12;
  var foerderbarerEigenbeitrag=Math.min(eigenbeitragJ,1800*s.erw);
  var abzugsbasis=foerderbarerEigenbeitrag+zulageJ;
@@ -643,25 +652,28 @@ function calc(){
  var steuerNettoM=steuerNetto/12;
  var elM=Math.max(0,ebM-steuerNettoM);
  var eoM=ebM;
- var BASISZINS=0.025;
- var VAP_STEUER=0.26375;
- var VAP_FAKTOR=BASISZINS*0.70;
  var steuerNettoGesamt=0;
- var gzGesamtReal=0; 
+ var gzGesamtReal=0;
  var pts=[];
  var mr12=Math.pow(1+rendNetto/100,1/12)-1;
  var mr12Etf=Math.pow(1+rendNettoEtf/100,1/12)-1;
  var depotMit=0,depotOhne=0,totalVapPaid=0;
+ var berufseinsteiger200Used=false;
  for(var j=1;j<=lz;j++){
   var sparerAlterJetzt=s.alter+(j-1);
   var kzDiesesJahr=0;
   ST.kinderAlter.forEach(function(alter){
    if(alter+(j-1)<=21) kzDiesesJahr+=300;
   });
-  var gzFaktorJ=(eigenbeitragJ<MINDEST_J&&MINDEST_J>0)?Math.max(0,eigenbeitragJ/MINDEST_J):1;
-  var gzJDiesJ=gzJ*gzFaktorJ;
-  var zulageJahrReal=gzJDiesJ+kzDiesesJahr;
+  var gzJDiesJ=eigenbeitragJ<MINDEST_J?0:gzJ;
+  var kzDiesJ=eigenbeitragJ<MINDEST_J?0:kzDiesesJahr;
+  var zulageJahrReal=gzJDiesJ+kzDiesJ;
   gzGesamtReal+=gzJDiesJ;
+  var berufseinsteiger200=0;
+  if(j===1&&s.alter<25&&!berufseinsteiger200Used){
+   berufseinsteiger200=200*s.erw;
+   berufseinsteiger200Used=true;
+  }
   var foerdJ=Math.min(eigenbeitragJ,1800*s.erw);
   var abzugJ=foerdJ+zulageJahrReal;
   var stBruttoJ=abzugJ*gsatzEff;
@@ -670,7 +682,8 @@ function calc(){
   var zulageJahrM=zulageJahrReal/12;
   var eiMJahr=ebM+zulageJahrM;
   for(var mo=1;mo<=12;mo++){
-   depotMit=depotMit*(1+mr12)+eiMJahr;
+   var berufsBonus=(mo===1?berufseinsteiger200:0);
+   depotMit=depotMit*(1+mr12)+eiMJahr+berufsBonus;
    depotOhne=depotOhne*(1+mr12Etf)+eoM;
   }
   if(s.reinvest) depotMit+=stNettoJ;
@@ -708,8 +721,10 @@ function calc(){
  var etfNetto=Math.round(etfBrutto-etfSteuerAufloesung);
  var entnahmeJ=Math.max(10,Math.min(s.depotAlter,85)-s.rentenAlter);
  var entnahmeJTotal=Math.max(10,s.depotAlter-s.rentenAlter);
- var rueuckstellungAV=calcRueckstellung(avNetto,s.rentenAlter);
- var splitAV=splitKapital(avNetto,rueuckstellungAV);
+ var einmalAV=Math.round(avNetto*0.30);
+ var avNettoNachEinmal=Math.round(avNetto*0.70);
+ var rueuckstellungAV=calcRueckstellung(avNettoNachEinmal,s.rentenAlter);
+ var splitAV=splitKapital(avNettoNachEinmal,rueuckstellungAV);
  var freiAV=splitAV.freibetrag;
  var mr12Ent=Math.pow(1+Math.max(0,s.rend-s.kosten)/100,1/12)-1;
  var mr12EntEtf=Math.pow(1+Math.max(0,s.rend-s.kostenEtf)/100,1/12)-1;
