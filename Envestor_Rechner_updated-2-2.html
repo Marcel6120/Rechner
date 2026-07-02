@@ -528,36 +528,28 @@ function kinderZulageGesamt(lz){
 }
 function calcRueckstellung(endKapital,rentenAlter){
  var jahreZu85=85-rentenAlter;
- if(jahreZu85<=0) return 0;
- var rendNetto=Math.max(0,ST.rend-ST.kosten)/100;
- var leibrenteDauer=100-85;
- var mr=Math.pow(1+rendNetto,1/12)-1;
- var nEntnahmen=leibrenteDauer*12;
- if(mr>0){
-  var monatsrente=endKapital*mr*Math.pow(1+mr,nEntnahmen)/(Math.pow(1+mr,nEntnahmen)-1);
- }else{
-  var monatsrente=endKapital/nEntnahmen;
- }
- var disc=(1+rendNetto);
- var pv=0;
- for(var m=1;m<=nEntnahmen;m++){
-  pv+=monatsrente/Math.pow(disc,m/12);
- }
- return Math.round(pv);
+ if(jahreZu85<=0) return endKapital;
+ var jahreVon85Bis100=15;
+ var gesamtJahre=100-rentenAlter;
+ var reserve=endKapital*(jahreVon85Bis100/gesamtJahre);
+ return Math.round(reserve);
 }
 function splitKapital(gesamtKapital,rueckstellung){
  return{rueckstellung:Math.min(rueckstellung,gesamtKapital),freibetrag:Math.max(0,gesamtKapital-rueckstellung)};
 }
 function calcLeibrenteAb85(rueckstellungKapital,rentenAlter){
- var leibrenteDauer=100-85;
+ if(rueckstellungKapital<=0) return 0;
+ var jahreZu85=85-rentenAlter;
  var rendNetto=Math.max(0,ST.rend-ST.kosten)/100;
  var mr=Math.pow(1+rendNetto,1/12)-1;
+ var kapitalAb85=rueckstellungKapital*Math.pow(1+mr,jahreZu85*12);
+ var leibrenteDauer=100-85;
  var nEntnahmen=leibrenteDauer*12;
- if(rueckstellungKapital<=0) return 0;
+ var monatsrente;
  if(mr>0){
-  var monatsrente=rueckstellungKapital*mr*Math.pow(1+mr,nEntnahmen)/(Math.pow(1+mr,nEntnahmen)-1);
+  monatsrente=kapitalAb85*mr*Math.pow(1+mr,nEntnahmen)/(Math.pow(1+mr,nEntnahmen)-1);
  }else{
-  var monatsrente=rueckstellungKapital/nEntnahmen;
+  monatsrente=kapitalAb85/nEntnahmen;
  }
  return Math.round(monatsrente);
 }
