@@ -288,7 +288,17 @@
       </div>
      </div>
 
-     <!-- Zeile 6: Einmalauszahlung Riester (auf max 30% gedeckelt) -->
+     <!-- Zeile 6: Einmalauszahlung Altersvorsorgedepot | Einmalauszahlung Riester -->
+     <div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Einmalauszahlung Altersvorsorgedepot</span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30% des AV-Depots können als Einmalauszahlung ausgezahlt werden (§ 20a EStG). Der verbleibende Mindestanteil von 70% wird als Leibrente verrentet.</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+       <div class="ev-numbox" style="width:75px"><span id="riester-einmal-pct-avd-label" style="display:block;text-align:right;font-size:15px;font-weight:700;color:#fff;padding:0 24px 0 8px;height:36px;line-height:36px">0 %</span></div>
+       <div class="ev-slwrap" style="flex:1"><div class="ev-track"></div><div class="ev-fill" id="f-riester-einmal-pct-avd" style="width:0%"></div><input type="range" id="s-riester-einmal-pct-avd" min="0" max="30" step="1" value="0"></div>
+      </div>
+     </div>
      <div>
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Einmalauszahlung Riester</span>
@@ -1710,6 +1720,7 @@ var riesterAvdKosten=0.2; // Produktkosten AV-Depot p.a. (%)
 var riesterGuthaben=15000;
 var riesterBeitrag=150;
 var riesterRenditeEigen=1.5; // vom Slider gesteuert
+var riesterEinmalPctAvd=0;  // Einmalauszahlung AVD im Riester-Vergleich (0-30%, gesetzlich begrenzt)
 var riesterEinmalPct=0;     // Einmalauszahlung Riester (0-30%, gesetzlich begrenzt)
 
 // Rendite-Defaults je Vertragsart (nach Kosten, realistisch)
@@ -1831,6 +1842,15 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
  fk.style.width=((riesterKosten-1)/3*100)+'%';
 })();
 
+// Einmalauszahlung Altersvorsorgedepot im Riester-Vergleich (auf max 30% gedeckelt)
+(function(){
+ var sl=document.getElementById('s-riester-einmal-pct-avd'),vl=document.getElementById('riester-einmal-pct-avd-label'),fl=document.getElementById('f-riester-einmal-pct-avd');
+ if(!sl)return;
+ function syncFill(s,f,mn,mx){var pct=(s.value-mn)/(mx-mn)*100;f.style.width=pct+'%';}
+ sl.addEventListener('input',function(){riesterEinmalPctAvd=parseInt(this.value);vl.textContent=riesterEinmalPctAvd+' %';syncFill(sl,fl,0,30);calcRiester();});
+ syncFill(sl,fl,0,30);
+})();
+
 // Einmalauszahlung Riester (auf max 30% gedeckelt)
 (function(){
  var sl=document.getElementById('s-riester-einmal-pct'),vl=document.getElementById('riester-einmal-pct-label'),fl=document.getElementById('f-riester-einmal-pct');
@@ -1937,8 +1957,13 @@ function calcRiester(){
  var r1Monat=r1KapitalLeibr>0?Math.round(monatRente(r1KapitalLeibr,renditeAuszahlungRiester,entnahmeJahreRiester)):0;
  var r1AnzeigeKapital=r1EndNetto; // Für Anzeige: das Gesamtkapital (inkl. Einmalausszahlung)
 
- // AVD-Rente mit AVD-Nettorendite (ST.rend - riesterAvdKosten)
- var avdMonatFair=Math.round(monatRente(avdEndNetto,renditeAuszahlungAvd,entnahmeJahre));
+ // AVD mit Einmalauszahlung (max 30%) und Leibrente
+ var r2EinmalAuszahlung=Math.round(avdEndNetto*(riesterEinmalPctAvd/100));
+ var r2KapitalLeibr=avdEndNetto-r2EinmalAuszahlung;
+ // Leibrente wird sofort ab Renteneintritt aus dem verbleibenden Kapital berechnet
+ // mit AVD-Nettorendite (ST.rend - riesterAvdKosten)
+ var avdMonatFair=r2KapitalLeibr>0?Math.round(monatRente(r2KapitalLeibr,renditeAuszahlungAvd,entnahmeJahre)):0;
+ var r2AnzeigeKapital=avdEndNetto; // Für Anzeige: das Gesamtkapital (inkl. Einmalausszahlung)
 
  // Günstigerprüfung-Hint
  var hintGz=document.getElementById('riester-hint-gz');
@@ -1950,7 +1975,7 @@ function calcRiester(){
  // Karten befüllen
  setEl('r1-kapital',fmtCurrency(Math.round(r1AnzeigeKapital)));
  setEl('r1-rente',fmtCurrency(r1Monat)+' / Mon.');
- setEl('r2-kapital',fmtCurrency(Math.round(avdEndNetto)));
+ setEl('r2-kapital',fmtCurrency(Math.round(r2AnzeigeKapital)));
  setEl('r2-rente',fmtCurrency(avdMonatFair)+' / Mon.');
 
  // Diff
