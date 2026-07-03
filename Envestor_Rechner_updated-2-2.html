@@ -985,10 +985,21 @@ function calc(){
  } else {
   gefoerdertJ=Math.min(1800*s.erw,eigenbeitragJ);
  }
- var ueberJ=Math.max(0,eigenbeitragJ-1800*s.erw);
+ // Überzahlung und Gesamtförderung: Bei Zwei-Depot auf 1.800€ insgesamt begrenzt
+ var ueberJ;
+ if(isTwoDeptosActive&&s.erw===1){
+  ueberJ=Math.max(0,eigenbeitragJ-1800);
+ } else {
+  ueberJ=Math.max(0,eigenbeitragJ-1800*s.erw);
+ }
  var eigenbeitragGes=eigenbeitragJ*lz;
  var zulageGes=gzGesamtReal+kzGesamt;
- var gefoerdertGes=Math.min(1800*s.erw,eigenbeitragJ)*lz; 
+ var gefoerdertGes;
+ if(isTwoDeptosActive&&s.erw===1){
+  gefoerdertGes=Math.min(1800,eigenbeitragJ)*lz;
+ } else {
+  gefoerdertGes=Math.min(1800*s.erw,eigenbeitragJ)*lz;
+ } 
  var gesamtEinzGes=eigenbeitragGes+zulageGes;
  var anteilGef=gesamtEinzGes>0?(gefoerdertGes+zulageGes)/gesamtEinzGes:1;
  var anteilÜb=gesamtEinzGes>0?(ueberJ*lz)/gesamtEinzGes:0;
@@ -1612,6 +1623,7 @@ var depot2Spar=0;
    var v=parseFloat(this.value);
    syncRiesterBeitrag(v);
    updateTwoDepotLogic(v);
+   debouncedRender();
   },true);
  }
  if(vSpar){
@@ -1619,6 +1631,7 @@ var depot2Spar=0;
    var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;
    syncRiesterBeitrag(v);
    updateTwoDepotLogic(v);
+   debouncedRender();
   },true);
  }
  // Riester-Beitrag → Haupt-Sparrate
