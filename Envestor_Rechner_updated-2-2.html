@@ -89,20 +89,20 @@
   <div class="ev-input-col" style="border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:14px;margin-bottom:14px">
    <div class="ev-flabel" style="margin-bottom:6px">
     <span style="font-size:15px;color:#F15A24">Sparrate</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Eigenbeitrag pro Person und Vertrag. Grundzulage: 50 % auf den Erstbeitrag + 25 % auf weitere Beiträge bis 1.800 €/Jahr = max. 540 €/Jahr. Maximum: 570 €/Monat (§ 20a EStG).</div></div>
+    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Eigenbeitrag pro Person. Förderung: Grundzulage max. 540 €/Jahr + Steuererstattung auf bis 1.800 €/Jahr (kombiniert bei zwei Depots). Einzahlungsobergrenze: 6.840 €/Jahr pro Depot, also max. 13.680 €/Jahr bei zwei Depots = 1.140 €/Monat.</div></div>
    </div>
    <div class="p2-pair-grid">
     <div style="min-width:0">
      <div class="p2-person-lbl" style="display:none;font-size:14px;font-weight:600;color:#fff;margin-bottom:4px">1. Erwachsener</div>
      <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
-      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar"></div><input type="range" id="s-spar" min="10" max="570" step="5" value="150"></div>
+      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar"></div><input type="range" id="s-spar" min="10" max="1140" step="5" value="150"></div>
      </div>
-     <div class="ev-hint"><span id="h150" class="hl-green" style="display:none">✓ Volle Grundzulage erreicht</span><span id="h570"></span></div>
+     <div class="ev-hint"><span id="h150" class="hl-green" style="display:none">✓ Volle Grundzulage erreicht</span><span id="h570" style="display:none;color:#F15A24;font-weight:600">⚠️ Ab 570 € / Monat ist ein zweites AVD-Depot erforderlich. Die Einzahlungsobergrenze beträgt 6.840 € / Jahr pro Vertrag. Ihre Einzahlung wird automatisch auf zwei Depots aufgeteilt.</span></div>
     </div>
     <div class="p2-ind-row" style="display:none;min-width:0">
      <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:4px">2. Erwachsener</div>
      <div class="ev-row"><div class="ev-numbox" style="width:76px"><input type="text" id="v-spar2" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
-      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar2"></div><input type="range" id="s-spar2" min="10" max="570" step="5" value="150"></div>
+      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar2"></div><input type="range" id="s-spar2" min="10" max="1140" step="5" value="150"></div>
      </div>
     </div>
    </div>
@@ -347,6 +347,10 @@
   <!-- Rechenweg-Panel (volle Breite) -->
   <div id="riester-rechenweg-panel" style="display:none;margin-top:12px;background:#012660;border:1px solid #0a3070;border-radius:14px;padding:18px 20px;font-size:12px;color:rgba(255,255,255,.85);line-height:1.7">
    <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px;letter-spacing:.04em">So funktioniert der Riester-Vergleich</div>
+   <div style="margin-bottom:10px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Sparrate und Depot-Struktur</div>
+    <div id="rw-depot-info" style="display:none;color:#F15A24;margin-bottom:6px">Depot 1: 570 € / Monat — Depot 2: – € / Monat</div>
+   </div>
    <div style="margin-bottom:10px">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Staatliche Zulagen</div>
     <div>Grundzulage: <strong style="color:#fff">175 € / Jahr</strong> (1 Person, 1 Vertrag)</div>
@@ -876,33 +880,54 @@ function calc(){
  var s=ST,lz=Math.max(s.rentenAlter-s.alter,1);
  var rendNetto=Math.max(0,s.rend-s.kosten);
  var rendNettoEtf=Math.max(0,s.rend-s.kostenEtf);
- var jbErw=s.spar*12;
- var gzErw=gzProErw(jbErw);
+
+ // Zwei-Depot-Logik: Wenn aktiviert, behandle als kombiniertes Depot
+ var jbErw, gzErw, eigenbeitragJ, ebM;
+ if(isTwoDeptosActive&&s.erw===1){
+  // Zwei Depots: Gesamtsparrate ist spar, aufgeteilt auf 570€ + Rest
+  jbErw=s.spar*12; // Gesamte Jahressparrate
+  gzErw=gzProErw(jbErw); // Grundzulage basierend auf Gesamtsparrate, aber gedeckelt
+  eigenbeitragJ=jbErw; // Gesamter Jahresbeitrag
+  ebM=s.spar; // Gesamtmonatsrate
+ } else {
+  // Normal: Standard Berechnung
+  jbErw=s.spar*12;
+  gzErw=gzProErw(jbErw);
+  eigenbeitragJ=s.spar*12*s.erw;
+  ebM=s.spar*s.erw;
+ }
+
  var gzJ=gzErw*s.erw;
  var fk=foerderKinder();
  var kzJ=fk*300;
- var kzGesamt=kinderZulageGesamt(lz); 
- var eigenbeitragJ=s.spar*12*s.erw;
- var ebM=s.spar*s.erw;
+ var kzGesamt=kinderZulageGesamt(lz);
  var gsatz=grenz(s.eink*12);
  var gsatz2,gsatzEff;
  if(s.erw===2&&s.verheiratet){
   var gsatzSplit=grenz(s.eink*12);
   gsatz2=gsatzSplit;
-  gsatzEff=gsatzSplit; 
+  gsatzEff=gsatzSplit;
  } else if(s.erw===2&&!s.verheiratet){
   gsatz2=grenz(s.eink2*12);
-  gsatzEff=(gsatz+gsatz2)/2; 
+  gsatzEff=(gsatz+gsatz2)/2;
  } else {
   gsatz2=gsatz;
   gsatzEff=gsatz;
  }
- var MINDEST_J=120*s.erw; 
+ var MINDEST_J=120*s.erw;
  var gzFaktor=(eigenbeitragJ<MINDEST_J&&MINDEST_J>0)?Math.max(0,eigenbeitragJ/MINDEST_J):1;
  var gzJKorr=gzJ*gzFaktor;
  var zulageJ=gzJKorr+kzJ;
  var zulageM=zulageJ/12;
- var foerderbarerEigenbeitrag=Math.min(eigenbeitragJ,1800*s.erw);
+
+ // Förderung: Bei Zwei-Depot auf 1.800€ insgesamt gedeckelt (nicht verdoppelt)
+ var foerderbarerEigenbeitrag;
+ if(isTwoDeptosActive&&s.erw===1){
+  foerderbarerEigenbeitrag=Math.min(eigenbeitragJ,1800); // Zwei Depots: 1.800€ INSGESAMT
+ } else {
+  foerderbarerEigenbeitrag=Math.min(eigenbeitragJ,1800*s.erw); // Normal: 1.800€ pro Person
+ }
+
  var abzugsbasis=foerderbarerEigenbeitrag+zulageJ;
  var steuerBrutto=abzugsbasis*gsatzEff;
  var steuerNetto=Math.max(0,steuerBrutto-zulageJ);
@@ -928,7 +953,13 @@ function calc(){
   var gzJDiesJ=gzJ*gzFaktorJ;
   var zulageJahrReal=gzJDiesJ+kzDiesesJahr;
   gzGesamtReal+=gzJDiesJ;
-  var foerdJ=Math.min(eigenbeitragJ,1800*s.erw);
+  // Förderung: Bei Zwei-Depot auf 1.800€ insgesamt gedeckelt
+  var foerdJ;
+  if(isTwoDeptosActive&&s.erw===1){
+   foerdJ=Math.min(eigenbeitragJ,1800);
+  } else {
+   foerdJ=Math.min(eigenbeitragJ,1800*s.erw);
+  }
   var abzugJ=foerdJ+zulageJahrReal;
   var stBruttoJ=abzugJ*gsatzEff;
   var stNettoJ=Math.max(0,stBruttoJ-zulageJahrReal);
@@ -948,7 +979,12 @@ function calc(){
  }
  var last=pts[pts.length-1]||{mi:0,mo:0};
  var avBrutto=last.mi;
- var gefoerdertJ=Math.min(1800*s.erw,eigenbeitragJ);
+ var gefoerdertJ;
+ if(isTwoDeptosActive&&s.erw===1){
+  gefoerdertJ=Math.min(1800,eigenbeitragJ);
+ } else {
+  gefoerdertJ=Math.min(1800*s.erw,eigenbeitragJ);
+ }
  var ueberJ=Math.max(0,eigenbeitragJ-1800*s.erw);
  var eigenbeitragGes=eigenbeitragJ*lz;
  var zulageGes=gzGesamtReal+kzGesamt;
@@ -1114,6 +1150,17 @@ function setEl(id,val){var el=document.getElementById(id);if(el)el.textContent=v
 function render(){
  var r=calc();
  var sr=ST.steuersatzRente;
+
+ // Zwei-Depot-Info im Rechenweg-Panel aktualisieren
+ var depotInfoEl=document.getElementById('rw-depot-info');
+ if(depotInfoEl){
+  if(isTwoDeptosActive&&depot2Spar>0){
+   depotInfoEl.style.display='block';
+   depotInfoEl.textContent='Depot 1: 570 € / Monat — Depot 2: '+depot2Spar.toFixed(0)+' € / Monat';
+  } else {
+   depotInfoEl.style.display='none';
+  }
+ }
  setEl('r-end',fE(r.end,true));
  setEl('r-end-brutto',fE(r.endBrutto,true));
  setEl('r-end-steuer','−'+fE(r.avSteuer,true));
@@ -1510,9 +1557,35 @@ document.getElementById('v-depotalter').addEventListener('input',function(){
  var v=parseInt(this.value)||85;
  if(v>ST.rentenAlter){ST.depotAlter=v;updateRiesterDepotDisplay();debouncedRender();}
 });
-syncSlider('spar','s-spar','v-spar','f-spar',null,570);
-// Sparrate ↔ Riester-Beitrag synchron halten
+syncSlider('spar','s-spar','v-spar','f-spar',null,1140);
+// Zwei-Depot-Logik (global variables)
+var isTwoDeptosActive=false;
+var depot1Spar=0;
+var depot2Spar=0;
+
+// Sparrate ↔ Riester-Beitrag synchron halten + Zwei-Depot-Logik
 (function(){
+ function updateTwoDepotLogic(sparRate){
+  // h570 Element anzeigen/verstecken
+  var h570=document.getElementById('h570');
+  if(h570){
+   if(sparRate>570){
+    h570.style.display='block';
+   } else {
+    h570.style.display='none';
+   }
+  }
+  // Zwei-Depot-Status berechnen
+  isTwoDeptosActive=(sparRate>570);
+  if(isTwoDeptosActive){
+   depot1Spar=570;
+   depot2Spar=sparRate-570;
+  } else {
+   depot1Spar=sparRate;
+   depot2Spar=0;
+  }
+ }
+
  function syncRiesterBeitrag(v){
   var sb=document.getElementById('s-riester-bei'),vb=document.getElementById('v-riester-bei'),fb=document.getElementById('f-riester-bei');
   if(!sb||!vb||!fb)return;
@@ -1525,19 +1598,28 @@ syncSlider('spar','s-spar','v-spar','f-spar',null,570);
  function syncHauptSpar(v){
   var ss=document.getElementById('s-spar'),vs=document.getElementById('v-spar'),fs=document.getElementById('f-spar');
   if(!ss||!vs||!fs)return;
-  var capped=Math.min(570,Math.max(10,v));
+  var capped=Math.min(1140,Math.max(10,v));
   ST.spar=capped;
   ss.value=capped;
   vs.value=capped;
-  fs.style.width=((capped-10)/(570-10)*100)+'%';
+  fs.style.width=((capped-10)/(1140-10)*100)+'%';
+  updateTwoDepotLogic(capped);
  }
  // Haupt-Sparrate → Riester (true = capture phase, läuft nach syncSlider)
  var sSpar=document.getElementById('s-spar'),vSpar=document.getElementById('v-spar');
  if(sSpar){
-  sSpar.addEventListener('input',function(){syncRiesterBeitrag(parseFloat(this.value));},true);
+  sSpar.addEventListener('input',function(){
+   var v=parseFloat(this.value);
+   syncRiesterBeitrag(v);
+   updateTwoDepotLogic(v);
+  },true);
  }
  if(vSpar){
-  vSpar.addEventListener('change',function(){syncRiesterBeitrag(parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0);},true);
+  vSpar.addEventListener('change',function(){
+   var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;
+   syncRiesterBeitrag(v);
+   updateTwoDepotLogic(v);
+  },true);
  }
  // Riester-Beitrag → Haupt-Sparrate
  var sRiester=document.getElementById('s-riester-bei'),vRiester=document.getElementById('v-riester-bei');
@@ -1547,6 +1629,8 @@ syncSlider('spar','s-spar','v-spar','f-spar',null,570);
  if(vRiester){
   vRiester.addEventListener('change',function(){syncHauptSpar(parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0);debouncedRender();});
  }
+ // Initialize on page load
+ updateTwoDepotLogic(ST.spar||150);
 })();
 syncSlider('rend','s-rend','v-rend','f-rend',function(v){return parseFloat(v).toFixed(1).replace('.',',');},null);
 document.getElementById('s-rend').addEventListener('input',function(){if(sectionMode==='riester')calcRiester();});
