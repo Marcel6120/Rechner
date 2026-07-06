@@ -1966,6 +1966,23 @@ function toggleRiesterRechenweg(){
  if(btn)btn.classList.toggle('open',open);
 }
 
+// Rentenfaktor für Riester-Leibrente: altersabhängig
+function getRentenfaktor(rentenAlter){
+ var faktoren={62:{faktor:15.5},65:{faktor:17.0},67:{faktor:18.5},70:{faktor:20.5}};
+ var ages=Object.keys(faktoren).map(function(a){return parseInt(a);}).sort(function(a,b){return a-b;});
+ if(rentenAlter<=ages[0])return faktoren[ages[0]].faktor;
+ if(rentenAlter>=ages[ages.length-1])return faktoren[ages[ages.length-1]].faktor;
+ for(var i=0;i<ages.length-1;i++){
+  var a1=ages[i],a2=ages[i+1];
+  if(rentenAlter>=a1&&rentenAlter<=a2){
+   var f1=faktoren[a1].faktor,f2=faktoren[a2].faktor;
+   var t=(rentenAlter-a1)/(a2-a1);
+   return f1+(f2-f1)*t;
+  }
+ }
+ return faktoren[ages[ages.length-1]].faktor;
+}
+
 function calcRiester(){
  var n=ST.rentenAlter-ST.alter;
  if(n<=0)return;
@@ -2046,13 +2063,16 @@ function calcRiester(){
 
  var r1EndNetto=r1End*riesterSteuerFaktor;
 
- // Korrektur 1 & 2: Riester mit Einmalauszahlung (max 30%) und Leibrente
+ // Riester mit Einmalauszahlung (max 30%) und altersabhängige Leibrente mit Rentenfaktor
  var r1EinmalAuszahlung=Math.round(r1EndNetto*(riesterEinmalPct/100));
  var r1KapitalLeibr=r1EndNetto-r1EinmalAuszahlung;
- // Leibrente wird sofort ab Renteneintritt aus dem verbleibenden Kapital berechnet
- // mit Riester-Nettorendite (riesterRenditeEigen - riesterKosten)
- var r1Monat=r1KapitalLeibr>0?Math.round(monatRente(r1KapitalLeibr,renditeAuszahlungRiester,entnahmeJahreRiester)):0;
+ // Leibrente mit altersabhängigem Rentenfaktor (€ pro 10.000€ monatlich)
+ var r1RentenfaktorVal=getRentenfaktor(ST.rentenAlter);
+ var r1LeibrenteBrutto=r1KapitalLeibr>0?r1KapitalLeibr*r1RentenfaktorVal/10000:0;
+ var r1LeibrenteSteuerJahr=r1LeibrenteBrutto*12*riesterSteuer/100;
+ var r1Monat=r1LeibrenteBrutto>0?Math.round(r1LeibrenteBrutto-r1LeibrenteSteuerJahr/12):0;
  var r1AnzeigeKapital=r1EndNetto; // Für Anzeige: das Gesamtkapital (inkl. Einmalausszahlung)
+ var r1RentenfaktorDisplay=r1RentenfaktorVal; // Für Rechenweg-Panel
 
  // AVD mit Einmalauszahlung (max 30%) und Leibrente
  var r2EinmalAuszahlung=Math.round(avdEndNetto*(riesterEinmalPctAvd/100));
