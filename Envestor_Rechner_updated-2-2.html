@@ -97,7 +97,7 @@
      <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-spar" value="150" inputmode="decimal"><span class="ev-unit">€</span></div>
       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar"></div><input type="range" id="s-spar" min="10" max="1140" step="5" value="150"></div>
      </div>
-     <div class="ev-hint"><span id="h150" class="hl-green" style="display:none">✓ Volle Grundzulage erreicht</span><span id="h570" style="display:none;color:#ef4444;font-weight:700;padding:8px 10px;background:rgba(239,68,68,.15);border-radius:6px;border-left:4px solid #ef4444">🔴 WICHTIG: Zwei Altersvorsorgedepots erforderlich — Die Obergrenze von 6.840 €/Jahr pro Vertrag wird überschritten. Ihre Sparrate wird automatisch auf zwei Depots aufgeteilt (je max. 570 €/Monat).</span></div>
+     <div class="ev-hint"><span id="h150" class="hl-green" style="display:none">Förderung wird berechnet...</span><span id="h570" style="display:none;color:#ef4444;font-weight:700;padding:8px 10px;background:rgba(239,68,68,.15);border-radius:6px;border-left:4px solid #ef4444">⚠️ Zweites Depot erforderlich (ab 570€/Monat)</span></div>
     </div>
     <div class="p2-ind-row" style="display:none;min-width:0">
      <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:4px">2. Erwachsener</div>
@@ -1363,12 +1363,19 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
  var hEnt=document.getElementById('hint-entnahme');
  if(hEnt) hEnt.textContent=r.entnahmeJahre+' Jahre';
  var h150el=document.getElementById('h150');
- if(ST.spar>=150&&ST.spar<570){h150el.style.display='';h150el.style.visibility='';h150el.className='hl-green';h150el.textContent='✓ Volle Grundzulage (540 €) erreicht';}
- else if(ST.spar>=10&&ST.spar<150){h150el.style.display='';h150el.style.visibility='';h150el.className='hl-green';h150el.textContent='Grundzulage: ca. '+Math.round(gzProErw(ST.spar*12))+' € / Jahr';}
- else{h150el.style.visibility='hidden';h150el.style.display='';}
+ if(ST.spar>=225&&ST.spar<570){
+  h150el.style.display='';h150el.style.visibility='';h150el.className='hl-green';
+  h150el.textContent='✓ Maximale Förderung erreicht!';
+ } else if(ST.spar>=10&&ST.spar<225){
+  h150el.style.display='';h150el.style.visibility='';h150el.className='hl-green';
+  var bis=225-ST.spar;
+  h150el.textContent='Noch '+bis+' €/Monat bis zur Maximalen Förderung';
+ } else {
+  h150el.style.visibility='hidden';h150el.style.display='';
+ }
  var h570=document.getElementById('h570');
- h570.textContent=ST.spar>=570?'✓ Volle Grundzulage und volle steuerliche Förderung erreicht':'';
- h570.className=ST.spar>=570?'hl-orange':'';
+ h570.textContent=ST.spar>=570?'⚠️ Zweites Depot erforderlich (ab 570€/Monat)':'';
+ h570.className=ST.spar>=570?'hl-red':'';
  (function(){
   if(typeof Chart==='undefined') return;
   var ptsAll=r.pts;
