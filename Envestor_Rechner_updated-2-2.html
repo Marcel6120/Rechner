@@ -2024,11 +2024,19 @@ function calcRiester(){
  var mr12Avd=Math.pow(1+avdRendNetto,1/12)-1;
  var totalZulagenAvd=0,totalSteuererstattungA=0;
  var totalZulagenRiester=0,totalSteuererstattungR=0;
+ var berufsEinsteigerBonusAvd=0;
 
  for(var jj=1;jj<=n;jj++){
   // Kinderzulage dieses Jahr (jahresweise, Kinder laufen einzeln bis 21 aus)
   var kzDiesesJahr=0;
   (ST.kinderAlter||[]).forEach(function(kAlter){if(kAlter+(jj-1)<=21)kzDiesesJahr+=300;});
+
+  // --- AVD-Seite: Berufseinsteiger-Bonus (200€ einmalig, wenn Alter < 25 im 1. Jahr) ---
+  var berufsBonus=0;
+  if(jj===1 && ST.alter<25){
+    berufsBonus=200;
+    berufsEinsteigerBonusAvd=200;
+  }
 
   // --- Riester-Seite ---
   var zulagenRJ=gzRiester+kzDiesesJahr;
@@ -2039,7 +2047,7 @@ function calcRiester(){
   for(var mm=1;mm<=12;mm++){r1End=r1End*(1+mr12R)+monatRJ;}
 
   // --- AVD-Seite (gleiche Logik wie Hauptrechner) ---
-  var zulagenAJ=gzAvd+kzDiesesJahr;
+  var zulagenAJ=gzAvd+kzDiesesJahr+berufsBonus;
   totalZulagenAvd+=zulagenAJ;
   var stErstAJ=Math.max(0,(Math.min(beitragJ,1800)+zulagenAJ)*grenzSatz-zulagenAJ);
   totalSteuererstattungA+=stErstAJ;
@@ -2078,17 +2086,15 @@ function calcRiester(){
  var renditeAuszahlungRiester=Math.max(0,riesterRenditeEigen-riesterKosten)/100;
  var renditeAuszahlungAvd=Math.max(0,ST.rend-riesterAvdKosten)/100;
 
- var r1EndNetto=r1End*riesterSteuerFaktor;
-
- // Riester mit Einmalauszahlung (max 30%) und altersabhängige Leibrente mit Rentenfaktor
- var r1EinmalAuszahlung=Math.round(r1EndNetto*(riesterEinmalPct/100));
- var r1KapitalLeibr=r1EndNetto-r1EinmalAuszahlung;
+ // Riester mit Einmalauszahlung (max 30%, TAX-FREE) und altersabhängige Leibrente (nachgelagert 100% besteuert)
+ var r1EinmalAuszahlung=Math.round(r1End*(riesterEinmalPct/100));  // 30% steuerfrei
+ var r1KapitalLeibrBrutto=r1End-r1EinmalAuszahlung;  // 70% BRUTTO für Leibrente
  // Leibrente mit altersabhängigem Rentenfaktor (€ pro 10.000€ monatlich)
  var r1RentenfaktorVal=getRentenfaktor(ST.rentenAlter);
- var r1LeibrenteBrutto=r1KapitalLeibr>0?r1KapitalLeibr*r1RentenfaktorVal/10000:0;
- var r1LeibrenteSteuerJahr=r1LeibrenteBrutto*12*riesterSteuer/100;
+ var r1LeibrenteBrutto=r1KapitalLeibrBrutto>0?r1KapitalLeibrBrutto*r1RentenfaktorVal/10000:0;
+ var r1LeibrenteSteuerJahr=r1LeibrenteBrutto*12*riesterSteuer/100;  // 100% tax auf Rentenzahlungen
  var r1Monat=r1LeibrenteBrutto>0?Math.round(r1LeibrenteBrutto-r1LeibrenteSteuerJahr/12):0;
- var r1AnzeigeKapital=r1EndNetto; // Für Anzeige: das Gesamtkapital (inkl. Einmalausszahlung)
+ var r1AnzeigeKapital=r1End;  // Für Anzeige: das Gesamtkapital (Einmalauszahlung TAX-FREE, Leibrente wird besteuert)
  var r1RentenfaktorDisplay=r1RentenfaktorVal; // Für Rechenweg-Panel
 
  // AVD mit Einmalauszahlung (max 30%) und Leibrente
