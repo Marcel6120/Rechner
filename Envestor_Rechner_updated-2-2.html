@@ -1998,19 +1998,7 @@ function toggleRiesterRechenweg(){
 
 // Rentenfaktor für Riester-Leibrente: altersabhängig
 function getRentenfaktor(rentenAlter){
- var faktoren={62:{faktor:21.0},65:{faktor:23.0},67:{faktor:25.0},70:{faktor:28.0}};
- var ages=Object.keys(faktoren).map(function(a){return parseInt(a);}).sort(function(a,b){return a-b;});
- if(rentenAlter<=ages[0])return faktoren[ages[0]].faktor;
- if(rentenAlter>=ages[ages.length-1])return faktoren[ages[ages.length-1]].faktor;
- for(var i=0;i<ages.length-1;i++){
-  var a1=ages[i],a2=ages[i+1];
-  if(rentenAlter>=a1&&rentenAlter<=a2){
-   var f1=faktoren[a1].faktor,f2=faktoren[a2].faktor;
-   var t=(rentenAlter-a1)/(a2-a1);
-   return f1+(f2-f1)*t;
-  }
- }
- return faktoren[ages[ages.length-1]].faktor;
+ return 25.0;
 }
 
 function calcRiester(){
