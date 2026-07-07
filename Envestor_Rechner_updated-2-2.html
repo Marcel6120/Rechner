@@ -584,7 +584,9 @@ function calcSingle(p){
  for(var j=1;j<=lz;j++){
   var gzJJ=jb<MINDEST_J?0:gzJ;
   var kzJJ=jb<MINDEST_J?0:kzJ;
-  var zulJahr=gzJJ+kzJJ;gzGesamtReal+=gzJJ;kzGesamtReal+=kzJJ;
+  var berufsBonus=0;
+  if(j===1&&p.alter<25&&jb>=MINDEST_J){berufsBonus=200;}
+  var zulJahr=gzJJ+kzJJ+berufsBonus;gzGesamtReal+=gzJJ;kzGesamtReal+=kzJJ;
   var foJ=Math.min(jb,1800),abJ=foJ+zulJahr,stBJ=abJ*gsatzEff,stNJ=Math.max(0,stBJ-zulJahr);
   steuerNettoGesamt+=stNJ;
   var zulM=zulJahr/12,eiM=ebM+zulM;
@@ -673,9 +675,14 @@ function calc(){
   var zulageJahrReal=gzJDiesJ+kzDiesJ;
   gzGesamtReal+=gzJDiesJ;
   var berufseinsteiger200=0;
-  if(j===1&&s.alter<25&&!berufseinsteiger200Used){
-   berufseinsteiger200=200*s.erw;
-   berufseinsteiger200Used=true;
+  if(j===1&&!berufseinsteiger200Used&&eigenbeitragJ>=MINDEST_J){
+   if(s.erw===1&&s.alter<25){
+    berufseinsteiger200=200;
+   } else if(s.erw===2){
+    if(s.alter<25)berufseinsteiger200+=200;
+    if(s.alter2<25)berufseinsteiger200+=200;
+   }
+   if(berufseinsteiger200>0)berufseinsteiger200Used=true;
   }
   var foerdJ=Math.min(eigenbeitragJ,1800*s.erw);
   var abzugJ=foerdJ+zulageJahrReal;
