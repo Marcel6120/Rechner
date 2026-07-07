@@ -851,10 +851,12 @@ function calcSingle(p){
  var mr12=Math.pow(1+rendNetto/100,1/12)-1,mr12Etf=Math.pow(1+rendNettoEtf/100,1/12)-1;
  var depotMit=0,depotOhne=0,totalVapPaid=0;
  for(var j=1;j<=lz;j++){
-  var gzFJ=(jb<MINDEST_J)?Math.max(0,jb/MINDEST_J):1,gzJJ=gzJ*gzFJ;
+  var gzFJ=(jb<MINDEST_J)?0:1,gzJJ=gzJ*gzFJ;
   var kzDiesesJahr=0;
-  (p.kinderAlter||[]).forEach(function(kAlter){if(kAlter+(j-1)<=21)kzDiesesJahr+=300;});
-  var zulJahr=gzJJ+kzDiesesJahr;gzGesamtReal+=gzJJ;kzGesamtReal+=kzDiesesJahr;
+  if(jb>=MINDEST_J){(p.kinderAlter||[]).forEach(function(kAlter){if(kAlter+(j-1)<=21)kzDiesesJahr+=300;});}
+  var berufsBonus=0;
+  if(j===1&&p.alter<25&&jb>=MINDEST_J){berufsBonus=200;}
+  var zulJahr=gzJJ+kzDiesesJahr+berufsBonus;gzGesamtReal+=gzJJ;kzGesamtReal+=kzDiesesJahr;
   var foJ=Math.min(jb,1800),abJ=foJ+zulJahr,stBJ=abJ*gsatzEff,stNJ=Math.max(0,stBJ-zulJahr);
   steuerNettoGesamt+=stNJ;
   var zulM=zulJahr/12,eiM=ebM+zulM;
@@ -924,7 +926,7 @@ function calc(){
   gsatzEff=gsatz;
  }
  var MINDEST_J=120*s.erw;
- var gzFaktor=(eigenbeitragJ<MINDEST_J&&MINDEST_J>0)?Math.max(0,eigenbeitragJ/MINDEST_J):1;
+ var gzFaktor=(eigenbeitragJ<MINDEST_J&&MINDEST_J>0)?0:1;
  var gzJKorr=gzJ*gzFaktor;
  var zulageJ=gzJKorr+kzJ;
  var zulageM=zulageJ/12;
@@ -955,12 +957,22 @@ function calc(){
  for(var j=1;j<=lz;j++){
   var sparerAlterJetzt=s.alter+(j-1);
   var kzDiesesJahr=0;
-  ST.kinderAlter.forEach(function(alter){
-   if(alter+(j-1)<=21) kzDiesesJahr+=300;
-  });
-  var gzFaktorJ=(eigenbeitragJ<MINDEST_J&&MINDEST_J>0)?Math.max(0,eigenbeitragJ/MINDEST_J):1;
+  var gzFaktorJ=(eigenbeitragJ<MINDEST_J&&MINDEST_J>0)?0:1;
+  if(gzFaktorJ===1){
+   ST.kinderAlter.forEach(function(alter){
+    if(alter+(j-1)<=21) kzDiesesJahr+=300;
+   });
+  }
+  var berufsBonus=0;
+  if(j===1&&gzFaktorJ===1){
+   if(s.erw===1&&s.alter<25){berufsBonus=200;}
+   else if(s.erw===2){
+    if(s.alter<25)berufsBonus+=200;
+    if(s.alter2<25)berufsBonus+=200;
+   }
+  }
   var gzJDiesJ=gzJ*gzFaktorJ;
-  var zulageJahrReal=gzJDiesJ+kzDiesesJahr;
+  var zulageJahrReal=gzJDiesJ+kzDiesesJahr+berufsBonus;
   gzGesamtReal+=gzJDiesJ;
   // Förderung: Bei Zwei-Depot auf 1.800€ insgesamt gedeckelt
   var foerdJ;
@@ -2034,9 +2046,9 @@ function calcRiester(){
   var kzDiesesJahr=0;
   (ST.kinderAlter||[]).forEach(function(kAlter){if(kAlter+(jj-1)<=21)kzDiesesJahr+=300;});
 
-  // --- AVD-Seite: Berufseinsteiger-Bonus (200€ einmalig, wenn Alter < 25 im 1. Jahr) ---
+  // --- AVD-Seite: Berufseinsteiger-Bonus (200€ einmalig, wenn Alter < 25 im 1. Jahr und Mindesteigenbeitrag erfüllt) ---
   var berufsBonus=0;
-  if(jj===1 && ST.alter<25){
+  if(jj===1 && beitragJ>=120 && ST.alter<25){
     berufsBonus=200;
     berufsEinsteigerBonusAvd=200;
   }
