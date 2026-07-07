@@ -349,6 +349,18 @@
   <div id="riester-rechenweg-panel" style="display:none;margin-top:12px;background:#012660;border:1px solid #0a3070;border-radius:14px;padding:18px 20px;font-size:12px;color:rgba(255,255,255,.85);line-height:1.7">
    <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px;letter-spacing:.04em">So funktioniert der Riester-Vergleich</div>
    <div style="margin-bottom:10px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Vergleichsmethodik</div>
+    <div style="margin-bottom:6px">Dieser Vergleich misst die <strong>monatliche Netto-Rente</strong> beider Produkte ab Renteneintritt. Beide Produkte erhalten:</div>
+    <div style="margin-bottom:6px">
+     • Gleiches Startkapital (Aktuelles Guthaben)<br>
+     • Gleichen monatlichen Beitrag<br>
+     • Gleiches Endalter (Renteneintritt)<br>
+     • Identische Zulagen (Grundzulage + Kinderzulage)<br>
+     • Der fairen Vergleich wegen: AVD-Rendite wird direkt in beiden Szenarien angewendet
+    </div>
+    <div><strong>Wichtig:</strong> Der Vergleich zeigt nur die Renteneinkünfte. Der Riester-Vertrag hat möglicherweise Versicherungsschutz oder Bausparkomponenten, die hier nicht berücksichtigt sind. Das AV-Depot ist ein reines Sparprodukt ohne zusätzliche Schutzleistungen.</div>
+   </div>
+   <div style="margin-bottom:10px">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Sparrate und Depot-Struktur</div>
     <div id="rw-depot-info" style="display:none;margin-bottom:6px;padding:8px 10px;background:rgba(247,147,26,.1);border-radius:6px;border-left:3px solid #f7931a">
      <div style="color:#f7931a;font-weight:600;margin-bottom:4px">Zwei Altersvorsorgedepots aktiv</div>
@@ -377,20 +389,36 @@
     <div style="margin-top:3px">Sparphase: <strong id="rw-jahre" style="color:#fff">–</strong> Jahre</div>
    </div>
    <div style="margin-bottom:10px">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Besteuerung bei Auszahlung</div>
-    <div>Beide Produkte: nachgelagert mit persönl. Steuersatz <strong id="rw-steuer" style="color:#fff">–</strong> → Nettofaktor: <strong id="rw-nettofaktor" style="color:#fff">–</strong></div>
-    <div>AVD ist gefördertes Produkt — keine Abgeltungsteuer, keine Vorabpauschale in der Ansparphase</div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Besteuerung</div>
+    <div style="margin-bottom:6px"><strong style="color:#fff">Ansparphase:</strong><br>
+    • Riester: Keine Vorabpauschale (Geldzufluss Zulage ist nicht steuerpflichtig)<br>
+    • AVD: Keine Vorabpauschale, keine Abgeltungsteuer — wächst komplett steuerfrei</div>
+    <div><strong style="color:#fff">Auszahlungsphase:</strong> Nachgelagerte Besteuerung mit Grenzsteuersatz <strong id="rw-steuer" style="color:#fff">–</strong> (Nettofaktor: <strong id="rw-nettofaktor" style="color:#fff">–</strong>)<br>
+    • Riester: 100% der Rentenzahlungen werden besteuert<br>
+    • AVD: 100% der Rentenzahlungen werden besteuert (keine Unterschiede wie Ertragsanteilsbesteuerung)</div>
    </div>
    <div style="margin-bottom:10px">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Rendite in der Auszahlphase</div>
-    <div><strong style="color:#f7931a">Riester-Vertrag:</strong> Altersabhängiger Rentenfaktor (62J: 21,0€, 67J: 25,0€, 70J: 28,0€ pro 10.000€ Kapital/Monat) — unabhängig von Anspar- oder Marktrendite | <strong style="color:#f7931a">Altersvorsorgedepot:</strong> 5,8 % p.a. (gleich wie Ansparphase)</div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Rentenfaktor in der Auszahlphase</div>
+    <div><strong style="color:#f7931a">Riester-Vertrag:</strong> Fixer Rentenfaktor 25,0€ pro 10.000€ Kapital/Monat (altersunabhängig) — unabhängig von Anspar- oder Marktrendite, garantiert lebenslang | <strong style="color:#f7931a">Altersvorsorgedepot:</strong> 5,8% p.a. Netto-Rendite (gleich wie Ansparphase), flexibel über Entnahmedauer</div>
    </div>
    <div>
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Monatsrente netto</div>
-    <div style="margin-bottom:6px"><strong style="color:#fff">Riester-Vertrag (Leibrente mit Rentenfaktor):</strong><br>
-    30% steuerfrei Einmalauszahlung + 70% lebenslange Leibrente. Rentenfaktor wird nach Alter interpoliert (z.B. 18,5€ bei 67 Jahren). Leibrente (brutto) = Kapital × (Rentenfaktor / 10.000). Nach 100%-iger nachgelagerter Besteuerung mit Grenzsteuersatz. Die Monatsrente ist fix für die Lebenszeit — sie reagiert nicht auf den „Rentenzahlung bis"-Regler (dieser bestimmt nur die Anspardauer).</div>
-    <div><strong style="color:#fff">Altersvorsorgedepot (Annuitätsplan):</strong><br>
-    30% steuerfrei Einmalauszahlung + 70% Annuitätsplan über eingestellte Entnahmedauer (<strong id="rw-entnahme" style="color:#F15A24">–</strong> Jahre, bis Alter <strong id="rw-bisalter" style="color:#F15A24">–</strong>, Minimum 10). Annuitätsformel mit 5,8% Netto-Rendite. Monatsrente reagiert auf den Regler — längere Laufzeit = niedrigere Rente. Nachgelagerte Besteuerung mit Grenzsteuersatz (keine Ertragsanteilsbesteuerung, da volles Kapital gefördert).</div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Auszahlungsphase - Monatsrente netto</div>
+    <div style="margin-bottom:6px"><strong style="color:#fff">Riester-Versicherung (Leibrente mit Rentenfaktor):</strong><br>
+    • 30% steuerfrei Einmalauszahlung<br>
+    • 70% lebenslange Leibrente: Brutto = Kapital × (25,0 / 10.000)<br>
+    • Beispiel: 100.000€ × 25,0 / 10.000 = 250€/Monat (brutto)<br>
+    • 100% nachgelagerte Besteuerung mit Grenzsteuersatz<br>
+    • <strong>Wichtig:</strong> Rente ist garantiert fix für die Lebenszeit — Änderungen am „Rentenzahlung bis"-Regler beeinflussen nur die Sparphase, nicht die Rentenhöhe.</div>
+    <div style="margin-top:6px"><strong style="color:#fff">Riester Fondssparplan:</strong><br>
+    • 30% steuerfrei Einmalauszahlung<br>
+    • 70% Annuitätsplan: Wird wie AV-Depot mit Marktrendite verrentet<br>
+    • 100% nachgelagerte Besteuerung mit Grenzsteuersatz</div>
+    <div style="margin-top:6px"><strong style="color:#fff">Altersvorsorgedepot (Annuitätsplan):</strong><br>
+    • 30% steuerfrei Einmalauszahlung<br>
+    • 70% Annuitätsplan über eingestellte Entnahmedauer: <strong id="rw-entnahme" style="color:#F15A24">–</strong> Jahre (bis Alter <strong id="rw-bisalter" style="color:#F15A24">–</strong>, mindestens 10 Jahre)<br>
+    • Brutto Monatsrente = Restkapital / (Monate in Entnahmedauer), dann 5,8% p.a. Rendite weitergerechnet<br>
+    • Monatsrente reagiert auf Regler — längere Laufzeit = niedrigere Rente<br>
+    • Nachgelagerte Besteuerung mit Grenzsteuersatz (keine Ertragsanteilsbesteuerung, da volles Kapital gefördert)</div>
    </div>
   </div>
   <!-- hidden spans -->
