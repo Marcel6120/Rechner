@@ -1956,12 +1956,20 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
   document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forEach(function(x){x.classList.remove('on');});
   this.classList.add('on');
 
-  // Verstecke Einmalauszahlungs-Regler für Fondssparplan/Bausparvertrag
+  // Verstecke Einmalauszahlungs-Regler für Fondssparplan/Bausparvertrag (ohne Lücke)
   var einmalAvdRow=document.getElementById('riester-einmal-avd-row');
   var einmalRiesterRow=document.getElementById('riester-einmal-riester-row');
   var verstecken=(riesterVertragsart==='fonds'||riesterVertragsart==='bauspar');
-  if(einmalAvdRow)einmalAvdRow.style.display=verstecken?'none':'block';
-  if(einmalRiesterRow)einmalRiesterRow.style.display=verstecken?'none':'block';
+  if(einmalAvdRow){
+   einmalAvdRow.style.display=verstecken?'none':'block';
+   if(verstecken){einmalAvdRow.style.height='0';einmalAvdRow.style.margin='0';einmalAvdRow.style.overflow='hidden';}
+   else{einmalAvdRow.style.height='';einmalAvdRow.style.margin='';einmalAvdRow.style.overflow='';}
+  }
+  if(einmalRiesterRow){
+   einmalRiesterRow.style.display=verstecken?'none':'block';
+   if(verstecken){einmalRiesterRow.style.height='0';einmalRiesterRow.style.margin='0';einmalRiesterRow.style.overflow='hidden';}
+   else{einmalRiesterRow.style.height='';einmalRiesterRow.style.margin='';einmalRiesterRow.style.overflow='';}
+  }
 
   // Update rendite slider to type-specific default
   var def=riesterRenditeDefaults[riesterVertragsart]||2;
