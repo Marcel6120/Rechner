@@ -1964,12 +1964,11 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
   document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forEach(function(x){x.classList.remove('on');});
   this.classList.add('on');
 
-  // Verstecke Einmalauszahlungs-Regler für Fondssparplan/Bausparvertrag (ohne Lücke)
+  // Zeige Einmalauszahlungs-Regler für alle Vertragsarten (Versicherung, Fondssparplan, Bausparvertrag)
   var einmalAvdRow=document.getElementById('riester-einmal-avd-row');
   var einmalRiesterRow=document.getElementById('riester-einmal-riester-row');
-  var verstecken=(riesterVertragsart==='fonds'||riesterVertragsart==='bauspar');
-  if(einmalAvdRow)einmalAvdRow.style.display=verstecken?'none':'block';
-  if(einmalRiesterRow)einmalRiesterRow.style.display=verstecken?'none':'block';
+  if(einmalAvdRow)einmalAvdRow.style.display='block';
+  if(einmalRiesterRow)einmalRiesterRow.style.display='block';
 
   // Update rendite slider to type-specific default
   var def=riesterRenditeDefaults[riesterVertragsart]||2;
