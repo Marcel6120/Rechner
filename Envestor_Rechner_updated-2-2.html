@@ -14,7 +14,7 @@
 .ev-einstieg-card.on{background:rgba(241,90,36,.12);border-color:#F15A24}
 #riester-card-avd,#riester-card-r{transition:box-shadow .2s,border-color .2s;cursor:pointer;text-align:center}
 #riester-card-avd:hover,#riester-card-r:hover{box-shadow:0 0 16px rgba(241,90,36,.8), inset 0 0 8px rgba(241,90,36,.2)}
-.riester-input-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 24px;align-items:start}
+.riester-input-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 24px;align-items:start;grid-auto-flow:dense}
 .riester-outer-grid{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:stretch}
 @media(max-width:700px){
  .riester-outer-grid{grid-template-columns:1fr}
@@ -1960,16 +1960,8 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
   var einmalAvdRow=document.getElementById('riester-einmal-avd-row');
   var einmalRiesterRow=document.getElementById('riester-einmal-riester-row');
   var verstecken=(riesterVertragsart==='fonds'||riesterVertragsart==='bauspar');
-  if(einmalAvdRow){
-   einmalAvdRow.style.display=verstecken?'none':'block';
-   if(verstecken){einmalAvdRow.style.height='0';einmalAvdRow.style.margin='0';einmalAvdRow.style.overflow='hidden';}
-   else{einmalAvdRow.style.height='';einmalAvdRow.style.margin='';einmalAvdRow.style.overflow='';}
-  }
-  if(einmalRiesterRow){
-   einmalRiesterRow.style.display=verstecken?'none':'block';
-   if(verstecken){einmalRiesterRow.style.height='0';einmalRiesterRow.style.margin='0';einmalRiesterRow.style.overflow='hidden';}
-   else{einmalRiesterRow.style.height='';einmalRiesterRow.style.margin='';einmalRiesterRow.style.overflow='';}
-  }
+  if(einmalAvdRow)einmalAvdRow.style.display=verstecken?'none':'block';
+  if(einmalRiesterRow)einmalRiesterRow.style.display=verstecken?'none':'block';
 
   // Update rendite slider to type-specific default
   var def=riesterRenditeDefaults[riesterVertragsart]||2;
