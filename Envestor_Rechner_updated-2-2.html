@@ -2007,7 +2007,7 @@ function calcRiester(){
 
  // Renditen netto
  var rRendNetto=Math.max(0,riesterRenditeEigen/100-riesterKosten/100);
- var avdRendNetto=Math.max(0,ST.rend/100-riesterAvdKosten/100);
+ var avdRendNetto=Math.max(0,ST.rend/100-ST.kosten/100);
 
  var beitragJ=riesterBeitrag*12;
  var grenzSatz=grenz(riesterEinkM*12);
@@ -2084,7 +2084,7 @@ function calcRiester(){
 
  // Auszahlungsrenditen: Beide Produkte verwenden ihre jeweilige Nutzer-Rendite aus der Ansparphase
  var renditeAuszahlungRiester=Math.max(0,riesterRenditeEigen-riesterKosten)/100;
- var renditeAuszahlungAvd=Math.max(0,ST.rend-riesterAvdKosten)/100;
+ var renditeAuszahlungAvd=Math.max(0,ST.rend-ST.kosten)/100;
 
  // Riester mit Einmalauszahlung (max 30%, TAX-FREE) und altersabhängige Leibrente (nachgelagert 100% besteuert)
  var r1EinmalAuszahlung=Math.round(r1End*(riesterEinmalPct/100));  // 30% steuerfrei
