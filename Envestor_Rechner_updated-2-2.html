@@ -2138,9 +2138,10 @@ function calcRiester(){
  var diffEl=document.getElementById('r2-diff');
  if(diffEl){
   var oNum=function(t){return '<span style="color:#F15A24">'+t+'</span>';};
+  var gNum=function(t){return '<span style="color:#00cc00">'+t+'</span>';};
   if(Math.abs(diffM)<5){diffEl.innerHTML='Das AV-Depot und Riester liegen ungefähr gleichauf';}
-  else if(diffM>0){diffEl.innerHTML='Das AV-Depot bringt<br>'+oNum(fmtCurrency(diffM))+' mehr im Monat';}
-  else{diffEl.innerHTML='Das AV-Depot bringt<br>'+oNum(fmtCurrency(Math.abs(diffM)))+' weniger im Monat';}
+  else if(diffM>0){diffEl.innerHTML='Das AV-Depot bringt<br>'+gNum(fmtCurrency(diffM))+' mehr im Monat';}
+  else{diffEl.innerHTML='Das AV-Depot bringt<br>'+gNum(fmtCurrency(Math.abs(diffM)))+' weniger im Monat';}
  }
 
  // Gewinner-Karte hervorheben
