@@ -2104,8 +2104,9 @@ function calcRiester(){
  var renditeAuszahlungAvd=Math.max(0,ST.rend-ST.kosten)/100;
 
  // Riester mit Einmalauszahlung (max 30%, TAX-FREE) und altersabhängige Leibrente (nachgelagert 100% besteuert)
- var r1EinmalAuszahlung=Math.round(r1End*(riesterEinmalPct/100));  // 30% steuerfrei
- var r1KapitalLeibrBrutto=r1End-r1EinmalAuszahlung;  // 70% BRUTTO für Leibrente
+ var r1EinmalAuszahlungExakt=r1End*(riesterEinmalPct/100);  // 30% exakt (nicht gerundet)
+ var r1KapitalLeibrBrutto=r1End-r1EinmalAuszahlungExakt;  // 70% BRUTTO für Leibrente (aus exaktem Wert)
+ var r1EinmalAuszahlung=Math.round(r1EinmalAuszahlungExakt);  // Erst am Ende runden für Anzeige
  // Leibrente mit altersabhängigem Rentenfaktor (€ pro 10.000€ monatlich)
  var r1RentenfaktorVal=getRentenfaktor(ST.rentenAlter);
  var r1LeibrenteBrutto=r1KapitalLeibrBrutto>0?r1KapitalLeibrBrutto*r1RentenfaktorVal/10000:0;
@@ -2115,8 +2116,9 @@ function calcRiester(){
  var r1RentenfaktorDisplay=r1RentenfaktorVal; // Für Rechenweg-Panel
 
  // AVD mit Einmalauszahlung (max 30%) und Leibrente
- var r2EinmalAuszahlung=Math.round(avdEndNetto*(riesterEinmalPctAvd/100));
- var r2KapitalLeibr=avdEndNetto-r2EinmalAuszahlung;
+ var r2EinmalAuszahlungExakt=avdEndNetto*(riesterEinmalPctAvd/100);  // Exakt (nicht gerundet)
+ var r2KapitalLeibr=avdEndNetto-r2EinmalAuszahlungExakt;  // Aus exaktem Wert
+ var r2EinmalAuszahlung=Math.round(r2EinmalAuszahlungExakt);  // Erst am Ende runden für Anzeige
  // Leibrente wird sofort ab Renteneintritt aus dem verbleibenden Kapital berechnet
  // mit AVD-Nettorendite (ST.rend - riesterAvdKosten)
  var avdMonatFair=r2KapitalLeibr>0?Math.round(monatRente(r2KapitalLeibr,renditeAuszahlungAvd,entnahmeJahre)):0;
