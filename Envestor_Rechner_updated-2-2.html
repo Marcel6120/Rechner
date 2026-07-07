@@ -841,7 +841,7 @@ function calcSingle(p){
  var s=ST,lz=Math.max(p.rentenAlter-p.alter,1);
  var rendNetto=Math.max(0,s.rend-s.kosten),rendNettoEtf=Math.max(0,s.rend-s.kostenEtf);
  var jb=p.spar*12,gzErw=gzProErw(jb),gzJ=gzErw,ebM=p.spar;
- var MINDEST_J=120,gzFaktor=(jb<MINDEST_J)?Math.max(0,jb/MINDEST_J):1,gzJKorr=gzJ*gzFaktor;
+ var MINDEST_J=120,gzFaktor=(jb<MINDEST_J)?0:1,gzJKorr=gzJ*gzFaktor;
  var gsatzEff=p.gsatzEff;
  var kzJ=p.kzJ||0;
  var zulageJ=gzJKorr+kzJ,zulageM=zulageJ/12;
@@ -1125,7 +1125,7 @@ function calc(){
   var cAvBrutto=r1.avBrutto+r2.avBrutto,cEtfBrutto=r1.etfBrutto+r2.etfBrutto;
   var cAvSteuer=(cAvBrutto-cAvNetto),cEtfSteuer=(cEtfBrutto-cEtfNetto);
   var einmalFrac=s.einmalPct/100,renteFrac=1-einmalFrac;
-  var cGz=r1.gz+r2.gz,cEoM=s.spar+s.spar2,cZulageM=cGz/(r1.lz*12);
+  var cGz=r1.gz+r2.gz,cKz=r1.kz+r2.kz,cEoM=s.spar+s.spar2,cZulageM=(cGz+cKz)/(r1.lz*12);
   return{
    gz:cGz,kz:r1.kz+r2.kz,st:r1.st+r2.st,
    end:cAvNetto,endBrutto:cAvBrutto,etf:cEtfNetto,etfBrutto:cEtfBrutto,vort:cAvNetto-cEtfNetto,
@@ -2030,7 +2030,7 @@ function calcRiester(){
  var grenzSatz=grenz(riesterEinkM*12);
 
  // AVD Grundzulage: identisch zum Hauptrechner (gzProErw, bis 540€)
- var gzAvd=gzProErw(beitragJ);
+ var gzAvd=(beitragJ>=120)?gzProErw(beitragJ):0;  // Mindesteigenbeitrag prüfen
  // Riester Grundzulage: fest 175€ (gesetzlich)
  var gzRiester=175;
 
@@ -2046,7 +2046,7 @@ function calcRiester(){
  for(var jj=1;jj<=n;jj++){
   // Kinderzulage dieses Jahr (jahresweise, Kinder laufen einzeln bis 21 aus)
   var kzDiesesJahr=0;
-  (ST.kinderAlter||[]).forEach(function(kAlter){if(kAlter+(jj-1)<=21)kzDiesesJahr+=300;});
+  if(beitragJ>=120){(ST.kinderAlter||[]).forEach(function(kAlter){if(kAlter+(jj-1)<=21)kzDiesesJahr+=300;});}  // Mindesteigenbeitrag prüfen
 
   // --- AVD-Seite: Berufseinsteiger-Bonus (200€ einmalig, wenn Alter < 25 im 1. Jahr und Mindesteigenbeitrag erfüllt) ---
   var berufsBonus=0;
