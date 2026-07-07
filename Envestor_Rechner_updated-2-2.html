@@ -14,7 +14,9 @@
 .ev-einstieg-card.on{background:rgba(241,90,36,.12);border-color:#F15A24}
 #riester-card-avd,#riester-card-r{transition:box-shadow .2s,border-color .2s;cursor:pointer;text-align:center}
 #riester-card-avd:hover,#riester-card-r:hover{box-shadow:0 0 16px rgba(241,90,36,.8), inset 0 0 8px rgba(241,90,36,.2)}
-.riester-input-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 24px;align-items:start;grid-auto-flow:dense}
+.riester-input-grid{display:flex;flex-wrap:wrap;gap:20px 24px;align-items:start;align-content:flex-start}
+.riester-input-grid>div{flex:1 1 calc(50% - 12px);min-width:0}
+.riester-input-grid>div[style*="display: none"]{display:none!important;flex:0!important}
 .riester-outer-grid{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:stretch}
 @media(max-width:700px){
  .riester-outer-grid{grid-template-columns:1fr}
