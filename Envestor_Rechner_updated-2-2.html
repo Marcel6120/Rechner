@@ -15,7 +15,7 @@
 #riester-card-avd,#riester-card-r{transition:box-shadow .2s,border-color .2s;cursor:pointer}
 #riester-card-avd:hover,#riester-card-r:hover{box-shadow:0 0 16px rgba(241,90,36,.8), inset 0 0 8px rgba(241,90,36,.2)}
 .riester-input-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 24px;align-items:start}
-.riester-outer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:start}
+.riester-outer-grid{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:stretch}
 @media(max-width:700px){
  .riester-outer-grid{grid-template-columns:1fr}
  .riester-input-grid{grid-template-columns:1fr}
@@ -178,11 +178,10 @@
 })();
 </script></div>
  <div id="riester-block" style="display:none;grid-column:1/-1;grid-row:4;padding:0">
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:16px;align-items:stretch">
-   <!-- LINKE SEITE: Regler + Zahlung -->
-   <div style="display:flex;flex-direction:column;gap:12px">
-    <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 18px 14px">
-     <div class="riester-input-grid">
+  <div class="riester-outer-grid">
+   <!-- LINKE SEITE: Regler -->
+   <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 18px 14px">
+    <div class="riester-input-grid">
 
      <!-- Zeile 1: Aktuelles Guthaben | Monatlicher Beitrag -->
      <div>
@@ -312,35 +311,21 @@
       </div>
      </div>
 
-     </div><!-- end 2-col grid -->
-    </div><!-- end input box -->
-    <!-- Zahlung AV-Depot -->
-    <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;justify-content:center">
-     <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin-bottom:8px">Zahlung AV-Depot</div>
-     <div style="font-size:24px;font-weight:800;color:#4ade80;line-height:1">–</div>
-    </div>
+    </div><!-- end 2-col grid -->
    </div><!-- end linke Seite -->
 
-   <!-- MITTLERE SPALTE: Altersvorsorgedepot + Vergleich -->
-   <div style="display:flex;flex-direction:column;gap:12px">
-    <div id="riester-card-avd" style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;justify-content:center">
+   <!-- RECHTE SEITE: Ergebnis-Boxen -->
+   <div style="display:flex;flex-direction:column;gap:12px;height:100%">
+    <!-- Box 1: Altersvorsorgedepot -->
+    <div id="riester-card-avd" style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 20px;flex:1;display:flex;flex-direction:column;justify-content:center">
      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
       <div style="font-size:15px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff">Altersvorsorgedepot</div>
       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip" style="left:0;right:auto">Endkapital nach Abgeltungsteuer (25 % auf 70 % des Gewinns): <strong id="r2-kapital">–</strong></div></div>
      </div>
      <div id="r2-rente" style="font-size:38px;font-weight:800;color:#F15A24;line-height:1">–</div>
     </div>
-    <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;justify-content:center">
-     <div id="r2-diff" style="font-size:20px;font-weight:800;color:#fff;line-height:1.3">–</div>
-    </div>
-    <div style="text-align:left;padding:2px 0">
-     <button id="btn-riester-rechenweg" class="ev-rechenweg-btn" type="button" onclick="toggleRiesterRechenweg()">📊 So haben wir gerechnet</button>
-    </div>
-   </div>
-
-   <!-- RECHTE SPALTE: Riester-Vertrag + Zahlung -->
-   <div style="display:flex;flex-direction:column;gap:12px">
-    <div id="riester-card-r" style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;justify-content:center">
+    <!-- Box 2: Riester-Vertrag -->
+    <div id="riester-card-r" style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 20px;flex:1;display:flex;flex-direction:column;justify-content:center">
      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
       <div style="font-size:15px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff">Ihr Riester-Vertrag</div>
       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip" style="left:0;right:auto">Endkapital nach nachgelagerter Besteuerung: <strong id="r1-kapital">–</strong></div></div>
@@ -348,12 +333,15 @@
      <div id="r1-rente" style="font-size:38px;font-weight:800;color:#fff;line-height:1">–</div>
      <div id="r1-hinweis-leibrente" style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.7);line-height:1.5">Die Riester-Leibrente wird lebenslang ausgezahlt — auch über das eingestellte Alter hinaus. Der Betrag bleibt konstant, der Versicherer trägt das Langlebigkeitsrisiko. Hinweis: Die tatsächliche Leibrente kann je nach Versicherungskosten und Verrentungskonditionen des Anbieters niedriger ausfallen als hier berechnet.</div>
     </div>
-    <!-- Zahlung Riester -->
-    <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;justify-content:center">
-     <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin-bottom:8px">Zahlung Riester</div>
-     <div style="font-size:24px;font-weight:800;color:#fff;line-height:1">–</div>
+    <!-- Box 3: Vergleich AV-Depot vs Riester -->
+    <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 20px;flex:1;display:flex;flex-direction:column;justify-content:center">
+     <div id="r2-diff" style="font-size:20px;font-weight:800;color:#fff;line-height:1.3">–</div>
     </div>
-   </div>
+    <!-- So haben wir gerechnet -->
+    <div style="text-align:left;padding:2px 0">
+     <button id="btn-riester-rechenweg" class="ev-rechenweg-btn" type="button" onclick="toggleRiesterRechenweg()">📊 So haben wir gerechnet</button>
+    </div>
+   </div><!-- end rechte Seite -->
 
   </div><!-- end outer grid -->
 
@@ -395,13 +383,12 @@
    </div>
    <div style="margin-bottom:10px">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Rendite in der Auszahlphase</div>
-    <div><strong style="color:#f7931a">Riester-Vertrag:</strong> Fixer Rentenfaktor 25,0€ pro 10.000€ Kapital/Monat (altersunabhängig) — unabhängig von Anspar- oder Marktrendite | <strong style="color:#f7931a">Altersvorsorgedepot:</strong> 5,8 % p.a. (gleich wie Ansparphase)</div>
+    <div><strong style="color:#f7931a">Riester-Vertrag:</strong> Altersabhängiger Rentenfaktor (62J: 21,0€, 67J: 25,0€, 70J: 28,0€ pro 10.000€ Kapital/Monat) — unabhängig von Anspar- oder Marktrendite | <strong style="color:#f7931a">Altersvorsorgedepot:</strong> 5,8 % p.a. (gleich wie Ansparphase)</div>
    </div>
    <div>
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Monatsrente netto</div>
-    <div style="margin-bottom:6px"><strong style="color:#fff">Riester-Vertrag:</strong><br>
-    <strong>Versicherung:</strong> 30% steuerfrei Einmalauszahlung + 70% lebenslange Leibrente (Rentenfaktor 25€/10.000€, fix). Die Monatsrente ist garantiert und unveränderlich — sie reagiert nicht auf den Regler (dieser bestimmt nur die Anspardauer).<br>
-    <strong>Fondssparplan:</strong> 30% steuerfrei Einmalauszahlung + 70% Annuitätsplan über eingestellte Entnahmedauer mit Auszahlungsrendite (wie AV-Depot). Nach 100%-iger nachgelagerter Besteuerung mit Grenzsteuersatz.</div>
+    <div style="margin-bottom:6px"><strong style="color:#fff">Riester-Vertrag (Leibrente mit Rentenfaktor):</strong><br>
+    30% steuerfrei Einmalauszahlung + 70% lebenslange Leibrente. Rentenfaktor wird nach Alter interpoliert (z.B. 18,5€ bei 67 Jahren). Leibrente (brutto) = Kapital × (Rentenfaktor / 10.000). Nach 100%-iger nachgelagerter Besteuerung mit Grenzsteuersatz. Die Monatsrente ist fix für die Lebenszeit — sie reagiert nicht auf den „Rentenzahlung bis"-Regler (dieser bestimmt nur die Anspardauer).</div>
     <div><strong style="color:#fff">Altersvorsorgedepot (Annuitätsplan):</strong><br>
     30% steuerfrei Einmalauszahlung + 70% Annuitätsplan über eingestellte Entnahmedauer (<strong id="rw-entnahme" style="color:#F15A24">–</strong> Jahre, bis Alter <strong id="rw-bisalter" style="color:#F15A24">–</strong>, Minimum 10). Annuitätsformel mit 5,8% Netto-Rendite. Monatsrente reagiert auf den Regler — längere Laufzeit = niedrigere Rente. Nachgelagerte Besteuerung mit Grenzsteuersatz (keine Ertragsanteilsbesteuerung, da volles Kapital gefördert).</div>
    </div>
@@ -2011,7 +1998,19 @@ function toggleRiesterRechenweg(){
 
 // Rentenfaktor für Riester-Leibrente: altersabhängig
 function getRentenfaktor(rentenAlter){
- return 25.0; // Fixer Rentenfaktor: 25€ pro 10.000€ Kapital, unabhängig vom Rentenalter
+ var faktoren={62:{faktor:21.0},65:{faktor:23.0},67:{faktor:25.0},70:{faktor:28.0}};
+ var ages=Object.keys(faktoren).map(function(a){return parseInt(a);}).sort(function(a,b){return a-b;});
+ if(rentenAlter<=ages[0])return faktoren[ages[0]].faktor;
+ if(rentenAlter>=ages[ages.length-1])return faktoren[ages[ages.length-1]].faktor;
+ for(var i=0;i<ages.length-1;i++){
+  var a1=ages[i],a2=ages[i+1];
+  if(rentenAlter>=a1&&rentenAlter<=a2){
+   var f1=faktoren[a1].faktor,f2=faktoren[a2].faktor;
+   var t=(rentenAlter-a1)/(a2-a1);
+   return f1+(f2-f1)*t;
+  }
+ }
+ return faktoren[ages[ages.length-1]].faktor;
 }
 
 function calcRiester(){
@@ -2103,29 +2102,17 @@ function calcRiester(){
  var renditeAuszahlungRiester=Math.max(0,riesterRenditeEigen-riesterKosten)/100;
  var renditeAuszahlungAvd=Math.max(0,ST.rend-ST.kosten)/100;
 
- // Riester mit Einmalauszahlung (max 30%, TAX-FREE) + Auszahlungslogik je nach Vertragsart
+ // Riester mit Einmalauszahlung (max 30%, TAX-FREE) und altersabhängige Leibrente (nachgelagert 100% besteuert)
  var r1EinmalAuszahlungExakt=r1End*(riesterEinmalPct/100);  // 30% exakt (nicht gerundet)
- var r1KapitalFuerAuszahlung=r1End-r1EinmalAuszahlungExakt;  // 70% für Auszahlung (aus exaktem Wert)
+ var r1KapitalLeibrBrutto=r1End-r1EinmalAuszahlungExakt;  // 70% BRUTTO für Leibrente (aus exaktem Wert)
  var r1EinmalAuszahlung=Math.round(r1EinmalAuszahlungExakt);  // Erst am Ende runden für Anzeige
-
- var r1Monat=0,r1RentenfaktorDisplay=0;
-
- if(riesterVertragsart==='versicherung'){
-  // VERSICHERUNG: Leibrente (fix, keine Auszahlungsrendite)
-  var r1RentenfaktorVal=getRentenfaktor(ST.rentenAlter);
-  var r1LeibrenteBrutto=r1KapitalFuerAuszahlung>0?r1KapitalFuerAuszahlung*r1RentenfaktorVal/10000:0;
-  var r1LeibrenteSteuerJahr=r1LeibrenteBrutto*12*riesterSteuer/100;  // 100% tax auf Rentenzahlungen
-  r1Monat=r1LeibrenteBrutto>0?Math.round(r1LeibrenteBrutto-r1LeibrenteSteuerJahr/12):0;
-  r1RentenfaktorDisplay=r1RentenfaktorVal;
- }else{
-  // FONDSSPARPLAN: Annuitätsplan wie AVD (mit Auszahlungsrendite bis Renteneintrittsalter+entnahmeJahre)
-  var r1MonatBrutto=r1KapitalFuerAuszahlung>0?monatRente(r1KapitalFuerAuszahlung,renditeAuszahlungRiester,entnahmeJahre):0;
-  var r1SteuernBrutto=r1MonatBrutto*12*riesterSteuer/100;
-  r1Monat=r1MonatBrutto>0?Math.round(r1MonatBrutto-r1SteuernBrutto/12):0;
-  r1RentenfaktorDisplay=0; // Kein Rentenfaktor für Fondssparplan
- }
-
- var r1AnzeigeKapital=r1End;  // Für Anzeige: das Gesamtkapital (Einmalauszahlung TAX-FREE, Rente wird besteuert)
+ // Leibrente mit altersabhängigem Rentenfaktor (€ pro 10.000€ monatlich)
+ var r1RentenfaktorVal=getRentenfaktor(ST.rentenAlter);
+ var r1LeibrenteBrutto=r1KapitalLeibrBrutto>0?r1KapitalLeibrBrutto*r1RentenfaktorVal/10000:0;
+ var r1LeibrenteSteuerJahr=r1LeibrenteBrutto*12*riesterSteuer/100;  // 100% tax auf Rentenzahlungen
+ var r1Monat=r1LeibrenteBrutto>0?Math.round(r1LeibrenteBrutto-r1LeibrenteSteuerJahr/12):0;
+ var r1AnzeigeKapital=r1End;  // Für Anzeige: das Gesamtkapital (Einmalauszahlung TAX-FREE, Leibrente wird besteuert)
+ var r1RentenfaktorDisplay=r1RentenfaktorVal; // Für Rechenweg-Panel
 
  // AVD mit Einmalauszahlung (max 30%) und Leibrente
  var r2EinmalAuszahlungExakt=avdEndNetto*(riesterEinmalPctAvd/100);  // Exakt (nicht gerundet)
@@ -2148,10 +2135,6 @@ function calcRiester(){
  setEl('r1-rente',fmtCurrency(r1Monat)+' / Mon.');
  setEl('r2-kapital',fmtCurrency(Math.round(r2AnzeigeKapital)));
  setEl('r2-rente',fmtCurrency(avdMonatFair)+' / Mon.');
-
- // Hinweis nur bei Versicherung anzeigen
- var hintLr=document.getElementById('r1-hinweis-leibrente');
- if(hintLr)hintLr.style.display=riesterVertragsart==='versicherung'?'block':'none';
 
  // Diff
  var diffM=avdMonatFair-r1Monat;
