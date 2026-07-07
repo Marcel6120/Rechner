@@ -924,8 +924,8 @@ function calcSingle(p){
  var etfAbgst=etfStpfl*0.26375,etfSteuerAuf=Math.max(0,etfAbgst-totalVapPaid);
  var etfNetto=Math.round(etfBrutto-etfSteuerAuf);
  var entnahmeJ=Math.max(10,p.depotAlter-p.rentenAlter);
- var mr12E=Math.pow(1+Math.max(0,s.rend-s.kosten)/100,1/12)-1;
- var mr12EE=Math.pow(1+Math.max(0,s.rend-s.kostenEtf)/100,1/12)-1;
+ var mr12E=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
+ var mr12EE=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
  var nEnt=entnahmeJ*12;
  var avM=mr12E>0?avNetto*mr12E*Math.pow(1+mr12E,nEnt)/(Math.pow(1+mr12E,nEnt)-1):avNetto/nEnt;
  var etfM=mr12EE>0?etfNetto*mr12EE*Math.pow(1+mr12EE,nEnt)/(Math.pow(1+mr12EE,nEnt)-1):etfNetto/nEnt;
@@ -1085,8 +1085,8 @@ function calc(){
  var etfSteuerAufloesung=Math.max(0,etfAbgstBrutto-totalVapPaid);
  var etfNetto=Math.round(etfBrutto-etfSteuerAufloesung);
  var entnahmeJ=Math.max(10,s.depotAlter-s.rentenAlter);
- var mr12Ent=Math.pow(1+Math.max(0,s.rend-s.kosten)/100,1/12)-1;
- var mr12EntEtf=Math.pow(1+Math.max(0,s.rend-s.kostenEtf)/100,1/12)-1;
+ var mr12Ent=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
+ var mr12EntEtf=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
  var nEnt=entnahmeJ*12;
  var avEntnahmeM=mr12Ent>0?avNetto*mr12Ent*Math.pow(1+mr12Ent,nEnt)/(Math.pow(1+mr12Ent,nEnt)-1):avNetto/nEnt;
  var etfEntnahmeM=mr12EntEtf>0?etfNetto*mr12EntEtf*Math.pow(1+mr12EntEtf,nEnt)/(Math.pow(1+mr12EntEtf,nEnt)-1):etfNetto/nEnt;
@@ -1133,7 +1133,7 @@ function calc(){
   auszahlungMonatNetto:(function(){
    var kapital=avNetto*renteFrac;
    var entnahmeJ=Math.max(10,s.depotAlter-s.rentenAlter);
-   var rendEnt=Math.max(0,s.rend-s.kosten)/100;
+   var rendEnt=3.0/100;  // Konservative 3% p.a. Rendite in der Auszahlungsphase für alle Produkte
    var mr12Ent=Math.pow(1+rendEnt,1/12)-1;
    var n=entnahmeJ*12;
    if(kapital<=0) return 0;
@@ -1144,7 +1144,7 @@ function calc(){
   etfMonatNetto:(function(){
    var kapitalEtf=etfNetto*renteFrac;
    var entnahmeJ=Math.max(10,s.depotAlter-s.rentenAlter);
-   var rendEnt=Math.max(0,s.rend-s.kostenEtf)/100;
+   var rendEnt=3.0/100;  // Konservative 3% p.a. Rendite in der Auszahlungsphase für alle Produkte
    var mr12Ent=Math.pow(1+rendEnt,1/12)-1;
    var n=entnahmeJ*12;
    if(kapitalEtf<=0) return 0;
@@ -1444,8 +1444,8 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
   var etfBruttoPeak=r.etfBrutto;
   var entnahmeJ=r.entnahmeJahre;
   var nEnt=entnahmeJ*12;
-  var mr12Ent=Math.pow(1+Math.max(0,ST.rend-ST.kosten)/100,1/12)-1;
-  var mr12EntEtf=Math.pow(1+Math.max(0,ST.rend-(ST.kostenEtf||1.0))/100,1/12)-1;
+  var mr12Ent=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
+  var mr12EntEtf=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
   var avBruttoEntnahmeM=mr12Ent>0
    ? avBruttoPeak*mr12Ent*Math.pow(1+mr12Ent,nEnt)/(Math.pow(1+mr12Ent,nEnt)-1)
    : avBruttoPeak/nEnt;
