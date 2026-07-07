@@ -290,7 +290,7 @@
      </div>
 
      <!-- Zeile 6: Einmalauszahlung Altersvorsorgedepot | Einmalauszahlung Riester -->
-     <div>
+     <div id="riester-einmal-avd-row">
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Einmalauszahlung Altersvorsorgedepot</span>
        <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30% des AV-Depots können als Einmalauszahlung ausgezahlt werden (§ 20a EStG). Der verbleibende Mindestanteil von 70% wird als Leibrente verrentet.</div></div>
@@ -300,7 +300,7 @@
        <div class="ev-slwrap" style="flex:1"><div class="ev-track"></div><div class="ev-fill" id="f-riester-einmal-pct-avd" style="width:0%"></div><input type="range" id="s-riester-einmal-pct-avd" min="0" max="30" step="1" value="0"></div>
       </div>
      </div>
-     <div>
+     <div id="riester-einmal-riester-row">
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Einmalauszahlung Riester</span>
        <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bei Riester ist die Einmalauszahlung gesetzlich auf maximal 30% des Guthabens begrenzt (§ 22 Nr. 5 EStG). Der verbleibende Mindestanteil von 70% wird als Leibrente verrentet.</div></div>
@@ -1955,6 +1955,14 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
   riesterVertragsart=this.dataset.v;
   document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forEach(function(x){x.classList.remove('on');});
   this.classList.add('on');
+
+  // Verstecke Einmalauszahlungs-Regler für Fondssparplan/Bausparvertrag
+  var einmalAvdRow=document.getElementById('riester-einmal-avd-row');
+  var einmalRiesterRow=document.getElementById('riester-einmal-riester-row');
+  var verstecken=(riesterVertragsart==='fonds'||riesterVertragsart==='bauspar');
+  if(einmalAvdRow)einmalAvdRow.style.display=verstecken?'none':'block';
+  if(einmalRiesterRow)einmalRiesterRow.style.display=verstecken?'none':'block';
+
   // Update rendite slider to type-specific default
   var def=riesterRenditeDefaults[riesterVertragsart]||2;
   riesterRenditeEigen=def;
