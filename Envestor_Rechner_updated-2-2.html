@@ -408,8 +408,13 @@
     • <strong>Laufende Rente/Auszahlungsplan:</strong> Jede Rentenzahlung wird ebenfalls mit dem Grenzsteuersatz versteuert</div>
    </div>
    <div style="margin-bottom:10px">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Rentenfaktor in der Auszahlphase</div>
-    <div><strong style="color:#f7931a">Riester-Vertrag:</strong> Fixer Rentenfaktor 25,0€ pro 10.000€ Kapital/Monat (altersunabhängig) — unabhängig von Anspar- oder Marktrendite, garantiert lebenslang | <strong style="color:#f7931a">Altersvorsorgedepot:</strong> 5,8% p.a. Netto-Rendite (gleich wie Ansparphase), flexibel über Entnahmedauer</div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Rendite in der Auszahlungsphase</div>
+    <div style="margin-bottom:6px"><strong style="color:#fff">Beide Produkte:</strong> 3,0% p.a. konservative Rendite<br>
+    <span style="font-size:11px;color:rgba(255,255,255,.7)">Grund: In der Rentenphase wird aufgrund geringerer Risikotoleranz konservativer angelegt. Die gleiche Rendite ermöglicht einen fairen Vergleich der Produktstrukturen.</span></div>
+   </div>
+   <div style="margin-bottom:10px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Rentenfaktor / Auszahlungslogik</div>
+    <div><strong style="color:#f7931a">Riester-Vertrag:</strong> Fixer Rentenfaktor 25,0€ pro 10.000€ Kapital/Monat (altersunabhängig) — unabhängig von Anspar- oder Marktrendite, garantiert lebenslang | <strong style="color:#f7931a">Altersvorsorgedepot:</strong> Flexibler Auszahlungsplan basierend auf Entnahmedauer und 3% p.a. Rendite auf Restkapital</div>
    </div>
    <div>
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Auszahlungsphase - Monatsrente netto</div>
@@ -2165,9 +2170,12 @@ function calcRiester(){
   return kapital*mr12*Math.pow(1+mr12,nMon)/(Math.pow(1+mr12,nMon)-1);
  }
 
- // Auszahlungsrenditen: Beide Produkte verwenden ihre jeweilige Nutzer-Rendite aus der Ansparphase
- var renditeAuszahlungRiester=Math.max(0,riesterRenditeEigen-riesterKosten)/100;
- var renditeAuszahlungAvd=Math.max(0,ST.rend-ST.kosten)/100;
+ // Auszahlungsrenditen: Beide Produkte verwenden die GLEICHE konservative Rendite (3% p.a.)
+ // Grund: In der Rentenphase wird konservativer angelegt (weniger Risiko, mehr Stabilität)
+ // Dies ermöglicht einen fairen Vergleich der Produktstrukturen (Leibrente vs. Auszahlungsplan), unabhängig von individuellen Rendite-Annahmen
+ var renditeAuszahlung=3.0/100;  // 3% p.a. konservativ für Rentneralter
+ var renditeAuszahlungRiester=renditeAuszahlung;
+ var renditeAuszahlungAvd=renditeAuszahlung;
 
  // Riester mit Einmalauszahlung (max 30%, voll steuerpflichtig § 22 Nr. 5 EStG) und Auszahlungslogik abhängig von Vertragsart
  var r1EinmalAuszahlungExakt=r1End*(riesterEinmalPct/100);  // 30% exakt (nicht gerundet)
