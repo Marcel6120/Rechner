@@ -1830,7 +1830,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){var m=docum
 var einstiegModus='neu';
 var riesterVertragsart='versicherung';
 var riesterSteuer=10;     // Steuersatz im Alter (%)
-var ST.kosten=0.2; // Produktkosten AV-Depot p.a. (%)
+var riesterAvdKosten=0.2; // Produktkosten AV-Depot p.a. (%)
 var riesterGuthaben=15000;
 var riesterBeitrag=150;
 var riesterRenditeEigen=1.5; // vom Slider gesteuert
@@ -1895,10 +1895,10 @@ initRiesterDepotControls();
 (function(){
  var ss=document.getElementById('s-riester-avdkosten'),vs=document.getElementById('v-riester-avdkosten'),fs=document.getElementById('f-riester-avdkosten');
  if(!ss)return;
- function sync(v){ST.kosten=Math.min(3,Math.max(0,v));ss.value=ST.kosten;vs.value=ST.kosten.toFixed(1).replace('.',',');fs.style.width=(ST.kosten/3*100)+'%';calcRiester();}
+ function sync(v){riesterAvdKosten=Math.min(3,Math.max(0,v));ss.value=riesterAvdKosten;vs.value=riesterAvdKosten.toFixed(1).replace('.',',');fs.style.width=(riesterAvdKosten/3*100)+'%';calcRiester();}
  ss.addEventListener('input',function(){sync(parseFloat(this.value));});
  vs.addEventListener('change',function(){sync(parseFloat(this.value.replace(',','.'))||0);});
- fs.style.width=(ST.kosten/3*100)+'%';
+ fs.style.width=(riesterAvdKosten/3*100)+'%';
 })();
 
 // Vertragsart-Handler: setzt auch Rendite-Default
@@ -2007,7 +2007,7 @@ function calcRiester(){
 
  // Renditen netto
  var rRendNetto=Math.max(0,riesterRenditeEigen/100-riesterKosten/100);
- var avdRendNetto=Math.max(0,ST.rend/100-ST.kosten/100);
+ var avdRendNetto=Math.max(0,ST.rend/100-riesterAvdKosten/100);
 
  var beitragJ=riesterBeitrag*12;
  var grenzSatz=grenz(riesterEinkM*12);
@@ -2084,7 +2084,7 @@ function calcRiester(){
 
  // Auszahlungsrenditen: Beide Produkte verwenden ihre jeweilige Nutzer-Rendite aus der Ansparphase
  var renditeAuszahlungRiester=Math.max(0,riesterRenditeEigen-riesterKosten)/100;
- var renditeAuszahlungAvd=Math.max(0,ST.rend-ST.kosten)/100;
+ var renditeAuszahlungAvd=Math.max(0,ST.rend-riesterAvdKosten)/100;
 
  // Riester mit Einmalauszahlung (max 30%, TAX-FREE) und altersabhängige Leibrente (nachgelagert 100% besteuert)
  var r1EinmalAuszahlung=Math.round(r1End*(riesterEinmalPct/100));  // 30% steuerfrei
@@ -2101,7 +2101,7 @@ function calcRiester(){
  var r2EinmalAuszahlung=Math.round(avdEndNetto*(riesterEinmalPctAvd/100));
  var r2KapitalLeibr=avdEndNetto-r2EinmalAuszahlung;
  // Leibrente wird sofort ab Renteneintritt aus dem verbleibenden Kapital berechnet
- // mit AVD-Nettorendite (ST.rend - ST.kosten)
+ // mit AVD-Nettorendite (ST.rend - riesterAvdKosten)
  var avdMonatFair=r2KapitalLeibr>0?Math.round(monatRente(r2KapitalLeibr,renditeAuszahlungAvd,entnahmeJahre)):0;
  var r2AnzeigeKapital=avdEndNetto; // Für Anzeige: das Gesamtkapital (inkl. Einmalausszahlung)
 
@@ -2145,8 +2145,8 @@ function calcRiester(){
  setEl('rw-r-kosten',fmt1(riesterKosten));
  setEl('rw-r-netto',fmt1(Math.max(0,riesterRenditeEigen-riesterKosten)));
  setEl('rw-avd-rend',fmt1(ST.rend));
- setEl('rw-avd-kosten',fmt1(ST.kosten));
- setEl('rw-avd-netto',fmt1(Math.max(0,ST.rend-ST.kosten)));
+ setEl('rw-avd-kosten',fmt1(riesterAvdKosten));
+ setEl('rw-avd-netto',fmt1(Math.max(0,ST.rend-riesterAvdKosten)));
  setEl('rw-jahre',n+' Jahre');
  setEl('rw-steuer',fmt1(riesterSteuer));
  setEl('rw-nettofaktor',(riesterSteuerFaktor*100).toFixed(0)+' %');
@@ -2163,7 +2163,7 @@ function calcRiester(){
  var rCalcZ=document.getElementById('r-calc-zulagen');
  var rCalcE=document.getElementById('r-calc-entnahme');
  if(rCalcR)rCalcR.textContent=riesterRenditeEigen.toFixed(1).replace('.',',')+' % p.a. ('+riesterVertragsart+')';
- if(rCalcA)rCalcA.textContent=ST.rend.toFixed(1).replace('.',',')+' % brutto − '+ST.kosten.toFixed(1).replace('.',',')+' % Kosten = '+(avdRendNetto*100).toFixed(1).replace('.',',')+' % netto p.a.';
+ if(rCalcA)rCalcA.textContent=ST.rend.toFixed(1).replace('.',',')+' % brutto − '+riesterAvdKosten.toFixed(1).replace('.',',')+' % Kosten = '+(avdRendNetto*100).toFixed(1).replace('.',',')+' % netto p.a.';
  if(rCalcZ)rCalcZ.textContent='Grundzulage Riester '+fmtCurrency(gzRiester)+' / AVD '+fmtCurrency(Math.round(gzAvd))+(foerderKinderAnz>0?', Kinderzulage Ø '+fmtCurrency(Math.round(kzJDurchschnitt))+' / Jahr ('+foerderKinderAnz+' Kind'+(foerderKinderAnz>1?'er':'')+')':'');
  if(rCalcE)rCalcE.textContent=entnahmeJahre+' Jahre (Renteneintritt bis Alter '+(ST.depotAlter||85)+')';
 }
