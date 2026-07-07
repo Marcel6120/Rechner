@@ -2005,9 +2005,12 @@ function calcRiester(){
  if(n<=0)return;
  function fmtCurrency(v){return v.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:0})+' €';}
 
+ // Synchronisiere AVD-Kosten mit Hauptrechner
+ riesterAvdKosten=ST.kosten;
+
  // Renditen netto
  var rRendNetto=Math.max(0,riesterRenditeEigen/100-riesterKosten/100);
- var avdRendNetto=Math.max(0,ST.rend/100-ST.kosten/100);
+ var avdRendNetto=Math.max(0,ST.rend/100-riesterAvdKosten/100);
 
  var beitragJ=riesterBeitrag*12;
  var grenzSatz=grenz(riesterEinkM*12);
