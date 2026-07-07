@@ -331,7 +331,14 @@
       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip" style="left:0;right:auto">Endkapital nach nachgelagerter Besteuerung: <strong id="r1-kapital">–</strong></div></div>
      </div>
      <div id="r1-rente" style="font-size:38px;font-weight:800;color:#fff;line-height:1">–</div>
+     <div id="r1-rente-ab85-container" style="display:none;margin-top:12px">
+      <div style="font-size:11px;color:rgba(255,255,255,.7);margin-bottom:6px">Ab Alter 85:</div>
+      <div id="r1-rente-ab85" style="font-size:28px;font-weight:800;color:#F15A24;line-height:1">–</div>
+     </div>
      <div id="r1-hinweis-leibrente" style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.7);line-height:1.5">Die Riester-Leibrente wird lebenslang ausgezahlt — auch über das eingestellte Alter hinaus. Der Betrag bleibt konstant, der Versicherer trägt das Langlebigkeitsrisiko. Hinweis: Die tatsächliche Leibrente kann je nach Versicherungskosten und Verrentungskonditionen des Anbieters niedriger ausfallen als hier berechnet.</div>
+     <div id="r1-hinweis-fondssparplan" style="display:none;margin-top:12px;font-size:11px;color:rgba(255,255,255,.85);line-height:1.6;background:rgba(241,90,36,.1);padding:10px;border-radius:6px;border-left:3px solid #f7931a">
+      <strong style="color:#fff">Fondssparplan/Bausparvertrag:</strong> Der Anbieter ist bei Rentenbeginn gesetzlich verpflichtet, einen Teil des Kapitals für eine aufgeschobene Rentenversicherung ab 85 Jahren zu reservieren. Der hier verwendete Anteil von 30% ist ein Marktpraxis-Richtwert, keine feste gesetzliche Vorgabe — der tatsächliche Anteil kann je Anbieter variieren.
+     </div>
     </div>
     <!-- Box 3: Vergleich AV-Depot vs Riester -->
     <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 20px;flex:1;display:flex;flex-direction:column;justify-content:center">
@@ -2025,9 +2032,42 @@ function toggleRiesterRechenweg(){
 }
 
 // Rentenfaktor für Riester-Leibrente: altersabhängig
+// Aktuell: Fester Wert 25,0€ pro 10.000€ Kapital/Monat
+// Die Funktion ist so gestaltet, dass sie bei Bedarf auf altersabhängige Stützpunkte
+// mit Interpolation/Extrapolation erweitert werden kann.
 function getRentenfaktor(rentenAlter){
+ // Fester Rentenfaktor (altersunabhängig)
  return 25.0;
 }
+
+// Alternative für zukünftige Verwendung mit altersabhängigen Rentenfaktoren:
+// function getRentenfaktorAltersabhaengig(rentenAlter){
+//  var faktoren={62:{faktor:21.0},65:{faktor:23.0},67:{faktor:25.0},70:{faktor:28.0}};
+//  var ages=Object.keys(faktoren).map(function(a){return parseInt(a);}).sort(function(a,b){return a-b;});
+//  if(rentenAlter<=ages[0])return faktoren[ages[0]].faktor;
+//  // Extrapolation für Alter > 70: Steigung des letzten Segments verwenden
+//  if(rentenAlter>=ages[ages.length-1]){
+//   var lastIdx=ages.length-1;
+//   var a1=ages[lastIdx-1],a2=ages[lastIdx];
+//   var f1=faktoren[a1].faktor,f2=faktoren[a2].faktor;
+//   var steigung=(f2-f1)/(a2-a1);
+//   return f2+steigung*(rentenAlter-a2);
+//  }
+//  for(var i=0;i<ages.length-1;i++){
+//   var a1=ages[i],a2=ages[i+1];
+//   if(rentenAlter>=a1&&rentenAlter<=a2){
+//    var f1=faktoren[a1].faktor,f2=faktoren[a2].faktor;
+//    var t=(rentenAlter-a1)/(a2-a1);
+//    return f1+(f2-f1)*t;
+//   }
+//  }
+//  return faktoren[ages[ages.length-1]].faktor;
+// }
+
+// Konstante für Restverrentungs-Anteil bei Fondssparplan und Bausparvertrag
+// Marktpraxis-Richtwert (keine gesetzliche Vorgabe): 30% des Leibrentenkapitals wird
+// für eine aufgeschobene Rentenversicherung ab 85 Jahren reserviert
+var RESTVERRENTUNGS_ANTEIL=0.30;
 
 function calcRiester(){
  var n=ST.rentenAlter-ST.alter;
@@ -2118,17 +2158,65 @@ function calcRiester(){
  var renditeAuszahlungRiester=Math.max(0,riesterRenditeEigen-riesterKosten)/100;
  var renditeAuszahlungAvd=Math.max(0,ST.rend-ST.kosten)/100;
 
- // Riester mit Einmalauszahlung (max 30%, TAX-FREE) und altersabhängige Leibrente (nachgelagert 100% besteuert)
+ // Riester mit Einmalauszahlung (max 30%, TAX-FREE) und Auszahlungslogik abhängig von Vertragsart
  var r1EinmalAuszahlungExakt=r1End*(riesterEinmalPct/100);  // 30% exakt (nicht gerundet)
  var r1KapitalLeibrBrutto=r1End-r1EinmalAuszahlungExakt;  // 70% BRUTTO für Leibrente (aus exaktem Wert)
  var r1EinmalAuszahlung=Math.round(r1EinmalAuszahlungExakt);  // Erst am Ende runden für Anzeige
- // Leibrente mit altersabhängigem Rentenfaktor (€ pro 10.000€ monatlich)
  var r1RentenfaktorVal=getRentenfaktor(ST.rentenAlter);
- var r1LeibrenteBrutto=r1KapitalLeibrBrutto>0?r1KapitalLeibrBrutto*r1RentenfaktorVal/10000:0;
- var r1LeibrenteSteuerJahr=r1LeibrenteBrutto*12*riesterSteuer/100;  // 100% tax auf Rentenzahlungen
- var r1Monat=r1LeibrenteBrutto>0?Math.round(r1LeibrenteBrutto-r1LeibrenteSteuerJahr/12):0;
- var r1AnzeigeKapital=r1End;  // Für Anzeige: das Gesamtkapital (Einmalauszahlung TAX-FREE, Leibrente wird besteuert)
  var r1RentenfaktorDisplay=r1RentenfaktorVal; // Für Rechenweg-Panel
+
+ var r1Monat=0;  // Wird je nach Vertragsart berechnet
+ var r1MonatAb85=0; // Für Fondssparplan/Bausparvertrag: separate Rate ab 85
+ var r1ZeigtZweiRaten=false;  // Flag für UI: zwei getrennte Raten anzeigen
+
+ if(riesterVertragsart==='versicherung'){
+  // Versicherung: Sofort lebenslange Leibrente ab Rentenbeginn
+  var r1LeibrenteBrutto=r1KapitalLeibrBrutto>0?r1KapitalLeibrBrutto*r1RentenfaktorVal/10000:0;
+  var r1LeibrenteSteuerJahr=r1LeibrenteBrutto*12*riesterSteuer/100;  // 100% tax
+  r1Monat=r1LeibrenteBrutto>0?Math.round(r1LeibrenteBrutto-r1LeibrenteSteuerJahr/12):0;
+  r1ZeigtZweiRaten=false;
+ }
+ else if(riesterVertragsart==='fonds'||riesterVertragsart==='bauspar'){
+  // Fondssparplan/Bausparvertrag: Zwei-Phasen-Modell
+  r1ZeigtZweiRaten=true;
+
+  // Phase 1: Auszahlungsplan von Renteneintritt bis Alter 85
+  var phase1JahreEnd=85;  // Festes Endalter für Auszahlungsplan
+  var phase1Jahre=Math.max(0,phase1JahreEnd-ST.rentenAlter);
+
+  if(phase1Jahre>0){
+   // 70% des Leibrentenkapitals für Auszahlungsplan bis 85
+   var r1KapitalPhase1=r1KapitalLeibrBrutto*(1-RESTVERRENTUNGS_ANTEIL);
+
+   // Auszahlungsplan mit Riester-Nettorendite
+   var r1MonatPhase1Brutto=r1KapitalPhase1>0?monatRente(r1KapitalPhase1,renditeAuszahlungRiester,phase1Jahre):0;
+   var r1MonatPhase1Steuer=r1MonatPhase1Brutto*riesterSteuer/100;
+   r1Monat=r1MonatPhase1Brutto>0?Math.round(r1MonatPhase1Brutto-r1MonatPhase1Steuer):0;
+  }
+
+  // Phase 2: Restverrentung ab Alter 85
+  // 30% des Leibrentenkapitals wird bis Alter 85 angespart und dann verrentet
+  var r1KapitalPhase2=r1KapitalLeibrBrutto*RESTVERRENTUNGS_ANTEIL;
+
+  // Dieses Kapital wächst mit Riester-Rendite bis Alter 85
+  var jahrebisAe85=Math.max(0,85-ST.rentenAlter);
+  var r1KapitalPhase2Bei85=r1KapitalPhase2>0?r1KapitalPhase2*Math.pow(1+renditeAuszahlungRiester,jahrebisAe85):0;
+
+  // Ab 85 wird das aufgewachsene Kapital mit Rentenfaktor verrentet
+  var r1Rentenfaktor85=getRentenfaktor(85);  // Rentenfaktor für Alter 85
+  var r1MonatPhase2Brutto=r1KapitalPhase2Bei85>0?r1KapitalPhase2Bei85*r1Rentenfaktor85/10000:0;
+  var r1MonatPhase2Steuer=r1MonatPhase2Brutto*riesterSteuer/100;
+  r1MonatAb85=r1MonatPhase2Brutto>0?Math.round(r1MonatPhase2Brutto-r1MonatPhase2Steuer):0;
+ }
+ else {
+  // Fallback für unbekannte Vertragsarten
+  var r1LeibrenteBrutto=r1KapitalLeibrBrutto>0?r1KapitalLeibrBrutto*r1RentenfaktorVal/10000:0;
+  var r1LeibrenteSteuerJahr=r1LeibrenteBrutto*12*riesterSteuer/100;
+  r1Monat=r1LeibrenteBrutto>0?Math.round(r1LeibrenteBrutto-r1LeibrenteSteuerJahr/12):0;
+  r1ZeigtZweiRaten=false;
+ }
+
+ var r1AnzeigeKapital=r1End;  // Für Anzeige: das Gesamtkapital (Einmalauszahlung TAX-FREE)
 
  // AVD mit Einmalauszahlung (max 30%) und Leibrente
  var r2EinmalAuszahlungExakt=avdEndNetto*(riesterEinmalPctAvd/100);  // Exakt (nicht gerundet)
@@ -2149,6 +2237,25 @@ function calcRiester(){
  // Karten befüllen
  setEl('r1-kapital',fmtCurrency(Math.round(r1AnzeigeKapital)));
  setEl('r1-rente',fmtCurrency(r1Monat)+' / Mon.');
+
+ // Zweite Rate ab 85 für Fondssparplan/Bausparvertrag anzeigen
+ var r1RateAb85Container=document.getElementById('r1-rente-ab85-container');
+ var r1HinweisFonds=document.getElementById('r1-hinweis-fondssparplan');
+ var r1HinweisLeib=document.getElementById('r1-hinweis-leibrente');
+ if(r1RateAb85Container){
+  if(r1ZeigtZweiRaten){
+   r1RateAb85Container.style.display='block';
+   setEl('r1-rente-ab85',fmtCurrency(r1MonatAb85)+' / Mon.');
+   if(r1HinweisFonds)r1HinweisFonds.style.display='block';
+   if(r1HinweisLeib)r1HinweisLeib.style.display='none';
+  }
+  else {
+   r1RateAb85Container.style.display='none';
+   if(r1HinweisFonds)r1HinweisFonds.style.display='none';
+   if(r1HinweisLeib)r1HinweisLeib.style.display='block';
+  }
+ }
+
  setEl('r2-kapital',fmtCurrency(Math.round(r2AnzeigeKapital)));
  setEl('r2-rente',fmtCurrency(avdMonatFair)+' / Mon.');
 
