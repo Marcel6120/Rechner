@@ -384,7 +384,7 @@
    </div>
    <div style="margin-bottom:10px">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Rendite in der Auszahlphase</div>
-    <div><strong style="color:#f7931a">Riester-Vertrag:</strong> Altersabhängiger Rentenfaktor (62J: 15,5€, 67J: 18,5€, 70J: 20,5€ pro 10.000€ Kapital/Monat) — unabhängig von Anspar- oder Marktrendite | <strong style="color:#f7931a">Altersvorsorgedepot:</strong> 5,8 % p.a. (gleich wie Ansparphase)</div>
+    <div><strong style="color:#f7931a">Riester-Vertrag:</strong> Altersabhängiger Rentenfaktor (62J: 21,0€, 67J: 25,0€, 70J: 28,0€ pro 10.000€ Kapital/Monat) — unabhängig von Anspar- oder Marktrendite | <strong style="color:#f7931a">Altersvorsorgedepot:</strong> 5,8 % p.a. (gleich wie Ansparphase)</div>
    </div>
    <div>
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Monatsrente netto</div>
@@ -1999,7 +1999,7 @@ function toggleRiesterRechenweg(){
 
 // Rentenfaktor für Riester-Leibrente: altersabhängig
 function getRentenfaktor(rentenAlter){
- var faktoren={62:{faktor:15.5},65:{faktor:17.0},67:{faktor:18.5},70:{faktor:20.5}};
+ var faktoren={62:{faktor:21.0},65:{faktor:23.0},67:{faktor:25.0},70:{faktor:28.0}};
  var ages=Object.keys(faktoren).map(function(a){return parseInt(a);}).sort(function(a,b){return a-b;});
  if(rentenAlter<=ages[0])return faktoren[ages[0]].faktor;
  if(rentenAlter>=ages[ages.length-1])return faktoren[ages[ages.length-1]].faktor;
