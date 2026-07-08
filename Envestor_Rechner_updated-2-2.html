@@ -651,7 +651,7 @@
     <p style="font-size:11px;color:rgba(255,255,255,.6);margin:0 0 6px;line-height:1.5;font-style:italic">Da Ihre Beiträge in der Ansparphase steuerlich gefördert wurden, wird die Rente im Alter mit Ihrem persönlichen Einkommensteuersatz versteuert – das nennt man „nachgelagerte Besteuerung".</p>
     <ul style="font-size:11px;color:rgba(255,255,255,.85);margin:0 0 10px;padding-left:18px;line-height:1.7">
      <li><strong>Geförderter Anteil</strong> (Einzahlungen bis 1.800&nbsp;€/Person/J + Zulagen): wird bei Auszahlung voll mit dem persönlichen Steuersatz besteuert.</li>
-     <li><strong>Überzahlungen</strong> (über 1.800&nbsp;€/Person/J): Die Einzahlungen selbst fließen steuerfrei zurück (bereits versteuertes Kapital). Nur die <em>Gewinne</em> werden anteilig besteuert – vereinfachend über den Ertragsanteil nach § 22 EStG (z. B. 17 % bei Rentenbeginn 67). Die endgültigen Regelungen des AVD-Gesetzes (ab 2026) können hiervon abweichen.</li>
+     <li><strong>Überzahlungen</strong> (über 1.800&nbsp;€/Person/J): Die Einzahlungen selbst fließen steuerfrei zurück (bereits versteuertes Kapital). Nur die <em>Gewinne</em> werden anteilig besteuert – vereinfachend über den Ertragsanteil nach § 22 EStG (z. B. 17 % bei Rentenbeginn 67). Das Altersvorsorgereformgesetz wurde am 27.03.2026 vom Bundestag beschlossen und am 08.05.2026 vom Bundesrat gebilligt; Start des AV-Depots ist der 01.01.2027. Einzelne Umsetzungsdetails der Anbieter können noch folgen.</li>
     </ul>
     <table style="width:100%;font-size:12px;border-collapse:collapse;color:#fff">
       <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Grundzulage gesamt</td><td id="rw-gz-ges" style="text-align:right;font-weight:600;color:#4ade80">–</td></tr>
@@ -768,7 +768,7 @@
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
        <td style="padding:5px 0;font-weight:600;color:#fff">Besteuerung AV-Depot</td>
-       <td style="padding:5px 0">Nachgelagerte Besteuerung: geförderter Anteil voll mit persönlichem Steuersatz, Überzahlungsgewinne anteilig über Ertragsanteil (§ 22 EStG). Das AVD-Gesetz (ab 2026) ist noch nicht final in Kraft – Besteuerungsdetails können abweichen.</td>
+       <td style="padding:5px 0">Nachgelagerte Besteuerung: geförderter Anteil voll mit persönlichem Steuersatz, Überzahlungsgewinne anteilig über Ertragsanteil (§ 22 EStG). Gesetzlich beschlossen (Bundestag 27.03.2026, Bundesrat 08.05.2026), Start 01.01.2027; einzelne Umsetzungsdetails der Anbieter können noch folgen.</td>
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
        <td style="padding:5px 0;font-weight:600;color:#fff">Besteuerung Fondsdepot</td>
@@ -860,10 +860,11 @@ function fE(v,c){
 }
 function fP(v){return v.toFixed(1).replace('.',',')+' %';}
 function grenz(jb){
- if(jb<=12096)return 0;
- if(jb<=17443)return 0.14+(jb-12096)/(17443-12096)*(0.2397-0.14);
- if(jb<=68430)return 0.2397+(jb-17443)/(68430-17443)*(0.42-0.2397);
- if(jb<=277825)return 0.42;
+ // Einkommensteuertarif 2026 (§32a EStG, Steuerfortentwicklungsgesetz) – Eckwerte jährlich prüfen/aktualisieren
+ if(jb<=12348)return 0;
+ if(jb<=17799)return 0.14+(jb-12348)/(17799-12348)*(0.2397-0.14);
+ if(jb<=69878)return 0.2397+(jb-17799)/(69878-17799)*(0.42-0.2397);
+ if(jb<=277826)return 0.42;
  return 0.45;
 }
 var EA_TABELLE={60:22,61:22,62:21,63:20,64:19,65:18,66:18,67:17,68:16,69:16,70:15};
