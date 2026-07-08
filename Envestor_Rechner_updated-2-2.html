@@ -1424,12 +1424,12 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
  var hEnt=document.getElementById('hint-entnahme');
  if(hEnt) hEnt.textContent=r.entnahmeJahre+' Jahre';
  var h150el=document.getElementById('h150');
- if(ST.spar>=225&&ST.spar<570){
+ if(ST.spar>=150&&ST.spar<570){
   h150el.style.display='';h150el.style.visibility='';h150el.className='hl-green';
   h150el.textContent='✓ Maximale Förderung erreicht!';
- } else if(ST.spar>=10&&ST.spar<225){
+ } else if(ST.spar>=10&&ST.spar<150){
   h150el.style.display='';h150el.style.visibility='';h150el.className='hl-green';
-  var bis=225-ST.spar;
+  var bis=150-ST.spar;
   h150el.textContent='Noch '+bis+' €/Monat bis zur Maximalen Förderung';
  } else {
   h150el.style.visibility='hidden';h150el.style.display='';
