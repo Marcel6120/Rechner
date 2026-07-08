@@ -2319,19 +2319,6 @@ function calcRiester(){
  var avdEnd_gef = avdEnd * anteilGefA;
  var avdEnd_ueb = avdEnd * anteilUebA;
 
- // Gefördert: 100% Steuersatz
- var avdSteuer_gef = avdEnd_gef * riesterSteuer / 100;
- var avdEnd_gef_netto = avdEnd_gef - avdSteuer_gef;
-
- // Ungefördert: nur Gewinn, davon Ertragsanteil
- var avdEigenbeitrag_ueb_ges = ueberGesA;
- var avdGewinn_ueb = Math.max(0, avdEnd_ueb - avdEigenbeitrag_ueb_ges);
- var avdSteuer_ueb = avdGewinn_ueb * eaAlter * riesterSteuer / 100;
- var avdEnd_ueb_netto = avdEnd_ueb - avdSteuer_ueb;
-
- // Gesamt-Netto für Auszahlung
- var avdEndNetto = avdEnd_gef_netto + avdEnd_ueb_netto;
-
  // AVD mit Einmalauszahlung (max 30%) und Auszahlungsplan
  // Einmalauszahlung aus beiden Pools, mit entsprechender Besteuerung
  var avdEnd_gef_einmal = avdEnd_gef * (riesterEinmalPctAvd/100);
@@ -2349,18 +2336,19 @@ function calcRiester(){
 
  var r2EinmalAuszahlung=Math.round(r2EinmalAuszahlungNetto);
 
- // Auszahlungsplan: gefördert + ungefördert getrennt
- var avdKapital_gef = avdEnd_gef_rente * (1 - riesterSteuer/100);  // Netto nach 100% Steuersatz
- var avdEigenbeitrag_ueb_rente = ueberGesA - avdEigenbeitrag_ueb_einmal;
- var avdGewinn_ueb_rente = Math.max(0, avdEnd_ueb_rente - avdEigenbeitrag_ueb_rente);
- var avdKapital_ueb = avdEnd_ueb_rente - (avdGewinn_ueb_rente * eaAlter * riesterSteuer/100);  // Netto nach EA
+ // Auszahlungsplan: erst BRUTTO-Kapital verrenten, dann Ertragsanteil auf die
+ // Bruttomonatsrate — gleiche Methodik wie Riester (r1MonatPhase1Steuer_ueb /
+ // r1LeibrenteSteuerJahr_ueb weiter oben in dieser Funktion).
+ var avdMonatGefBrutto = avdEnd_gef_rente>0 ? monatRente(avdEnd_gef_rente,renditeAuszahlungAvd,entnahmeJahre) : 0;
+ var avdMonatGef = avdMonatGefBrutto>0 ? Math.round(avdMonatGefBrutto*(1-riesterSteuer/100)) : 0;
 
- // Monatliche Auszahlung: Summe aus beiden Pools
- var avdMonatGef=avdKapital_gef>0?Math.round(monatRente(avdKapital_gef,renditeAuszahlungAvd,entnahmeJahre)):0;
- var avdMonatUeb=avdKapital_ueb>0?Math.round(monatRente(avdKapital_ueb,renditeAuszahlungAvd,entnahmeJahre)):0;
+ var avdMonatUebBrutto = avdEnd_ueb_rente>0 ? monatRente(avdEnd_ueb_rente,renditeAuszahlungAvd,entnahmeJahre) : 0;
+ var avdMonatUeb = avdMonatUebBrutto>0 ? Math.round(avdMonatUebBrutto*(1-eaAlter*riesterSteuer/100)) : 0;
+
  var avdMonatFair=avdMonatGef+avdMonatUeb;
 
- var r2AnzeigeKapital=avdEndNetto; // Für Anzeige: das Gesamtkapital (nach Steuern)
+ // Anzeige analog zu r1AnzeigeKapital: Brutto-Rentenkapital + Netto-Einmalauszahlung
+ var r2AnzeigeKapital = (avdEnd_gef_rente + avdEnd_ueb_rente) + r2EinmalAuszahlungNetto;
 
  // Günstigerprüfung-Hint
  var hintGz=document.getElementById('riester-hint-gz');
