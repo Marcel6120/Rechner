@@ -2313,7 +2313,9 @@ function calcRiester(){
   r1ZeigtZweiRaten=false;
  }
 
- var r1AnzeigeKapital=r1KapitalLeibrBrutto+r1EinmalAuszahlungNetto;  // Netto-Gesamtkapital: Einmalauszahlung (netto) + Leibrentenkapital (wird später versteuert)
+ var r1KapitalLeibrNetto_gef = r1KapitalLeibrBrutto * (1-riesterSteuer/100);
+ var r1KapitalLeibrNetto_ueb = r1KapitalLeibrBrutto_ueb * (1-eaAlter*riesterSteuer/100);
+ var r1AnzeigeKapital = r1KapitalLeibrNetto_gef + r1KapitalLeibrNetto_ueb + r1EinmalAuszahlungNetto;
 
  // SCHRITT 4: AVD-Splitting und Besteuerung
  var avdEnd_gef = avdEnd * anteilGefA;
@@ -2348,7 +2350,9 @@ function calcRiester(){
  var avdMonatFair=avdMonatGef+avdMonatUeb;
 
  // Anzeige analog zu r1AnzeigeKapital: Brutto-Rentenkapital + Netto-Einmalauszahlung
- var r2AnzeigeKapital = (avdEnd_gef_rente + avdEnd_ueb_rente) + r2EinmalAuszahlungNetto;
+ var avdKapitalRenteNetto_gef = avdEnd_gef_rente * (1-riesterSteuer/100);
+ var avdKapitalRenteNetto_ueb = avdEnd_ueb_rente * (1-eaAlter*riesterSteuer/100);
+ var r2AnzeigeKapital = avdKapitalRenteNetto_gef + avdKapitalRenteNetto_ueb + r2EinmalAuszahlungNetto;
 
  // Günstigerprüfung-Hint
  var hintGz=document.getElementById('riester-hint-gz');
