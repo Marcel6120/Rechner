@@ -1618,23 +1618,23 @@ function clampWithToast(v,min,max,labelMin,labelMax){
  if(v>max){showToast('Maximalwert: '+labelMax);return max;}
  return v;
 }
-function syncSlider(key,sId,vId,fId,fmt,maxCap){
+function syncSlider(key,sId,vId,fId,fmt,maxCap,onSync){
  var sl=document.getElementById(sId),vi=document.getElementById(vId),fi=document.getElementById(fId);
  function upFill(){var pct=(parseFloat(sl.value)-parseFloat(sl.min))/(parseFloat(sl.max)-parseFloat(sl.min))*100;fi.style.width=pct+'%';}
- sl.addEventListener('input',function(){var v=parseFloat(sl.value);ST[key]=v;vi.value=fmt?fmt(v):v;upFill();debouncedRender();});
+ sl.addEventListener('input',function(){var v=parseFloat(sl.value);ST[key]=v;if(onSync)onSync(v);vi.value=fmt?fmt(v):v;upFill();debouncedRender();});
  vi.addEventListener('change',function(){
   var raw=vi.value.replace(/\./g,'').replace(',','.').replace(/[^\d.]/g,'');
   var v=parseFloat(raw);if(isNaN(v))return;
   if(maxCap!=null)v=Math.min(v,maxCap);
   var mn=parseFloat(sl.min),mx=parseFloat(sl.max);
   v=clampWithToast(v,mn,mx,mn,mx);
-  ST[key]=v;sl.value=v;vi.value=fmt?fmt(v):v;upFill();debouncedRender();
+  ST[key]=v;if(onSync)onSync(v);sl.value=v;vi.value=fmt?fmt(v):v;upFill();debouncedRender();
  });
  upFill();
 }
 syncSlider('eink','s-eink','v-eink','f-eink',function(v){return Math.round(v).toLocaleString('de-DE');},null);
 syncSlider('alter','s-alter','v-alter','f-alter',null,null);
-syncSlider('steuersatzRente','s-srate','v-srate','f-srate',null,null);
+syncSlider('steuersatzRente','s-srate','v-srate','f-srate',null,null,function(v){ST.steuersatzRente2=v;});
 document.getElementById('v-depotalter').addEventListener('change',function(){
  var raw=parseInt(this.value)||85;
  var mn=Math.max(85,ST.rentenAlter+1),mx=120;
