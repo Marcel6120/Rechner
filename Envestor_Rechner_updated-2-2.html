@@ -1814,7 +1814,7 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
 (function(){
  var ss2=document.getElementById('s-spar2'),vs2=document.getElementById('v-spar2'),fs2=document.getElementById('f-spar2');
  if(ss2){
-  ss2.addEventListener('input',function(){var v=parseFloat(ss2.value);ST.spar2=v;if(vs2)vs2.value=v;if(fs2)fs2.style.width=((v-10)/(570-10)*100)+'%';debouncedRender();});
+  ss2.addEventListener('input',function(){var v=parseFloat(ss2.value);ST.spar2=v;if(vs2)vs2.value=v;if(fs2)fs2.style.width=((v-10)/(1140-10)*100)+'%';debouncedRender();});
   if(vs2)vs2.addEventListener('change',function(){var v=Math.min(570,Math.max(10,parseFloat(this.value)||150));ST.spar2=v;ss2.value=v;this.value=v;if(fs2)fs2.style.width=((v-10)/(570-10)*100)+'%';debouncedRender();});
  }
  var sa2=document.getElementById('s-alter2'),va2=document.getElementById('v-alter2'),fa2=document.getElementById('f-alter2');
