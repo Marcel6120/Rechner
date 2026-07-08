@@ -2150,6 +2150,27 @@ function calcRiester(){
  }
  var avdEnd=avdDepot;
 
+ // SCHRITT 1: Splitting zwischen gefördertem und ungefördertem Kapital
+ var eigenbeitragGesR = beitragJ * n;
+ var eigenbeitragGesA = beitragJ * n;
+
+ // Riester: Förderschwelle 2.100€/Jahr (Sonderausgaben-Höchstbetrag, § 10a EStG)
+ var gefoerdertGesR = Math.min(beitragJ, 2100) * n;
+ var ueberGesR = Math.max(0, beitragJ - 2100) * n;
+ var gesamtEinzGesR = eigenbeitragGesR + totalZulagenRiester;
+ var anteilGefR = gesamtEinzGesR > 0 ? (gefoerdertGesR + totalZulagenRiester) / gesamtEinzGesR : 1;
+ var anteilUebR = gesamtEinzGesR > 0 ? ueberGesR / gesamtEinzGesR : 0;
+
+ // AVD: Förderschwelle 1.800€/Jahr
+ var gefoerdertGesA = Math.min(beitragJ, 1800) * n;
+ var ueberGesA = Math.max(0, beitragJ - 1800) * n;
+ var gesamtEinzGesA = eigenbeitragGesA + totalZulagenAvd;
+ var anteilGefA = gesamtEinzGesA > 0 ? (gefoerdertGesA + totalZulagenAvd) / gesamtEinzGesA : 1;
+ var anteilUebA = gesamtEinzGesA > 0 ? ueberGesA / gesamtEinzGesA : 0;
+
+ var eaAlter = getEA(ST.rentenAlter);  // Ertragsanteil, altersabhängig
+ var HALBEINKUENFTE_FAKTOR = 0.5;      // 50% Halbeinkünfte für ungeförderte Einmalauszahlung
+
  // Entnahmedauer:
  // Beide Produkte: Regler-basierte Entnahmedauer (ReglerAlter - Renteneintrittsalter)
  // Damit bleibt der Vergleich auf der gleichen Zeitachse, und der Regler steuert beide identisch
@@ -2158,11 +2179,9 @@ function calcRiester(){
  var hre2=document.getElementById('riester-hint-entnahme');
  if(hre2)hre2.textContent=entnahmeJahre+' J.';
 
- // Steuer:
- // Beide Produkte nachgelagert mit persönlichem Steuersatz (§ 22 Nr. 5 EStG)
- // AVD ist gefördertes Produkt — keine Abgeltungsteuer, keine VAP
+ // SCHRITT 2: Besteuerungslogik (wird später pro Kapitalpool berechnet)
  var riesterSteuerFaktor=1-riesterSteuer/100;
- var avdEndNetto=avdEnd*riesterSteuerFaktor;
+ // avdEndNetto wird NICHT hier berechnet — wird später mit Splitting durchgeführt
 
  // Günstigerprüfung-Hint (Riester, Durchschnitt pro Jahr)
  var steuererstattung=n>0?totalSteuererstattungR/n:0;
@@ -2182,13 +2201,31 @@ function calcRiester(){
  var renditeAuszahlungRiester=renditeAuszahlung;
  var renditeAuszahlungAvd=renditeAuszahlung;
 
- // Riester mit Einmalauszahlung (max 30%, voll steuerpflichtig § 22 Nr. 5 EStG) und Auszahlungslogik abhängig von Vertragsart
- var r1EinmalAuszahlungExakt=r1End*(riesterEinmalPct/100);  // 30% exakt (nicht gerundet)
- var r1EinmalAuszahlungNetto=r1EinmalAuszahlungExakt*(1-riesterSteuer/100);  // Einmalauszahlung ist voll steuerpflichtig, nicht steuerfrei
- var r1KapitalLeibrBrutto=r1End-r1EinmalAuszahlungExakt;  // 70% BRUTTO für Leibrente (aus exaktem Wert)
- var r1EinmalAuszahlung=Math.round(r1EinmalAuszahlungNetto);  // NETTO für Anzeige (Steuern bereits abgezogen)
- var r1RentenfaktorVal=getRentenfaktor(ST.rentenAlter);
- var r1RentenfaktorDisplay=r1RentenfaktorVal; // Für Rechenweg-Panel
+ // SCHRITT 2b: Riester-Splitting und Einmalauszahlung
+ var r1End_gef = r1End * anteilGefR;
+ var r1End_ueb = r1End * anteilUebR;
+
+ // Einmalauszahlungs-Anteil (riesterEinmalPct) gleichmäßig aus beiden Pools
+ var r1_gef_einmal = r1End_gef * (riesterEinmalPct/100);
+ var r1_gef_rente  = r1End_gef - r1_gef_einmal;
+ var r1_ueb_einmal = r1End_ueb * (riesterEinmalPct/100);
+ var r1_ueb_rente  = r1End_ueb - r1_ueb_einmal;
+
+ // Gefördert: immer voll besteuert (§22 Nr.5 EStG)
+ var r1EinmalAuszahlungNetto = r1_gef_einmal * (1-riesterSteuer/100);
+
+ // Ungefördert, Einmalanteil: nur Gewinn, davon Halbeinkünfte (50%)
+ var r1_ueb_einzahlung_einmal = ueberGesR * (riesterEinmalPct/100);
+ var r1_ueb_gewinn_einmal = Math.max(0, r1_ueb_einmal - r1_ueb_einzahlung_einmal);
+ r1EinmalAuszahlungNetto += r1_ueb_einmal - (r1_ueb_gewinn_einmal * HALBEINKUENFTE_FAKTOR * riesterSteuer/100);
+
+ var r1EinmalAuszahlung = Math.round(r1EinmalAuszahlungNetto);
+
+ // Kapital für Leibrente/Auszahlungsplan: gefördert + ungefördert getrennt
+ var r1KapitalLeibrBrutto = r1_gef_rente;       // wird wie bisher voll besteuert
+ var r1KapitalLeibrBrutto_ueb = r1_ueb_rente;   // wird mit Ertragsanteil besteuert
+ var r1RentenfaktorVal = getRentenfaktor(ST.rentenAlter);
+ var r1RentenfaktorDisplay = r1RentenfaktorVal;
 
  var r1Monat=0;  // Wird je nach Vertragsart berechnet
  var r1MonatAb85=0; // Für Fondssparplan/Bausparvertrag: separate Rate ab 85
@@ -2196,9 +2233,19 @@ function calcRiester(){
 
  if(riesterVertragsart==='versicherung'){
   // Versicherung: Sofort lebenslange Leibrente ab Rentenbeginn
+  // Gefördert (100% Steuersatz)
   var r1LeibrenteBrutto=r1KapitalLeibrBrutto>0?r1KapitalLeibrBrutto*r1RentenfaktorVal/10000:0;
-  var r1LeibrenteSteuerJahr=r1LeibrenteBrutto*12*riesterSteuer/100;  // 100% tax
-  r1Monat=r1LeibrenteBrutto>0?Math.round(r1LeibrenteBrutto-r1LeibrenteSteuerJahr/12):0;
+  var r1LeibrenteSteuerJahr=r1LeibrenteBrutto*12*riesterSteuer/100;
+  var r1MonatGef=r1LeibrenteBrutto>0?Math.round(r1LeibrenteBrutto-r1LeibrenteSteuerJahr/12):0;
+
+  // Ungefördert (Ertragsanteil)
+  var r1LeibrenteBrutto_ueb=r1KapitalLeibrBrutto_ueb>0?r1KapitalLeibrBrutto_ueb*r1RentenfaktorVal/10000:0;
+  var r1_ueb_einzahlung_rente = ueberGesR - r1_ueb_einzahlung_einmal;
+  var r1_ueb_gewinn_rente = Math.max(0, r1KapitalLeibrBrutto_ueb - r1_ueb_einzahlung_rente);
+  var r1LeibrenteSteuerJahr_ueb = r1LeibrenteBrutto_ueb * 12 * eaAlter * riesterSteuer/100;
+  var r1MonatUeb=r1LeibrenteBrutto_ueb>0?Math.round(r1LeibrenteBrutto_ueb-r1LeibrenteSteuerJahr_ueb/12):0;
+
+  r1Monat=r1MonatGef+r1MonatUeb;
   r1ZeigtZweiRaten=false;
  }
  else if(riesterVertragsart==='fonds'||riesterVertragsart==='bauspar'){
@@ -2206,51 +2253,114 @@ function calcRiester(){
   r1ZeigtZweiRaten=true;
 
   // Phase 1: Auszahlungsplan von Renteneintritt bis Alter 85
-  var phase1JahreEnd=85;  // Festes Endalter für Auszahlungsplan
+  var phase1JahreEnd=85;
   var phase1Jahre=Math.max(0,phase1JahreEnd-ST.rentenAlter);
 
   if(phase1Jahre>0){
-   // 70% des Leibrentenkapitals für Auszahlungsplan bis 85
-   var r1KapitalPhase1=r1KapitalLeibrBrutto*(1-RESTVERRENTUNGS_ANTEIL);
+   // 70% des Leibrentenkapitals für Auszahlungsplan bis 85 (gefördert + ungefördert)
+   var r1KapitalPhase1_gef=r1KapitalLeibrBrutto*(1-RESTVERRENTUNGS_ANTEIL);
+   var r1KapitalPhase1_ueb=r1KapitalLeibrBrutto_ueb*(1-RESTVERRENTUNGS_ANTEIL);
 
-   // Auszahlungsplan mit Riester-Nettorendite
-   var r1MonatPhase1Brutto=r1KapitalPhase1>0?monatRente(r1KapitalPhase1,renditeAuszahlungRiester,phase1Jahre):0;
-   var r1MonatPhase1Steuer=r1MonatPhase1Brutto*riesterSteuer/100;
-   r1Monat=r1MonatPhase1Brutto>0?Math.round(r1MonatPhase1Brutto-r1MonatPhase1Steuer):0;
+   // Gefördert: 100% Steuersatz
+   var r1MonatPhase1Brutto_gef=r1KapitalPhase1_gef>0?monatRente(r1KapitalPhase1_gef,renditeAuszahlungRiester,phase1Jahre):0;
+   var r1MonatPhase1Steuer_gef=r1MonatPhase1Brutto_gef*riesterSteuer/100;
+   var r1MonatPhase1_gef=r1MonatPhase1Brutto_gef>0?Math.round(r1MonatPhase1Brutto_gef-r1MonatPhase1Steuer_gef):0;
+
+   // Ungefördert: Ertragsanteil
+   var r1MonatPhase1Brutto_ueb=r1KapitalPhase1_ueb>0?monatRente(r1KapitalPhase1_ueb,renditeAuszahlungRiester,phase1Jahre):0;
+   var r1_ueb_einzahlung_phase1 = (ueberGesR - r1_ueb_einzahlung_einmal) * (1-RESTVERRENTUNGS_ANTEIL);
+   var r1MonatPhase1Steuer_ueb=r1MonatPhase1Brutto_ueb*eaAlter*riesterSteuer/100;
+   var r1MonatPhase1_ueb=r1MonatPhase1Brutto_ueb>0?Math.round(r1MonatPhase1Brutto_ueb-r1MonatPhase1Steuer_ueb):0;
+
+   r1Monat=r1MonatPhase1_gef+r1MonatPhase1_ueb;
   }
 
   // Phase 2: Restverrentung ab Alter 85
-  // 30% des Leibrentenkapitals wird bis Alter 85 angespart und dann verrentet
-  var r1KapitalPhase2=r1KapitalLeibrBrutto*RESTVERRENTUNGS_ANTEIL;
+  var r1KapitalPhase2_gef=r1KapitalLeibrBrutto*RESTVERRENTUNGS_ANTEIL;
+  var r1KapitalPhase2_ueb=r1KapitalLeibrBrutto_ueb*RESTVERRENTUNGS_ANTEIL;
 
-  // Dieses Kapital wächst mit Riester-Rendite bis Alter 85
   var jahrebisAe85=Math.max(0,85-ST.rentenAlter);
-  var r1KapitalPhase2Bei85=r1KapitalPhase2>0?r1KapitalPhase2*Math.pow(1+renditeAuszahlungRiester,jahrebisAe85):0;
+  var r1KapitalPhase2Bei85_gef=r1KapitalPhase2_gef>0?r1KapitalPhase2_gef*Math.pow(1+renditeAuszahlungRiester,jahrebisAe85):0;
+  var r1KapitalPhase2Bei85_ueb=r1KapitalPhase2_ueb>0?r1KapitalPhase2_ueb*Math.pow(1+renditeAuszahlungRiester,jahrebisAe85):0;
 
-  // Ab 85 wird das aufgewachsene Kapital mit Rentenfaktor verrentet
-  var r1Rentenfaktor85=getRentenfaktor(85);  // Rentenfaktor für Alter 85
-  var r1MonatPhase2Brutto=r1KapitalPhase2Bei85>0?r1KapitalPhase2Bei85*r1Rentenfaktor85/10000:0;
-  var r1MonatPhase2Steuer=r1MonatPhase2Brutto*riesterSteuer/100;
-  r1MonatAb85=r1MonatPhase2Brutto>0?Math.round(r1MonatPhase2Brutto-r1MonatPhase2Steuer):0;
+  var r1Rentenfaktor85=getRentenfaktor(85);
+
+  // Gefördert: 100% Steuersatz
+  var r1MonatPhase2Brutto_gef=r1KapitalPhase2Bei85_gef>0?r1KapitalPhase2Bei85_gef*r1Rentenfaktor85/10000:0;
+  var r1MonatPhase2Steuer_gef=r1MonatPhase2Brutto_gef*riesterSteuer/100;
+  var r1MonatPhase2_gef=r1MonatPhase2Brutto_gef>0?Math.round(r1MonatPhase2Brutto_gef-r1MonatPhase2Steuer_gef):0;
+
+  // Ungefördert: Ertragsanteil
+  var r1MonatPhase2Brutto_ueb=r1KapitalPhase2Bei85_ueb>0?r1KapitalPhase2Bei85_ueb*r1Rentenfaktor85/10000:0;
+  var r1MonatPhase2Steuer_ueb=r1MonatPhase2Brutto_ueb*eaAlter*riesterSteuer/100;
+  var r1MonatPhase2_ueb=r1MonatPhase2Brutto_ueb>0?Math.round(r1MonatPhase2Brutto_ueb-r1MonatPhase2Steuer_ueb):0;
+
+  r1MonatAb85=r1MonatPhase2_gef+r1MonatPhase2_ueb;
  }
  else {
   // Fallback für unbekannte Vertragsarten
+  // Gefördert (100% Steuersatz)
   var r1LeibrenteBrutto=r1KapitalLeibrBrutto>0?r1KapitalLeibrBrutto*r1RentenfaktorVal/10000:0;
   var r1LeibrenteSteuerJahr=r1LeibrenteBrutto*12*riesterSteuer/100;
-  r1Monat=r1LeibrenteBrutto>0?Math.round(r1LeibrenteBrutto-r1LeibrenteSteuerJahr/12):0;
+  var r1MonatGef_fb=r1LeibrenteBrutto>0?Math.round(r1LeibrenteBrutto-r1LeibrenteSteuerJahr/12):0;
+
+  // Ungefördert (Ertragsanteil)
+  var r1LeibrenteBrutto_ueb_fb=r1KapitalLeibrBrutto_ueb>0?r1KapitalLeibrBrutto_ueb*r1RentenfaktorVal/10000:0;
+  var r1LeibrenteSteuerJahr_ueb_fb=r1LeibrenteBrutto_ueb_fb*12*eaAlter*riesterSteuer/100;
+  var r1MonatUeb_fb=r1LeibrenteBrutto_ueb_fb>0?Math.round(r1LeibrenteBrutto_ueb_fb-r1LeibrenteSteuerJahr_ueb_fb/12):0;
+
+  r1Monat=r1MonatGef_fb+r1MonatUeb_fb;
   r1ZeigtZweiRaten=false;
  }
 
  var r1AnzeigeKapital=r1KapitalLeibrBrutto+r1EinmalAuszahlungNetto;  // Netto-Gesamtkapital: Einmalauszahlung (netto) + Leibrentenkapital (wird später versteuert)
 
- // AVD mit Einmalauszahlung (max 30%) und Leibrente
- var r2EinmalAuszahlungExakt=avdEndNetto*(riesterEinmalPctAvd/100);  // Exakt (nicht gerundet)
- var r2KapitalLeibr=avdEndNetto-r2EinmalAuszahlungExakt;  // Aus exaktem Wert
- var r2EinmalAuszahlung=Math.round(r2EinmalAuszahlungExakt);  // Erst am Ende runden für Anzeige
- // Leibrente wird sofort ab Renteneintritt aus dem verbleibenden Kapital berechnet
- // mit AVD-Nettorendite (ST.rend - riesterAvdKosten)
- var avdMonatFair=r2KapitalLeibr>0?Math.round(monatRente(r2KapitalLeibr,renditeAuszahlungAvd,entnahmeJahre)):0;
- var r2AnzeigeKapital=avdEndNetto; // Für Anzeige: das Gesamtkapital (inkl. Einmalausszahlung)
+ // SCHRITT 4: AVD-Splitting und Besteuerung
+ var avdEnd_gef = avdEnd * anteilGefA;
+ var avdEnd_ueb = avdEnd * anteilUebA;
+
+ // Gefördert: 100% Steuersatz
+ var avdSteuer_gef = avdEnd_gef * riesterSteuer / 100;
+ var avdEnd_gef_netto = avdEnd_gef - avdSteuer_gef;
+
+ // Ungefördert: nur Gewinn, davon Ertragsanteil
+ var avdEigenbeitrag_ueb_ges = ueberGesA;
+ var avdGewinn_ueb = Math.max(0, avdEnd_ueb - avdEigenbeitrag_ueb_ges);
+ var avdSteuer_ueb = avdGewinn_ueb * eaAlter * riesterSteuer / 100;
+ var avdEnd_ueb_netto = avdEnd_ueb - avdSteuer_ueb;
+
+ // Gesamt-Netto für Auszahlung
+ var avdEndNetto = avdEnd_gef_netto + avdEnd_ueb_netto;
+
+ // AVD mit Einmalauszahlung (max 30%) und Auszahlungsplan
+ // Einmalauszahlung aus beiden Pools, mit entsprechender Besteuerung
+ var avdEnd_gef_einmal = avdEnd_gef * (riesterEinmalPctAvd/100);
+ var avdEnd_gef_rente  = avdEnd_gef - avdEnd_gef_einmal;
+ var avdEnd_ueb_einmal = avdEnd_ueb * (riesterEinmalPctAvd/100);
+ var avdEnd_ueb_rente  = avdEnd_ueb - avdEnd_ueb_einmal;
+
+ // Geförderte Einmalauszahlung: 100% Steuersatz
+ var r2EinmalAuszahlungNetto = avdEnd_gef_einmal * (1 - riesterSteuer/100);
+
+ // Ungeförderte Einmalauszahlung: Halbeinkünfte (50%)
+ var avdEigenbeitrag_ueb_einmal = ueberGesA * (riesterEinmalPctAvd/100);
+ var avdGewinn_ueb_einmal = Math.max(0, avdEnd_ueb_einmal - avdEigenbeitrag_ueb_einmal);
+ r2EinmalAuszahlungNetto += avdEnd_ueb_einmal - (avdGewinn_ueb_einmal * HALBEINKUENFTE_FAKTOR * riesterSteuer/100);
+
+ var r2EinmalAuszahlung=Math.round(r2EinmalAuszahlungNetto);
+
+ // Auszahlungsplan: gefördert + ungefördert getrennt
+ var avdKapital_gef = avdEnd_gef_rente * (1 - riesterSteuer/100);  // Netto nach 100% Steuersatz
+ var avdEigenbeitrag_ueb_rente = ueberGesA - avdEigenbeitrag_ueb_einmal;
+ var avdGewinn_ueb_rente = Math.max(0, avdEnd_ueb_rente - avdEigenbeitrag_ueb_rente);
+ var avdKapital_ueb = avdEnd_ueb_rente - (avdGewinn_ueb_rente * eaAlter * riesterSteuer/100);  // Netto nach EA
+
+ // Monatliche Auszahlung: Summe aus beiden Pools
+ var avdMonatGef=avdKapital_gef>0?Math.round(monatRente(avdKapital_gef,renditeAuszahlungAvd,entnahmeJahre)):0;
+ var avdMonatUeb=avdKapital_ueb>0?Math.round(monatRente(avdKapital_ueb,renditeAuszahlungAvd,entnahmeJahre)):0;
+ var avdMonatFair=avdMonatGef+avdMonatUeb;
+
+ var r2AnzeigeKapital=avdEndNetto; // Für Anzeige: das Gesamtkapital (nach Steuern)
 
  // Günstigerprüfung-Hint
  var hintGz=document.getElementById('riester-hint-gz');
