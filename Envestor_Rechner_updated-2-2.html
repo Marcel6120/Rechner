@@ -964,7 +964,7 @@ function calc(){
  var gsatz=grenz(s.eink*12);
  var gsatz2,gsatzEff;
  if(s.erw===2&&s.verheiratet){
-  var gsatzSplit=grenz(s.eink*12);
+  var gsatzSplit=grenz(s.eink*12/2);
   gsatz2=gsatzSplit;
   gsatzEff=gsatzSplit;
  } else if(s.erw===2&&!s.verheiratet){
@@ -1164,7 +1164,7 @@ function calc(){
  if(ST.erw===2&&p2Individual){
   var gsatz1=grenz(s.eink*12);
   var geff1,geff2;
-  if(s.verheiratet){geff1=grenz((s.eink+s.eink2)/2*12);geff2=geff1;}
+  if(s.verheiratet){geff1=grenz(s.eink*12/2);geff2=geff1;}
   else{geff1=gsatz1;geff2=grenz(s.eink2*12);}
   var r1=calcSingle({spar:s.spar,alter:s.alter,rentenAlter:s.rentenAlter,depotAlter:s.depotAlter,steuersatzRente:s.steuersatzRente,gsatzEff:geff1,kinderAlter:ST.kinderAlter});
   var r2=calcSingle({spar:s.spar2,alter:s.alter2,rentenAlter:s.rentenAlter2,depotAlter:s.depotAlter2,steuersatzRente:s.steuersatzRente2,gsatzEff:geff2,kinderAlter:[]});
