@@ -1387,13 +1387,14 @@ if(document.getElementById('r-monat-netto-img')) setEl('r-monat-netto-img',fE2(r
  var nrBox=document.getElementById('r-nettorente-box');
  if(nrBox){nrBox.style.display=r.auszahlungMonatNetto?'flex':'none';var nrVal=document.getElementById('r-nettorente-val');if(nrVal)nrVal.textContent=fE2(r.auszahlungMonatNetto)+' / Monat';}
 (function(){
- var show=!!(r._r1&&r._r2);
- var p1txt=show?fE2(Math.round(r._r1.avEntnahmeM)):'';
- var p2txt=show?fE2(Math.round(r._r2.avEntnahmeM)):'';
+ var showSplit=!!(r._r1&&r._r2);
+ var showChart=!!(ST.erw===2);
+ var p1txt=showSplit?fE2(Math.round(r._r1.avEntnahmeM)):'';
+ var p2txt=showSplit?fE2(Math.round(r._r2.avEntnahmeM)):'';
  var sp=document.getElementById('r-monat-split');
- if(sp){sp.style.display=show?'block':'none';if(show){setEl('r-monat-p1',p1txt);setEl('r-monat-p2',p2txt);}}
+ if(sp){sp.style.display=showSplit?'block':'none';if(showSplit){setEl('r-monat-p1',p1txt);setEl('r-monat-p2',p2txt);}}
  var sp2=document.getElementById('r-monat-img-split');
- if(sp2){sp2.style.display=show?'':'none';if(show){setEl('r-monat-img-p1',p1txt);setEl('r-monat-img-p2',p2txt);}}
+ if(sp2){sp2.style.display=showChart?'':'none';if(showSplit){setEl('r-monat-img-p1',p1txt);setEl('r-monat-img-p2',p2txt);}}
 })();
  if(document.getElementById('r-etf-monat-netto')) setEl('r-etf-monat-netto',fE2(r.etfMonatNetto)+'/ Monat');
 var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getElementById('r-etf-diff-text');if(diffEl){var diff=r.auszahlungMonatNetto-r.etfMonatNetto;if(diff>0){diffEl.textContent=fE2(diff);diffEl.style.color='#16a34a';if(diffTxt)diffTxt.textContent=' mehr als das ungeförderte Fondsdepot';}else if(diff<0){diffEl.textContent=fE2(Math.abs(diff));diffEl.style.color='#ef4444';if(diffTxt)diffTxt.textContent=' weniger als das ungeförderte Fondsdepot';}else{diffEl.textContent='–';diffEl.style.color='#fff';if(diffTxt)diffTxt.textContent='';} }
