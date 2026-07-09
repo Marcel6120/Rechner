@@ -1174,6 +1174,8 @@ function calc(){
   var einmalFrac=s.einmalPct/100,renteFrac=1-einmalFrac;
   var cGz=r1.gz+r2.gz,cKz=r1.kz+r2.kz,cEoM=s.spar+s.spar2;
   var cZulageM=(r1.gz+r1.kz)/(r1.lz*12) + (r2.gz+r2.kz)/(r2.lz*12);
+  var cEtfEinzGes=s.spar*r1.lz*12+s.spar2*r2.lz*12;
+  var cEtfKursgewinn=Math.max(0,cEtfBrutto-cEtfEinzGes);
   return{
    gz:cGz,kz:r1.kz+r2.kz,st:r1.st+r2.st,
    end:cAvNetto,endBrutto:cAvBrutto,etf:cEtfNetto,etfBrutto:cEtfBrutto,vort:cAvNetto-cEtfNetto,
@@ -1192,15 +1194,15 @@ function calc(){
    etfEinmalNetto:Math.round(cEtfNetto*einmalFrac),etfMonatNetto:Math.round(r1.etfEntnahmeM+r2.etfEntnahmeM),
    avSteuerGesamt:Math.round(cAvSteuer),etfEinzahlungen:Math.round(s.spar*r1.lz*12 + s.spar2*r2.lz*12),
    gsatz:geff1,gsatz2:geff2,gsatzEff:geff1,
-   breakeven:null,totalVapPaid:0,reinvest:s.reinvest,reinvestJ:0,
+   breakeven:null,totalVapPaid:0,reinvest:s.reinvest,reinvestJ:(r1.st/r1.lz)+(r2.st/r2.lz),
    abzug:Math.round((Math.min(s.spar*12,1800)+r1.gz/r1.lz)+(Math.min(s.spar2*12,1800)+r2.gz/r2.lz)),
    ea:0,guenstiger:true,
    avGef:Math.round(cAvNetto*0.9),avÜb:Math.round(cAvNetto*0.1),
    steuerGef:Math.round(cAvSteuer*0.9),steuerÜb:Math.round(cAvSteuer*0.1),
-   etfKursgewinn:Math.round(cEtfBrutto-cEoM*r1.lz*12),
-   etfStpfl:Math.round((cEtfBrutto-cEoM*r1.lz*12)*0.7),
-   etfAbgstBrutto:Math.round((cEtfBrutto-cEoM*r1.lz*12)*0.7*0.26375),
-   pts:(r1.pts||[]),_r1:r1,_r2:r2};
+   etfKursgewinn:Math.round(cEtfKursgewinn),
+   etfStpfl:Math.round(cEtfKursgewinn*0.7),
+   etfAbgstBrutto:Math.round(cEtfKursgewinn*0.7*0.26375),
+   pts:(function(){var maxLz=Math.max(r1.lz,r2.lz);var cPts=[];for(var _j=0;_j<maxLz;_j++){var p1pt=r1.pts[_j]||r1.pts[r1.pts.length-1]||{a:ST.alter+_j+1,mi:0,mo:0};var p2pt=r2.pts[_j]||r2.pts[r2.pts.length-1]||{a:ST.alter2+_j+1,mi:0,mo:0};cPts.push({a:p1pt.a,mi:Math.round(p1pt.mi+p2pt.mi),mo:Math.round(p1pt.mo+p2pt.mo)});}return cPts;})(),_r1:r1,_r2:r2};
  }
  return result;
 }
