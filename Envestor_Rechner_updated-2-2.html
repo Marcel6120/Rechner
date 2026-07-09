@@ -934,7 +934,7 @@ function calcSingle(p){
  var nEnt=entnahmeJ*12;
  var avM=mr12E>0?avNetto*mr12E*Math.pow(1+mr12E,nEnt)/(Math.pow(1+mr12E,nEnt)-1):avNetto/nEnt;
  var etfM=mr12EE>0?etfNetto*mr12EE*Math.pow(1+mr12EE,nEnt)/(Math.pow(1+mr12EE,nEnt)-1):etfNetto/nEnt;
- return{gz:gzGesamtReal,kz:kzGesamtReal,st:steuerNettoGesamt,avBrutto:avBrutto,avNetto:avNetto,etfBrutto:etfBrutto,etfNetto:etfNetto,avEntnahmeM:avM,etfEntnahmeM:etfM,lz:lz,entnahmeJahre:entnahmeJ,pts:pts};
+ return{gz:gzGesamtReal,kz:kzGesamtReal,st:steuerNettoGesamt,steuerNetto:steuerNetto,avBrutto:avBrutto,avNetto:avNetto,etfBrutto:etfBrutto,etfNetto:etfNetto,avEntnahmeM:avM,etfEntnahmeM:etfM,lz:lz,entnahmeJahre:entnahmeJ,pts:pts};
 }
 function calc(){
  var s=ST,lz=Math.max(s.rentenAlter-s.alter,1);
@@ -1194,7 +1194,7 @@ function calc(){
    etfEinmalNetto:Math.round(cEtfNetto*einmalFrac),etfMonatNetto:Math.round(r1.etfEntnahmeM+r2.etfEntnahmeM),
    avSteuerGesamt:Math.round(cAvSteuer),etfEinzahlungen:Math.round(s.spar*r1.lz*12 + s.spar2*r2.lz*12),
    gsatz:geff1,gsatz2:geff2,gsatzEff:geff1,
-   breakeven:null,totalVapPaid:0,reinvest:s.reinvest,reinvestJ:(r1.st/r1.lz)+(r2.st/r2.lz),
+   breakeven:null,totalVapPaid:0,reinvest:s.reinvest,reinvestJ:r1.steuerNetto+r2.steuerNetto,
    abzug:Math.round((Math.min(s.spar*12,1800)+r1.gz/r1.lz)+(Math.min(s.spar2*12,1800)+r2.gz/r2.lz)),
    ea:0,guenstiger:true,
    avGef:Math.round(cAvNetto*0.9),avÜb:Math.round(cAvNetto*0.1),
