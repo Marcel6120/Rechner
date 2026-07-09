@@ -935,21 +935,51 @@ function calcSingle(p){
  var gefoGes=(gefoJ)*lz,aGefPct=totEinz>0?(gefoGes+zulGes)/totEinz:1;
  var aUbPct=totEinz>0?(ueberJ*lz)/totEinz:0;
  var avGef=avBrutto*aGefPct,avUb=avBrutto*aUbPct;
- var stGef=avGef*p.steuersatzRente/100;
- var einzUbGes=ueberJ*lz,gewUb=Math.max(0,avUb-einzUbGes);
+ var einzUbGes=ueberJ*lz;
  var ea=getEA(p.rentenAlter);
- var stUb=gewUb*ea*p.steuersatzRente/100;
- var avSteuer=Math.round(stGef+stUb),avNetto=avBrutto-avSteuer;
- var etfEinz=eoM*lz*12,etfKg=Math.max(0,etfBrutto-etfEinz),etfStpfl=etfKg*0.70;
- var etfAbgst=etfStpfl*0.26375,etfSteuerAuf=Math.max(0,etfAbgst-totalVapPaid);
- var etfNetto=Math.round(etfBrutto-etfSteuerAuf);
+ var HALBEINKUENFTE_FAKTOR=0.5;
+
+ // Aufteilung in Einmal-/Renten-Anteil VOR der Besteuerung
+ var einmalFracP=(p.einmalPct||0)/100, renteFracP=1-einmalFracP;
+ var avGef_einmal=avGef*einmalFracP, avGef_rente=avGef*renteFracP;
+ var avUb_einmal=avUb*einmalFracP, avUb_rente=avUb*renteFracP;
+ var einzUb_einmal=einzUbGes*einmalFracP, einzUb_rente=einzUbGes*renteFracP;
+
+ // Geförderter Anteil: Einmalteil sofort voll versteuert
+ var steuerGefEinmal=avGef_einmal*p.steuersatzRente/100;
+ var avEinmalNettoGef=avGef_einmal-steuerGefEinmal;
+
+ // Ungeförderter Anteil: Einmalteil nur Gewinnanteil, Halbeinkünfte
+ var gewUbEinmal=Math.max(0,avUb_einmal-einzUb_einmal);
+ var steuerUbEinmal=gewUbEinmal*HALBEINKUENFTE_FAKTOR*p.steuersatzRente/100;
+ var avEinmalNettoUb=avUb_einmal-steuerUbEinmal;
+
+ var avEinmalNetto=avEinmalNettoGef+avEinmalNettoUb;
+
+ // Renten-Anteil: BRUTTO verrenten, dann Steuer auf die Bruttorate
  var entnahmeJ=Math.max(10,p.depotAlter-p.rentenAlter);
  var mr12E=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
  var mr12EE=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
  var nEnt=entnahmeJ*12;
- var avM=mr12E>0?avNetto*mr12E*Math.pow(1+mr12E,nEnt)/(Math.pow(1+mr12E,nEnt)-1):avNetto/nEnt;
+ function monatRenteP(kapital){
+  if(kapital<=0)return 0;
+  return mr12E>0?kapital*mr12E*Math.pow(1+mr12E,nEnt)/(Math.pow(1+mr12E,nEnt)-1):kapital/nEnt;
+ }
+ var avGefRenteBrutto=monatRenteP(avGef_rente);
+ var avGefRenteNetto=avGefRenteBrutto*(1-p.steuersatzRente/100);
+ var avUbRenteBrutto=monatRenteP(avUb_rente);
+ var avUbRenteNetto=avUbRenteBrutto*(1-ea*p.steuersatzRente/100);
+ var avM=avGefRenteNetto+avUbRenteNetto;
+
+ // Für Kompatibilität mit bestehenden Konsumenten von avNetto/avSteuer beibehalten
+ var avSteuer=Math.round(avBrutto-(avEinmalNetto+(avGefRenteBrutto+avUbRenteBrutto)));
+ var avNetto=avBrutto-avSteuer;
+
+ var etfEinz=eoM*lz*12,etfKg=Math.max(0,etfBrutto-etfEinz),etfStpfl=etfKg*0.70;
+ var etfAbgst=etfStpfl*0.26375,etfSteuerAuf=Math.max(0,etfAbgst-totalVapPaid);
+ var etfNetto=Math.round(etfBrutto-etfSteuerAuf);
  var etfM=mr12EE>0?etfNetto*mr12EE*Math.pow(1+mr12EE,nEnt)/(Math.pow(1+mr12EE,nEnt)-1):etfNetto/nEnt;
- return{gz:gzGesamtReal,kz:kzGesamtReal,st:steuerNettoGesamt,steuerNetto:steuerNetto,avBrutto:avBrutto,avNetto:avNetto,etfBrutto:etfBrutto,etfNetto:etfNetto,avEntnahmeM:avM,etfEntnahmeM:etfM,lz:lz,entnahmeJahre:entnahmeJ,pts:pts};
+ return{gz:gzGesamtReal,kz:kzGesamtReal,st:steuerNettoGesamt,steuerNetto:steuerNetto,avBrutto:avBrutto,avNetto:avNetto,avEinmalNetto:avEinmalNetto,etfBrutto:etfBrutto,etfNetto:etfNetto,avEntnahmeM:avM,etfEntnahmeM:etfM,lz:lz,entnahmeJahre:entnahmeJ,pts:pts};
 }
 function calc(){
  var s=ST,lz=Math.max(s.rentenAlter-s.alter,1);
@@ -1090,17 +1120,42 @@ function calc(){
  var anteilÜb=gesamtEinzGes>0?(ueberJ*lz)/gesamtEinzGes:0;
  var avGef=avBrutto*anteilGef;
  var avÜb=avBrutto*anteilÜb;
- var steuerGef=avGef*s.steuersatzRente/100;
  var einzÜbGes=ueberJ*lz;
- var gewinnÜb=Math.max(0,avÜb-einzÜbGes);
  var ea=getEA(s.rentenAlter);
- var steuerÜb=gewinnÜb*ea*s.steuersatzRente/100;
- var avSteuer=Math.round(steuerGef+steuerÜb);
+ var HALBEINKUENFTE_FAKTOR=0.5;
+
+ // Aufteilung in Einmal-/Renten-Anteil VOR der Besteuerung
+ var einmalFracP=(s.einmalPct||0)/100, renteFracP=1-einmalFracP;
+ var avGef_einmal=avGef*einmalFracP, avGef_rente=avGef*renteFracP;
+ var avÜb_einmal=avÜb*einmalFracP, avÜb_rente=avÜb*renteFracP;
+ var einzÜb_einmal=einzÜbGes*einmalFracP, einzÜb_rente=einzÜbGes*renteFracP;
+
+ // Geförderter Anteil: Einmalteil sofort voll versteuert
+ var steuerGefEinmal=avGef_einmal*s.steuersatzRente/100;
+ var avEinmalNettoGef=avGef_einmal-steuerGefEinmal;
+
+ // Ungeförderter Anteil: Einmalteil nur Gewinnanteil, Halbeinkünfte
+ var gewinnÜbEinmal=Math.max(0,avÜb_einmal-einzÜb_einmal);
+ var steuerÜbEinmal=gewinnÜbEinmal*HALBEINKUENFTE_FAKTOR*s.steuersatzRente/100;
+ var avEinmalNettoUb=avÜb_einmal-steuerÜbEinmal;
+
+ var avEinmalNetto=avEinmalNettoGef+avEinmalNettoUb;
+
+ // Calculate total gain for breakeven calculation
+ var gewinnÜb=Math.max(0,avÜb-einzÜbGes);
+
+ // Calculate split taxes for compatibility
+ var steuerGef=steuerGefEinmal+avGef_rente*s.steuersatzRente/100;
+ var steuerÜb=steuerÜbEinmal+avÜb_rente*ea*s.steuersatzRente/100;
+
+ // Für Kompatibilität mit bestehenden Konsumenten von avNetto/avSteuer beibehalten
+ var avSteuer=Math.round(avBrutto-(avEinmalNetto+(avGef_rente+avÜb_rente)));
  var avNetto=avBrutto-avSteuer;
+
  var etfBrutto=last.mo;
  var etfEinzahlungen=eoM*lz*12;
  var etfKursgewinn=Math.max(0,etfBrutto-etfEinzahlungen);
- var etfStpfl=etfKursgewinn*0.70; 
+ var etfStpfl=etfKursgewinn*0.70;
  var etfAbgstBrutto=etfStpfl*0.26375;
  var etfSteuerAufloesung=Math.max(0,etfAbgstBrutto-totalVapPaid);
  var etfNetto=Math.round(etfBrutto-etfSteuerAufloesung);
@@ -1108,15 +1163,24 @@ function calc(){
  var mr12Ent=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
  var mr12EntEtf=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
  var nEnt=entnahmeJ*12;
- var avEntnahmeM=mr12Ent>0?avNetto*mr12Ent*Math.pow(1+mr12Ent,nEnt)/(Math.pow(1+mr12Ent,nEnt)-1):avNetto/nEnt;
+ function monatRenteP(kapital){
+  if(kapital<=0)return 0;
+  return mr12Ent>0?kapital*mr12Ent*Math.pow(1+mr12Ent,nEnt)/(Math.pow(1+mr12Ent,nEnt)-1):kapital/nEnt;
+ }
+ var avGefRenteBrutto=monatRenteP(avGef_rente);
+ var avGefRenteNetto=avGefRenteBrutto*(1-s.steuersatzRente/100);
+ var avÜbRenteBrutto=monatRenteP(avÜb_rente);
+ var avÜbRenteNetto=avÜbRenteBrutto*(1-ea*s.steuersatzRente/100);
+ var avEntnahmeM=avGefRenteNetto+avÜbRenteNetto;
  var etfEntnahmeM=mr12EntEtf>0?etfNetto*mr12EntEtf*Math.pow(1+mr12EntEtf,nEnt)/(Math.pow(1+mr12EntEtf,nEnt)-1):etfNetto/nEnt;
- var depotAV=avNetto, depotETF=etfNetto;
+ var depotAV_gef=avGefRenteBrutto>0?avGef_rente:0, depotAV_ueb=avÜbRenteBrutto>0?avÜb_rente:0, depotETF=etfNetto;
  for(var ej=1;ej<=entnahmeJ;ej++){
   for(var em=1;em<=12;em++){
-   depotAV=Math.max(0,depotAV*(1+mr12Ent)-avEntnahmeM);
+   depotAV_gef=Math.max(0,depotAV_gef*(1+mr12Ent)-avGefRenteBrutto);
+   depotAV_ueb=Math.max(0,depotAV_ueb*(1+mr12Ent)-avÜbRenteBrutto);
    depotETF=Math.max(0,depotETF*(1+mr12EntEtf)-etfEntnahmeM);
   }
-  pts.push({a:s.rentenAlter+ej,mi:Math.round(depotAV),mo:Math.round(depotETF),cumVap:totalVapPaid,phase:'entnahme'});
+  pts.push({a:s.rentenAlter+ej,mi:Math.round(depotAV_gef+depotAV_ueb),mo:Math.round(depotETF),cumVap:totalVapPaid,phase:'entnahme'});
  }
  var breakeven=null;
  if(avBrutto>0&&avGef>0){
@@ -1181,8 +1245,8 @@ function calc(){
   var geff1,geff2;
   if(s.verheiratet){geff1=grenz(s.eink*12/2);geff2=geff1;}
   else{geff1=gsatz1;geff2=grenz(s.eink2*12);}
-  var r1=calcSingle({spar:s.spar,alter:s.alter,rentenAlter:s.rentenAlter,depotAlter:s.depotAlter,steuersatzRente:s.steuersatzRente,gsatzEff:geff1,kinderAlter:ST.kinderAlter});
-  var r2=calcSingle({spar:s.spar2,alter:s.alter2,rentenAlter:s.rentenAlter2,depotAlter:s.depotAlter2,steuersatzRente:s.steuersatzRente2,gsatzEff:geff2,kinderAlter:[]});
+  var r1=calcSingle({spar:s.spar,alter:s.alter,rentenAlter:s.rentenAlter,depotAlter:s.depotAlter,steuersatzRente:s.steuersatzRente,gsatzEff:geff1,kinderAlter:ST.kinderAlter,einmalPct:s.einmalPct});
+  var r2=calcSingle({spar:s.spar2,alter:s.alter2,rentenAlter:s.rentenAlter2,depotAlter:s.depotAlter2,steuersatzRente:s.steuersatzRente2,gsatzEff:geff2,kinderAlter:[],einmalPct:s.einmalPct});
   var cAvNetto=r1.avNetto+r2.avNetto,cEtfNetto=r1.etfNetto+r2.etfNetto;
   var cAvBrutto=r1.avBrutto+r2.avBrutto,cEtfBrutto=r1.etfBrutto+r2.etfBrutto;
   var cAvSteuer=(cAvBrutto-cAvNetto),cEtfSteuer=(cEtfBrutto-cEtfNetto);
@@ -1204,7 +1268,7 @@ function calc(){
    srente:s.steuersatzRente,erw:2,alter:s.alter,fk:0,
    zulageJ:cGz,zulageM:cZulageM,
    einmalPct:s.einmalPct,renteFrac:renteFrac,
-   auszahlungEinmal:Math.round(cAvNetto*einmalFrac),auszahlungEinmalNetto:Math.round(cAvNetto*einmalFrac),
+   auszahlungEinmal:Math.round(r1.avEinmalNetto+r2.avEinmalNetto),auszahlungEinmalNetto:Math.round(r1.avEinmalNetto+r2.avEinmalNetto),
    auszahlungMonatNetto:Math.round(r1.avEntnahmeM+r2.avEntnahmeM),
    etfEinmalNetto:Math.round(cEtfNetto*einmalFrac),etfMonatNetto:Math.round(r1.etfEntnahmeM+r2.etfEntnahmeM),
    avSteuerGesamt:Math.round(cAvSteuer),etfEinzahlungen:Math.round(s.spar*r1.lz*12 + s.spar2*r2.lz*12),
