@@ -972,8 +972,8 @@ function calcSingle(p){
  var avM=avGefRenteNetto+avUbRenteNetto;
 
  // Für Kompatibilität mit bestehenden Konsumenten von avNetto/avSteuer beibehalten
- var avSteuer=Math.round(avBrutto-(avEinmalNetto+(avGefRenteBrutto+avUbRenteBrutto)));
- var avNetto=avBrutto-avSteuer;
+ var avNetto=avEinmalNetto+avGef_rente*(1-p.steuersatzRente/100)+avUb_rente*(1-ea*p.steuersatzRente/100);
+ var avSteuer=Math.round(avBrutto-avNetto);
 
  var etfEinz=eoM*lz*12,etfKg=Math.max(0,etfBrutto-etfEinz),etfStpfl=etfKg*0.70;
  var etfAbgst=etfStpfl*0.26375,etfSteuerAuf=Math.max(0,etfAbgst-totalVapPaid);
@@ -1149,8 +1149,8 @@ function calc(){
  var steuerÜb=steuerÜbEinmal+avÜb_rente*ea*s.steuersatzRente/100;
 
  // Für Kompatibilität mit bestehenden Konsumenten von avNetto/avSteuer beibehalten
- var avSteuer=Math.round(avBrutto-(avEinmalNetto+(avGef_rente+avÜb_rente)));
- var avNetto=avBrutto-avSteuer;
+ var avNetto=avEinmalNetto+avGef_rente*(1-s.steuersatzRente/100)+avÜb_rente*(1-ea*s.steuersatzRente/100);
+ var avSteuer=Math.round(avBrutto-avNetto);
 
  var etfBrutto=last.mo;
  var etfEinzahlungen=eoM*lz*12;
