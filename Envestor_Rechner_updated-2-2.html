@@ -1172,7 +1172,8 @@ function calc(){
   var cAvBrutto=r1.avBrutto+r2.avBrutto,cEtfBrutto=r1.etfBrutto+r2.etfBrutto;
   var cAvSteuer=(cAvBrutto-cAvNetto),cEtfSteuer=(cEtfBrutto-cEtfNetto);
   var einmalFrac=s.einmalPct/100,renteFrac=1-einmalFrac;
-  var cGz=r1.gz+r2.gz,cKz=r1.kz+r2.kz,cEoM=s.spar+s.spar2,cZulageM=(cGz+cKz)/(r1.lz*12);
+  var cGz=r1.gz+r2.gz,cKz=r1.kz+r2.kz,cEoM=s.spar+s.spar2;
+  var cZulageM=(r1.gz+r1.kz)/(r1.lz*12) + (r2.gz+r2.kz)/(r2.lz*12);
   return{
    gz:cGz,kz:r1.kz+r2.kz,st:r1.st+r2.st,
    end:cAvNetto,endBrutto:cAvBrutto,etf:cEtfNetto,etfBrutto:cEtfBrutto,vort:cAvNetto-cEtfNetto,
@@ -1189,7 +1190,7 @@ function calc(){
    auszahlungEinmal:Math.round(cAvNetto*einmalFrac),auszahlungEinmalNetto:Math.round(cAvNetto*einmalFrac),
    auszahlungMonatNetto:Math.round(r1.avEntnahmeM+r2.avEntnahmeM),
    etfEinmalNetto:Math.round(cEtfNetto*einmalFrac),etfMonatNetto:Math.round(r1.etfEntnahmeM+r2.etfEntnahmeM),
-   avSteuerGesamt:Math.round(cAvSteuer),etfEinzahlungen:Math.round(cEoM*r1.lz*12),
+   avSteuerGesamt:Math.round(cAvSteuer),etfEinzahlungen:Math.round(s.spar*r1.lz*12 + s.spar2*r2.lz*12),
    gsatz:geff1,gsatz2:geff2,gsatzEff:geff1,
    breakeven:null,totalVapPaid:0,reinvest:s.reinvest,reinvestJ:0,
    abzug:Math.round((Math.min(s.spar*12,1800)+r1.gz/r1.lz)+(Math.min(s.spar2*12,1800)+r2.gz/r2.lz)),
