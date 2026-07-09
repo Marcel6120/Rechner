@@ -1835,9 +1835,10 @@ function updateVerheiratet(v){
  ST.verheiratet=v;
  var cb=document.getElementById('cb-verheiratet');if(cb)cb.checked=v;
  document.getElementById('eink2-wrap').style.display=(ST.erw===2&&!v)?'block':'none';
- 
+
  var lbl=document.getElementById('label-eink');
  if(lbl) lbl.textContent=v?'Gemeinsames Bruttoeinkommen':'Monatl. Bruttoeinkommen';
+ if(typeof updateHintGsatz2==='function') updateHintGsatz2();
  render();
 }
 function updateEinkLabel(){
