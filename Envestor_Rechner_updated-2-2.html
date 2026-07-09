@@ -2111,8 +2111,8 @@ function calcRiester(){
 
  // AVD Grundzulage: identisch zum Hauptrechner (gzProErw, bis 540€)
  var gzAvd=(beitragJ>=120)?gzProErw(beitragJ):0;  // Mindesteigenbeitrag prüfen
- // Riester Grundzulage: fest 175€ (gesetzlich)
- var gzRiester=175;
+ // Riester Grundzulage: fest 175€ (gesetzlich), mit Mindesteigenbeitrag 60€/Jahr (§86 EStG)
+ var gzRiester=(beitragJ>=60)?175:0;
 
  // Jahresschleife für beide Seiten
  var r1End=riesterGuthaben;
