@@ -200,7 +200,7 @@
       <div style="margin-bottom:5px"><span style="font-size:14px;font-weight:600;color:#fff">Monatlicher Beitrag</span></div>
       <div style="display:flex;align-items:center;gap:8px">
        <div style="position:relative;flex-shrink:0;width:100px"><input type="text" id="v-riester-bei" value="150" inputmode="decimal" style="width:100%;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 24px 0 8px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">€</span></div>
-       <div style="flex:1;position:relative;height:20px;display:flex;align-items:center"><div class="ev-track"></div><div class="ev-fill" id="f-riester-bei"></div><input type="range" id="s-riester-bei" min="0" max="500" step="10" value="150"></div>
+       <div style="flex:1;position:relative;height:20px;display:flex;align-items:center"><div class="ev-track"></div><div class="ev-fill" id="f-riester-bei"></div><input type="range" id="s-riester-bei" min="0" max="570" step="10" value="150"></div>
       </div>
      </div>
 
@@ -1761,11 +1761,11 @@ var depot2Spar=0;
  function syncRiesterBeitrag(v){
   var sb=document.getElementById('s-riester-bei'),vb=document.getElementById('v-riester-bei'),fb=document.getElementById('f-riester-bei');
   if(!sb||!vb||!fb)return;
-  var capped=Math.min(500,Math.max(0,v));
+  var capped=Math.min(570,Math.max(0,v));
   riesterBeitrag=capped;
   sb.value=capped;
   vb.value=capped.toLocaleString('de-DE');
-  fb.style.width=(capped/500*100)+'%';
+  fb.style.width=(capped/570*100)+'%';
  }
  function syncHauptSpar(v){
   var ss=document.getElementById('s-spar'),vs=document.getElementById('v-spar'),fs=document.getElementById('f-spar');
@@ -2082,7 +2082,7 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
  sb.addEventListener('input',function(){riesterBeitrag=parseFloat(this.value);vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb,0,500);calcRiester();});
  sr.addEventListener('input',function(){riesterRenditeEigen=parseFloat(this.value);var fmt=riesterRenditeEigen.toFixed(1).replace('.',',');vr.value=fmt;if(lb)lb.textContent=fmt+' %';syncFill(sr,fr,0,8);calcRiester();});
  vg.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterGuthaben=Math.min(1000000,Math.max(0,v));sg.value=riesterGuthaben;vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg,0,1000000);calcRiester();});
- vb.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterBeitrag=Math.min(500,Math.max(0,v));sb.value=riesterBeitrag;vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb,0,500);calcRiester();});
+ vb.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterBeitrag=Math.min(570,Math.max(0,v));sb.value=riesterBeitrag;vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb,0,570);calcRiester();});
  vr.addEventListener('change',function(){var v=parseFloat(this.value.replace(',','.'))||0;riesterRenditeEigen=Math.min(8,Math.max(0,v));sr.value=riesterRenditeEigen;var fmt=riesterRenditeEigen.toFixed(1).replace('.',',');vr.value=fmt;if(lb)lb.textContent=fmt+' %';syncFill(sr,fr,0,8);calcRiester();});
  syncFill(sg,fg,0,1000000);syncFill(sb,fb,0,500);syncFill(sr,fr,0,8);
 })();
