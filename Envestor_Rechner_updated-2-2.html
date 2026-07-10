@@ -239,7 +239,7 @@
       </div>
      </div>
 
-     <!-- Zeile 1: Gemeinsames Bruttoeinkommen -->
+     <!-- Zeile 3: Bruttoeinkommen | Rentenzahlung bis -->
      <div>
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Monatl. Bruttoeinkommen</span>
@@ -251,44 +251,6 @@
       </div>
       <div id="riester-hint-gz" style="display:none"></div>
      </div>
-
-     <!-- Zeile 2: Produktkosten AVD -->
-     <div>
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
-       <span style="font-size:14px;font-weight:600;color:#fff">Produktkosten Altersvorsorgedepot p.a.</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Jährliche Produktkosten des Altersvorsorgedepots. Wird von der AV-Depot-Bruttorendite abgezogen.</div></div>
-      </div>
-      <div class="ev-row">
-       <div class="ev-numbox" style="width:65px"><input type="text" id="v-riester-avdkosten" value="0,2" inputmode="decimal"><span class="ev-unit">%</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-avdkosten" style="width:6.67%"></div><input type="range" id="s-riester-avdkosten" min="0" max="3" step="0.1" value="0.2"></div>
-      </div>
-     </div>
-
-     <!-- Zeile 3: Produktkosten ungefördertes Fondsdepo (Riester) -->
-     <div>
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
-       <span style="font-size:14px;font-weight:600;color:#fff">Produktkosten Riester-Vertrag p.a.</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Jährliche Produktkosten Ihres Riester-Vertrags. Wird von der Riester-Bruttorendite abgezogen.</div></div>
-      </div>
-      <div class="ev-row">
-       <div class="ev-numbox" style="width:65px"><input type="text" id="v-riester-kosten" value="1,0" inputmode="decimal"><span class="ev-unit">%</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-kosten" style="width:33.3%"></div><input type="range" id="s-riester-kosten" min="1" max="4" step="0.1" value="1.0"></div>
-      </div>
-     </div>
-
-     <!-- Zeile 4: Steuererstattung reinvestieren -->
-     <div style="display:flex;flex-direction:column;justify-content:center">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
-       <span style="font-size:14px;font-weight:600;color:#fff">Steuererstattung reinvestieren</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Wenn aktiv: Die jährliche Steuererstattung aus der Günstigerprüfung wird direkt wieder in den Riester-Vertrag eingezahlt und wächst mit.</div></div>
-      </div>
-      <div style="display:flex;gap:5px">
-       <button class="ev-sbtn on" id="riester-reinvest-on" onclick="setRiesterReinvest(true)">An</button>
-       <button class="ev-sbtn" id="riester-reinvest-off" onclick="setRiesterReinvest(false)">Aus</button>
-      </div>
-     </div>
-
-     <!-- Zeile 5: Rentenzahlung bis -->
      <div>
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Rentenzahlung bis</span>
@@ -300,7 +262,51 @@
       </div>
      </div>
 
-     <!-- Zeile 6: Einmalauszahlung bei Renteneintritt -->
+     <!-- Zeile 4: Steuersatz | Steuererstattung reinvestieren -->
+     <div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Steuersatz im Alter</span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Gilt für Riester-Rente UND Altersvorsorgedepot gleichermaßen (§ 22 Nr. 5 EStG bzw. entsprechende AVD-Regelung – beide nachgelagerte Besteuerung mit dem persönlichen Einkommensteuersatz im Alter). Keine Abgeltungsteuer, keine Teilfreistellung bei beiden Produkten.</div></div>
+      </div>
+      <div class="ev-row">
+       <div class="ev-numbox" style="width:65px"><input type="text" id="v-riester-steuer" value="10" inputmode="decimal"><span class="ev-unit">%</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-steuer" style="width:20%"></div><input type="range" id="s-riester-steuer" min="0" max="50" step="1" value="10"></div>
+      </div>
+     </div>
+     <div style="display:flex;flex-direction:column;justify-content:center">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Steuererstattung reinvestieren</span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Wenn aktiv: Die jährliche Steuererstattung aus der Günstigerprüfung wird direkt wieder in den Riester-Vertrag eingezahlt und wächst mit.</div></div>
+      </div>
+      <div style="display:flex;gap:5px">
+       <button class="ev-sbtn on" id="riester-reinvest-on" onclick="setRiesterReinvest(true)">An</button>
+       <button class="ev-sbtn" id="riester-reinvest-off" onclick="setRiesterReinvest(false)">Aus</button>
+      </div>
+     </div>
+
+     <!-- Zeile 5: Produktkosten AVD | Produktkosten Riester -->
+     <div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Produktkosten Altersvorsorgedepot p.a.</span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Jährliche Produktkosten des Altersvorsorgedepots. Wird von der AV-Depot-Bruttorendite abgezogen.</div></div>
+      </div>
+      <div class="ev-row">
+       <div class="ev-numbox" style="width:65px"><input type="text" id="v-riester-avdkosten" value="0,2" inputmode="decimal"><span class="ev-unit">%</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-avdkosten" style="width:6.67%"></div><input type="range" id="s-riester-avdkosten" min="0" max="3" step="0.1" value="0.2"></div>
+      </div>
+     </div>
+     <div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Produktkosten Riester-Vertrag p.a.</span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Jährliche Produktkosten Ihres Riester-Vertrags. Wird von der Riester-Bruttorendite abgezogen.</div></div>
+      </div>
+      <div class="ev-row">
+       <div class="ev-numbox" style="width:65px"><input type="text" id="v-riester-kosten" value="1,0" inputmode="decimal"><span class="ev-unit">%</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-kosten" style="width:33.3%"></div><input type="range" id="s-riester-kosten" min="1" max="4" step="0.1" value="1.0"></div>
+      </div>
+     </div>
+
+     <!-- Zeile 6: Einmalauszahlung Altersvorsorgedepot | Einmalauszahlung Riester -->
      <div id="riester-einmal-avd-row">
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Einmalauszahlung Altersvorsorgedepot</span>
@@ -319,18 +325,6 @@
       <div style="display:flex;align-items:center;gap:8px">
        <div style="position:relative;flex-shrink:0;width:75px"><input type="text" id="v-riester-einmal-pct" value="0" inputmode="numeric" style="width:100%;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 24px 0 8px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">%</span></div>
        <div class="ev-slwrap" style="flex:1"><div class="ev-track"></div><div class="ev-fill" id="f-riester-einmal-pct" style="width:0%"></div><input type="range" id="s-riester-einmal-pct" min="0" max="30" step="1" value="0"></div>
-      </div>
-     </div>
-
-     <!-- Zeile 7: Voraussichtlicher Steuersatz im Rentenalter -->
-     <div>
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
-       <span style="font-size:14px;font-weight:600;color:#fff">Steuersatz im Alter</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Gilt für Riester-Rente UND Altersvorsorgedepot gleichermaßen (§ 22 Nr. 5 EStG bzw. entsprechende AVD-Regelung – beide nachgelagerte Besteuerung mit dem persönlichen Einkommensteuersatz im Alter). Keine Abgeltungsteuer, keine Teilfreistellung bei beiden Produkten.</div></div>
-      </div>
-      <div class="ev-row">
-       <div class="ev-numbox" style="width:65px"><input type="text" id="v-riester-steuer" value="10" inputmode="decimal"><span class="ev-unit">%</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-steuer" style="width:20%"></div><input type="range" id="s-riester-steuer" min="0" max="50" step="1" value="10"></div>
       </div>
      </div>
 
