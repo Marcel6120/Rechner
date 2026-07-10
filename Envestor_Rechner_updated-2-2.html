@@ -1933,6 +1933,7 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
   if(ST.erw===1){var lbl=document.getElementById('label-eink');if(lbl)lbl.textContent='Monatl. Bruttoeinkommen';}
   else updateEinkLabel();
   setP2Individual(ST.erw===2);
+  updateRiesterPersonToggle();
   render();
  });
 });
