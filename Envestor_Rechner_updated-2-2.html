@@ -912,7 +912,7 @@ function calcSingle(p){
  var foerdJ=Math.min(jb,1800),abzugJ=foerdJ+zulageJ;
  var steuerBrutto=abzugJ*gsatzEff,steuerNetto=Math.max(0,steuerBrutto-zulageJ);
  var elM=Math.max(0,ebM-steuerNetto/12),eoM=ebM;
- var BASISZINS=0.025,VAP_STEUER=0.26375,VAP_FAKTOR=BASISZINS*0.70;
+ var BASISZINS=0.025,VAP_STEUER=0.26375,VAP_FAKTOR=BASISZINS*0.70*0.70;
  var steuerNettoGesamt=0,gzGesamtReal=0,kzGesamtReal=0,pts=[];
  var mr12=Math.pow(1+rendNetto/100,1/12)-1,mr12Etf=Math.pow(1+rendNettoEtf/100,1/12)-1;
  var depotMit=0,depotOhne=0,totalVapPaid=0;
@@ -1043,7 +1043,7 @@ function calc(){
  var eoM=ebM;
  var BASISZINS=0.025;
  var VAP_STEUER=0.26375;
- var VAP_FAKTOR=BASISZINS*0.70;
+ var VAP_FAKTOR=BASISZINS*0.70*0.70;
  var steuerNettoGesamt=0;
  var gzGesamtReal=0; 
  var pts=[];
