@@ -1428,6 +1428,7 @@ function render(){
  lastCalcResult=r;
  var beVal=document.getElementById('r-breakeven-val');
  var beSub=document.getElementById('r-breakeven-sub');
+ var besteuerEl=document.getElementById('breakeven-steuersatz');
  if(r.breakeven!==null){
   var beStr=r.breakeven.toFixed(1).replace('.',',')+' %';
   var diff=r.srente-r.breakeven;
@@ -1437,6 +1438,7 @@ function render(){
    : diff>0
     ? '⚠ Fonds-Depot vorne – Ihr Satz ('+r.srente+' %) liegt darüber'
     : '≈ Genau der Break-even-Punkt';}
+  if(besteuerEl){besteuerEl.textContent=beStr;}
  }
  setEl('r-zul',fE(r.gz+r.kz,true));
  setEl('r-zul-overlay',fE(r.gz+r.kz,true));
