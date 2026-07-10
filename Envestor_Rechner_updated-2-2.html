@@ -885,7 +885,10 @@ function openSection(mode){
   riesterActivePerson=1;
   switchRiesterPerson(1);
  }
- if(isRiester)calcRiester();
+ if(isRiester){
+  if(riesterActivePerson===1) saveActiveRiesterPerson();
+  calcRiester();
+ }
 }
 function toggleDetails(){openSection('wissen');}
 function fEFull(v){return new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v);}
@@ -2033,7 +2036,8 @@ var riesterP1={
   rendite:1.5,
   kosten:1.0,
   einkM:4000,
-  steuer:10
+  steuer:10,
+  reinvest:true
 };
 var riesterP2={
   guthaben:15000,
@@ -2042,7 +2046,8 @@ var riesterP2={
   rendite:1.5,
   kosten:1.0,
   einkM:4000,
-  steuer:10
+  steuer:10,
+  reinvest:true
 };
 
 function saveActiveRiesterPerson(){
@@ -2054,6 +2059,7 @@ function saveActiveRiesterPerson(){
   obj.kosten=riesterKosten;
   obj.einkM=riesterEinkM;
   obj.steuer=riesterSteuer;
+  obj.reinvest=riesterReinvest;
 }
 
 function updateRiesterPersonToggle(){
@@ -2131,6 +2137,12 @@ function loadRiesterValues(vals){
   if(ss)ss.value=riesterSteuer;
   if(vs)vs.value=riesterSteuer;
   if(ss)syncFill(ss,document.getElementById('f-riester-steuer'),0,50);
+  // Reinvest-Buttons
+  riesterReinvest=vals.reinvest!==undefined?vals.reinvest:true;
+  var on=document.getElementById('riester-reinvest-on');
+  var off=document.getElementById('riester-reinvest-off');
+  if(on){on.classList.toggle('on',riesterReinvest);}
+  if(off){off.classList.toggle('on',!riesterReinvest);}
 }
 
 function loadRiesterP1Values(){
