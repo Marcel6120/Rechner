@@ -882,9 +882,13 @@ function openSection(mode){
   riesterP2.steuer=riesterSteuer;
   riesterActivePerson=1;
   switchRiesterPerson(1);
+  riesterInitialized=false;
  }
  if(isRiester){
-  saveActiveRiesterPerson();
+  if(riesterActivePerson===1 && !riesterInitialized){
+   saveActiveRiesterPerson();
+   riesterInitialized=true;
+  }
   loadRiesterValues(riesterActivePerson===1?riesterP1:riesterP2);
   calcRiester();
  }
@@ -2030,6 +2034,7 @@ var riesterEinkM=4000;    // Monatl. Bruttoeinkommen für Günstigerprüfung
 var riesterReinvest=true; // Steuererstattung reinvestieren
 
 // Riester 2-Personen-State
+var riesterInitialized=false;
 var riesterActivePerson=1;
 var riesterP1={
   guthaben:15000,
