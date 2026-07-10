@@ -1220,7 +1220,7 @@ function calc(){
  }
  var breakeven=null;
  if(avBrutto>0&&avGef>0){
-  var nenner=avGef+gewinnÜb*ea;
+  var nenner=avGef+avÜb*ea;
   var t_be=nenner>0?(avBrutto-etfNetto)/nenner*100:0;
   breakeven=Math.round(Math.max(0,Math.min(100,t_be))*10)/10;
  }
@@ -2305,7 +2305,10 @@ function toggleRiesterRechenweg(){
 // Die Funktion ist so gestaltet, dass sie bei Bedarf auf altersabhängige Stützpunkte
 // mit Interpolation/Extrapolation erweitert werden kann.
 function getRentenfaktor(rentenAlter){
- // Fester Rentenfaktor (altersunabhängig)
+ // RF 25: Marktanker für Renteneintritt ~67 (fragfina 2026)
+ // RF 120: Marktanker für Restverrentung ab 85
+ // (~10 Jahre Restlebenserwartung, Versicherer-Kalkulation)
+ if(rentenAlter>=85) return 120.0;
  return 25.0;
 }
 
@@ -2344,7 +2347,7 @@ function calcRiester(){
  function fmtCurrency(v){return v.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:0})+' €';}
 
  // Synchronisiere AVD-Kosten mit Hauptrechner
- riesterAvdKosten=ST.kosten;
+
 
  // Renditen netto
  var rRendNetto=Math.max(0,riesterRenditeEigen/100-riesterKosten/100);
@@ -2356,7 +2359,12 @@ function calcRiester(){
  // AVD Grundzulage: identisch zum Hauptrechner (gzProErw, bis 540€)
  var gzAvd=(beitragJ>=120)?gzProErw(beitragJ):0;  // Mindesteigenbeitrag prüfen
  // Riester Grundzulage: fest 175€ (gesetzlich), mit Mindesteigenbeitrag 60€/Jahr (§86 EStG)
- var gzRiester=(beitragJ>=60)?175:0;
+ // § 86 EStG: Mindesteigenbeitrag = 4% des Vorjahres-
+ // bruttoeinkommens abzüglich Zulagen, mindestens 60€
+ var mindestEigenR=Math.max(60, riesterEinkM*12*0.04-175);
+ var zulageQuoteR=(beitragJ>=mindestEigenR)?1:
+                  (beitragJ>=60?beitragJ/mindestEigenR:0);
+ var gzRiester=Math.round(175*zulageQuoteR);
 
  // Jahresschleife für beide Seiten
  var r1End=riesterGuthaben;
