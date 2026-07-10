@@ -76,7 +76,7 @@
     </div>
     <div>
      <div class="ev-flabel" style="margin-bottom:5px"><span>Kinder</span>
-      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">300 € Kinderzulage pro Kind und Jahr – sofern das Kind sich in Ausbildung oder Studium befindet. Als Förderdauer werden durchschnittlich 21 Jahre angenommen.</div></div>
+      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">300 € Kinderzulage pro Kind und Jahr – solange das Kind das 21. Lebensjahr noch nicht vollendet hat (Modellvereinfachung; gesetzlich ist der Kindergeld-Bezug maßgeblich).</div></div>
      </div>
      <input type="text" id="v-kinder" value="0" inputmode="numeric" style="display:block;width:72px;height:30px;border:1px solid rgba(255,255,255,.25);border-radius:6px;background:rgba(255,255,255,.1);font-size:13px;font-weight:700;color:#fff;text-align:center;font-family:inherit;padding:0">
     </div>
@@ -305,7 +305,7 @@
      <div id="riester-einmal-riester-row">
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Einmalauszahlung Riester</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bei Riester ist die Einmalauszahlung gesetzlich auf maximal 30% des Guthabens begrenzt (§ 22 Nr. 5 EStG). Der verbleibende Mindestanteil von 70% wird als Leibrente verrentet.</div></div>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bei Riester ist die Einmalauszahlung auf maximal 30 % begrenzt (§ 1 Abs. 1 Nr. 4a AltZertG). Der verbleibende Mindestanteil von 70 % wird je nach Vertragsart ausgezahlt: Versicherung → sofortige lebenslange Leibrente; Fondssparplan / Bausparvertrag → Auszahlungsplan bis 85, danach aufgeschobene Restverrentung.</div></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
        <div class="ev-numbox" style="width:75px"><span id="riester-einmal-pct-label" style="display:block;text-align:right;font-size:15px;font-weight:700;color:#fff;padding:0 24px 0 8px;height:36px;line-height:36px">0 %</span></div>
@@ -508,7 +508,7 @@
   <div id="lower-reinvest-row" style="grid-column:1/-1;margin-top:14px;margin-bottom:16px">
    <div class="ev-flabel" style="margin-bottom:6px">
     <span style="font-size:14px;font-weight:700;color:#fff">Steuererstattung reinvestieren</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip"><span id="reinvest-hint">–</span> pro Jahr an Steuervorteilen werden immer zum Jahresende fiktiv als Zusatzrendite auf das Ergebnis des Altersvorsorge-Depots zum Rentenstart ausgewiesen.</div></div>
+    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Wenn aktiv: Die jährliche Steuererstattung aus der Günstigerprüfung (<span id="reinvest-hint">–</span> €/Jahr) wird dem AV-Depot am Jahresende direkt zugeschlagen und wächst ab dann mit – das verstärkt den Zinseszinseffekt.</div></div>
    </div>
    <label id="reinvest-toggle-wrap" for="reinvest-cb" style="display:flex;align-items:center;gap:10px;background:rgba(1,56,120,.5);border:1px solid #0a3070;border-radius:10px;padding:8px 12px;cursor:pointer;user-select:none;transition:background .2s">
     <div style="position:relative;flex-shrink:0">
@@ -590,7 +590,7 @@
       <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:4px 0">
        <div style="display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:nowrap;width:100%">
         <div id="lbl-monat-etf" class="ab-label" style="font-size:20px;font-weight:800;color:#fff;line-height:1.2;white-space:nowrap;">Klassisches Fondsdepot</div>
-        <div class="ev-info" style="flex-shrink:0"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Monatliche Nettorente nach Abgeltungsteuer (26,375 % inkl. Soli) auf Kursgewinne, abzüglich der gesetzlichen Teilfreistellung für Investmentfonds.</div></div>
+        <div class="ev-info" style="flex-shrink:0"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Monatliche Entnahme aus dem nach Abgeltungsteuer (26,375 % inkl. Soli, nach Teilfreistellung und Vorabpauschale-Anrechnung) ermittelten Nettodepot – verrentet über die Entnahmedauer bei 3 % p. a.</div></div>
        </div>
        <div id="r-etf-monat-netto" class="ab-val" style="font-size:24px;font-weight:800;color:#fff;line-height:1.1;white-space:nowrap">–</div>
       </div>
