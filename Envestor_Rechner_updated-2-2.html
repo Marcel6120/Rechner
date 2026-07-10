@@ -2036,9 +2036,13 @@ var riesterP1={
   vertragsart:'versicherung',
   rendite:1.5,
   kosten:1.0,
+  avdKosten:0.2,
   einkM:4000,
   steuer:10,
-  reinvest:true
+  reinvest:true,
+  depotAlter:85,
+  einmalPctAvd:0,
+  einmalPct:0
 };
 var riesterP2={
   guthaben:15000,
@@ -2046,9 +2050,13 @@ var riesterP2={
   vertragsart:'versicherung',
   rendite:1.5,
   kosten:1.0,
+  avdKosten:0.2,
   einkM:4000,
   steuer:10,
-  reinvest:true
+  reinvest:true,
+  depotAlter:85,
+  einmalPctAvd:0,
+  einmalPct:0
 };
 
 function saveActiveRiesterPerson(){
@@ -2058,9 +2066,13 @@ function saveActiveRiesterPerson(){
   obj.vertragsart=riesterVertragsart;
   obj.rendite=riesterRenditeEigen;
   obj.kosten=riesterKosten;
+  obj.avdKosten=riesterAvdKosten;
   obj.einkM=riesterEinkM;
   obj.steuer=riesterSteuer;
   obj.reinvest=riesterReinvest;
+  obj.depotAlter=ST.depotAlter;
+  obj.einmalPctAvd=riesterEinmalPctAvd;
+  obj.einmalPct=riesterEinmalPct;
 }
 
 function updateRiesterPersonToggle(){
@@ -2099,8 +2111,13 @@ function loadRiesterValues(vals){
   riesterVertragsart=vals.vertragsart;
   riesterRenditeEigen=vals.rendite;
   riesterKosten=vals.kosten;
+  riesterAvdKosten=vals.avdKosten!==undefined?vals.avdKosten:0.2;
   riesterEinkM=vals.einkM;
   riesterSteuer=vals.steuer;
+  riesterReinvest=vals.reinvest!==undefined?vals.reinvest:true;
+  riesterEinmalPctAvd=vals.einmalPctAvd!==undefined?vals.einmalPctAvd:0;
+  riesterEinmalPct=vals.einmalPct!==undefined?vals.einmalPct:0;
+  if(vals.depotAlter!==undefined) ST.depotAlter=vals.depotAlter;
   // UI aktualisieren
   var vg=document.getElementById('v-riester-gut');
   var sg=document.getElementById('s-riester-gut');
