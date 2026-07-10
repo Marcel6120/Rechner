@@ -2045,6 +2045,17 @@ var riesterP2={
   steuer:10
 };
 
+function saveActiveRiesterPerson(){
+  var obj=riesterActivePerson===1?riesterP1:riesterP2;
+  obj.guthaben=riesterGuthaben;
+  obj.beitrag=riesterBeitrag;
+  obj.vertragsart=riesterVertragsart;
+  obj.rendite=riesterRenditeEigen;
+  obj.kosten=riesterKosten;
+  obj.einkM=riesterEinkM;
+  obj.steuer=riesterSteuer;
+}
+
 function updateRiesterPersonToggle(){
   var wrap=document.getElementById('riester-person-toggle-wrap');
   if(!wrap)return;
@@ -2053,24 +2064,7 @@ function updateRiesterPersonToggle(){
 
 function switchRiesterPerson(p){
   if(p===riesterActivePerson)return; // Bereits auf dieser Person
-  // Aktuellen State der aktiven Person speichern
-  if(riesterActivePerson===1){
-    riesterP1.guthaben=riesterGuthaben;
-    riesterP1.beitrag=riesterBeitrag;
-    riesterP1.vertragsart=riesterVertragsart;
-    riesterP1.rendite=riesterRenditeEigen;
-    riesterP1.kosten=riesterKosten;
-    riesterP1.einkM=riesterEinkM;
-    riesterP1.steuer=riesterSteuer;
-  } else {
-    riesterP2.guthaben=riesterGuthaben;
-    riesterP2.beitrag=riesterBeitrag;
-    riesterP2.vertragsart=riesterVertragsart;
-    riesterP2.rendite=riesterRenditeEigen;
-    riesterP2.kosten=riesterKosten;
-    riesterP2.einkM=riesterEinkM;
-    riesterP2.steuer=riesterSteuer;
-  }
+  saveActiveRiesterPerson();
   riesterActivePerson=p;
   // Toggle-Buttons stylen
   var b1=document.getElementById('rpt-1');
@@ -2184,7 +2178,7 @@ initRiesterDepotControls();
 (function(){
  var ss=document.getElementById('s-riester-steuer'),vs=document.getElementById('v-riester-steuer'),fs=document.getElementById('f-riester-steuer');
  if(!ss)return;
- function sync(v){riesterSteuer=Math.min(50,Math.max(0,v));ss.value=riesterSteuer;vs.value=riesterSteuer;fs.style.width=(riesterSteuer/50*100)+'%';calcRiester();}
+ function sync(v){riesterSteuer=Math.min(50,Math.max(0,v));ss.value=riesterSteuer;vs.value=riesterSteuer;fs.style.width=(riesterSteuer/50*100)+'%';saveActiveRiesterPerson();calcRiester();}
  ss.addEventListener('input',function(){sync(parseFloat(this.value));});
  vs.addEventListener('change',function(){sync(parseFloat(this.value.replace(',','.'))||0);});
  fs.style.width=(riesterSteuer/50*100)+'%';
@@ -2221,6 +2215,7 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
   var vl=document.getElementById('v-riester-rend');
   var lb=document.getElementById('riester-rend-label');
   if(sl){sl.value=def;fl.style.width=(def/8*100)+'%';vl.value=def.toFixed(1).replace('.',',');if(lb)lb.textContent=def.toFixed(1).replace('.',',')+' %';}
+  saveActiveRiesterPerson();
   calcRiester();
  });
 });
@@ -2232,12 +2227,12 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
  var lb=document.getElementById('riester-rend-label');
  function syncFill(s,f,mn,mx){var pct=(s.value-mn)/(mx-mn)*100;f.style.width=pct+'%';}
  function fmtDE(n){return n.toLocaleString('de-DE');}
- sg.addEventListener('input',function(){riesterGuthaben=parseFloat(this.value);vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg,0,1000000);calcRiester();});
- sb.addEventListener('input',function(){riesterBeitrag=parseFloat(this.value);vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb,0,570);calcRiester();});
- sr.addEventListener('input',function(){riesterRenditeEigen=parseFloat(this.value);var fmt=riesterRenditeEigen.toFixed(1).replace('.',',');vr.value=fmt;if(lb)lb.textContent=fmt+' %';syncFill(sr,fr,0,8);calcRiester();});
- vg.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterGuthaben=Math.min(1000000,Math.max(0,v));sg.value=riesterGuthaben;vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg,0,1000000);calcRiester();});
- vb.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterBeitrag=Math.min(570,Math.max(0,v));sb.value=riesterBeitrag;vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb,0,570);calcRiester();});
- vr.addEventListener('change',function(){var v=parseFloat(this.value.replace(',','.'))||0;riesterRenditeEigen=Math.min(8,Math.max(0,v));sr.value=riesterRenditeEigen;var fmt=riesterRenditeEigen.toFixed(1).replace('.',',');vr.value=fmt;if(lb)lb.textContent=fmt+' %';syncFill(sr,fr,0,8);calcRiester();});
+ sg.addEventListener('input',function(){riesterGuthaben=parseFloat(this.value);vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg,0,1000000);saveActiveRiesterPerson();calcRiester();});
+ sb.addEventListener('input',function(){riesterBeitrag=parseFloat(this.value);vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb,0,570);saveActiveRiesterPerson();calcRiester();});
+ sr.addEventListener('input',function(){riesterRenditeEigen=parseFloat(this.value);var fmt=riesterRenditeEigen.toFixed(1).replace('.',',');vr.value=fmt;if(lb)lb.textContent=fmt+' %';syncFill(sr,fr,0,8);saveActiveRiesterPerson();calcRiester();});
+ vg.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterGuthaben=Math.min(1000000,Math.max(0,v));sg.value=riesterGuthaben;vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg,0,1000000);saveActiveRiesterPerson();calcRiester();});
+ vb.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterBeitrag=Math.min(570,Math.max(0,v));sb.value=riesterBeitrag;vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb,0,570);saveActiveRiesterPerson();calcRiester();});
+ vr.addEventListener('change',function(){var v=parseFloat(this.value.replace(',','.'))||0;riesterRenditeEigen=Math.min(8,Math.max(0,v));sr.value=riesterRenditeEigen;var fmt=riesterRenditeEigen.toFixed(1).replace('.',',');vr.value=fmt;if(lb)lb.textContent=fmt+' %';syncFill(sr,fr,0,8);saveActiveRiesterPerson();calcRiester();});
  syncFill(sg,fg,0,1000000);syncFill(sb,fb,0,570);syncFill(sr,fr,0,8);
 })();
 
@@ -2246,7 +2241,7 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
  var se=document.getElementById('s-riester-eink'),ve=document.getElementById('v-riester-eink'),fe=document.getElementById('f-riester-eink');
  if(!se)return;
  function fmtDE(n){return n.toLocaleString('de-DE');}
- function sync(v){riesterEinkM=Math.min(25000,Math.max(1000,v));se.value=riesterEinkM;ve.value=fmtDE(riesterEinkM);fe.style.width=((riesterEinkM-1000)/(25000-1000)*100)+'%';calcRiester();}
+ function sync(v){riesterEinkM=Math.min(25000,Math.max(1000,v));se.value=riesterEinkM;ve.value=fmtDE(riesterEinkM);fe.style.width=((riesterEinkM-1000)/(25000-1000)*100)+'%';saveActiveRiesterPerson();calcRiester();}
  se.addEventListener('input',function(){sync(parseFloat(this.value));});
  ve.addEventListener('change',function(){sync(parseFloat(this.value.replace(/\./g,'').replace(',','.'))||4000);});
  fe.style.width=((riesterEinkM-1000)/(25000-1000)*100)+'%';
@@ -2256,7 +2251,7 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
 (function(){
  var sk=document.getElementById('s-riester-kosten'),vk=document.getElementById('v-riester-kosten'),fk=document.getElementById('f-riester-kosten');
  if(!sk)return;
- function sync(v){riesterKosten=Math.min(4,Math.max(1,v));sk.value=riesterKosten;vk.value=riesterKosten.toFixed(1).replace('.',',');fk.style.width=((riesterKosten-1)/3*100)+'%';calcRiester();}
+ function sync(v){riesterKosten=Math.min(4,Math.max(1,v));sk.value=riesterKosten;vk.value=riesterKosten.toFixed(1).replace('.',',');fk.style.width=((riesterKosten-1)/3*100)+'%';saveActiveRiesterPerson();calcRiester();}
  sk.addEventListener('input',function(){sync(parseFloat(this.value));});
  vk.addEventListener('change',function(){sync(parseFloat(this.value.replace(',','.'))||1);});
  fk.style.width=((riesterKosten-1)/3*100)+'%';
