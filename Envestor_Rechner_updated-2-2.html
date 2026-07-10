@@ -183,25 +183,25 @@
   <div class="riester-outer-grid">
    <!-- LINKE SEITE: Regler -->
    <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 18px 14px">
+    <div id="riester-person-toggle-wrap" style="display:none;margin-bottom:14px">
+      <div style="display:flex;gap:6px">
+        <button id="rpt-1" onclick="switchRiesterPerson(1)"
+          style="flex:1;padding:7px 0;border-radius:8px;border:1.5px solid #F15A24;
+                 background:#F15A24;color:#fff;font-size:13px;font-weight:700;cursor:pointer">
+          Person 1
+        </button>
+        <button id="rpt-2" onclick="switchRiesterPerson(2)"
+          style="flex:1;padding:7px 0;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);
+                 background:transparent;color:rgba(255,255,255,.7);font-size:13px;
+                 font-weight:600;cursor:pointer">
+          Person 2
+        </button>
+      </div>
+    </div>
     <div class="riester-input-grid">
 
      <!-- Zeile 1: Aktuelles Guthaben | Monatlicher Beitrag -->
      <div>
-      <div id="riester-person-toggle-wrap" style="display:none;margin-bottom:14px">
-        <div style="display:flex;gap:6px">
-          <button id="rpt-1" onclick="switchRiesterPerson(1)"
-            style="flex:1;padding:7px 0;border-radius:8px;border:1.5px solid #F15A24;
-                   background:#F15A24;color:#fff;font-size:13px;font-weight:700;cursor:pointer">
-            Person 1
-          </button>
-          <button id="rpt-2" onclick="switchRiesterPerson(2)"
-            style="flex:1;padding:7px 0;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);
-                   background:transparent;color:rgba(255,255,255,.7);font-size:13px;
-                   font-weight:600;cursor:pointer">
-            Person 2
-          </button>
-        </div>
-      </div>
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Aktuelles Guthaben</span>
        <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Dein bestehendes Riester-Guthaben. Es wird als Startkapital für beide Produkte verwendet – als gleichgewichteter Ausgangspunkt für den fairen Vergleich.</div></div>
@@ -884,7 +884,8 @@ function openSection(mode){
   switchRiesterPerson(1);
  }
  if(isRiester){
-  if(riesterActivePerson===1) saveActiveRiesterPerson();
+  saveActiveRiesterPerson();
+  loadRiesterValues(riesterActivePerson===1?riesterP1:riesterP2);
   calcRiester();
  }
 }
@@ -1804,7 +1805,7 @@ var depot2Spar=0;
   sb.value=capped;
   vb.value=capped.toLocaleString('de-DE');
   fb.style.width=(capped/570*100)+'%';
-  if(typeof saveActiveRiesterPerson==='function') saveActiveRiesterPerson();
+  if(typeof saveActiveRiesterPerson==='function' && typeof sectionMode!=='undefined' && sectionMode==='riester') saveActiveRiesterPerson();
  }
  function syncHauptSpar(v){
   var ss=document.getElementById('s-spar'),vs=document.getElementById('v-spar'),fs=document.getElementById('f-spar');
@@ -2040,7 +2041,6 @@ var riesterP1={
   einkM:4000,
   steuer:10,
   reinvest:true,
-  depotAlter:85,
   einmalPctAvd:0,
   einmalPct:0
 };
@@ -2054,7 +2054,6 @@ var riesterP2={
   einkM:4000,
   steuer:10,
   reinvest:true,
-  depotAlter:85,
   einmalPctAvd:0,
   einmalPct:0
 };
@@ -2070,7 +2069,6 @@ function saveActiveRiesterPerson(){
   obj.einkM=riesterEinkM;
   obj.steuer=riesterSteuer;
   obj.reinvest=riesterReinvest;
-  obj.depotAlter=ST.depotAlter;
   obj.einmalPctAvd=riesterEinmalPctAvd;
   obj.einmalPct=riesterEinmalPct;
 }
@@ -2117,7 +2115,6 @@ function loadRiesterValues(vals){
   riesterReinvest=vals.reinvest!==undefined?vals.reinvest:true;
   riesterEinmalPctAvd=vals.einmalPctAvd!==undefined?vals.einmalPctAvd:0;
   riesterEinmalPct=vals.einmalPct!==undefined?vals.einmalPct:0;
-  if(vals.depotAlter!==undefined) ST.depotAlter=vals.depotAlter;
   // UI aktualisieren
   var vg=document.getElementById('v-riester-gut');
   var sg=document.getElementById('s-riester-gut');
