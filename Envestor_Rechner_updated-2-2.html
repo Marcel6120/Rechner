@@ -186,38 +186,36 @@
     <div class="riester-input-grid">
 
      <!-- Zeile 1: Aktuelles Guthaben | Monatlicher Beitrag -->
-     <div id="riester-person-toggle-wrap" style="display:none;margin-bottom:14px;grid-column:1/-1">
-       <div style="display:flex;gap:6px">
-         <button id="rpt-1" onclick="switchRiesterPerson(1)"
-           style="flex:1;padding:7px 0;border-radius:8px;border:1.5px solid #F15A24;
-                  background:#F15A24;color:#fff;font-size:13px;font-weight:700;cursor:pointer">
-           Person 1
-         </button>
-         <button id="rpt-2" onclick="switchRiesterPerson(2)"
-           style="flex:1;padding:7px 0;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);
-                  background:transparent;color:rgba(255,255,255,.7);font-size:13px;
-                  font-weight:600;cursor:pointer">
-           Person 2
-         </button>
-       </div>
-     </div>
-     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div>
-       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
-        <span style="font-size:14px;font-weight:600;color:#fff">Aktuelles Guthaben</span>
-        <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Dein bestehendes Riester-Guthaben. Es wird als Startkapital für beide Produkte verwendet – als gleichgewichteter Ausgangspunkt für den fairen Vergleich.</div></div>
-       </div>
-       <div style="display:flex;align-items:center;gap:8px">
-        <div style="position:relative;flex-shrink:0;width:100px"><input type="text" id="v-riester-gut" value="15.000" inputmode="decimal" style="width:100%;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 24px 0 8px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">€</span></div>
-        <div style="flex:1;position:relative;height:20px;display:flex;align-items:center"><div class="ev-track"></div><div class="ev-fill" id="f-riester-gut"></div><input type="range" id="s-riester-gut" min="0" max="1000000" step="5000" value="15000"></div>
-       </div>
+     <div>
+      <div id="riester-person-toggle-wrap" style="display:none;margin-bottom:14px">
+        <div style="display:flex;gap:6px">
+          <button id="rpt-1" onclick="switchRiesterPerson(1)"
+            style="flex:1;padding:7px 0;border-radius:8px;border:1.5px solid #F15A24;
+                   background:#F15A24;color:#fff;font-size:13px;font-weight:700;cursor:pointer">
+            Person 1
+          </button>
+          <button id="rpt-2" onclick="switchRiesterPerson(2)"
+            style="flex:1;padding:7px 0;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);
+                   background:transparent;color:rgba(255,255,255,.7);font-size:13px;
+                   font-weight:600;cursor:pointer">
+            Person 2
+          </button>
+        </div>
       </div>
-      <div>
-       <div style="margin-bottom:5px"><span style="font-size:14px;font-weight:600;color:#fff">Sparrate</span><div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Monatliche Sparrate für den Vergleich. Maximaler Eigenbeitrag: 570 €/Monat (6.840 €/Jahr) – das gesetzliche Einzahlungsmaximum pro Altersvorsorgedepot-Vertrag. Für einen fairen 1:1-Vergleich gilt dieselbe Grenze für beide Seiten.</div></div></div>
-       <div style="display:flex;align-items:center;gap:8px">
-        <div style="position:relative;flex-shrink:0;width:100px"><input type="text" id="v-riester-bei" value="150" inputmode="decimal" style="width:100%;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 24px 0 8px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">€</span></div>
-        <div style="flex:1;position:relative;height:20px;display:flex;align-items:center"><div class="ev-track"></div><div class="ev-fill" id="f-riester-bei"></div><input type="range" id="s-riester-bei" min="0" max="570" step="10" value="150"></div>
-       </div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+       <span style="font-size:14px;font-weight:600;color:#fff">Aktuelles Guthaben</span>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Dein bestehendes Riester-Guthaben. Es wird als Startkapital für beide Produkte verwendet – als gleichgewichteter Ausgangspunkt für den fairen Vergleich.</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+       <div style="position:relative;flex-shrink:0;width:100px"><input type="text" id="v-riester-gut" value="15.000" inputmode="decimal" style="width:100%;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 24px 0 8px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">€</span></div>
+       <div style="flex:1;position:relative;height:20px;display:flex;align-items:center"><div class="ev-track"></div><div class="ev-fill" id="f-riester-gut"></div><input type="range" id="s-riester-gut" min="0" max="1000000" step="5000" value="15000"></div>
+      </div>
+     </div>
+     <div>
+      <div style="margin-bottom:5px"><span style="font-size:14px;font-weight:600;color:#fff">Sparrate</span><div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Monatliche Sparrate für den Vergleich. Maximaler Eigenbeitrag: 570 €/Monat (6.840 €/Jahr) – das gesetzliche Einzahlungsmaximum pro Altersvorsorgedepot-Vertrag. Für einen fairen 1:1-Vergleich gilt dieselbe Grenze für beide Seiten.</div></div></div>
+      <div style="display:flex;align-items:center;gap:8px">
+       <div style="position:relative;flex-shrink:0;width:100px"><input type="text" id="v-riester-bei" value="150" inputmode="decimal" style="width:100%;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 24px 0 8px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">€</span></div>
+       <div style="flex:1;position:relative;height:20px;display:flex;align-items:center"><div class="ev-track"></div><div class="ev-fill" id="f-riester-bei"></div><input type="range" id="s-riester-bei" min="0" max="570" step="10" value="150"></div>
       </div>
      </div>
 
