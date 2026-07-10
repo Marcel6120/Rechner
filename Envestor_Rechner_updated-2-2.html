@@ -136,7 +136,7 @@
   <div class="ev-input-col">
    <div class="ev-flabel" style="margin-bottom:6px">
     <span style="font-size:15px;color:#fff">Renteneintrittsalter</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ab welchem Alter möchten Sie Ihr AV-Depot auszahlen? Korridor: frühestens 62, spätestens 70 Jahre (§ 20a EStG). Je später der Rentenbeginn, desto länger die Ansparphase. Ertragsanteil bei 67 Jahren: <span id="hint-ea-tip">17</span> %.</div></div>
+    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ab welchem Alter möchten Sie Ihr AV-Depot auszahlen? Korridor: frühestens 62, spätestens 70 Jahre (Altersvorsorgereformgesetz). Je später der Rentenbeginn, desto länger die Ansparphase. Ertragsanteil bei 67 Jahren: <span id="hint-ea-tip">17</span> %.</div></div>
    </div>
    <div class="p2-pair-grid">
     <div style="min-width:0">
@@ -295,7 +295,7 @@
      <div id="riester-einmal-avd-row">
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Einmalauszahlung Altersvorsorgedepot</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30% des AV-Depots können als Einmalauszahlung ausgezahlt werden (§ 20a EStG). Der verbleibende Mindestanteil von 70% fließt in einen flexiblen Auszahlungsplan (keine Leibrente, keine Verrentung über einen Rentenfaktor).</div></div>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30% des AV-Depots können als Einmalauszahlung ausgezahlt werden (§ 1 Abs. 1 Nr. 4a AltZertG). Der verbleibende Mindestanteil von 70% fließt in einen flexiblen Auszahlungsplan (keine Leibrente, keine Verrentung über einen Rentenfaktor).</div></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
        <div class="ev-numbox" style="width:75px"><span id="riester-einmal-pct-avd-label" style="display:block;text-align:right;font-size:15px;font-weight:700;color:#fff;padding:0 24px 0 8px;height:36px;line-height:36px">0 %</span></div>
@@ -462,7 +462,7 @@
   <div class="ev-input-col">
    <div style="margin-top:0">
     <div class="ev-flabel" style="margin-bottom:4px"><span>Rentenzahlung bis</span>
-     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll die Rentenzahlung laufen? Gesetzlich mindestens bis 85 (§ 20a EStG). Daraus ergibt sich die Entnahmedauer für die monatliche Rente.</div></div>
+     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu welchem Alter soll die Rentenzahlung laufen? Gesetzlich mindestens bis 85 (AltZertG). Daraus ergibt sich die Entnahmedauer für die monatliche Rente.</div></div>
     </div>
     <div style="display:flex;align-items:center;gap:12px">
      <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-depotalter" value="85" min="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
@@ -471,7 +471,7 @@
    </div>
    <div id="lower-einmal-row" style="margin-top:18px">
     <div class="ev-flabel" style="margin-bottom:5px"><span>Einmalauszahlung bei Renteneintritt</span>
-     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30 % des AV-Depots können als Einmalauszahlung ausgezahlt werden (§ 20a EStG). Die restlichen 70 % fließen als monatliche Rente über mindestens 10 Jahre.</div></div>
+     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30 % des AV-Depots können als Einmalauszahlung ausgezahlt werden (§ 1 Abs. 1 Nr. 4a AltZertG). Die restlichen 70 % fließen als monatliche Rente über mindestens 10 Jahre.</div></div>
     </div>
     <div class="ev-row">
      <div class="ev-numbox" style="width:75px"><span id="einmal-pct-label" style="display:block;text-align:right;font-size:15px;font-weight:700;color:#fff;padding:0 24px 0 8px;height:36px;line-height:36px">0 %</span></div>
@@ -689,14 +689,14 @@
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">= Kursgewinn</td><td id="rw-etf-gewinn" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Steuerpflichtig (× 70 % nach Teilfreistellung)</td><td id="rw-etf-stpfl" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Abgeltungsteuer brutto (× 26,375 %)</td><td id="rw-etf-abgst" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
-     <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">− Anrechnung gezahlter VAP (§ 20 Abs. 4)</td><td id="rw-etf-vapabzug" style="text-align:right;font-weight:600;color:#4ade80">–</td></tr>
+     <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">− Anrechnung gezahlter VAP (§ 19 Abs. 1 InvStG)</td><td id="rw-etf-vapabzug" style="text-align:right;font-weight:600;color:#4ade80">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">= Schlusssteuer bei Verkauf</td><td id="rw-etf-schluss" style="text-align:right;font-weight:600;color:#ef4444">–</td></tr>
      <tr style="border-top:1px solid rgba(255,255,255,.1)"><td style="padding:4px 0;font-weight:700;color:#fff">Fondsdepot (netto)</td><td id="rw-etf-netto" style="text-align:right;font-weight:700;color:#4ade80">–</td></tr>
     </table>
     <p style="font-weight:700;color:#F15A24;font-size:13px;margin:18px 0 6px">3. Berechnung der monatlichen Nettorente</p>
     <ul style="font-size:11px;color:rgba(255,255,255,.85);margin:0 0 8px;padding-left:18px;line-height:1.7">
      <li>Nach Abzug der Steuern steht Ihnen das <strong>Netto-Endkapital</strong> zur Verfügung.</li>
-     <li>Bis zu <strong>30 %</strong> des Kapitals können Sie als steuerfreien Einmalbetrag entnehmen (§ 20a EStG); der verbleibende Anteil fließt als monatliche Rente über die gewählte Entnahmedauer.</li>
+     <li>Bis zu <strong>30 %</strong> des Kapitals können Sie als steuerfreien Einmalbetrag entnehmen (§ 1 Abs. 1 Nr. 4a AltZertG); der verbleibende Anteil fließt als monatliche Rente über die gewählte Entnahmedauer.</li>
      <li>Das Kapital arbeitet während der Auszahlungsphase weiter – die Rente wird als konstante Annuität berechnet, sodass das Kapital am Laufzeitende genau aufgebraucht ist.</li>
      <li>Formel: <strong style="color:#F15A24">Monatsrente = Kapital × r × (1+r)ⁿ / ((1+r)ⁿ − 1)</strong><br>
       <span style="color:rgba(255,255,255,.65)">wobei r = monatliche Nettorendite, n = Entnahmedauer in Monaten.</span></li>
@@ -757,7 +757,7 @@
       </tr>
      </table>
     </div>
-    <p style="font-size:10px;color:rgba(255,255,255,.7);padding-top:10px">Vorabpauschale: Basiszins 2,5 % p.a. · § 20a EStG (JStG 2024) · Ertragsanteil nach § 22 EStG (60J=22%, 67J=17%, 70J=15%) · Ansparphase bis Renteneintrittsalter · Max. 1.800&nbsp;€/Person/J Eigenbeitrag gefördert · Kirchensteuer nicht berücksichtigt · Steuerberatung empfohlen.</p>
+    <p style="font-size:10px;color:rgba(255,255,255,.7);padding-top:10px">Vorabpauschale: Basiszins 2,5 % p.a. · § 18 InvStG (Vorabpauschale) · Ertragsanteil nach § 22 EStG (60J=22%, 67J=17%, 70J=15%) · Ansparphase bis Renteneintrittsalter · Max. 1.800&nbsp;€/Person/J Eigenbeitrag gefördert · Kirchensteuer nicht berücksichtigt · Steuerberatung empfohlen.</p>
     <div style="margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)">
      <p style="font-weight:700;color:#F15A24;font-size:13px;margin:0 0 10px">📌 Unsere Annahmen</p>
      <table style="width:100%;font-size:11px;border-collapse:collapse;color:rgba(255,255,255,.85)">
