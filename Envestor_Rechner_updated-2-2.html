@@ -187,6 +187,21 @@
 
      <!-- Zeile 1: Aktuelles Guthaben | Monatlicher Beitrag -->
      <div>
+      <div id="riester-person-toggle-wrap" style="display:none;margin-bottom:14px">
+        <div style="display:flex;gap:6px">
+          <button id="rpt-1" onclick="switchRiesterPerson(1)"
+            style="flex:1;padding:7px 0;border-radius:8px;border:1.5px solid #F15A24;
+                   background:#F15A24;color:#fff;font-size:13px;font-weight:700;cursor:pointer">
+            Person 1
+          </button>
+          <button id="rpt-2" onclick="switchRiesterPerson(2)"
+            style="flex:1;padding:7px 0;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);
+                   background:transparent;color:rgba(255,255,255,.7);font-size:13px;
+                   font-weight:600;cursor:pointer">
+            Person 2
+          </button>
+        </div>
+      </div>
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Aktuelles Guthaben</span>
        <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Dein bestehendes Riester-Guthaben. Es wird als Startkapital für beide Produkte verwendet – als gleichgewichteter Ausgangspunkt für den fairen Vergleich.</div></div>
@@ -857,14 +872,18 @@ function openSection(mode){
  if(rb)rb.style.display=isRiester?'':'none';
  // Im Riester-Modus: Erwachsene immer auf 1 fixieren
  var erwBtn2=document.querySelector('#st-erw [data-v="2"]');
- if(isRiester){
-  if(erwBtn2){erwBtn2.disabled=true;erwBtn2.style.opacity='0.35';erwBtn2.style.cursor='not-allowed';erwBtn2.title='Riester-Vergleich gilt pro Person';}
-  // Auf 1 Person zurücksetzen falls 2 aktiv
-  if(ST.erw===2){
-   document.querySelector('#st-erw [data-v="1"]').click();
-  }
- } else {
-  if(erwBtn2){erwBtn2.disabled=false;erwBtn2.style.opacity='';erwBtn2.style.cursor='';erwBtn2.title='';}
+ if(erwBtn2){erwBtn2.disabled=false;erwBtn2.style.opacity='';erwBtn2.style.cursor='';erwBtn2.title='';}
+ updateRiesterPersonToggle();
+ if(!isRiester&&riesterActivePerson===2){
+  riesterP2.guthaben=riesterGuthaben;
+  riesterP2.beitrag=riesterBeitrag;
+  riesterP2.vertragsart=riesterVertragsart;
+  riesterP2.rendite=riesterRenditeEigen;
+  riesterP2.kosten=riesterKosten;
+  riesterP2.einkM=riesterEinkM;
+  riesterP2.steuer=riesterSteuer;
+  riesterActivePerson=1;
+  switchRiesterPerson(1);
  }
  if(isRiester)calcRiester();
 }
@@ -2004,6 +2023,114 @@ var riesterKostenAvd=1.0; // Kosten AV-Depot für den Vergleich
 var riesterKosten=1.0;    // Produktkosten Riester-Vertrag
 var riesterEinkM=4000;    // Monatl. Bruttoeinkommen für Günstigerprüfung
 var riesterReinvest=true; // Steuererstattung reinvestieren
+
+// Riester 2-Personen-State
+var riesterActivePerson=1;
+var riesterP2={
+  guthaben:15000,
+  beitrag:150,
+  vertragsart:'versicherung',
+  rendite:1.5,
+  kosten:1.0,
+  einkM:4000,
+  steuer:10
+};
+
+function updateRiesterPersonToggle(){
+  var wrap=document.getElementById('riester-person-toggle-wrap');
+  if(!wrap)return;
+  wrap.style.display=(ST.erw===2)?'':'none';
+}
+
+function switchRiesterPerson(p){
+  // Aktuellen State der aktiven Person speichern
+  if(riesterActivePerson===1){
+    // P1-Werte sind bereits in den Hauptvariablen
+  } else {
+    riesterP2.guthaben=riesterGuthaben;
+    riesterP2.beitrag=riesterBeitrag;
+    riesterP2.vertragsart=riesterVertragsart;
+    riesterP2.rendite=riesterRenditeEigen;
+    riesterP2.kosten=riesterKosten;
+    riesterP2.einkM=riesterEinkM;
+    riesterP2.steuer=riesterSteuer;
+  }
+  riesterActivePerson=p;
+  // Toggle-Buttons stylen
+  var b1=document.getElementById('rpt-1');
+  var b2=document.getElementById('rpt-2');
+  if(b1&&b2){
+    b1.style.background=p===1?'#F15A24':'transparent';
+    b1.style.color=p===1?'#fff':'rgba(255,255,255,.7)';
+    b1.style.borderColor=p===1?'#F15A24':'rgba(255,255,255,.3)';
+    b2.style.background=p===2?'#F15A24':'transparent';
+    b2.style.color=p===2?'#fff':'rgba(255,255,255,.7)';
+    b2.style.borderColor=p===2?'#F15A24':'rgba(255,255,255,.3)';
+  }
+  // Werte der Zielperson in die UI laden
+  if(p===2){
+    loadRiesterValues(riesterP2);
+  } else {
+    loadRiesterP1Values();
+  }
+  calcRiester();
+}
+
+function loadRiesterValues(vals){
+  riesterGuthaben=vals.guthaben;
+  riesterBeitrag=vals.beitrag;
+  riesterVertragsart=vals.vertragsart;
+  riesterRenditeEigen=vals.rendite;
+  riesterKosten=vals.kosten;
+  riesterEinkM=vals.einkM;
+  riesterSteuer=vals.steuer;
+  // UI aktualisieren
+  var vg=document.getElementById('v-riester-gut');
+  var sg=document.getElementById('s-riester-gut');
+  if(vg)vg.value=fmtDE(riesterGuthaben);
+  if(sg)sg.value=riesterGuthaben;
+  var vb=document.getElementById('v-riester-bei');
+  var sb=document.getElementById('s-riester-bei');
+  if(vb)vb.value=fmtDE(riesterBeitrag);
+  if(sb)sb.value=riesterBeitrag;
+  syncFill(sg,document.getElementById('f-riester-gut'),0,1000000);
+  syncFill(sb,document.getElementById('f-riester-bei'),0,570);
+  // Vertragsart-Buttons
+  document.querySelectorAll('#riester-vertragsart .ev-sbtn').forEach(function(b){
+    b.classList.toggle('on',b.dataset.v===riesterVertragsart);
+  });
+  // Rendite-Slider
+  var sr=document.getElementById('s-riester-rend');
+  var vr=document.getElementById('v-riester-rend');
+  if(sr)sr.value=riesterRenditeEigen;
+  if(vr)vr.value=riesterRenditeEigen;
+  if(sr)syncFill(sr,document.getElementById('f-riester-rend'),0,10);
+  // Kosten-Slider
+  var sk=document.getElementById('s-riester-kosten');
+  if(sk)sk.value=riesterKosten;
+  syncFill(sk,document.getElementById('f-riester-kosten'),1,4);
+  // Einkommen-Slider
+  var se=document.getElementById('s-riester-eink');
+  var ve=document.getElementById('v-riester-eink');
+  if(se)se.value=riesterEinkM;
+  if(ve)ve.value=fmtDE(riesterEinkM);
+  if(se)syncFill(se,document.getElementById('f-riester-eink'),1000,25000);
+  // Steuersatz-Slider
+  var ss=document.getElementById('s-riester-steuer');
+  var vs=document.getElementById('v-riester-steuer');
+  if(ss)ss.value=riesterSteuer;
+  if(vs)vs.value=riesterSteuer;
+  if(ss)syncFill(ss,document.getElementById('f-riester-steuer'),0,50);
+}
+
+function loadRiesterP1Values(){
+  riesterEinkM=ST.eink;
+  var ve=document.getElementById('v-riester-eink');
+  var se=document.getElementById('s-riester-eink');
+  if(ve)ve.value=fmtDE(riesterEinkM);
+  if(se)se.value=riesterEinkM;
+  if(se)syncFill(se,document.getElementById('f-riester-eink'),1000,25000);
+}
 
 function setRiesterReinvest(val){
  riesterReinvest=val;
