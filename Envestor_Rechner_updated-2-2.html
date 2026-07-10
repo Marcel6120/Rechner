@@ -1804,6 +1804,7 @@ var depot2Spar=0;
   sb.value=capped;
   vb.value=capped.toLocaleString('de-DE');
   fb.style.width=(capped/570*100)+'%';
+  if(typeof saveActiveRiesterPerson==='function') saveActiveRiesterPerson();
  }
  function syncHauptSpar(v){
   var ss=document.getElementById('s-spar'),vs=document.getElementById('v-spar'),fs=document.getElementById('f-spar');
@@ -2155,6 +2156,7 @@ function setRiesterReinvest(val){
  var off=document.getElementById('riester-reinvest-off');
  if(on){on.classList.toggle('on',val);}
  if(off){off.classList.toggle('on',!val);}
+ if(typeof saveActiveRiesterPerson==='function') saveActiveRiesterPerson();
  calcRiester();
 }
 
