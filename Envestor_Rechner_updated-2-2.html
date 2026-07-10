@@ -867,7 +867,7 @@ function openSection(mode){
   if(el)el.style.display=isRiester?'none':'';
  });
  var rb=document.getElementById('riester-block');
- if(rb)rb.style.display=isRiester?'':'none';
+ if(rb)rb.style.display=isRiester?'grid':'none';
  // Im Riester-Modus: Erwachsene immer auf 1 fixieren
  var erwBtn2=document.querySelector('#st-erw [data-v="2"]');
  if(erwBtn2){erwBtn2.disabled=false;erwBtn2.style.opacity='';erwBtn2.style.cursor='';erwBtn2.title='';}
