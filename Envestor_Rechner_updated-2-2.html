@@ -158,8 +158,8 @@
    <div class="ev-flabel" style="margin-bottom:6px"><span style="font-size:15px;color:#fff">Rendite vor Kosten</span>
     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Langfristig rentieren Aktien bei nominal 8–10 % pro Jahr, Staatsanleihen mit 4,0 bis 5,5 % und diversifizierte Rohstoffkörbe bei 4,0 bis 6,0 % jährlich.</div></div>
    </div>
-   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-rend" value="6,0" inputmode="decimal"><span class="ev-unit">%</span></div>
-    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rend"></div><input type="range" id="s-rend" min="0" max="12" step="0.5" value="6"></div>
+   <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-rend" value="8,0" inputmode="decimal"><span class="ev-unit">%</span></div>
+    <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-rend"></div><input type="range" id="s-rend" min="0" max="12" step="0.5" value="8"></div>
    </div>
    <div class="ev-hint" style="display:none"><strong id="rend-netto-hint" style="color:#fff">5,5 %</strong></div>
   </div>
@@ -823,7 +823,7 @@
  </div>
  </div>
 </div>
-<script>var ST={eink:4000,eink2:4000,verheiratet:true,alter:35,rentenAlter:67,depotAlter:85,steuersatzRente:10,kosten:1.0,kostenEtf:1.0,kinderAnzahl:0,kinderAlter:[],erw:1,spar:150,rend:6,reinvest:true,einmalPct:0,alter2:35,rentenAlter2:67,depotAlter2:85,steuersatzRente2:10,einmalPct2:0,spar2:150};
+<script>var ST={eink:4000,eink2:4000,verheiratet:true,alter:35,rentenAlter:67,depotAlter:85,steuersatzRente:10,kosten:1.0,kostenEtf:1.0,kinderAnzahl:0,kinderAlter:[],erw:1,spar:150,rend:8,reinvest:true,einmalPct:0,alter2:35,rentenAlter2:67,depotAlter2:85,steuersatzRente2:10,einmalPct2:0,spar2:150};
 var p2Individual=false;
 function setP2Individual(val){
  p2Individual=val;
@@ -960,8 +960,8 @@ function calcSingle(p){
 
  // Renten-Anteil: BRUTTO verrenten, dann Steuer auf die Bruttorate
  var entnahmeJ=Math.max(p.depotAlter-p.rentenAlter,Math.max(1,85-p.rentenAlter));
- var mr12E=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
- var mr12EE=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
+ var mr12E=Math.pow(1+5.0/100,1/12)-1;  // Konservative 5% p.a. Rendite in der Auszahlungsphase
+ var mr12EE=Math.pow(1+5.0/100,1/12)-1;  // Konservative 5% p.a. Rendite in der Auszahlungsphase
  var nEnt=entnahmeJ*12;
  function monatRenteP(kapital){
   if(kapital<=0)return 0;
@@ -977,9 +977,23 @@ function calcSingle(p){
  var avNetto=avEinmalNetto+avGef_rente*(1-p.steuersatzRente/100)+avUb_rente*(1-ea*p.steuersatzRente/100);
  var avSteuer=Math.round(avBrutto-avNetto);
 
- var etfEinz=eoM*lz*12,etfKg=Math.max(0,etfBrutto-etfEinz),etfStpfl=etfKg*0.70;
- var etfAbgst=etfStpfl*0.26375,etfSteuerAuf=Math.max(0,etfAbgst-totalVapPaid);
- var etfNetto=Math.round(etfBrutto-etfSteuerAuf);
+ // Umschichtung bei Renteneintritt: 50% verkauft, 50% verbleibt
+ var etfEinz=eoM*lz*12;
+ var etfKg=Math.max(0,etfBrutto-etfEinz);
+ var gewinnQuote=etfBrutto>0?etfKg/etfBrutto:0;
+ var etfVerkauft=etfBrutto*0.50;
+ var gewinnVerkauft=etfVerkauft*gewinnQuote;
+ var vapAnteilig=totalVapPaid*0.50;
+ var etfStpflUmsch=Math.max(0,gewinnVerkauft-vapAnteilig/0.26375)*0.70;
+ var etfSteuerUmsch=etfStpflUmsch*0.26375;
+ var etfNachUmsch=etfBrutto-etfSteuerUmsch;
+ var vapVerbleibend=totalVapPaid*0.50;
+ var etfKgRest=Math.max(0,etfBrutto*0.50-etfEinz*0.50);
+ var etfStpflRest=Math.max(0,etfKgRest-vapVerbleibend/0.26375)*0.70;
+ var etfSteuerRest=etfStpflRest*0.26375;
+ var etfSteuerAuf=etfSteuerUmsch+etfSteuerRest;
+ var etfNetto=Math.round(etfNachUmsch-etfSteuerRest);
+ var etfStpfl=etfStpflUmsch+etfStpflRest;
  var etfM=mr12EE>0?etfNetto*mr12EE*Math.pow(1+mr12EE,nEnt)/(Math.pow(1+mr12EE,nEnt)-1):etfNetto/nEnt;
  return{gz:gzGesamtReal,kz:kzGesamtReal,st:steuerNettoGesamt,steuerNetto:steuerNetto,avBrutto:avBrutto,avNetto:avNetto,avEinmalNetto:avEinmalNetto,etfBrutto:etfBrutto,etfNetto:etfNetto,avEntnahmeM:avM,etfEntnahmeM:etfM,lz:lz,entnahmeJahre:entnahmeJ,pts:pts};
 }
@@ -1162,8 +1176,8 @@ function calc(){
  var etfSteuerAufloesung=Math.max(0,etfAbgstBrutto-totalVapPaid);
  var etfNetto=Math.round(etfBrutto-etfSteuerAufloesung);
  var entnahmeJ=Math.max(s.depotAlter-s.rentenAlter,Math.max(1,85-s.rentenAlter));
- var mr12Ent=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
- var mr12EntEtf=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
+ var mr12Ent=Math.pow(1+5.0/100,1/12)-1;  // Konservative 5% p.a. Rendite in der Auszahlungsphase
+ var mr12EntEtf=Math.pow(1+5.0/100,1/12)-1;  // Konservative 5% p.a. Rendite in der Auszahlungsphase
  var nEnt=entnahmeJ*12;
  function monatRenteP(kapital){
   if(kapital<=0)return 0;
@@ -1219,7 +1233,7 @@ function calc(){
   auszahlungMonatNetto:(function(){
    var kapital=avNetto*renteFrac;
    var entnahmeJ=Math.max(s.depotAlter-s.rentenAlter,Math.max(1,85-s.rentenAlter));
-   var rendEnt=3.0/100;  // Konservative 3% p.a. Rendite in der Auszahlungsphase für alle Produkte
+   var rendEnt=5.0/100;  // Konservative 5% p.a. Rendite in der Auszahlungsphase für alle Produkte
    var mr12Ent=Math.pow(1+rendEnt,1/12)-1;
    var n=entnahmeJ*12;
    if(kapital<=0) return 0;
@@ -1230,7 +1244,7 @@ function calc(){
   etfMonatNetto:(function(){
    var kapitalEtf=etfNetto*renteFrac;
    var entnahmeJ=Math.max(s.depotAlter-s.rentenAlter,Math.max(1,85-s.rentenAlter));
-   var rendEnt=3.0/100;  // Konservative 3% p.a. Rendite in der Auszahlungsphase für alle Produkte
+   var rendEnt=5.0/100;  // Konservative 5% p.a. Rendite in der Auszahlungsphase für alle Produkte
    var mr12Ent=Math.pow(1+rendEnt,1/12)-1;
    var n=entnahmeJ*12;
    if(kapitalEtf<=0) return 0;
@@ -1534,8 +1548,8 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
   var etfBruttoPeak=r.etfBrutto;
   var entnahmeJ=r.entnahmeJahre;
   var nEnt=entnahmeJ*12;
-  var mr12Ent=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
-  var mr12EntEtf=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
+  var mr12Ent=Math.pow(1+5.0/100,1/12)-1;  // Konservative 5% p.a. Rendite in der Auszahlungsphase
+  var mr12EntEtf=Math.pow(1+5.0/100,1/12)-1;  // Konservative 5% p.a. Rendite in der Auszahlungsphase
   var avBruttoEntnahmeM=mr12Ent>0
    ? avBruttoPeak*mr12Ent*Math.pow(1+mr12Ent,nEnt)/(Math.pow(1+mr12Ent,nEnt)-1)
    : avBruttoPeak/nEnt;
@@ -2284,7 +2298,7 @@ function calcRiester(){
  // Auszahlungsrenditen: Beide Produkte verwenden die GLEICHE konservative Rendite (3% p.a.)
  // Grund: In der Rentenphase wird konservativer angelegt (weniger Risiko, mehr Stabilität)
  // Dies ermöglicht einen fairen Vergleich der Produktstrukturen (Leibrente vs. Auszahlungsplan), unabhängig von individuellen Rendite-Annahmen
- var renditeAuszahlung=3.0/100;  // 3% p.a. konservativ für Rentneralter
+ var renditeAuszahlung=5.0/100;  // 5% p.a. konservativ für Rentneralter
  var renditeAuszahlungRiester=renditeAuszahlung;
  var renditeAuszahlungAvd=renditeAuszahlung;
 
