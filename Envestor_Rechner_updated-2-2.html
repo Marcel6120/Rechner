@@ -2026,6 +2026,15 @@ var riesterReinvest=true; // Steuererstattung reinvestieren
 
 // Riester 2-Personen-State
 var riesterActivePerson=1;
+var riesterP1={
+  guthaben:15000,
+  beitrag:150,
+  vertragsart:'versicherung',
+  rendite:1.5,
+  kosten:1.0,
+  einkM:4000,
+  steuer:10
+};
 var riesterP2={
   guthaben:15000,
   beitrag:150,
@@ -2043,9 +2052,16 @@ function updateRiesterPersonToggle(){
 }
 
 function switchRiesterPerson(p){
+  if(p===riesterActivePerson)return; // Bereits auf dieser Person
   // Aktuellen State der aktiven Person speichern
   if(riesterActivePerson===1){
-    // P1-Werte sind bereits in den Hauptvariablen
+    riesterP1.guthaben=riesterGuthaben;
+    riesterP1.beitrag=riesterBeitrag;
+    riesterP1.vertragsart=riesterVertragsart;
+    riesterP1.rendite=riesterRenditeEigen;
+    riesterP1.kosten=riesterKosten;
+    riesterP1.einkM=riesterEinkM;
+    riesterP1.steuer=riesterSteuer;
   } else {
     riesterP2.guthaben=riesterGuthaben;
     riesterP2.beitrag=riesterBeitrag;
@@ -2124,12 +2140,7 @@ function loadRiesterValues(vals){
 }
 
 function loadRiesterP1Values(){
-  riesterEinkM=ST.eink;
-  var ve=document.getElementById('v-riester-eink');
-  var se=document.getElementById('s-riester-eink');
-  if(ve)ve.value=fmtDE(riesterEinkM);
-  if(se)se.value=riesterEinkM;
-  if(se)syncFill(se,document.getElementById('f-riester-eink'),1000,25000);
+  loadRiesterValues(riesterP1);
 }
 
 function setRiesterReinvest(val){
