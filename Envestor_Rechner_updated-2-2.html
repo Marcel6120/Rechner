@@ -959,7 +959,7 @@ function calcSingle(p){
  var avEinmalNetto=avEinmalNettoGef+avEinmalNettoUb;
 
  // Renten-Anteil: BRUTTO verrenten, dann Steuer auf die Bruttorate
- var entnahmeJ=Math.max(10,p.depotAlter-p.rentenAlter);
+ var entnahmeJ=Math.max(p.depotAlter-p.rentenAlter,Math.max(1,85-p.rentenAlter));
  var mr12E=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
  var mr12EE=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
  var nEnt=entnahmeJ*12;
@@ -1161,7 +1161,7 @@ function calc(){
  var etfAbgstBrutto=etfStpfl*0.26375;
  var etfSteuerAufloesung=Math.max(0,etfAbgstBrutto-totalVapPaid);
  var etfNetto=Math.round(etfBrutto-etfSteuerAufloesung);
- var entnahmeJ=Math.max(10,s.depotAlter-s.rentenAlter);
+ var entnahmeJ=Math.max(s.depotAlter-s.rentenAlter,Math.max(1,85-s.rentenAlter));
  var mr12Ent=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
  var mr12EntEtf=Math.pow(1+3.0/100,1/12)-1;  // Konservative 3% p.a. Rendite in der Auszahlungsphase
  var nEnt=entnahmeJ*12;
@@ -1218,7 +1218,7 @@ function calc(){
   auszahlungEinmalNetto:Math.round(avNetto*einmalFrac),
   auszahlungMonatNetto:(function(){
    var kapital=avNetto*renteFrac;
-   var entnahmeJ=Math.max(10,s.depotAlter-s.rentenAlter);
+   var entnahmeJ=Math.max(s.depotAlter-s.rentenAlter,Math.max(1,85-s.rentenAlter));
    var rendEnt=3.0/100;  // Konservative 3% p.a. Rendite in der Auszahlungsphase für alle Produkte
    var mr12Ent=Math.pow(1+rendEnt,1/12)-1;
    var n=entnahmeJ*12;
@@ -1229,7 +1229,7 @@ function calc(){
   etfEinmalNetto:Math.round(etfNetto*einmalFrac),
   etfMonatNetto:(function(){
    var kapitalEtf=etfNetto*renteFrac;
-   var entnahmeJ=Math.max(10,s.depotAlter-s.rentenAlter);
+   var entnahmeJ=Math.max(s.depotAlter-s.rentenAlter,Math.max(1,85-s.rentenAlter));
    var rendEnt=3.0/100;  // Konservative 3% p.a. Rendite in der Auszahlungsphase für alle Produkte
    var mr12Ent=Math.pow(1+rendEnt,1/12)-1;
    var n=entnahmeJ*12;
@@ -1239,7 +1239,7 @@ function calc(){
   })(),
   einmalPct:einmalFrac*100,
   renteFrac:renteFrac,
-  entnahmeJahre:Math.max(10,s.depotAlter-s.rentenAlter)
+  entnahmeJahre:Math.max(s.depotAlter-s.rentenAlter,Math.max(1,85-s.rentenAlter))
  };
  // If individual P2 mode: override with calcSingle for each person
  if(ST.erw===2&&p2Individual){
