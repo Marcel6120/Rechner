@@ -298,7 +298,7 @@
        <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30% des AV-Depots können als Einmalauszahlung ausgezahlt werden (§ 1 Abs. 1 Nr. 4a AltZertG). Der verbleibende Mindestanteil von 70% fließt in einen flexiblen Auszahlungsplan (keine Leibrente, keine Verrentung über einen Rentenfaktor).</div></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
-       <div class="ev-numbox" style="width:75px"><span id="riester-einmal-pct-avd-label" style="display:block;text-align:right;font-size:15px;font-weight:700;color:#fff;padding:0 24px 0 8px;height:36px;line-height:36px">0 %</span></div>
+       <div style="position:relative;flex-shrink:0;width:75px"><input type="text" id="v-riester-einmal-pct-avd" value="0" inputmode="numeric" style="width:100%;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 24px 0 8px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">%</span></div>
        <div class="ev-slwrap" style="flex:1"><div class="ev-track"></div><div class="ev-fill" id="f-riester-einmal-pct-avd" style="width:0%"></div><input type="range" id="s-riester-einmal-pct-avd" min="0" max="30" step="1" value="0"></div>
       </div>
      </div>
@@ -308,7 +308,7 @@
        <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bei Riester ist die Einmalauszahlung auf maximal 30 % begrenzt (§ 1 Abs. 1 Nr. 4a AltZertG). Der verbleibende Mindestanteil von 70 % wird je nach Vertragsart ausgezahlt: Versicherung → sofortige lebenslange Leibrente; Fondssparplan / Bausparvertrag → Auszahlungsplan bis 85, danach aufgeschobene Restverrentung.</div></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
-       <div class="ev-numbox" style="width:75px"><span id="riester-einmal-pct-label" style="display:block;text-align:right;font-size:15px;font-weight:700;color:#fff;padding:0 24px 0 8px;height:36px;line-height:36px">0 %</span></div>
+       <div style="position:relative;flex-shrink:0;width:75px"><input type="text" id="v-riester-einmal-pct" value="0" inputmode="numeric" style="width:100%;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 24px 0 8px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">%</span></div>
        <div class="ev-slwrap" style="flex:1"><div class="ev-track"></div><div class="ev-fill" id="f-riester-einmal-pct" style="width:0%"></div><input type="range" id="s-riester-einmal-pct" min="0" max="30" step="1" value="0"></div>
       </div>
      </div>
@@ -2112,19 +2112,21 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
 
 // Einmalauszahlung Altersvorsorgedepot im Riester-Vergleich (auf max 30% gedeckelt)
 (function(){
- var sl=document.getElementById('s-riester-einmal-pct-avd'),vl=document.getElementById('riester-einmal-pct-avd-label'),fl=document.getElementById('f-riester-einmal-pct-avd');
- if(!sl)return;
+ var sl=document.getElementById('s-riester-einmal-pct-avd'),vl=document.getElementById('v-riester-einmal-pct-avd'),fl=document.getElementById('f-riester-einmal-pct-avd');
+ if(!sl||!vl)return;
  function syncFill(s,f,mn,mx){var pct=(s.value-mn)/(mx-mn)*100;f.style.width=pct+'%';}
- sl.addEventListener('input',function(){riesterEinmalPctAvd=parseInt(this.value);vl.textContent=riesterEinmalPctAvd+' %';syncFill(sl,fl,0,30);calcRiester();});
+ sl.addEventListener('input',function(){riesterEinmalPctAvd=parseInt(this.value);vl.value=riesterEinmalPctAvd;syncFill(sl,fl,0,30);calcRiester();});
+ vl.addEventListener('change',function(){var v=parseInt(this.value)||0;riesterEinmalPctAvd=Math.min(30,Math.max(0,v));sl.value=riesterEinmalPctAvd;vl.value=riesterEinmalPctAvd;syncFill(sl,fl,0,30);calcRiester();});
  syncFill(sl,fl,0,30);
 })();
 
 // Einmalauszahlung Riester (auf max 30% gedeckelt)
 (function(){
- var sl=document.getElementById('s-riester-einmal-pct'),vl=document.getElementById('riester-einmal-pct-label'),fl=document.getElementById('f-riester-einmal-pct');
- if(!sl)return;
+ var sl=document.getElementById('s-riester-einmal-pct'),vl=document.getElementById('v-riester-einmal-pct'),fl=document.getElementById('f-riester-einmal-pct');
+ if(!sl||!vl)return;
  function syncFill(s,f,mn,mx){var pct=(s.value-mn)/(mx-mn)*100;f.style.width=pct+'%';}
- sl.addEventListener('input',function(){riesterEinmalPct=parseInt(this.value);vl.textContent=riesterEinmalPct+' %';syncFill(sl,fl,0,30);calcRiester();});
+ sl.addEventListener('input',function(){riesterEinmalPct=parseInt(this.value);vl.value=riesterEinmalPct;syncFill(sl,fl,0,30);calcRiester();});
+ vl.addEventListener('change',function(){var v=parseInt(this.value)||0;riesterEinmalPct=Math.min(30,Math.max(0,v));sl.value=riesterEinmalPct;vl.value=riesterEinmalPct;syncFill(sl,fl,0,30);calcRiester();});
  syncFill(sl,fl,0,30);
 })();
 
