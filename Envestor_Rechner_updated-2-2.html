@@ -885,11 +885,14 @@ function openSection(mode){
   riesterInitialized=false;
  }
  if(isRiester){
-  if(riesterActivePerson===1 && !riesterInitialized){
+  if(riesterActivePerson===1 && !riesterInitialized &&
+     typeof riesterP1!=='undefined' && riesterP1!==null){
    saveActiveRiesterPerson();
    riesterInitialized=true;
   }
-  loadRiesterValues(riesterActivePerson===1?riesterP1:riesterP2);
+  if(typeof riesterP1!=='undefined' && riesterP1!==null){
+   loadRiesterValues(riesterActivePerson===1?riesterP1:riesterP2);
+  }
   calcRiester();
  }
 }
