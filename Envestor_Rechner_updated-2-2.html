@@ -2362,8 +2362,10 @@ function getRentenfaktor(rentenAlter){
 var RESTVERRENTUNGS_ANTEIL=0.30;
 
 function calcRiester(){
+ console.log('calcRiester() called - ST.alter='+ST.alter+' ST.rentenAlter='+ST.rentenAlter);
  var n=ST.rentenAlter-ST.alter;
- if(n<=0)return;
+ console.log('n='+n+' riesterBeitrag='+riesterBeitrag+' riesterGuthaben='+riesterGuthaben);
+ if(n<=0){console.log('Early return: n<=0');return;}
  function fmtCurrency(v){return v.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:0})+' €';}
 
  // Synchronisiere AVD-Kosten mit Hauptrechner
