@@ -868,7 +868,7 @@ function openSection(mode){
  });
  var rb=document.getElementById('riester-block');
  if(rb)rb.style.display=isRiester?'':'none';
- // Im Riester-Modus: Erwachsene immer auf 1 fixieren
+ // Im Riester-Modus: Toggle & Buttons aktualisieren
  var erwBtn2=document.querySelector('#st-erw [data-v="2"]');
  if(erwBtn2){erwBtn2.disabled=false;erwBtn2.style.opacity='';erwBtn2.style.cursor='';erwBtn2.title='';}
  updateRiesterPersonToggle();
