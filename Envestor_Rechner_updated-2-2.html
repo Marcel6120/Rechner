@@ -2508,6 +2508,7 @@ function calcRiester(){
  var r1RentenfaktorVal = getRentenfaktor(ST.rentenAlter);
  var r1RentenfaktorDisplay = r1RentenfaktorVal;
 
+ console.log('calcRiester: Starting Vertragsart='+riesterVertragsart+' depotAlter='+ST.depotAlter);
  var r1Monat=0;  // Wird je nach Vertragsart berechnet
  var r1MonatAb85=0; // Für Fondssparplan/Bausparvertrag: separate Rate ab 85
  var r1ZeigtZweiRaten=false;  // Flag für UI: zwei getrennte Raten anzeigen
@@ -2643,6 +2644,7 @@ function calcRiester(){
  }
 
  // Karten befüllen
+ console.log('About to set r1-rente. r1Monat='+r1Monat+' r1AnzeigeKapital='+r1AnzeigeKapital+' avdMonatFair='+avdMonatFair);
  setEl('r1-kapital',fmtCurrency(Math.round(r1AnzeigeKapital)));
  setEl('r1-rente',fmtCurrency(r1Monat)+' / Mon.');
 
