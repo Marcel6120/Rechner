@@ -860,6 +860,11 @@ function setP2Individual(val){
  rows.forEach(function(r){r.style.display=val?'':'none';});
  document.querySelectorAll('.p2-pair-grid').forEach(function(g){g.classList.toggle('p2-single',!val);});
  document.querySelectorAll('.p2-person-lbl').forEach(function(l){l.style.display=val?'block':'none';});
+ // Zusätzlich: Explizit die Eingabe-Felder in der Details-Sektion kontrollieren
+ var ein2=document.getElementById('lower-einmal2-row');
+ var st2=document.getElementById('lower-steuersatz2-row');
+ if(ein2)ein2.style.display=val?'':'none';
+ if(st2)st2.style.display=val?'':'none';
 }
 setP2Individual(false);
 var sectionMode=null;
