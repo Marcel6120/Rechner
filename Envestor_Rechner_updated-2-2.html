@@ -179,7 +179,7 @@
  window.addEventListener('resize',eqBtnH);
 })();
 </script></div>
- <div id="riester-block" style="display:none;grid-column:1/-1;padding:0">
+ <div id="riester-block" style="display:none;grid-column:1/-1;grid-row:4;padding:0">
   <div class="riester-outer-grid">
    <!-- LINKE SEITE: Regler -->
    <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 18px 14px">
@@ -439,12 +439,12 @@
    </div>
    <div style="margin-bottom:10px">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Rendite in der Auszahlungsphase</div>
-    <div style="margin-bottom:6px"><strong style="color:#fff">Beide Produkte:</strong> 3,0% p.a. konservative Rendite<br>
+    <div style="margin-bottom:6px"><strong style="color:#fff">Beide Produkte:</strong> 5,0% p.a. konservative Rendite<br>
     <span style="font-size:11px;color:rgba(255,255,255,.7)">Grund: In der Rentenphase wird aufgrund geringerer Risikotoleranz konservativer angelegt. Die gleiche Rendite ermöglicht einen fairen Vergleich der Produktstrukturen.</span></div>
    </div>
    <div style="margin-bottom:10px">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Rentenfaktor / Auszahlungslogik</div>
-    <div><strong style="color:#f7931a">Riester-Vertrag:</strong> Fixer Rentenfaktor 25,0€ pro 10.000€ Kapital/Monat (altersunabhängig) — unabhängig von Anspar- oder Marktrendite, garantiert lebenslang | <strong style="color:#f7931a">Altersvorsorgedepot:</strong> Flexibler Auszahlungsplan basierend auf Entnahmedauer und 3% p.a. Rendite auf Restkapital</div>
+    <div><strong style="color:#f7931a">Riester-Vertrag:</strong> Fixer Rentenfaktor 25,0€ pro 10.000€ Kapital/Monat (altersunabhängig) — unabhängig von Anspar- oder Marktrendite, garantiert lebenslang | <strong style="color:#f7931a">Altersvorsorgedepot:</strong> Flexibler Auszahlungsplan basierend auf Entnahmedauer und 5% p.a. Rendite auf Restkapital</div>
    </div>
    <div>
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Auszahlungsphase - Monatsrente netto</div>
@@ -457,13 +457,13 @@
     <div style="margin-top:6px"><strong style="color:#fff">Riester Fondssparplan:</strong><br>
     • 30% Einmalauszahlung: geförderter Anteil voll steuerpflichtig mit Grenzsteuersatz; ungeförderter Anteil nur Gewinn × 50 % Halbeinkünfte × Grenzsteuersatz<br>
     • 70% Zwei-Phasen-Modell (gesetzlich nach AltZertG):<br>
-    &nbsp;&nbsp;– Phase 1 (Renteneintritt bis Alter 85): 70 % des Verrentungskapitals als Auszahlungsplan mit 3 % p.a., Rate konstant bis 85<br>
-    &nbsp;&nbsp;– Phase 2 (ab Alter 85): 30 % des Verrentungskapitals wächst bis 85 weiter (3 % p.a.) und wird dann über Rentenfaktor als lebenslange Leibrente ausgezahlt<br>
+    &nbsp;&nbsp;– Phase 1 (Renteneintritt bis Alter 85): 70 % des Verrentungskapitals als Auszahlungsplan mit 5 % p.a., Rate konstant bis 85<br>
+    &nbsp;&nbsp;– Phase 2 (ab Alter 85): 30 % des Verrentungskapitals wächst bis 85 weiter (5 % p.a.) und wird dann über Rentenfaktor als lebenslange Leibrente ausgezahlt<br>
     • Besteuerung: geförderter Anteil voll mit Grenzsteuersatz; ungeförderter Anteil mit Ertragsanteil × Grenzsteuersatz</div>
     <div style="margin-top:6px"><strong style="color:#fff">Altersvorsorgedepot (Annuitätsplan):</strong><br>
     • 30% Einmalauszahlung (voll steuerpflichtig mit Grenzsteuersatz, § 22 Nr. 5 EStG)<br>
     • 70% Annuitätsplan über eingestellte Entnahmedauer: <strong id="rw-entnahme" style="color:#F15A24">–</strong> Jahre (bis Alter <strong id="rw-bisalter" style="color:#F15A24">–</strong>, mind. bis Alter 85)<br>
-    • Brutto Monatsrente = Annuitätenformel: K × i × (1+i)^n / ((1+i)^n − 1), wobei i = Monatsrendite (3 % p.a.), n = Entnahmedauer in Monaten<br>
+    • Brutto Monatsrente = Annuitätenformel: K × i × (1+i)^n / ((1+i)^n − 1), wobei i = Monatsrendite (5 % p.a.), n = Entnahmedauer in Monaten<br>
     • Monatsrente reagiert auf Regler — längere Laufzeit = niedrigere Rente<br>
     • Nachgelagerte Besteuerung mit Grenzsteuersatz auf den geförderten Anteil (bis 1.800 €/Jahr/Person + Zulagen). Übersteigt der Eigenbeitrag den Förderrahmen, wird der ungeförderte Gewinnanteil nur mit dem Ertragsanteil besteuert (analog zur Tabelle "Besteuerung AV-Depot" weiter unten im Dokument).</div>
    </div>
@@ -536,20 +536,36 @@
     <div class="ev-flabel" style="margin-bottom:5px"><span>Einmalauszahlung bei Renteneintritt</span>
      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30 % des AV-Depots können als Einmalauszahlung ausgezahlt werden (§ 1 Abs. 1 Nr. 4a AltZertG). Die restlichen 70 % fließen als monatlicher Auszahlungsplan – gesetzlich mindestens bis zum 85. Lebensjahr (AltZertG).</div></div>
     </div>
+    <div id="p1-einmal-lbl" class="p2-person-lbl" style="display:none;font-size:12px;color:rgba(255,255,255,.7);margin-bottom:3px">Person 1</div>
     <div class="ev-row">
      <div class="ev-numbox" style="width:75px"><span id="einmal-pct-label" style="display:block;text-align:right;font-size:15px;font-weight:700;color:#fff;padding:0 24px 0 8px;height:36px;line-height:36px">0 %</span></div>
      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-einmal-pct" style="width:0%"></div><input type="range" id="s-einmal-pct" min="0" max="30" step="1" value="0"></div>
     </div>
     <div id="einmal-hint" style="display:none"></div>
    </div>
+   <div id="lower-einmal2-row" class="p2-ind-row" style="display:none;margin-top:10px">
+    <div style="font-size:12px;color:rgba(255,255,255,.7);margin-bottom:3px">Person 2</div>
+    <div class="ev-row">
+     <div class="ev-numbox" style="width:75px"><span id="einmal-pct2-label" style="display:block;text-align:right;font-size:15px;font-weight:700;color:#fff;padding:0 24px 0 8px;height:36px;line-height:36px">0 %</span></div>
+     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-einmal-pct2" style="width:0%"></div><input type="range" id="s-einmal-pct2" min="0" max="30" step="1" value="0"></div>
+    </div>
+    <div id="einmal-hint2" style="display:none"></div>
+   </div>
    <div id="lower-steuersatz-row" style="margin-top:18px">
     <div class="ev-flabel"><span>Voraussichtlicher Steuersatz im Rentenalter</span>
      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Die Auszahlung aus dem AV-Depot wird nachgelagert mit Ihrem persönlichen Einkommensteuersatz im Rentenalter besteuert (keine Abgeltungsteuer, keine Teilfreistellung). Bei Eigenbeiträgen oberhalb der Förderhöchstgrenze (1.800 €/Jahr/Person) wird nur der Gewinnanteil des übersteigenden Betrags begünstigt besteuert: mit dem Ertragsanteil bei laufender Rente, mit dem Halbeinkünfteverfahren bei Einmalauszahlung.</div></div>
     </div>
+    <div id="p1-srate-lbl" class="p2-person-lbl" style="display:none;font-size:12px;color:rgba(255,255,255,.7);margin-bottom:3px">Person 1</div>
     <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-srate" value="10" inputmode="numeric"><span class="ev-unit">%</span></div>
      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-srate"></div><input type="range" id="s-srate" min="0" max="45" step="1" value="10"></div>
     </div>
     <div style="margin-top:8px;font-size:12.5px;color:#fff;line-height:1.5">Für die meisten Ruheständler liegt dieser bei 0%. Für sie wäre das AV Depot bis zu einem Steuersatz von <span id="breakeven-steuersatz">25%</span> vorteilhaft.</div>
+   </div>
+   <div id="lower-steuersatz2-row" class="p2-ind-row" style="display:none;margin-top:10px">
+    <div style="font-size:12px;color:rgba(255,255,255,.7);margin-bottom:3px">Person 2</div>
+    <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-srate2" value="10" inputmode="numeric"><span class="ev-unit">%</span></div>
+     <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-srate2"></div><input type="range" id="s-srate2" min="0" max="45" step="1" value="10"></div>
+    </div>
    </div>
   </div>
  </div>
@@ -782,7 +798,7 @@
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
        <td style="padding:5px 0;font-weight:600;color:#fff">Rendite Auszahlungsphase</td>
-       <td style="padding:5px 0">3,0 % p.a. konservative Rendite für beide Produkte (AV-Depot und Fondsdepot). Im Rentenalter wird aufgrund geringerer Risikotoleranz konservativer angelegt. Dies ermöglicht einen fairen Vergleich der Produktstrukturen unabhängig von individuellen Rendite-Annahmen.</td>
+       <td style="padding:5px 0">5,0 % p.a. konservative Rendite für beide Produkte (AV-Depot und Fondsdepot). Im Rentenalter wird aufgrund geringerer Risikotoleranz konservativer angelegt. Dies ermöglicht einen fairen Vergleich der Produktstrukturen unabhängig von individuellen Rendite-Annahmen.</td>
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
        <td style="padding:5px 0;font-weight:600;color:#fff">Vorabpauschale (VAP)</td>
@@ -802,7 +818,7 @@
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
        <td style="padding:5px 0;font-weight:600;color:#fff">Besteuerung Fondsdepot</td>
-       <td style="padding:5px 0">Abgeltungsteuer 26,375 % (inkl. Soli) auf 70 % der Gewinne (30 % Teilfreistellung für Aktienfonds, § 20 InvStG). Sparerpauschbetrag (1.000 €/J Einzelperson, 2.000 €/J zusammen veranlagt) und Kirchensteuer sind nicht berücksichtigt.</td>
+       <td style="padding:5px 0">Abgeltungsteuer 26,375 % (inkl. Soli) auf 70 % der Gewinne (30 % Teilfreistellung für Aktienfonds, § 20 InvStG). Sparerpauschbetrag (1.000 €/J Einzelperson, 2.000 €/J zusammen veranlagt) wird bei der Vorabpauschale berücksichtigt. Kirchensteuer ist nicht berücksichtigt.</td>
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
        <td style="padding:5px 0;font-weight:600;color:#fff">Steuererstattung</td>
@@ -847,7 +863,7 @@ function setP2Individual(val){
 }
 setP2Individual(false);
 var sectionMode=null;
-var riesterOnlyHide=['lower-einmal-row','lower-steuersatz-row','lower-eink-col','lower-reinvest-row','lower-kosten-col'];
+var riesterOnlyHide=['lower-einmal-row','lower-einmal2-row','lower-steuersatz-row','lower-steuersatz2-row','lower-eink-col','lower-reinvest-row','lower-kosten-col'];
 function openSection(mode){
  if(sectionMode===mode){sectionMode=null;}else{sectionMode=mode;}
  var btn=document.getElementById('btn-details');
@@ -872,7 +888,7 @@ function openSection(mode){
  var erwBtn2=document.querySelector('#st-erw [data-v="2"]');
  if(erwBtn2){erwBtn2.disabled=false;erwBtn2.style.opacity='';erwBtn2.style.cursor='';erwBtn2.title='';}
  updateRiesterPersonToggle();
- if(!isRiester&&riesterActivePerson===2){
+ if(!isRiester&&riesterActivePerson===2&&typeof riesterP2!=='undefined'&&riesterP2){
   riesterP2.guthaben=riesterGuthaben;
   riesterP2.beitrag=riesterBeitrag;
   riesterP2.vertragsart=riesterVertragsart;
@@ -885,12 +901,11 @@ function openSection(mode){
   riesterInitialized=false;
  }
  if(isRiester){
-  if(riesterActivePerson===1 && !riesterInitialized &&
-     typeof riesterP1!=='undefined' && riesterP1!==null){
-   saveActiveRiesterPerson();
-   riesterInitialized=true;
-  }
-  if(typeof riesterP1!=='undefined' && riesterP1!==null){
+  if(typeof riesterP1!=='undefined' && riesterP1){
+   if(riesterActivePerson===1 && !riesterInitialized){
+    saveActiveRiesterPerson();
+    riesterInitialized=true;
+   }
    loadRiesterValues(riesterActivePerson===1?riesterP1:riesterP2);
   }
   calcRiester();
@@ -944,6 +959,7 @@ function calcSingle(p){
  var steuerNettoGesamt=0,gzGesamtReal=0,kzGesamtReal=0,pts=[];
  var mr12=Math.pow(1+rendNetto/100,1/12)-1,mr12Etf=Math.pow(1+rendNettoEtf/100,1/12)-1;
  var depotMit=0,depotOhne=0,totalVapPaid=0;
+ var zulFolgejahr=0; // Folgejahr-Logik
  for(var j=1;j<=lz;j++){
   var gzFJ=(jb<MINDEST_J)?0:1,gzJJ=gzJ*gzFJ;
   var kzDiesesJahr=0;
@@ -953,10 +969,17 @@ function calcSingle(p){
   var zulJahr=gzJJ+kzDiesesJahr+berufsBonus;gzGesamtReal+=gzJJ;kzGesamtReal+=kzDiesesJahr;
   var foJ=Math.min(jb,1800),abJ=foJ+zulJahr,stBJ=abJ*gsatzEff,stNJ=Math.max(0,stBJ-zulJahr);
   steuerNettoGesamt+=stNJ;
-  var zulM=zulJahr/12,eiM=ebM+zulM;
+  var zulM=zulFolgejahr/12,eiM=ebM+zulM; // Folgejahr: Vorjahres-Zulage
   for(var mo=1;mo<=12;mo++){depotMit=depotMit*(1+mr12)+eiM;depotOhne=depotOhne*(1+mr12Etf)+eoM;}
+  zulFolgejahr=zulJahr; // Für nächstes Jahr merken
   if(s.reinvest)depotMit+=stNJ;
-  var vapJ=depotOhne*VAP_FAKTOR*VAP_STEUER;totalVapPaid+=vapJ;depotOhne=Math.max(0,depotOhne-vapJ);
+  // Sparerpauschbetrag: 1.000€/J Einzelperson, 2.000€/J verheiratet (§20 Abs.9 EStG)
+  var SPARERPAUSCH=s.verheiratet&&s.erw===2?2000:1000;
+  // VAP-Bemessungsgrundlage vor TFS: depotOhne * Basiszins * 0.70
+  var vapBasis=depotOhne*0.025*0.70;
+  // Nach Sparerpauschbetrag und TFS:
+  var vapStpfl=Math.max(0,(vapBasis-SPARERPAUSCH)*0.70);
+  var vapJ=vapStpfl*VAP_STEUER;totalVapPaid+=vapJ;depotOhne=Math.max(0,depotOhne-vapJ);
   pts.push({a:p.alter+j,mi:Math.round(depotMit),mo:Math.round(depotOhne)});
  }
  var avBrutto=depotMit,etfBrutto=depotOhne;
@@ -998,25 +1021,28 @@ function calcSingle(p){
  var avGefRenteBrutto=monatRenteP(avGef_rente);
  var avGefRenteNetto=avGefRenteBrutto*(1-p.steuersatzRente/100);
  var avUbRenteBrutto=monatRenteP(avUb_rente);
- var avUbRenteNetto=avUbRenteBrutto*(1-ea*p.steuersatzRente/100);
+ // Halbeinkünfteverfahren für monatliche Auszahlung ungefördert (§22 Nr.5 S.2 i.V.m. §20 Abs.1 Nr.6 EStG)
+ // Steuerpflichtig: 50% des Gewinnanteils jeder Rate × persönlicher Steuersatz
+ var gewinnUb=Math.max(0,avUb-einzUbGes);
+ var gewinnQuoteUb=avUb>0?gewinnUb/avUb:0;
+ var avUbRenteNetto=avUbRenteBrutto*(1-HALBEINKUENFTE_FAKTOR*gewinnQuoteUb*p.steuersatzRente/100);
  var avM=avGefRenteNetto+avUbRenteNetto;
 
  // Für Kompatibilität mit bestehenden Konsumenten von avNetto/avSteuer beibehalten
- var avNetto=avEinmalNetto+avGef_rente*(1-p.steuersatzRente/100)+avUb_rente*(1-ea*p.steuersatzRente/100);
+ var avNetto=avEinmalNetto+avGef_rente*(1-p.steuersatzRente/100)+avUb_rente*(1-HALBEINKUENFTE_FAKTOR*gewinnQuoteUb*p.steuersatzRente/100);
  var avSteuer=Math.round(avBrutto-avNetto);
 
- // Umschichtung bei Renteneintritt: 50% verkauft, 50% verbleibt
+ // Umschichtung bei Renteneintritt: 50% verkauft (FIFO §20 Abs.4 S.7 EStG), 50% verbleibt
  var etfEinz=eoM*lz*12;
- var etfKg=Math.max(0,etfBrutto-etfEinz);
- var gewinnQuote=etfBrutto>0?etfKg/etfBrutto:0;
- var etfVerkauft=etfBrutto*0.50;
- var gewinnVerkauft=etfVerkauft*gewinnQuote;
+ var gewinnVerkauft=etfGewinnFIFO(etfBrutto,etfEinz,lz,mr12Etf);
  var vapAnteilig=totalVapPaid*0.50;
  var etfStpflUmsch=Math.max(0,gewinnVerkauft-vapAnteilig/0.26375)*0.70;
  var etfSteuerUmsch=etfStpflUmsch*0.26375;
  var etfNachUmsch=etfBrutto-etfSteuerUmsch;
  var vapVerbleibend=totalVapPaid*0.50;
- var etfKgRest=Math.max(0,etfBrutto*0.50-etfEinz*0.50);
+ // Rest-Hälfte: Einstand = Gesamteinstand minus FIFO-Einstand der verkauften Hälfte
+ var fifoEinstVerk=etfFifoEinstand(etfEinz,lz,mr12Etf);
+ var etfKgRest=Math.max(0,etfBrutto*0.50-(etfEinz-fifoEinstVerk));
  var etfStpflRest=Math.max(0,etfKgRest-vapVerbleibend/0.26375)*0.70;
  var etfSteuerRest=etfStpflRest*0.26375;
  var etfSteuerAuf=etfSteuerUmsch+etfSteuerRest;
@@ -1025,6 +1051,37 @@ function calcSingle(p){
  var etfM=mr12EE>0?etfNetto*mr12EE*Math.pow(1+mr12EE,nEnt)/(Math.pow(1+mr12EE,nEnt)-1):etfNetto/nEnt;
  return{gz:gzGesamtReal,kz:kzGesamtReal,st:steuerNettoGesamt,steuerNetto:steuerNetto,avBrutto:avBrutto,avNetto:avNetto,avEinmalNetto:avEinmalNetto,etfBrutto:etfBrutto,etfNetto:etfNetto,avEntnahmeM:avM,etfEntnahmeM:etfM,lz:lz,entnahmeJahre:entnahmeJ,pts:pts};
 }
+// FIFO nach § 20 Abs. 4 S. 7 EStG: älteste Anteile zuerst verkauft.
+// Analytische geschlossene Formel für gleichmäßigen Monatssparplan.
+// Gibt den steuerpflichtigen Gewinn der verkauften 50%-Hälfte zurück.
+function etfGewinnFIFO(etfBrutto,etfEinz,lz,mr12Etf){
+ var n=lz*12;
+ if(n<=0||mr12Etf<=0.000001||etfEinz<=0) return Math.max(0,etfBrutto*0.5-etfEinz*0.5);
+ var rn=Math.pow(1+mr12Etf,n);
+ // Anzahl Monate (k) der ältesten Lots die zusammen 50% des Depots ergeben:
+ // V(k) = spar*((1+r)^n - (1+r)^(n-k))/r = 0.5 * depot
+ // => (1+r)^(n-k) = 0.5*((1+r)^n + 1)
+ var nk=Math.log(0.5*(rn+1))/Math.log(1+mr12Etf);
+ var k=n-nk;
+ var rkGanz=Math.floor(k), rkFrac=k-rkGanz;
+ var spar=etfEinz/n;
+ // Wert der k ältesten Lots (geometrische Reihe):
+ var wertGanz=spar*(rn-Math.pow(1+mr12Etf,n-rkGanz))/mr12Etf;
+ // Wert des anteiligen letzten Lots:
+ var wertTeil=spar*Math.pow(1+mr12Etf,n-1-rkGanz)*rkFrac;
+ var fifoEinstand=spar*k;
+ return Math.max(0,(wertGanz+wertTeil)-fifoEinstand);
+}
+// Einstand der FIFO-verkauften Hälfte (für Rest-Kursgewinn-Berechnung)
+function etfFifoEinstand(etfEinz,lz,mr12Etf){
+ var n=lz*12;
+ if(n<=0||mr12Etf<=0.000001||etfEinz<=0) return etfEinz*0.5;
+ var rn=Math.pow(1+mr12Etf,n);
+ var nk=Math.log(0.5*(rn+1))/Math.log(1+mr12Etf);
+ var k=n-nk;
+ return (etfEinz/n)*k;
+}
+
 function calc(){
  var s=ST,lz=Math.max(s.rentenAlter-s.alter,1);
  var rendNetto=Math.max(0,s.rend-s.kosten);
@@ -1092,6 +1149,7 @@ function calc(){
  var mr12=Math.pow(1+rendNetto/100,1/12)-1;
  var mr12Etf=Math.pow(1+rendNettoEtf/100,1/12)-1;
  var depotMit=0,depotOhne=0,totalVapPaid=0;
+ var zulageFolgejahr=0; // Zulage des Vorjahres wird im aktuellen Jahr ausgezahlt (Folgejahr-Logik)
  for(var j=1;j<=lz;j++){
   var sparerAlterJetzt=s.alter+(j-1);
   var kzDiesesJahr=0;
@@ -1123,14 +1181,20 @@ function calc(){
   var stBruttoJ=abzugJ*gsatzEff;
   var stNettoJ=Math.max(0,stBruttoJ-zulageJahrReal);
   steuerNettoGesamt+=stNettoJ;
-  var zulageJahrM=zulageJahrReal/12;
+  // Folgejahr-Logik: Zulage des Vorjahres fließt im aktuellen Jahr zu
+  var zulageJahrM=zulageFolgejahr/12;
   var eiMJahr=ebM+zulageJahrM;
   for(var mo=1;mo<=12;mo++){
    depotMit=depotMit*(1+mr12)+eiMJahr;
    depotOhne=depotOhne*(1+mr12Etf)+eoM;
   }
+  zulageFolgejahr=zulageJahrReal; // Für nächstes Jahr merken
   if(s.reinvest) depotMit+=stNettoJ;
-  var vapSteuerJ=depotOhne*VAP_FAKTOR*VAP_STEUER;
+  // Sparerpauschbetrag: 1.000€/J Einzelperson, 2.000€/J verheiratet (§20 Abs.9 EStG)
+  var SPARERPAUSCHJ=s.verheiratet&&s.erw===2?2000:1000;
+  var vapBasisJ=depotOhne*0.025*0.70;
+  var vapStpflJ=Math.max(0,(vapBasisJ-SPARERPAUSCHJ)*0.70);
+  var vapSteuerJ=vapStpflJ*VAP_STEUER;
   totalVapPaid+=vapSteuerJ;
   depotOhne=Math.max(0,depotOhne-vapSteuerJ);
   var alterJ=s.alter+j;
@@ -1187,22 +1251,33 @@ function calc(){
 
  // Calculate total gain for breakeven calculation
  var gewinnÜb=Math.max(0,avÜb-einzÜbGes);
+ var gewinnQuoteÜb=avÜb>0?gewinnÜb/avÜb:0;
 
  // Calculate split taxes for compatibility
  var steuerGef=steuerGefEinmal+avGef_rente*s.steuersatzRente/100;
- var steuerÜb=steuerÜbEinmal+avÜb_rente*ea*s.steuersatzRente/100;
+ // Halbeinkünfteverfahren monatliche Rate: 50% × Gewinnanteil × Steuersatz
+ var steuerÜb=steuerÜbEinmal+avÜb_rente*HALBEINKUENFTE_FAKTOR*gewinnQuoteÜb*s.steuersatzRente/100;
 
  // Für Kompatibilität mit bestehenden Konsumenten von avNetto/avSteuer beibehalten
- var avNetto=avEinmalNetto+avGef_rente*(1-s.steuersatzRente/100)+avÜb_rente*(1-ea*s.steuersatzRente/100);
+ var avNetto=avEinmalNetto+avGef_rente*(1-s.steuersatzRente/100)+avÜb_rente*(1-HALBEINKUENFTE_FAKTOR*gewinnQuoteÜb*s.steuersatzRente/100);
  var avSteuer=Math.round(avBrutto-avNetto);
 
  var etfBrutto=last.mo;
  var etfEinzahlungen=eoM*lz*12;
- var etfKursgewinn=Math.max(0,etfBrutto-etfEinzahlungen);
- var etfStpfl=etfKursgewinn*0.70;
- var etfAbgstBrutto=etfStpfl*0.26375;
- var etfSteuerAufloesung=Math.max(0,etfAbgstBrutto-totalVapPaid);
- var etfNetto=Math.round(etfBrutto-etfSteuerAufloesung);
+ // Umschichtung bei Renteneintritt: FIFO nach § 20 Abs. 4 S. 7 EStG
+ var gewinnVerkauftC=etfGewinnFIFO(etfBrutto,etfEinzahlungen,lz,mr12Etf);
+ var vapAnteiligC=totalVapPaid*0.50;
+ var etfStpflUmschC=Math.max(0,gewinnVerkauftC-vapAnteiligC/0.26375)*0.70;
+ var etfSteuerUmschC=etfStpflUmschC*0.26375;
+ var etfNachUmschC=etfBrutto-etfSteuerUmschC;
+ var vapVerblC=totalVapPaid*0.50;
+ var fifoEinstVerkC=etfFifoEinstand(etfEinzahlungen,lz,mr12Etf);
+ var etfKgRestC=Math.max(0,etfBrutto*0.50-(etfEinzahlungen-fifoEinstVerkC));
+ var etfStpflRestC=Math.max(0,etfKgRestC-vapVerblC/0.26375)*0.70;
+ var etfSteuerRestC=etfStpflRestC*0.26375;
+ var etfSteuerAufloesung=etfSteuerUmschC+etfSteuerRestC;
+ var etfStpfl=etfStpflUmschC+etfStpflRestC;
+ var etfNetto=Math.round(etfNachUmschC-etfSteuerRestC);
  var entnahmeJ=Math.max(s.depotAlter-s.rentenAlter,Math.max(1,85-s.rentenAlter));
  var mr12Ent=Math.pow(1+5.0/100,1/12)-1;  // Konservative 5% p.a. Rendite in der Auszahlungsphase
  var mr12EntEtf=Math.pow(1+5.0/100,1/12)-1;  // Konservative 5% p.a. Rendite in der Auszahlungsphase
@@ -1214,7 +1289,8 @@ function calc(){
  var avGefRenteBrutto=monatRenteP(avGef_rente);
  var avGefRenteNetto=avGefRenteBrutto*(1-s.steuersatzRente/100);
  var avÜbRenteBrutto=monatRenteP(avÜb_rente);
- var avÜbRenteNetto=avÜbRenteBrutto*(1-ea*s.steuersatzRente/100);
+ // Halbeinkünfteverfahren: 50% × Gewinnanteil der Rate × persönlicher Steuersatz
+ var avÜbRenteNetto=avÜbRenteBrutto*(1-HALBEINKUENFTE_FAKTOR*gewinnQuoteÜb*s.steuersatzRente/100);
  var avEntnahmeM=avGefRenteNetto+avÜbRenteNetto;
  var etfEntnahmeM=mr12EntEtf>0?etfNetto*mr12EntEtf*Math.pow(1+mr12EntEtf,nEnt)/(Math.pow(1+mr12EntEtf,nEnt)-1):etfNetto/nEnt;
  var depotAV_gef=avGefRenteBrutto>0?avGef_rente:0, depotAV_ueb=avÜbRenteBrutto>0?avÜb_rente:0, depotETF=etfNetto;
@@ -1252,9 +1328,9 @@ function calc(){
   avSteuer:avSteuer,avNetto:avNetto,ea:Math.round(ea*100),
   avGef:Math.round(avGef),avÜb:Math.round(avÜb),
   steuerGef:Math.round(steuerGef),steuerÜb:Math.round(steuerÜb),
-  etfKursgewinn:Math.round(etfKursgewinn),
+  etfKursgewinn:Math.round(Math.max(0,etfBrutto-etfEinzahlungen)),
   etfStpfl:Math.round(etfStpfl),
-  etfAbgstBrutto:Math.round(etfAbgstBrutto),
+  etfAbgstBrutto:Math.round(etfSteuerAufloesung),
   etfEinzahlungen:Math.round(etfEinzahlungen),
   auszahlungEinmal:Math.round(avNetto*einmalFrac),
   auszahlungEinmalNetto:Math.round(avNetto*einmalFrac),
@@ -1283,14 +1359,18 @@ function calc(){
   renteFrac:renteFrac,
   entnahmeJahre:Math.max(s.depotAlter-s.rentenAlter,Math.max(1,85-s.rentenAlter))
  };
- // If individual P2 mode: override with calcSingle for each person
- if(ST.erw===2&&p2Individual){
+ // Bei 2 Personen IMMER getrennt pro Person rechnen und danach addieren
+ // (nicht von p2Individual-Flag abhängig machen - unverheiratete Paare mit
+ // unterschiedlichem Einkommen dürfen niemals über einen gemittelten
+ // Grenzsteuersatz gerechnet werden, siehe gsatzEff-Mittelwert weiter oben,
+ // der dadurch hier bewusst nie zum Tragen kommt)
+ if(ST.erw===2){
   var gsatz1=grenz(s.eink*12);
   var geff1,geff2;
   if(s.verheiratet){geff1=grenz(s.eink*12/2);geff2=geff1;}
   else{geff1=gsatz1;geff2=grenz(s.eink2*12);}
   var r1=calcSingle({spar:s.spar,alter:s.alter,rentenAlter:s.rentenAlter,depotAlter:s.depotAlter,steuersatzRente:s.steuersatzRente,gsatzEff:geff1,kinderAlter:ST.kinderAlter,einmalPct:s.einmalPct});
-  var r2=calcSingle({spar:s.spar2,alter:s.alter2,rentenAlter:s.rentenAlter2,depotAlter:s.depotAlter2,steuersatzRente:s.steuersatzRente2,gsatzEff:geff2,kinderAlter:[],einmalPct:s.einmalPct});
+  var r2=calcSingle({spar:s.spar2,alter:s.alter2,rentenAlter:s.rentenAlter2,depotAlter:s.depotAlter2,steuersatzRente:s.steuersatzRente2,gsatzEff:geff2,kinderAlter:[],einmalPct:s.einmalPct2});
   var cAvNetto=r1.avNetto+r2.avNetto,cEtfNetto=r1.etfNetto+r2.etfNetto;
   var cAvBrutto=r1.avBrutto+r2.avBrutto,cEtfBrutto=r1.etfBrutto+r2.etfBrutto;
   var cAvSteuer=(cAvBrutto-cAvNetto),cEtfSteuer=(cEtfBrutto-cEtfNetto);
@@ -1301,7 +1381,7 @@ function calc(){
   var cEtfKursgewinn=Math.max(0,cEtfBrutto-cEtfEinzGes);
   return{
    gz:cGz,kz:r1.kz+r2.kz,st:r1.st+r2.st,
-   end:cAvNetto,endBrutto:cAvBrutto,etf:cEtfNetto,etfBrutto:cEtfBrutto,vort:cAvNetto-cEtfNetto,
+   end:cAvNetto,endBrutto:cAvBrutto,etf:cEtfNetto,vort:cAvNetto-cEtfNetto,
    avBrutto:cAvBrutto,avNetto:cAvNetto,
    avSteuer:Math.round(cAvSteuer),
    etfBrutto:cEtfBrutto,etfNetto:cEtfNetto,
@@ -1325,7 +1405,7 @@ function calc(){
    etfKursgewinn:Math.round(cEtfKursgewinn),
    etfStpfl:Math.round(cEtfKursgewinn*0.7),
    etfAbgstBrutto:Math.round(cEtfKursgewinn*0.7*0.26375),
-   pts:(function(){var maxLz=Math.max(r1.lz,r2.lz);var cPts=[];for(var _j=0;_j<maxLz;_j++){var p1pt=r1.pts[_j]||r1.pts[r1.pts.length-1]||{a:ST.alter+_j+1,mi:0,mo:0};var p2pt=r2.pts[_j]||r2.pts[r2.pts.length-1]||{a:ST.alter2+_j+1,mi:0,mo:0};cPts.push({a:p1pt.a,mi:Math.round(p1pt.mi+p2pt.mi),mo:Math.round(p1pt.mo+p2pt.mo)});}return cPts;})(),_r1:r1,_r2:r2};
+   pts:(function(){var maxLz=Math.max(r1.lz,r2.lz);var cPts=[];for(var _j=0;_j<maxLz;_j++){var p1pt=r1.pts[_j]||r1.pts[r1.pts.length-1]||{a:ST.alter+_j+1,mi:0,mo:0};var p2pt=r2.pts[_j]||r2.pts[r2.pts.length-1]||{a:ST.alter2+_j+1,mi:0,mo:0};cPts.push({a:p1pt.a,mi:Math.round(p1pt.mi+p2pt.mi),mo:Math.round(p1pt.mo+p2pt.mo),phase:'anspar'});}return cPts;})(),_r1:r1,_r2:r2};
  }
  return result;
 }
@@ -1578,17 +1658,18 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
   var etfBruttoPeak=r.etfBrutto;
   var entnahmeJ=r.entnahmeJahre;
   var nEnt=entnahmeJ*12;
-  var mr12Ent=Math.pow(1+5.0/100,1/12)-1;  // Konservative 5% p.a. Rendite in der Auszahlungsphase
-  var mr12EntEtf=Math.pow(1+5.0/100,1/12)-1;  // Konservative 5% p.a. Rendite in der Auszahlungsphase
+  var mr12Ent=Math.pow(1+5.0/100,1/12)-1;
+  var mr12EntEtf=Math.pow(1+5.0/100,1/12)-1;
   var avBruttoEntnahmeM=mr12Ent>0
    ? avBruttoPeak*mr12Ent*Math.pow(1+mr12Ent,nEnt)/(Math.pow(1+mr12Ent,nEnt)-1)
    : avBruttoPeak/nEnt;
   var etfBruttoEntnahmeM=mr12EntEtf>0
    ? etfBruttoPeak*mr12EntEtf*Math.pow(1+mr12EntEtf,nEnt)/(Math.pow(1+mr12EntEtf,nEnt)-1)
    : etfBruttoPeak/nEnt;
+  // Entnahme-Kurve immer direkt berechnen (auch bei 2 Personen wo entnahmePts leer ist)
   var avEnt=[avBruttoPeak], etfEnt=[etfBruttoPeak];
   var dAV_ent=avBruttoPeak, dETF_ent=etfBruttoPeak;
-  for(var ej=0;ej<entnahmePts.length;ej++){
+  for(var ej=0;ej<entnahmeJ;ej++){
    for(var em=0;em<12;em++){
     dAV_ent=Math.max(0,dAV_ent*(1+mr12Ent)-avBruttoEntnahmeM);
     dETF_ent=Math.max(0,dETF_ent*(1+mr12EntEtf)-etfBruttoEntnahmeM);
@@ -1615,10 +1696,12 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
   var ratioEinz = einzPeak / avPeak;
   var ratioZul = zulPeak / avPeak;
   var ratioSteur = steurPeak / avPeak;
-  for(var ej=0;ej<entnahmePts.length;ej++){
-   labels.push(entnahmePts[ej].a);
-   var avVal = avEnt[ej+1];
-   var etfVal = etfEnt[ej+1];
+  // Entnahme-Labels und Datenpunkte — immer aus entnahmeJ berechnet (auch bei 2 Personen)
+  var rentenEintrittsAlter = ST.rentenAlter;
+  for(var ej=0;ej<entnahmeJ;ej++){
+   labels.push(rentenEintrittsAlter+ej+1);
+   var avVal = avEnt[ej+1]!==undefined ? avEnt[ej+1] : 0;
+   var etfVal = etfEnt[ej+1]!==undefined ? etfEnt[ej+1] : 0;
    dAV.push(avVal);
    dETF.push(etfVal);
    dEinz.push(Math.round(avVal * ratioEinz));
@@ -1628,9 +1711,10 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
   if(window._chartInst){window._chartInst.destroy();window._chartInst=null;}
   var _rentenIdx = rentenIdx;
   var _rentenIdx2 = null;
-  if(p2Individual && ST.rentenAlter2 !== ST.rentenAlter){
-   var p2RetAge = ST.alter + (ST.rentenAlter2 - ST.alter2);
-   for(var _li=0;_li<labels.length;_li++){if(labels[_li]>=p2RetAge){_rentenIdx2=_li;break;}}
+  if(ST.erw===2 && ST.rentenAlter2 !== ST.rentenAlter){
+   // Kalender-Alter von P2 bei Renteneintritt (relativ zur P1-Zeitachse)
+   var p2RetCalAge = ST.alter + (ST.rentenAlter2 - ST.alter2);
+   for(var _li=0;_li<labels.length;_li++){if(labels[_li]>=p2RetCalAge){_rentenIdx2=_li;break;}}
   }
   var crosshair={id:'crosshair',afterDraw:function(ch){
    if(ch._hoverX==null) return;
@@ -1668,7 +1752,37 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
    ctx3.closePath();ctx3.fillStyle='rgba(241,90,36,0.85)';ctx3.fill();
    ctx3.restore();
   }};
-  Chart.register(crosshair); 
+  Chart.register(crosshair);
+  // Plugin: vertikale Renteneintritts-Markierung(en)
+  var rentenLinie={id:'rentenLinie',afterDraw:function(ch){
+   var idxArr=[];
+   var ri=ch.data._rentenIdx;
+   var ri2=ch.data._rentenIdx2;
+   if(ri!=null) idxArr.push({idx:ri,label:'Rente P1'});
+   if(ri2!=null&&ri2!==ri) idxArr.push({idx:ri2,label:'Rente P2'});
+   if(!idxArr.length) return;
+   var ctx3=ch.ctx, xA=ch.scales.x, yA=ch.scales.y;
+   idxArr.forEach(function(item,n){
+    var meta=ch.getDatasetMeta(0);
+    if(!meta||!meta.data||!meta.data[item.idx]) return;
+    var xPx=meta.data[item.idx].x;
+    ctx3.save();
+    ctx3.beginPath();
+    ctx3.moveTo(xPx,yA.top);
+    ctx3.lineTo(xPx,yA.bottom);
+    ctx3.strokeStyle=n===0?'rgba(241,90,36,0.85)':'rgba(255,255,255,0.6)';
+    ctx3.lineWidth=1.5;
+    ctx3.setLineDash([5,4]);
+    ctx3.stroke();
+    // Label oben
+    ctx3.setLineDash([]);
+    ctx3.font='bold 9px DM Sans, sans-serif';
+    ctx3.fillStyle=n===0?'#F15A24':'rgba(255,255,255,0.8)';
+    ctx3.textAlign='center';
+    ctx3.fillText(item.label,xPx,yA.top+10);
+    ctx3.restore();
+   });
+  }};
   var ctx2=document.getElementById('avdChart').getContext('2d');
   window._chartInst=new Chart(ctx2,{
    type:'line',
@@ -1684,7 +1798,7 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
      {label:'_steur',data:dSteurAbs,borderColor:'rgba(0,0,0,0)',borderWidth:0,pointRadius:0,fill:false,spanGaps:false}
     ]
    },
-   plugins:[areaFill,crosshair],
+   plugins:[areaFill,crosshair,rentenLinie],
    options:{
     responsive:true,maintainAspectRatio:false,animation:false,
     interaction:{mode:'index',intersect:false},
@@ -1763,7 +1877,7 @@ function syncSlider(key,sId,vId,fId,fmt,maxCap,onSync){
 }
 syncSlider('eink','s-eink','v-eink','f-eink',function(v){return Math.round(v).toLocaleString('de-DE');},null);
 syncSlider('alter','s-alter','v-alter','f-alter',null,null);
-syncSlider('steuersatzRente','s-srate','v-srate','f-srate',null,null,function(v){ST.steuersatzRente2=v;});
+syncSlider('steuersatzRente','s-srate','v-srate','f-srate',null,null,function(v){if(ST.verheiratet||ST.erw<2){ST.steuersatzRente2=v;}});
 document.getElementById('v-depotalter').addEventListener('change',function(){
  var raw=parseInt(this.value)||85;
  var mn=Math.max(85,ST.rentenAlter+1),mx=120;
@@ -1936,6 +2050,15 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
   if(ST.erw===1){var lbl=document.getElementById('label-eink');if(lbl)lbl.textContent='Monatl. Bruttoeinkommen';}
   else updateEinkLabel();
   setP2Individual(ST.erw===2);
+  // Beim Wechsel auf 2 Personen: P2-Steuersatz und Einmal mit P1 synchronisieren
+  if(ST.erw===2){
+   ST.steuersatzRente2=ST.steuersatzRente;
+   var sl2s=document.getElementById('s-srate2');var vl2s=document.getElementById('v-srate2');var fl2s=document.getElementById('f-srate2');
+   if(sl2s){sl2s.value=ST.steuersatzRente2;if(vl2s)vl2s.value=ST.steuersatzRente2;if(fl2s)fl2s.style.width=(ST.steuersatzRente2/45*100)+'%';}
+   ST.einmalPct2=ST.einmalPct;
+   var sle2s=document.getElementById('s-einmal-pct2');var lble2s=document.getElementById('einmal-pct2-label');var fle2s=document.getElementById('f-einmal-pct2');
+   if(sle2s){sle2s.value=ST.einmalPct2;if(lble2s)lble2s.textContent=ST.einmalPct2+' %';if(fle2s)fle2s.style.width=(ST.einmalPct2/30*100)+'%';}
+  }
   updateRiesterPersonToggle();
   render();
  });
@@ -1962,7 +2085,15 @@ function updateVerheiratet(v){
  ST.verheiratet=v;
  var cb=document.getElementById('cb-verheiratet');if(cb)cb.checked=v;
  document.getElementById('eink2-wrap').style.display=(ST.erw===2&&!v)?'block':'none';
-
+ // Bei Wechsel zu gemeinsam veranlagt: P2-Werte auf P1 synchronisieren
+ if(v){
+  ST.steuersatzRente2=ST.steuersatzRente;
+  var sl2=document.getElementById('s-srate2');var vl2=document.getElementById('v-srate2');var fl2=document.getElementById('f-srate2');
+  if(sl2){sl2.value=ST.steuersatzRente2;if(vl2)vl2.value=ST.steuersatzRente2;if(fl2)fl2.style.width=(ST.steuersatzRente2/45*100)+'%';}
+  ST.einmalPct2=ST.einmalPct;
+  var sle2=document.getElementById('s-einmal-pct2');var lble2=document.getElementById('einmal-pct2-label');var fle2=document.getElementById('f-einmal-pct2');
+  if(sle2){sle2.value=ST.einmalPct2;if(lble2)lble2.textContent=ST.einmalPct2+' %';if(fle2)fle2.style.width=(ST.einmalPct2/30*100)+'%';}
+ }
  var lbl=document.getElementById('label-eink');
  if(lbl) lbl.textContent=v?'Gemeinsames Bruttoeinkommen':'Monatl. Bruttoeinkommen';
  if(typeof updateHintGsatz2==='function') updateHintGsatz2();
@@ -2010,6 +2141,27 @@ document.getElementById('rechenweg-modal').addEventListener('click',function(e){
  slEP.addEventListener('input',upEP);
  upEP();
 })();
+// ---- Person 2: Einmalauszahlung ----
+(function(){
+ var slEP2=document.getElementById('s-einmal-pct2');
+ var fillEP2=document.getElementById('f-einmal-pct2');
+ var lbl2=document.getElementById('einmal-pct2-label');
+ var hint2=document.getElementById('einmal-hint2');
+ function upEP2(){
+  var v=parseInt(slEP2.value)||0;
+  ST.einmalPct2=v;
+  fillEP2.style.width=(v/30*100)+'%';
+  lbl2.textContent=v+' %';
+  if(v===0) hint2.textContent='Gesamtes Kapital wird als monatliche Rente ausgezahlt.';
+  else if(v===30) hint2.textContent='Maximaler Einmalbetrag (30 %) – gesetzliches Limit. Restliche 70 % als Monatsrente.';
+  else hint2.textContent=v+' % einmalig, '+(100-v)+' % als monatliche Rente ausgezahlt.';
+  debouncedRender();
+ }
+ slEP2.addEventListener('input',upEP2);
+ upEP2();
+})();
+// ---- Person 2: Steuersatz im Rentenalter ----
+syncSlider('steuersatzRente2','s-srate2','v-srate2','f-srate2',null,null,null);
 var _renderTimer=null;
 var lastCalcResult={};
 function debouncedRender(){
@@ -2112,6 +2264,8 @@ function switchRiesterPerson(p){
   calcRiester();
 }
 
+function fmtDE(n){return n.toLocaleString('de-DE');}
+function syncFill(s,f,mn,mx){if(!s||!f)return;var pct=(s.value-mn)/(mx-mn)*100;f.style.width=pct+'%';}
 function loadRiesterValues(vals){
   riesterGuthaben=vals.guthaben;
   riesterBeitrag=vals.beitrag;
@@ -2324,18 +2478,33 @@ function toggleRiesterRechenweg(){
 }
 
 // Rentenfaktor für Riester-Leibrente: altersabhängig
-// Aktuell: Fester Wert 25,0€ pro 10.000€ Kapital/Monat
-// Die Funktion ist so gestaltet, dass sie bei Bedarf auf altersabhängige Stützpunkte
-// mit Interpolation/Extrapolation erweitert werden kann.
+// Altersabhängige Rentenfaktoren (Marktanker fragfina 2026, Quelle: Rentenfaktor-Check Jan. 2026)
+// Kalibriert auf garantierten Durchschnitt bei Eintritt 67 (24,64€) und aktuellen Durchschnitt (26,90€)
+// → Mittelwert ~25,0€. Andere Altersstufen: aktuarielle Ableitung aus Destatis-LEW 2022 + 20% Puffer.
+// RF 120 ab 85: Marktanker Restverrentung (~7,5 Jahre kalkulatorische Restlaufzeit, i=1%).
 function getRentenfaktor(rentenAlter){
- // RF 25: Marktanker für Renteneintritt ~67 (fragfina 2026)
- // RF 120: Marktanker für Restverrentung ab 85
- // (~10 Jahre Restlebenserwartung, Versicherer-Kalkulation)
  if(rentenAlter>=85) return 120.0;
+ // Stützpunkte (Alter → RF in €/10.000€/Monat), fragfina 2026 + aktuarielle Extrapolation
+ var tab={62:21.0,63:21.5,64:22.75,65:23.25,66:24.5,67:25.0,68:26.25,69:27.25,70:28.5};
+ var ages=[62,63,64,65,66,67,68,69,70];
+ if(rentenAlter<=62) return tab[62];
+ if(rentenAlter>=70){
+  // Extrapolation: Steigung des letzten Segments (70→69)
+  var steigung=(tab[70]-tab[69])/(70-69);
+  return Math.round((tab[70]+steigung*(rentenAlter-70))*100)/100;
+ }
+ // Lineare Interpolation zwischen Stützpunkten
+ for(var i=0;i<ages.length-1;i++){
+  var a1=ages[i],a2=ages[i+1];
+  if(rentenAlter>=a1&&rentenAlter<=a2){
+   var t=(rentenAlter-a1)/(a2-a1);
+   return Math.round((tab[a1]*(1-t)+tab[a2]*t)*100)/100;
+  }
+ }
  return 25.0;
 }
 
-// Alternative für zukünftige Verwendung mit altersabhängigen Rentenfaktoren:
+// Alte auskommentierte Alternative (nicht mehr benötigt):
 // function getRentenfaktorAltersabhaengig(rentenAlter){
 //  var faktoren={62:{faktor:21.0},65:{faktor:23.0},67:{faktor:25.0},70:{faktor:28.0}};
 //  var ages=Object.keys(faktoren).map(function(a){return parseInt(a);}).sort(function(a,b){return a-b;});
@@ -2401,9 +2570,14 @@ function calcRiester(){
  var berufsEinsteigerBonusAvd=0;
 
  for(var jj=1;jj<=n;jj++){
-  // Kinderzulage dieses Jahr (jahresweise, Kinder laufen einzeln bis 21 aus)
-  var kzDiesesJahr=0;
-  if(beitragJ>=120){(ST.kinderAlter||[]).forEach(function(kAlter){if(kAlter+(jj-1)<=21)kzDiesesJahr+=300;});}  // Mindesteigenbeitrag prüfen
+  // Kinderzulage dieses Jahr (jahresweise, Kinder laufen einzeln bis 21 aus), volle Höhe vor Kürzung
+  var kzDiesesJahrVoll=0;
+  (ST.kinderAlter||[]).forEach(function(kAlter){if(kAlter+(jj-1)<=21)kzDiesesJahrVoll+=300;});
+  // AVD: eigene (einfachere) Mindesteigenbeitragsprüfung, flat 120€-Schwelle wie bei gzAvd
+  var kzDiesesJahr=(beitragJ>=120)?kzDiesesJahrVoll:0;
+  // Riester (§86 EStG): Mindesteigenbeitrags-Kürzung gilt für ALLE Zulagen anteilig,
+  // nicht nur für die Grundzulage - daher auch die Kinderzulage mit derselben Quote kürzen
+  var kzDiesesJahrRiester=Math.round(kzDiesesJahrVoll*zulageQuoteR);
 
   // --- AVD-Seite: Berufseinsteiger-Bonus (200€ einmalig, wenn Alter < 25 im 1. Jahr und Mindesteigenbeitrag erfüllt) ---
   var berufsBonus=0;
@@ -2413,7 +2587,7 @@ function calcRiester(){
   }
 
   // --- Riester-Seite ---
-  var zulagenRJ=gzRiester+kzDiesesJahr;
+  var zulagenRJ=gzRiester+kzDiesesJahrRiester;
   totalZulagenRiester+=zulagenRJ;
   var stErstRJ=Math.max(0,Math.min(beitragJ+zulagenRJ,2100)*grenzSatz-zulagenRJ);
   totalSteuererstattungR+=stErstRJ;
@@ -2475,7 +2649,7 @@ function calcRiester(){
   return kapital*mr12*Math.pow(1+mr12,nMon)/(Math.pow(1+mr12,nMon)-1);
  }
 
- // Auszahlungsrenditen: Beide Produkte verwenden die GLEICHE konservative Rendite (3% p.a.)
+ // Auszahlungsrenditen: Beide Produkte verwenden die GLEICHE konservative Rendite (5% p.a.)
  // Grund: In der Rentenphase wird konservativer angelegt (weniger Risiko, mehr Stabilität)
  // Dies ermöglicht einen fairen Vergleich der Produktstrukturen (Leibrente vs. Auszahlungsplan), unabhängig von individuellen Rendite-Annahmen
  var renditeAuszahlung=5.0/100;  // 5% p.a. konservativ für Rentneralter
@@ -2508,7 +2682,6 @@ function calcRiester(){
  var r1RentenfaktorVal = getRentenfaktor(ST.rentenAlter);
  var r1RentenfaktorDisplay = r1RentenfaktorVal;
 
- console.log('calcRiester: Starting Vertragsart='+riesterVertragsart+' depotAlter='+ST.depotAlter);
  var r1Monat=0;  // Wird je nach Vertragsart berechnet
  var r1MonatAb85=0; // Für Fondssparplan/Bausparvertrag: separate Rate ab 85
  var r1ZeigtZweiRaten=false;  // Flag für UI: zwei getrennte Raten anzeigen
@@ -2644,7 +2817,6 @@ function calcRiester(){
  }
 
  // Karten befüllen
- console.log('About to set r1-rente. r1Monat='+r1Monat+' r1AnzeigeKapital='+r1AnzeigeKapital+' avdMonatFair='+avdMonatFair);
  setEl('r1-kapital',fmtCurrency(Math.round(r1AnzeigeKapital)));
  setEl('r1-rente',fmtCurrency(r1Monat)+' / Mon.');
 
