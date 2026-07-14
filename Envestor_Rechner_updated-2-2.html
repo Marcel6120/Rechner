@@ -2050,6 +2050,13 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
   if(ST.erw===1){var lbl=document.getElementById('label-eink');if(lbl)lbl.textContent='Monatl. Bruttoeinkommen';}
   else updateEinkLabel();
   setP2Individual(ST.erw===2);
+  // Sicherstellen dass Person-2-Felder bei 1 Erwachsener versteckt sind
+  if(ST.erw===1){
+   var ein2=document.getElementById('lower-einmal2-row');
+   var st2=document.getElementById('lower-steuersatz2-row');
+   if(ein2)ein2.style.display='none';
+   if(st2)st2.style.display='none';
+  }
   // Beim Wechsel auf 2 Personen: P2-Steuersatz und Einmal mit P1 synchronisieren
   if(ST.erw===2){
    ST.steuersatzRente2=ST.steuersatzRente;
