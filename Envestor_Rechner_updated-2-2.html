@@ -2532,6 +2532,33 @@ initRiesterDepotControls();
  fs.style.width=(riesterAvdKosten/3*100)+'%';
 })();
 
+// Abschlussjahr-Radiobuttons: steuern Regler-Minimum im Riester-Modus
+var riesterAbschlussVor2012 = false;
+function updateRiesterSliderMin(){
+ // Versicherung: immer ab 60; Fonds/Bauspar: ab 2012→62, vor 2012→60
+ var vor2012 = (typeof riesterAbschlussVor2012 !== 'undefined') ? riesterAbschlussVor2012 : false;
+ // Alle Vertragsarten: vor 2012→60, ab 2012→62 (§1 Abs.1 Nr.2 AltZertG a.F.)
+ var min = vor2012 ? 60 : 62;
+ var sl=document.getElementById('s-rentenalter');
+ var fi=document.getElementById('f-rentenalter');
+ var vi=document.getElementById('v-rentenalter');
+ if(sl){
+  sl.min=min;
+  // Renteneintritt muss immer > aktuelles Alter sein
+  var _minAge=Math.max(min, (ST.alter||35)+1);
+  var v=Math.max(_minAge, Math.min(70, parseInt(sl.value)||67));
+  sl.min=_minAge;
+  sl.value=v;
+  ST.rentenAlter=v;
+  if(vi)vi.value=v;
+  var pct=(70===min) ? 100 : (v-min)/(70-min)*100;
+  if(fi)fi.style.width=pct+'%';
+  // depotAlter muss > rentenAlter sein
+  if(ST.depotAlter && ST.depotAlter<=v) ST.depotAlter=Math.max(v+1,85);
+  // calcRiester wird vom Aufrufer ausgeführt, nicht hier
+ }
+}
+
 // Vertragsart-Handler: setzt auch Rendite-Default
 document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forEach(function(b){
  b.addEventListener('click',function(){
@@ -2573,33 +2600,8 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
  });
 });
 
-// Abschlussjahr-Radiobuttons: steuern Regler-Minimum im Riester-Modus
-var riesterAbschlussVor2012 = false;
+// Abschlussjahr-Radiobuttons
 (function(){
- function updateRiesterSliderMin(){
-  // Versicherung: immer ab 60; Fonds/Bauspar: ab 2012→62, vor 2012→60
-  var vor2012 = (typeof riesterAbschlussVor2012 !== 'undefined') ? riesterAbschlussVor2012 : false;
-  // Alle Vertragsarten: vor 2012→60, ab 2012→62 (§1 Abs.1 Nr.2 AltZertG a.F.)
-  var min = vor2012 ? 60 : 62;
-  var sl=document.getElementById('s-rentenalter');
-  var fi=document.getElementById('f-rentenalter');
-  var vi=document.getElementById('v-rentenalter');
-  if(sl){
-   sl.min=min;
-   // Renteneintritt muss immer > aktuelles Alter sein
-   var _minAge=Math.max(min, (ST.alter||35)+1);
-   var v=Math.max(_minAge, Math.min(70, parseInt(sl.value)||67));
-   sl.min=_minAge;
-   sl.value=v;
-   ST.rentenAlter=v;
-   if(vi)vi.value=v;
-   var pct=(70===min) ? 100 : (v-min)/(70-min)*100;
-   if(fi)fi.style.width=pct+'%';
-   // depotAlter muss > rentenAlter sein
-   if(ST.depotAlter && ST.depotAlter<=v) ST.depotAlter=Math.max(v+1,85);
-   // calcRiester wird vom Aufrufer ausgeführt, nicht hier
-  }
- }
  var r1=document.getElementById('r1-ab2012');
  var r2=document.getElementById('r1-vor2012');
  if(r1)r1.addEventListener('change',function(){
