@@ -1023,6 +1023,8 @@ function kinderZulageGesamt(lz){
 function calcSingle(p){
  var s=ST,lz=Math.max(p.rentenAlter-p.alter,1);
  var rendNetto=Math.max(0,s.rend-s.kosten),rendNettoEtf=Math.max(0,s.rend-s.kostenEtf);
+ var mr12=Math.pow(1+rendNetto/100,1/12)-1;
+ var mr12Etf=Math.pow(1+rendNettoEtf/100,1/12)-1;
  var jb=p.spar*12,gzErw=gzProErw(jb),gzJ=gzErw,ebM=p.spar;
  var MINDEST_J=120,gzFaktor=(jb<MINDEST_J)?0:1,gzJKorr=gzJ*gzFaktor;
  var gsatzEff=p.gsatzEff;
@@ -1051,7 +1053,7 @@ function calcSingle(p){
   zulFolgejahr=zulJahr; // Für nächstes Jahr merken
   if(s.reinvest){
     // Hard Limit §82 Abs. 5 EStG: max. 13.680€/Jahr (2 Depots × 6.840€) inkl. Zulagen + Erstattung
-    var gesamtEinzahlungJ=eigenbeitragJ+zulJahr; // EB + Zulagen dieses Jahr
+    var gesamtEinzahlungJ=jb+zulJahr; // EB + Zulagen dieses Jahr
     var verfügbaresLimit=Math.max(0,AVD_HARD_LIMIT-gesamtEinzahlungJ);
     var stNJ_reinvest=Math.min(stNJ,verfügbaresLimit); // Erstattung ggf. kürzen
     if(stNJ_reinvest>0){depotMit+=stNJ_reinvest;stErstattungReinvest+=stNJ_reinvest;}
