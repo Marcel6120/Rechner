@@ -48,7 +48,7 @@
  </div>
  <div class="ev-hero">
   <h1>Was bringt Ihr <span>Altersvorsorgedepot?</span></h1>
-  <p>Berechnen Sie live, wie viel staatliche Förderung Sie erhalten</p>
+  <p>Berechnen Sie live, wie viel staatliche Förderung und wie viel Nettorente Sie erhalten</p>
  </div>
 
 
@@ -76,7 +76,7 @@
     </div>
     <div>
      <div class="ev-flabel" style="margin-bottom:5px"><span>Kinder</span>
-      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">300 € Kinderzulage pro Kind und Jahr – solange das Kind kindergeldberechtigt ist (§ 85 EStG). Kindergeld gilt bis max. 18 J., bei Ausbildung/Studium bis 25 J. (Modellvereinfachung im Rechner: bis zum eingestellten Kindesalter).</div></div>
+      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">300 € Kinderzulage pro Kind und Jahr – solange das Kind kindergeldberechtigt ist (§ 85 EStG). Kindergeld gilt bis max. 18 J., bei Ausbildung/Studium bis 25 J. (Modellvereinfachung im Rechner: einheitlich bis Alter 21).</div></div>
      </div>
      <input type="text" id="v-kinder" value="0" inputmode="numeric" style="display:block;width:72px;height:30px;border:1px solid rgba(255,255,255,.25);border-radius:6px;background:rgba(255,255,255,.1);font-size:13px;font-weight:700;color:#fff;text-align:center;font-family:inherit;padding:0">
     </div>
@@ -101,6 +101,7 @@
       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-spar"></div><input type="range" id="s-spar" min="10" max="1140" step="5" value="150"></div>
      </div>
      <div class="ev-hint"><span id="h150" class="hl-green" style="display:none">Förderung wird berechnet...</span><span id="h570" style="display:none;color:#ef4444;font-weight:700;padding:8px 10px;background:rgba(239,68,68,.15);border-radius:6px;border-left:4px solid #ef4444">⚠️ Zweites Depot erforderlich (ab 570€/Monat)</span></div>
+     <div id="h-limit-warn" style="display:none;margin-top:6px;padding:8px 11px;border-radius:8px;background:rgba(253,186,116,.12);border:1px solid rgba(253,186,116,.35);color:#fed7aa;font-size:11px;line-height:1.5">⚠️ <strong>Einzahlungslimit erreicht:</strong> Bei dieser Kombination aus Sparrate, Zulagen und Steuererstattung wird das gesetzliche Maximum von 13.680 €/Jahr (2 AVD-Depots × 6.840 €, §82 Abs. 5 EStG) überschritten. Die reinvestierte Steuererstattung wird automatisch auf den verbleibenden Raum gekürzt.</div>
     </div>
     <div class="p2-main-row" style="display:none;min-width:0">
      <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:4px">2. Erwachsener</div>
@@ -136,7 +137,7 @@
   <div class="ev-input-col">
    <div class="ev-flabel" style="margin-bottom:6px">
     <span style="font-size:15px;color:#fff">Renteneintrittsalter</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ab welchem Alter möchten Sie Ihr AV-Depot auszahlen? Korridor: frühestens 65, spätestens 70 Jahre (§ 1 Abs. 1b AltZertG). Je später der Rentenbeginn, desto länger die Ansparphase. Ertragsanteil bei 67 Jahren: <span id="hint-ea-tip">17</span> %.</div></div>
+    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ab welchem Alter möchten Sie sich Ihre Rente aus dem Altersvorsorgedepot auszahlen lassen? Korridor: frühestens 65, spätestens 70 Jahre (§ 1 Abs. 1b AltZertG). Je später der Rentenbeginn, desto länger die Ansparphase. Ertragsanteil bei 67 Jahren: <span id="hint-ea-tip">17</span> %.</div></div>
    </div>
    <div class="p2-pair-grid">
     <div style="min-width:0">
@@ -204,11 +205,11 @@
      <div>
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Aktuelles Guthaben</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Dein bestehendes Riester-Guthaben. Es wird als Startkapital für beide Produkte verwendet – als gleichgewichteter Ausgangspunkt für den fairen Vergleich.</div></div>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Ihr bestehendes Riester-Guthaben. Es wird als Startkapital für beide Produkte verwendet – als gleichgewichteter Ausgangspunkt für den fairen Vergleich.</div></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
        <div style="position:relative;flex-shrink:0;width:100px"><input type="text" id="v-riester-gut" value="15.000" inputmode="decimal" style="width:100%;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 24px 0 8px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">€</span></div>
-       <div style="flex:1;position:relative;height:20px;display:flex;align-items:center"><div class="ev-track"></div><div class="ev-fill" id="f-riester-gut"></div><input type="range" id="s-riester-gut" min="0" max="1000000" step="5000" value="15000"></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-gut" style="width:15%"></div><input type="range" id="s-riester-gut" min="0" max="100000" step="5000" value="15000"></div>
       </div>
      </div>
      <div>
@@ -257,7 +258,7 @@
      <div>
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Zu versteuerndes Einkommen</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Wird für die Günstigerprüfung benötigt: Das Finanzamt prüft, ob der Sonderausgabenabzug mehr bringt als die Zulage – ist das der Fall, wird die Differenz als Steuererstattung ausgezahlt (§ 10a Abs. 2 S. 3 EStG, von Amts wegen). Höchstbetrag: Riester 2.100 €/Jahr · AVD 1.800 €/Jahr (ab 2027).</div></div>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Wird für die Günstigerprüfung benötigt: Das Finanzamt prüft, ob der Sonderausgabenabzug mehr bringt als die Zulage – ist das der Fall, wird die Differenz als Steuererstattung ausgezahlt (§ 10a Abs. 2 S. 3 EStG, von Amts wegen). Höchstbetrag: Riester 2.100 €/Jahr · Altersvorsorgedepot 1.800 €/Jahr (ab 2027).</div></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
        <div style="position:relative;flex-shrink:0;width:100px"><input type="text" id="v-riester-eink" value="4.000" inputmode="decimal" style="width:100%;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 24px 0 8px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">€</span></div>
@@ -268,7 +269,7 @@
      <div>
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Rentenzahlung bis</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Gleich wie beim AV-Depot – beide Produkte enden zum selben Zeitpunkt für einen fairen Vergleich.</div></div>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Gleich wie beim Altersvorsorgedepot – beide Produkte enden zum selben Zeitpunkt für einen fairen Vergleich.</div></div>
       </div>
       <div style="display:flex;align-items:center;gap:10px">
        <div class="ev-numbox" style="max-width:90px"><input type="text" id="v-riester-depotalter" value="85" inputmode="numeric" style="text-align:right"><span class="ev-unit">J.</span></div>
@@ -280,7 +281,7 @@
      <div>
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Steuersatz im Alter</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Gilt für Riester-Rente UND Altersvorsorgedepot gleichermaßen (§ 22 Nr. 5 EStG bzw. entsprechende AVD-Regelung – beide nachgelagerte Besteuerung mit dem persönlichen Einkommensteuersatz im Alter). Keine Abgeltungsteuer, keine Teilfreistellung bei beiden Produkten.</div></div>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Gilt für Riester-Rente UND Altersvorsorgedepot gleichermaßen (§ 22 Nr. 5 EStG bzw. entsprechende Regelung des Altersvorsorgedepots – beide nachgelagerte Besteuerung mit dem persönlichen Einkommensteuersatz im Alter). Keine Abgeltungsteuer, keine Teilfreistellung bei beiden Produkten.</div></div>
       </div>
       <div class="ev-row">
        <div class="ev-numbox" style="width:65px"><input type="text" id="v-riester-steuer" value="10" inputmode="decimal"><span class="ev-unit">%</span></div>
@@ -302,11 +303,11 @@
      <div>
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Produktkosten Altersvorsorgedepot p.a.</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Jährliche Produktkosten des Altersvorsorgedepots. Wird von der AV-Depot-Bruttorendite abgezogen.</div></div>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Jährliche Produktkosten des Altersvorsorgedepots. Wird von der Bruttorendite des Altersvorsorgedepots abgezogen.</div></div>
       </div>
       <div class="ev-row">
-       <div class="ev-numbox" style="width:65px"><input type="text" id="v-riester-avdkosten" value="0,2" inputmode="decimal"><span class="ev-unit">%</span></div>
-       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-avdkosten" style="width:6.67%"></div><input type="range" id="s-riester-avdkosten" min="0" max="3" step="0.1" value="0.2"></div>
+       <div class="ev-numbox" style="width:65px"><input type="text" id="v-riester-avdkosten" value="1,0" inputmode="decimal"><span class="ev-unit">%</span></div>
+       <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-riester-avdkosten" style="width:33.33%"></div><input type="range" id="s-riester-avdkosten" min="0" max="3" step="0.1" value="1.0"></div>
       </div>
      </div>
      <div>
@@ -324,7 +325,7 @@
      <div id="riester-einmal-avd-row">
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
        <span style="font-size:14px;font-weight:600;color:#fff">Einmalauszahlung Altersvorsorgedepot</span>
-       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30% des AV-Depots können als Einmalauszahlung ausgezahlt werden (§ 1 Abs. 1b AltZertG i.V.m. § 1 Abs. 1 Nr. 4 AltZertG). Der verbleibende Mindestanteil von 70% fließt in einen flexiblen Auszahlungsplan (keine Leibrente, keine Verrentung über einen Rentenfaktor).</div></div>
+       <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30% des Altersvorsorgedepots können als Einmalauszahlung ausgezahlt werden (§ 1 Abs. 1b AltZertG i.V.m. § 1 Abs. 1 Nr. 4 AltZertG). Der verbleibende Mindestanteil von 70% fließt in einen flexiblen Auszahlungsplan (keine Leibrente, keine Verrentung über einen Rentenfaktor).</div></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
        <div style="position:relative;flex-shrink:0;width:75px"><input type="text" id="v-riester-einmal-pct-avd" value="0" inputmode="numeric" style="width:100%;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 24px 0 8px;font-size:14px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);font-family:inherit;text-align:right"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:11px;color:#fff">%</span></div>
@@ -362,7 +363,7 @@
     <div id="riester-card-avd" style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:18px 20px;flex:0.8;display:flex;flex-direction:column;justify-content:center">
      <div style="display:flex;align-items:center;gap:6px;margin-bottom:14px;justify-content:center">
       <div style="font-size:18px;font-weight:800;letter-spacing:.1em;color:#fff">Altersvorsorgedepot</div>
-      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip" style="left:0;right:auto">Endkapital nach nachgelagerter Besteuerung: <strong id="r2-kapital">–</strong></div></div>
+      <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip" style="left:0;right:auto">Geschätztes Netto-Endkapital des Altersvorsorgedepots: <strong id="r2-kapital">–</strong>. Geförderter Anteil: nachgelagert mit persönlichem Steuersatz. Ungeförderter Anteil: Hälfte des Unterschiedsbetrags (§ 22 Nr. 5 S. 2 lit. c EStG).</div></div>
      </div>
      <div id="r2-rente" style="font-size:37px;font-weight:800;color:#F15A24;line-height:1">–</div>
     </div>
@@ -383,7 +384,7 @@
       <div id="r1-rente-ab85" style="font-size:32px;font-weight:800;color:#fff;line-height:1">–</div>
      </div>
     </div>
-    <!-- Box 3: Vergleich AV-Depot vs Riester -->
+    <!-- Box 3: Vergleich Altersvorsorgedepot vs Riester -->
     <div style="background:#012660;border:1px solid #0a3070;border-radius:16px;padding:6px 20px;flex:0.5;display:flex;flex-direction:column;justify-content:center">
      <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;width:100%">
       <div style="font-size:24px;color:#F15A24;font-weight:800">⬇</div>
@@ -409,9 +410,10 @@
      • Gleichen monatlichen Beitrag<br>
      • Gleiches Endalter (Renteneintritt)<br>
      • Identische Zulagen (Grundzulage + Kinderzulage)<br>
-     • Der fairen Vergleich wegen: AVD-Rendite wird direkt in beiden Szenarien angewendet
+     • Altersvorsorgedepot: Rendite aus dem Hauptrechner (Standard 8 % p.a. vor Kosten)<br>
+     • Riester-Vertrag: eigene einstellbare Rendite je nach Vertragsart (Versicherung 1,5 %, Fondssparplan 4,5 %, Bausparvertrag 1,0 %)
     </div>
-    <div><strong>Wichtig:</strong> Der Vergleich zeigt nur die Renteneinkünfte. Der Riester-Vertrag hat möglicherweise Versicherungsschutz oder Bausparkomponenten, die hier nicht berücksichtigt sind. Das AV-Depot ist ein reines Sparprodukt ohne zusätzliche Schutzleistungen.</div>
+    <div><strong>Wichtig:</strong> Der Vergleich zeigt nur die Renteneinkünfte. Der Riester-Vertrag hat möglicherweise Versicherungsschutz oder Bausparkomponenten, die hier nicht berücksichtigt sind. Das Altersvorsorgedepot ist ein reines Sparprodukt ohne zusätzliche Schutzleistungen.</div>
    </div>
    <div style="margin-bottom:10px">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Sparrate und Depot-Struktur</div>
@@ -446,15 +448,16 @@
     <div style="margin-bottom:6px"><strong style="color:#fff">Ansparphase:</strong><br>
     • Riester: Keine Vorabpauschale (Geldzufluss Zulage ist nicht steuerpflichtig)<br>
     • AVD: Keine Vorabpauschale, keine Abgeltungsteuer — wächst komplett steuerfrei</div>
-    <div><strong style="color:#fff">Auszahlungsphase:</strong> Nachgelagerte Besteuerung mit Grenzsteuersatz <strong id="rw-steuer" style="color:#fff">–</strong> (Nettofaktor: <strong id="rw-nettofaktor" style="color:#fff">–</strong>) <span style="font-size:10px;color:rgba(255,255,255,.6)">[Grenzsteuersatz in der Ansparphase inkl. Solidaritätszuschlag (× 1,055)]</span><br>
+    <div><strong style="color:#fff">Auszahlungsphase:</strong> Nachgelagerte Besteuerung mit persönlichem Steuersatz im Rentenalter <strong id="rw-steuer" style="color:#fff">–</strong> (Nettofaktor: <strong id="rw-nettofaktor" style="color:#fff">–</strong>)<br>
     • Riester & AVD: 100% aller Auszahlungen unterliegen nachgelagerter Besteuerung (§ 22 Nr. 5 EStG)<br>
-    • <strong>Einmalauszahlung:</strong> Die 30%-Lumpensumme ist voll steuerpflichtig (nicht steuerfrei) — der angezeigte Nettobetrag ist nach Abzug des Grenzsteuersatzes<br>
-    • <strong>Laufende Rente/Auszahlungsplan:</strong> Jede Rentenzahlung wird ebenfalls mit dem Grenzsteuersatz versteuert</div>
+    • <strong>Einmalauszahlung:</strong> Die 30%-Lumpensumme ist voll steuerpflichtig — der angezeigte Nettobetrag ist nach Abzug des persönlichen Steuersatzes im Rentenalter<br>
+    • <strong>Laufende Rente/Auszahlungsplan:</strong> Jede Rentenzahlung wird ebenfalls mit dem persönlichen Steuersatz im Rentenalter versteuert</div>
    </div>
    <div style="margin-bottom:10px">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Rendite in der Auszahlungsphase</div>
-    <div style="margin-bottom:6px"><strong style="color:#fff">Beide Produkte:</strong> 5,0% p.a. konservative Rendite<br>
-    <span style="font-size:11px;color:rgba(255,255,255,.7)">Grund: In der Rentenphase wird aufgrund geringerer Risikotoleranz konservativer angelegt. Die gleiche Rendite ermöglicht einen fairen Vergleich der Produktstrukturen.</span></div>
+    <div style="margin-bottom:6px"><strong style="color:#fff">Altersvorsorgedepot &amp; Riester Phase 1 (Auszahlungsplan bis 85):</strong> 5,0 % p.a.<br>
+    <strong style="color:#fff">Riester Phase 2 (reserviertes Drittel, wächst bis Alter 85):</strong> 2,0 % p.a.<br>
+    <span style="font-size:11px;color:rgba(255,255,255,.7)">Das für die Restverrentung ab 85 reservierte Kapital (30 %) wird versicherungsförmig und damit sehr konservativ angelegt – typischerweise Geldmarkt oder garantieverzinslich. Deshalb wird hierfür eine Rendite von 2,0 % p.a. angenommen, nicht die 5,0 % des flexiblen Auszahlungsplans.</span></div>
    </div>
    <div style="margin-bottom:10px">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Rentenfaktor / Auszahlungslogik</div>
@@ -463,23 +466,23 @@
    <div>
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#F15A24;margin-bottom:4px">Auszahlungsphase - Monatsrente netto</div>
     <div style="margin-bottom:6px"><strong style="color:#fff">Riester-Versicherung (Leibrente mit Rentenfaktor):</strong><br>
-    • 30% Einmalauszahlung: geförderter Anteil voll steuerpflichtig mit Grenzsteuersatz; ungeförderter Anteil nur Gewinn × 50 % Halbeinkünfte × Grenzsteuersatz (§ 22 Nr. 5 EStG)<br>
+    • 30% Einmalauszahlung: geförderter Anteil voll mit persönlichem Steuersatz im Rentenalter; ungeförderter Anteil: 50 % des Gewinns × persönlicher Steuersatz im Rentenalter (§ 22 Nr. 5 S. 2 lit. c EStG) (§ 22 Nr. 5 EStG)<br>
     • 70% lebenslange Leibrente: Brutto = Kapital × (25,0 / 10.000)<br>
     • Beispiel: 100.000€ × 25,0 / 10.000 = 250€/Monat (brutto)<br>
-    • Besteuerung: geförderter Anteil voll mit Grenzsteuersatz; ungeförderter Anteil mit Ertragsanteil × Grenzsteuersatz (z. B. 17 % bei Renteneintritt 67)<br>
+    • Besteuerung: geförderter Anteil voll mit persönlichem Steuersatz im Rentenalter; ungeförderter Anteil (Leibrente): Ertragsanteil × persönlicher Steuersatz im Rentenalter (z. B. 17 % bei Renteneintritt 67, § 22 Nr. 5 S. 2 lit. a EStG)<br>
     • <strong>Wichtig:</strong> Rente ist garantiert fix für die Lebenszeit — Änderungen am „Rentenzahlung bis"-Regler beeinflussen nur die Sparphase, nicht die Rentenhöhe.</div>
     <div style="margin-top:6px"><strong style="color:#fff">Riester Fondssparplan:</strong><br>
-    • 30% Einmalauszahlung: geförderter Anteil voll steuerpflichtig mit Grenzsteuersatz; ungeförderter Anteil nur Gewinn × 50 % Halbeinkünfte × Grenzsteuersatz<br>
+    • 30% Einmalauszahlung: geförderter Anteil voll mit persönlichem Steuersatz im Rentenalter; ungeförderter Anteil: 50 % des Gewinns × persönlicher Steuersatz im Rentenalter (§ 22 Nr. 5 S. 2 lit. c EStG)<br>
     • 70% Zwei-Phasen-Modell (gesetzlich nach AltZertG):<br>
     &nbsp;&nbsp;– Phase 1 (Renteneintritt bis Alter 85): 70 % des Verrentungskapitals als Auszahlungsplan mit 5 % p.a., Rate konstant bis 85<br>
     &nbsp;&nbsp;– Phase 2 (ab Alter 85): 30 % des Verrentungskapitals wächst bis 85 weiter (5 % p.a.) und wird dann über Rentenfaktor als lebenslange Leibrente ausgezahlt<br>
-    • Besteuerung: geförderter Anteil voll mit Grenzsteuersatz; ungeförderter Anteil mit Ertragsanteil × Grenzsteuersatz</div>
+    • Besteuerung: geförderter Anteil voll mit persönlichem Steuersatz im Rentenalter; ungeförderter Phase-1-Anteil: Hälfte Unterschiedsbetrag × pers. Steuersatz (lit. c); Phase-2-Leibrente: Ertragsanteil × pers. Steuersatz (lit. a, EA bei 85 = 5 %)</div>
     <div style="margin-top:6px"><strong style="color:#fff">Altersvorsorgedepot (Annuitätsplan):</strong><br>
     • 30% Einmalauszahlung (voll steuerpflichtig mit Grenzsteuersatz, § 22 Nr. 5 EStG)<br>
     • 70% Annuitätsplan über eingestellte Entnahmedauer: <strong id="rw-entnahme" style="color:#F15A24">–</strong> Jahre (bis Alter <strong id="rw-bisalter" style="color:#F15A24">–</strong>, mind. bis Alter 85)<br>
     • Brutto Monatsrente = Annuitätenformel: K × i × (1+i)^n / ((1+i)^n − 1), wobei i = Monatsrendite (5 % p.a.), n = Entnahmedauer in Monaten<br>
     • Monatsrente reagiert auf Regler — längere Laufzeit = niedrigere Rente<br>
-    • Nachgelagerte Besteuerung mit Grenzsteuersatz auf den geförderten Anteil (bis 1.800 €/Jahr/Person + Zulagen). Übersteigt der Eigenbeitrag den Förderrahmen, wird der ungeförderte Gewinnanteil nur mit dem Ertragsanteil besteuert (analog zur Tabelle "Besteuerung AV-Depot" weiter unten im Dokument).</div>
+    • Nachgelagerte Besteuerung mit persönlichem Steuersatz im Rentenalter auf den geförderten Anteil (bis 1.800 €/Jahr/Person + Zulagen). Übersteigt der Eigenbeitrag den Förderrahmen, wird der ungeförderte Gewinnanteil mit der Hälfte des Unterschiedsbetrags × pers. Steuersatz besteuert (§ 22 Nr. 5 S. 2 lit. c EStG).</div>
    </div>
   </div>
   <!-- hidden spans -->
@@ -510,7 +513,7 @@
    <div class="ev-flabel" style="margin-bottom:7px"><span>Produktkosten (p.a.)</span>
    </div>
    <div style="margin-bottom:10px">
-    <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:4px;display:flex;justify-content:space-between"><span>Kosten AV-Depot</span><span id="v-kosten-label" style="color:#F15A24">1,0 %</span></div>
+    <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:4px;display:flex;justify-content:space-between"><span>Kosten Altersvorsorgedepot</span><span id="v-kosten-label" style="color:#F15A24">1,0 %</span></div>
     <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-kosten" value="1,0" inputmode="decimal"><span class="ev-unit">%</span></div>
      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-kosten"></div><input type="range" id="s-kosten" min="0.2" max="2" step="0.1" value="1.0"></div>
     </div>
@@ -525,7 +528,7 @@
   <div id="lower-reinvest-row" style="grid-column:1/-1;margin-top:14px;margin-bottom:16px">
    <div class="ev-flabel" style="margin-bottom:6px">
     <span style="font-size:14px;font-weight:700;color:#fff">Steuererstattung reinvestieren</span>
-    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Wenn aktiv: Die jährliche Steuererstattung aus der Günstigerprüfung (<span id="reinvest-hint">–</span> €/Jahr) wird dem AV-Depot am Jahresende direkt zugeschlagen und wächst ab dann mit – das verstärkt den Zinseszinseffekt.</div></div>
+    <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Wenn aktiv: Die jährliche Steuererstattung aus der Günstigerprüfung (<span id="reinvest-hint">–</span> €/Jahr) wird dem Altersvorsorgedepot am Jahresende direkt zugeschlagen und wächst ab dann mit – das verstärkt den Zinseszinseffekt.</div></div>
    </div>
    <label id="reinvest-toggle-wrap" for="reinvest-cb" style="display:flex;align-items:center;gap:10px;background:rgba(1,56,120,.5);border:1px solid #0a3070;border-radius:10px;padding:8px 12px;cursor:pointer;user-select:none;transition:background .2s">
     <div style="position:relative;flex-shrink:0">
@@ -548,7 +551,7 @@
    </div>
    <div id="lower-einmal-row" style="margin-top:18px">
     <div class="ev-flabel" style="margin-bottom:5px"><span>Einmalauszahlung bei Renteneintritt</span>
-     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30 % des AV-Depots können als Einmalauszahlung ausgezahlt werden (§ 1 Abs. 1b AltZertG). Die restlichen 70 % fließen als monatlicher Auszahlungsplan – gesetzlich mindestens bis zum 85. Lebensjahr (AltZertG).</div></div>
+     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Bis zu 30 % des Altersvorsorgedepots können als Einmalauszahlung ausgezahlt werden (§ 1 Abs. 1b AltZertG). Die restlichen 70 % fließen als monatlicher Auszahlungsplan – gesetzlich mindestens bis zum 85. Lebensjahr (AltZertG).</div></div>
     </div>
     <div id="p1-einmal-lbl" class="p2-person-lbl" style="display:none;font-size:13px;font-weight:600;color:#fff;margin-bottom:4px;text-align:center">Person 1</div>
     <div class="ev-row">
@@ -567,13 +570,13 @@
    </div>
    <div id="lower-steuersatz-row" style="margin-top:18px">
     <div class="ev-flabel"><span>Voraussichtlicher Steuersatz im Rentenalter</span>
-     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Die Auszahlung aus dem AV-Depot wird je nach Herkunft unterschiedlich besteuert: <strong>Geförderter Anteil</strong> (Eigenbeiträge bis 1.800 €/J + Zulagen): 100% nachgelagert mit persönlichem Steuersatz (§ 22 Nr. 5 S. 1 EStG). <strong>Ungeförderter Anteil</strong> (Überzahlungen + reinvestierte Steuererstattungen): Hälfte des Unterschiedsbetrags × pers. Steuersatz (§ 22 Nr. 5 S. 2 lit. c EStG, EStH 2024 Anhang 33).</div></div>
+     <div class="ev-info"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Die Auszahlung aus dem Altersvorsorgedepot wird je nach Herkunft unterschiedlich besteuert: <strong>Geförderter Anteil</strong> (Eigenbeiträge bis 1.800 €/J + Zulagen): 100% nachgelagert mit persönlichem Steuersatz (§ 22 Nr. 5 S. 1 EStG). <strong>Ungeförderter Anteil</strong> (Überzahlungen + reinvestierte Steuererstattungen): Hälfte des Unterschiedsbetrags × pers. Steuersatz (§ 22 Nr. 5 S. 2 lit. c EStG, EStH 2024 Anhang 33).</div></div>
     </div>
     <div id="p1-srate-lbl" class="p2-person-lbl" style="display:none;font-size:13px;font-weight:600;color:#fff;margin-bottom:4px;text-align:center">Person 1</div>
     <div class="ev-row"><div class="ev-numbox"><input type="text" id="v-srate" value="10" inputmode="numeric"><span class="ev-unit">%</span></div>
      <div class="ev-slwrap"><div class="ev-track"></div><div class="ev-fill" id="f-srate"></div><input type="range" id="s-srate" min="0" max="45" step="1" value="10"></div>
     </div>
-    <div style="margin-top:8px;font-size:12.5px;color:#fff;line-height:1.5">Für die meisten Ruheständler liegt dieser bei 0%. Für sie wäre das AV Depot bis zu einem Steuersatz von <span id="breakeven-steuersatz">25%</span> vorteilhaft.</div>
+    <div style="margin-top:8px;font-size:12.5px;color:#fff;line-height:1.5">Für die meisten Ruheständler liegt dieser bei 0%. Für sie wäre das Altersvorsorgedepot bis zu einem Steuersatz von <span id="breakeven-steuersatz">25%</span> vorteilhaft.</div>
    </div>
    <div id="lower-steuersatz2-row" class="p2-ind-row" style="display:none;margin-top:10px">
     <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:4px;text-align:center">Person 2</div>
@@ -627,7 +630,7 @@
        <div id="r-monat-sub" style="display:none">nachgelagert besteuert</div>
       </div>
       <div id="einmal-footer-av" style="display:none;flex-direction:row;justify-content:space-between;align-items:center;gap:6px;width:100%;margin:10px 0 0 0;padding:9px 12px;box-sizing:border-box;border-radius:6px;background:rgba(241,90,36,.15)">
-       <div id="lbl-einmal-av" style="font-size:10px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap">AV-Depot · Einmalbetrag netto (30 %)</div>
+       <div id="lbl-einmal-av" style="font-size:10px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap">Altersvorsorgedepot · Einmalbetrag netto (30 %)</div>
        <div id="r-einmal-netto" style="font-size:15px;font-weight:700;color:#F15A24;white-space:nowrap">–</div>
       </div>
      </div>
@@ -635,7 +638,7 @@
       <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:4px 0">
        <div style="display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:nowrap;width:100%">
         <div id="lbl-monat-etf" class="ab-label" style="font-size:20px;font-weight:800;color:#fff;line-height:1.2;white-space:nowrap;">Klassisches Fondsdepot</div>
-        <div class="ev-info" style="flex-shrink:0"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Monatliche Entnahme aus dem nach Abgeltungsteuer (26,375 % inkl. Soli, nach Teilfreistellung und Vorabpauschale-Anrechnung) ermittelten Nettodepot – verrentet über die Entnahmedauer bei 3 % p. a.</div></div>
+        <div class="ev-info" style="flex-shrink:0"><button class="ev-info-btn" type="button">i</button><div class="ev-tip">Monatliche Entnahme aus dem nach Abgeltungsteuer (26,375 % inkl. Soli, nach Teilfreistellung und Vorabpauschale-Anrechnung) ermittelten Nettodepot – verrentet über die Entnahmedauer bei 5 % p. a.</div></div>
        </div>
        <div id="r-etf-monat-netto" class="ab-val" style="font-size:24px;font-weight:800;color:#fff;line-height:1.1;white-space:nowrap">–</div>
       </div>
@@ -658,17 +661,17 @@
    <span style="font-size:14px;font-weight:600;color:#fff">1. Erwachsener: <span id="r-monat-img-p1">–</span>,&nbsp;&nbsp;2. Erwachsener: <span id="r-monat-img-p2">–</span></span>
   </div>
   <div style="background:#4a5568;border:1px solid #6b7280;border-radius:16px;padding:16px 22px">
-   <p style="font-size:18px;color:#fff;line-height:1.8;margin:0;word-break:break-word;text-align:center">Im Vergleich bringt das AV-Depot <span id="r-etf-diff-box" style="font-size:24px;font-weight:900;color:#16a34a">–</span><span id="r-etf-diff-text"> mehr als das ungeförderte Fondsdepot</span><span id="r-etf-monat-netto-box" style="display:none"></span></p>
+   <p style="font-size:18px;color:#fff;line-height:1.8;margin:0;word-break:break-word;text-align:center">Im Vergleich bringt das Altersvorsorgedepot <span id="r-etf-diff-box" style="font-size:24px;font-weight:900;color:#16a34a">–</span><span id="r-etf-diff-text"> mehr als das ungeförderte Fondsdepot</span><span id="r-etf-monat-netto-box" style="display:none"></span></p>
   </div>
    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
     <div class="ev-chart-title" style="margin-bottom:0">Kapitalentwicklung Depot (Brutto)</div>
     <button id="btn-rechenweg" type="button" class="ev-rechenweg-btn" style="font-size:13px;flex-shrink:0">So haben wir gerechnet <svg style="display:inline;vertical-align:-2px;margin-left:3px" width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="0" y="7" width="3" height="6" rx="1" fill="#F15A24"/><rect x="5" y="4" width="3" height="9" rx="1" fill="#F15A24"/><rect x="10" y="1" width="3" height="12" rx="1" fill="#F15A24"/></svg></button>
    </div>
    <div class="chart-outer">
-    <canvas id="avdChart" role="img" aria-label="Kapitalentwicklung AV-Depot vs Fonds-Depot"></canvas>
+    <canvas id="avdChart" role="img" aria-label="Kapitalentwicklung Altersvorsorgedepot vs Fonds-Depot"></canvas>
     <div class="chart-tooltip" id="ct">
      <div class="ct-age" id="ct-age"></div>
-     <div class="ct-row"><span class="ct-dot" style="background:#F15A24"></span><span class="ct-lbl">AV-Depot (brutto)</span><span class="ct-val" id="ct-mit">–</span></div>
+     <div class="ct-row"><span class="ct-dot" style="background:#F15A24"></span><span class="ct-lbl">Altersvorsorgedepot (brutto)</span><span class="ct-val" id="ct-mit">–</span></div>
      <div class="ct-row"><span class="ct-dot" style="background:#ffffff"></span><span class="ct-lbl">Fonds-Depot (brutto)</span><span class="ct-val" id="ct-ohne">–</span></div>
      <div class="ct-divider"></div>
      <div class="ct-row"><span class="ct-dot" style="background:#14b8a6"></span><span class="ct-lbl">Einzahlungen</span><span class="ct-val" id="ct-einz">–</span></div>
@@ -703,15 +706,15 @@
     <p style="font-weight:700;color:#F15A24;font-size:13px;margin:0 0 6px">1. Ihr Kapital zum Rentenbeginn</p>
     <ul style="font-size:11px;color:rgba(255,255,255,.85);margin:0 0 14px;padding-left:18px;line-height:1.7">
      <li>Ihre monatlichen Einzahlungen werden über die gesamte Ansparphase mit der gewählten Rendite verzinst.</li>
-     <li>Beim <strong style="color:#F15A24">AV-Depot</strong> kommen jährliche Zulagen (Grundzulage + Kinderzulage) sowie eine <strong>Steuererstattung</strong> hinzu – beides erhöht das Kapital, das für Sie arbeitet. Zudem fällt beim AV-Depot während der Ansparphase <strong>keine Vorabpauschale</strong> an.</li>
+     <li>Beim <strong style="color:#F15A24">Altersvorsorgedepot</strong> kommen jährliche Zulagen (Grundzulage + Kinderzulage) sowie eine <strong>Steuererstattung</strong> hinzu – beides erhöht das Kapital, das für Sie arbeitet. Zudem fällt beim Altersvorsorgedepot während der Ansparphase <strong>keine Vorabpauschale</strong> an.</li>
      <li>Beim <strong style="color:#fff">Fondsdepot</strong> gibt es keine staatliche Förderung. Dafür wird jährlich eine <strong>Vorabpauschale</strong> fällig (Basiszins × 0,7 × 26,375 % auf den Depotwert), die bei Verkauf angerechnet wird.</li>
     </ul>
     <p style="font-weight:700;color:#F15A24;font-size:13px;margin:0 0 4px">2. Steuerliche Behandlung im Rentenalter</p>
-    <p style="font-weight:600;color:#fff;font-size:12px;margin:8px 0 3px">AV-Depot – nachgelagerte Besteuerung</p>
+    <p style="font-weight:600;color:#fff;font-size:12px;margin:8px 0 3px">Altersvorsorgedepot – nachgelagerte Besteuerung</p>
     <p style="font-size:11px;color:rgba(255,255,255,.6);margin:0 0 6px;line-height:1.5;font-style:italic">Da Ihre Beiträge in der Ansparphase steuerlich gefördert wurden, wird die Rente im Alter mit Ihrem persönlichen Einkommensteuersatz versteuert – das nennt man „nachgelagerte Besteuerung".</p>
     <ul style="font-size:11px;color:rgba(255,255,255,.85);margin:0 0 10px;padding-left:18px;line-height:1.7">
      <li><strong>Geförderter Anteil</strong> (Einzahlungen bis 1.800&nbsp;€/Person/J + Zulagen): wird bei Auszahlung voll mit dem persönlichen Steuersatz besteuert.</li>
-     <li><strong>Überzahlungen</strong> (über 1.800&nbsp;€/Person/J): Die Einzahlungen selbst fließen steuerfrei zurück (bereits versteuertes Kapital). Nur die <em>Gewinne</em> werden anteilig besteuert – vereinfachend über den Ertragsanteil nach § 22 EStG (z. B. 17 % bei Rentenbeginn 67). Das Altersvorsorgereformgesetz wurde am 27.03.2026 vom Bundestag beschlossen und am 08.05.2026 vom Bundesrat gebilligt; Start des AV-Depots ist der 01.01.2027. Einzelne Umsetzungsdetails der Anbieter können noch folgen.</li>
+     <li><strong>Überzahlungen</strong> (über 1.800&nbsp;€/Person/J): Die Einzahlungen selbst fließen steuerfrei zurück (bereits versteuertes Kapital). Nur die <em>Gewinne</em> werden anteilig besteuert – mit der Hälfte des Unterschiedsbetrags × persönlicher Steuersatz im Rentenalter (§ 22 Nr. 5 S. 2 lit. c EStG). Das Altersvorsorgereformgesetz wurde am 27.03.2026 vom Bundestag beschlossen und am 08.05.2026 vom Bundesrat gebilligt; Start des Altersvorsorgedepots ist der 01.01.2027. Einzelne Umsetzungsdetails der Anbieter können noch folgen.</li>
     </ul>
     <table style="width:100%;font-size:12px;border-collapse:collapse;color:#fff">
       <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Grundzulage gesamt</td><td id="rw-gz-ges" style="text-align:right;font-weight:600;color:#4ade80">–</td></tr>
@@ -721,10 +724,10 @@
       <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">↳ Geförderter Anteil</td><td id="rw-av-gef" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.08)"><td style="padding:3px 0 6px;color:rgba(255,255,255,.85)">↳ Überzahlungsanteil</td><td id="rw-av-ueb" style="text-align:right;font-weight:600;color:#fff;padding-bottom:6px">–</td></tr>
       <tr><td style="padding:6px 0 3px;color:rgba(255,255,255,.85)">Steuer geförderter Anteil (<span id="rw-av-srate">–</span>)</td><td id="rw-av-steuer-gef" style="text-align:right;font-weight:600;color:#ef4444;padding-top:6px">–</td></tr>
-      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Steuer Überzahlung (Gewinne × Ertragsanteil × pers. Steuersatz)</td><td id="rw-av-steuer-ueb" style="text-align:right;font-weight:600;color:#ef4444">–</td></tr>
+      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Steuer ungefördert (50 % × Gewinnquote × pers. Steuersatz)</td><td id="rw-av-steuer-ueb" style="text-align:right;font-weight:600;color:#ef4444">–</td></tr>
       <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Rentensteuersatz</td><td id="rw-av-srate2" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
       <tr style="border-top:1px solid rgba(255,255,255,.1)"><td style="padding:4px 0;font-weight:700;color:#fff">Steuer gesamt</td><td id="rw-av-steuer" style="text-align:right;font-weight:700;color:#ef4444">–</td></tr>
-      <tr style="border-top:1px solid rgba(255,255,255,.1)"><td style="padding:4px 0;font-weight:700;color:#fff">AV-Depot (netto)</td><td id="rw-av-netto" style="text-align:right;font-weight:700;color:#4ade80">–</td></tr>
+      <tr style="border-top:1px solid rgba(255,255,255,.1)"><td style="padding:4px 0;font-weight:700;color:#fff">Altersvorsorgedepot (netto)</td><td id="rw-av-netto" style="text-align:right;font-weight:700;color:#4ade80">–</td></tr>
     </table>
     <p style="font-weight:600;color:#fff;font-size:12px;margin:14px 0 3px">Fondsdepot – Umschichtung zum Renteneintritt</p>
     <p style="font-size:11px;color:rgba(255,255,255,.6);margin:0 0 6px;line-height:1.5;font-style:italic">Beim Fondsdepot werden 50 % des Depots umgeschichtet (verkauft). Nur diese Hälfte wird sofort mit Abgeltungsteuer + Teilfreistellung (70 % × 26,375 %) besteuert (FIFO, § 20 Abs. 4 S. 7 EStG). Die verbleibenden 50 % werden <strong style="color:#fff">nicht sofort besteuert</strong> – ihre Steuer fällt sukzessiv bei jeder monatlichen Entnahme an. Vorabpauschalen werden bei Umschichtung angerechnet (§ 19 Abs. 1 InvStG).</p>
@@ -734,8 +737,7 @@
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">= Kursgewinn gesamt</td><td id="rw-etf-gewinn" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Steuerpfl. Umschichtung (50 %, FIFO, × 70 % TFS)</td><td id="rw-etf-stpfl" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Abgeltungsteuer Umschichtung (× 26,375 %)</td><td id="rw-etf-abgst" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
-     <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">− Anrechnung gezahlter VAP (§ 19 Abs. 1 InvStG)</td><td id="rw-etf-vapabzug" style="text-align:right;font-weight:600;color:#4ade80">–</td></tr>
-     <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">= Steuer Umschichtung</td><td id="rw-etf-schluss" style="text-align:right;font-weight:600;color:#ef4444">–</td></tr>
+     <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">− Anrechnung gezahlter VAP (§ 19 Abs. 1 InvStG)</td><td id="rw-etf-vapabzug" style="text-align:right;font-weight:600;color:#4ade80">–</td></tr>     <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">= Steuer Umschichtung</td><td id="rw-etf-schluss" style="text-align:right;font-weight:600;color:#ef4444">–</td></tr>
      <tr style="border-top:1px solid rgba(255,255,255,.1)"><td style="padding:4px 0;font-weight:700;color:#fff">Fondsdepot (Kapital nach Umschichtung)</td><td id="rw-etf-netto" style="text-align:right;font-weight:700;color:#4ade80">–</td></tr>
      <tr><td colspan="2" style="padding:2px 0;font-size:10px;color:rgba(255,255,255,.5);line-height:1.4">Verbleibende 50 % werden nicht sofort besteuert. Steuer fällt bei jeder monatlichen Entnahme anteilig an (Gewinnquote × 70 % × 26,375 %, mit jährl. Sparerpauschbetrag).</td></tr>
     </table>
@@ -748,15 +750,15 @@
       <span style="color:rgba(255,255,255,.65)">wobei r = monatliche Nettorendite, n = Entnahmedauer in Monaten.</span></li>
     </ul>
     <table style="width:100%;font-size:12px;border-collapse:collapse;color:#fff">
-     <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Netto-Endkapital AV-Depot</td><td id="rw-ausz-av-netto" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
+     <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Netto-Endkapital Altersvorsorgedepot</td><td id="rw-ausz-av-netto" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">davon Einmalbetrag (<span id="rw-ausz-einmal-pct">0</span> %)</td><td id="rw-ausz-einmal" style="text-align:right;font-weight:600;color:#F15A24">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">davon Rentenkapital (<span id="rw-ausz-rente-pct">100</span> %)</td><td id="rw-ausz-rente-kap" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Entnahmedauer</td><td id="rw-ausz-lz" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
-     <tr style="border-top:1px solid rgba(255,255,255,.1)"><td style="padding:4px 0;font-weight:700;color:#fff">Monatliche Auszahlung AV-Depot (netto)</td><td id="rw-ausz-monat" style="text-align:right;font-weight:700;color:#F15A24">–</td></tr>
+     <tr style="border-top:1px solid rgba(255,255,255,.1)"><td style="padding:4px 0;font-weight:700;color:#fff">Monatliche Auszahlung Altersvorsorgedepot (netto)</td><td id="rw-ausz-monat" style="text-align:right;font-weight:700;color:#F15A24">–</td></tr>
      <tr style="border-top:1px solid rgba(255,255,255,.08)"><td style="padding:4px 0;font-weight:700;color:#fff">Monatliche Auszahlung Fondsdepot (netto)</td><td id="rw-ausz-monat-etf" style="text-align:right;font-weight:700;color:#fff">–</td></tr>
      <tr><td colspan="2" style="padding:3px 0;font-size:10px;color:rgba(255,255,255,.6);line-height:1.5">Fondsdepot-Entnahme: jede monatliche Rate enthält einen Gewinnanteil (Depot − Einstand) / Depot, der mit 70 % × 26,375 % besteuert wird. Einstandsbasis = Rest-FIFO-Einstand nach Umschichtung. Sparerpauschbetrag (1.000 €/J) wird jährlich gegen den Kapitalertrag verrechnet. Angezeigt wird die Ø Netto-Rate über die gesamte Entnahmedauer.</td></tr>
     </table></p>
-    <p style=”font-size:11px;color:#fff;margin-bottom:6px;line-height:1.6”>Gefördert werden maximal 1.800 € Eigenbeitrag pro Person und Jahr (BMF-bestätigt). Abzugsbasis = min(1.800 €, Eigenbeitrag) + Zulagen. Steuerersparnis brutto = Abzugsbasis × Grenzsteuersatz (inkl. Solidaritätszuschlag, × 1,055). Erstattung = max(0, Steuerersparnis − Zulage) – sog. Günstigerprüfung: nur wenn der Steuervorteil die Zulage übersteigt, gibt es eine zusätzliche Erstattung. Bei gemeinsamer Veranlagung wird der Grenzsteuersatz nach dem Ehegattensplitting berechnet (Splittinghälfte = Jahreseinkommen einer Person). Überzahlungen über 1.800&nbsp;€/Person/J erhalten keine Steuererstattung – sie stammen aus bereits versteuertem Einkommen. Hinweis: Mit dem Schalter „Steuererstättung reinvestieren“ fließt die jährliche Steuererstättung zusätzlich ins AV-Depot zurück. <strong>Die reinvestierte Erstattung gilt steuerrechtlich als ungeförderter Beitrag</strong> – sie erhöht den ungeförderten Anteil des Kapitals und wird bei Auszahlung günstiger besteuert (Halbeinkünfte/Ertragsanteil statt 100 % nachgelagert). Ist der Schalter deaktiviert, wird die Erstattung als Konsumausgabe behandelt.</p>
+    <p style=”font-size:11px;color:#fff;margin-bottom:6px;line-height:1.6”>Gefördert werden maximal 1.800 € Eigenbeitrag pro Person und Jahr (BMF-bestätigt). Abzugsbasis = min(1.800 €, Eigenbeitrag) + Zulagen. Steuerersparnis brutto = Abzugsbasis × Grenzsteuersatz (inkl. Solidaritätszuschlag, × 1,055). Erstattung = max(0, Steuerersparnis − Zulage) – sog. Günstigerprüfung: nur wenn der Steuervorteil die Zulage übersteigt, gibt es eine zusätzliche Erstattung. Bei gemeinsamer Veranlagung wird der Grenzsteuersatz nach dem Ehegattensplitting berechnet (Splittinghälfte = Jahreseinkommen einer Person). Überzahlungen über 1.800&nbsp;€/Person/J erhalten keine Steuererstattung – sie stammen aus bereits versteuertem Einkommen. Hinweis: Mit dem Schalter „Steuererstättung reinvestieren“ fließt die jährliche Steuererstättung zusätzlich ins Altersvorsorgedepot zurück. <strong>Die reinvestierte Erstattung gilt steuerrechtlich als ungeförderter Beitrag</strong> – sie erhöht den ungeförderten Anteil des Kapitals und wird bei Auszahlung günstiger besteuert (Halbeinkünfte/Ertragsanteil statt 100 % nachgelagert). Ist der Schalter deaktiviert, wird die Erstattung als Konsumausgabe behandelt.</p>
     <table style="width:100%;font-size:12px;border-collapse:collapse;color:#fff">
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">Förderb. Eigenbeitrag (max. 1.800&nbsp;€/Person/J)</td><td id="rw-eigen-foerd" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
      <tr><td style="padding:3px 0;color:rgba(255,255,255,.85)">+ Zulagen → Abzugsbasis</td><td id="rw-abzug-gz" style="text-align:right;font-weight:600;color:#fff">–</td></tr>
@@ -814,7 +816,7 @@
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
        <td style="padding:5px 0;font-weight:600;color:#fff">Rendite Auszahlungsphase</td>
-       <td style="padding:5px 0">5,0 % p.a. konservative Rendite für beide Produkte (AV-Depot und Fondsdepot). Im Rentenalter wird aufgrund geringerer Risikotoleranz konservativer angelegt. Dies ermöglicht einen fairen Vergleich der Produktstrukturen unabhängig von individuellen Rendite-Annahmen.</td>
+       <td style="padding:5px 0">5,0 % p.a. konservative Rendite für beide Produkte (Altersvorsorgedepot und Fondsdepot). Im Rentenalter wird aufgrund geringerer Risikotoleranz konservativer angelegt. Dies ermöglicht einen fairen Vergleich der Produktstrukturen unabhängig von individuellen Rendite-Annahmen.</td>
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
        <td style="padding:5px 0;font-weight:600;color:#fff">Vorabpauschale (VAP)</td>
@@ -829,7 +831,7 @@
        <td style="padding:5px 0">300 €/Kind/Jahr. Für die Berechnung wird eine durchschnittliche Förderdauer von 21 Jahren pro Kind angenommen. Voraussetzung ist der Kindergeldbezug – wird vereinfachend als gegeben angenommen.</td>
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
-       <td style="padding:5px 0;font-weight:600;color:#fff">Besteuerung AV-Depot</td>
+       <td style="padding:5px 0;font-weight:600;color:#fff">Besteuerung Altersvorsorgedepot</td>
        <td style="padding:5px 0">Nachgelagerte Besteuerung: geförderter Anteil voll mit persönlichem Steuersatz, Überzahlungsgewinne anteilig über Ertragsanteil (§ 22 EStG). Gesetzlich beschlossen (Bundestag 27.03.2026, Bundesrat 08.05.2026), Start 01.01.2027; einzelne Umsetzungsdetails der Anbieter können noch folgen.</td>
       </tr>
       <tr style="border-bottom:1px solid rgba(255,255,255,.07)">
@@ -849,7 +851,7 @@
        <td style="padding:5px 0"><span id="rw-rendite">–</span> % p.a. (gewählte Einstellung)</td>
       </tr>
       <tr>
-       <td style="padding:5px 0;font-weight:600;color:#fff">Kosten AV-Depot / Fondsdepot</td>
+       <td style="padding:5px 0;font-weight:600;color:#fff">Kosten Altersvorsorgedepot / Fondsdepot</td>
        <td style="padding:5px 0"><span id="rw-kosten">–</span> % p.a. / <span id="rw-kosten-etf">–</span> % p.a.</td>
       </tr>
      </table>
@@ -997,8 +999,12 @@ function grenz(jb){
  else est=0.45;
  return est*1.055; // inkl. Solidaritätszuschlag
 }
-var EA_TABELLE={60:22,61:22,62:21,63:20,64:19,65:18,66:18,67:17,68:16,69:16,70:15};
-function getEA(rentenAlter){return(EA_TABELLE[rentenAlter]||17)/100;}
+var EA_TABELLE={60:22,61:22,62:21,63:20,64:19,65:18,66:18,67:17,68:16,69:16,70:15,85:5};
+// §82 Abs. 5 EStG n.F.: Einzahlungsobergrenze 6.840€/Jahr pro AVD-Depot, max. 2 Depots = 13.680€/Jahr
+// Gilt für Eigenbeiträge + Zulagen + reinvestierte Steuererstattungen
+var AVD_HARD_LIMIT=13680;
+// EA_TABELLE: §22 Nr.1 S.3 lit.a bb) EStG. Alter 85 = 5% (Restverrentung, ~10J. Restlaufzeit).
+function getEA(rentenAlter){return(EA_TABELLE[rentenAlter]!==undefined?EA_TABELLE[rentenAlter]:17)/100;}
 function gzProErw(jb){
  var s1=Math.min(jb,360)*0.50;var s2=Math.max(0,Math.min(jb,1800)-360)*0.25;return Math.min(s1+s2,540);
 }
@@ -1028,7 +1034,7 @@ function calcSingle(p){
  var BASISZINS=0.025,VAP_STEUER=0.26375,VAP_FAKTOR=BASISZINS*0.70*0.70;
  var steuerNettoGesamt=0,gzGesamtReal=0,kzGesamtReal=0,pts=[];
  var stErstattungReinvest=0; // Kumulierte reinvestierte Steuererstattungen (= ungeförderte Beiträge)
- var mr12=Math.pow(1+rendNetto/100,1/12)-1,mr12Etf=Math.pow(1+rendNettoEtf/100,1/12)-1;
+ var limitReached=false; // Wird true wenn Hard Limit (13.680€/J) die Erstattung kürzt
  var depotMit=0,depotOhne=0,totalVapPaid=0;
  var zulFolgejahr=0; // Folgejahr-Logik
  for(var j=1;j<=lz;j++){
@@ -1043,7 +1049,14 @@ function calcSingle(p){
   var zulM=zulFolgejahr/12,eiM=ebM+zulM; // Folgejahr: Vorjahres-Zulage
   for(var mo=1;mo<=12;mo++){depotMit=depotMit*(1+mr12)+eiM;depotOhne=depotOhne*(1+mr12Etf)+eoM;}
   zulFolgejahr=zulJahr; // Für nächstes Jahr merken
-  if(s.reinvest){depotMit+=stNJ;stErstattungReinvest+=stNJ;} // Erstattung = ungeförderter Beitrag
+  if(s.reinvest){
+    // Hard Limit §82 Abs. 5 EStG: max. 13.680€/Jahr (2 Depots × 6.840€) inkl. Zulagen + Erstattung
+    var gesamtEinzahlungJ=eigenbeitragJ+zulJahr; // EB + Zulagen dieses Jahr
+    var verfügbaresLimit=Math.max(0,AVD_HARD_LIMIT-gesamtEinzahlungJ);
+    var stNJ_reinvest=Math.min(stNJ,verfügbaresLimit); // Erstattung ggf. kürzen
+    if(stNJ_reinvest>0){depotMit+=stNJ_reinvest;stErstattungReinvest+=stNJ_reinvest;}
+    if(stNJ_reinvest<stNJ) limitReached=true; // Merker für UI-Hinweis
+  }
   // Sparerpauschbetrag: 1.000€/J Einzelperson, 2.000€/J verheiratet (§20 Abs.9 EStG)
   var SPARERPAUSCH=s.verheiratet&&s.erw===2?2000:1000;
   // VAP-Bemessungsgrundlage vor TFS: depotOhne * Basiszins * 0.70
@@ -1144,7 +1157,7 @@ function calcSingle(p){
   depotEtfCS=Math.max(0,depotEtfCS-annBruttoCS);
  }
  var etfM=nEnt>0?Math.round(totalNettoCS/nEnt):0;
- return{gz:gzGesamtReal,kz:kzGesamtReal,st:steuerNettoGesamt,steuerNetto:steuerNetto,avBrutto:avBrutto,avNetto:avNetto,avEinmalNetto:avEinmalNetto,etfBrutto:etfBrutto,etfNetto:etfNetto,avEntnahmeM:avM,etfEntnahmeM:etfM,lz:lz,entnahmeJahre:entnahmeJ,pts:pts};
+ return{gz:gzGesamtReal,kz:kzGesamtReal,st:steuerNettoGesamt,steuerNetto:steuerNetto,avBrutto:avBrutto,avNetto:avNetto,avEinmalNetto:avEinmalNetto,etfBrutto:etfBrutto,etfNetto:etfNetto,avEntnahmeM:avM,etfEntnahmeM:etfM,lz:lz,entnahmeJahre:entnahmeJ,pts:pts,limitReached:limitReached};
 }
 // FIFO nach § 20 Abs. 4 S. 7 EStG: älteste Anteile zuerst verkauft.
 // Analytische geschlossene Formel für gleichmäßigen Monatssparplan.
@@ -1240,6 +1253,7 @@ function calc(){
  var VAP_FAKTOR=BASISZINS*0.70*0.70;
  var steuerNettoGesamt=0;
  var stErstattungReinvest=0; // Kumulierte reinvestierte Steuererstattungen (= ungeförderte Beiträge)
+ var limitReachedC=false; // Wird true wenn Hard Limit (13.680€/J) die Erstattung kürzt
  var gzGesamtReal=0; 
  var pts=[];
  var mr12=Math.pow(1+rendNetto/100,1/12)-1;
@@ -1285,7 +1299,14 @@ function calc(){
    depotOhne=depotOhne*(1+mr12Etf)+eoM;
   }
   zulageFolgejahr=zulageJahrReal; // Für nächstes Jahr merken
-  if(s.reinvest){depotMit+=stNettoJ;stErstattungReinvest+=stNettoJ;} // Erstattung = ungeförderter Beitrag
+  if(s.reinvest){
+    // Hard Limit §82 Abs. 5 EStG: max. 13.680€/Jahr (2 Depots × 6.840€) inkl. Zulagen + Erstattung
+    var gesamtEinzJ=eigenbeitragJ+zulageJahrReal;
+    var verfügbarJ=Math.max(0,AVD_HARD_LIMIT-gesamtEinzJ);
+    var stNettoJ_reinvest=Math.min(stNettoJ,verfügbarJ);
+    if(stNettoJ_reinvest>0){depotMit+=stNettoJ_reinvest;stErstattungReinvest+=stNettoJ_reinvest;}
+    if(stNettoJ_reinvest<stNettoJ) limitReachedC=true;
+  }
   // Sparerpauschbetrag: 1.000€/J Einzelperson, 2.000€/J verheiratet (§20 Abs.9 EStG)
   var SPARERPAUSCHJ=s.verheiratet&&s.erw===2?2000:1000;
   var vapBasisJ=depotOhne*0.025*0.70;
@@ -1444,6 +1465,7 @@ function calc(){
   totalVapPaid:totalVapPaid,
   zulageM:zulageM,eoM:eoM,reinvestJ:steuerNetto,reinvest:s.reinvest,
   avSteuer:avSteuer,avNetto:avNetto,ea:Math.round(ea*100),
+  limitReached:limitReachedC,
   avGef:Math.round(avGef),avÜb:Math.round(avÜb),
   steuerGef:Math.round(steuerGef),steuerÜb:Math.round(steuerÜb),
   etfKursgewinn:Math.round(Math.max(0,etfBrutto-etfEinzahlungen)),
@@ -1589,8 +1611,7 @@ function render(){
   setEl('rw-av-steuer-gef','− '+fEFull(r.steuerGef));
  }
  if(document.getElementById('rw-av-steuer-ueb')){
-  var eaText=r.ea?(' · EA '+r.ea+'%'):'';
-  setEl('rw-av-steuer-ueb',r.avÜb>0?'− '+fEFull(r.steuerÜb)+eaText:'– (keine Überzahlung)');
+  setEl('rw-av-steuer-ueb',r.avÜb>0?'− '+fEFull(r.steuerÜb):'– (keine Überzahlung)');
  }
  setEl('rw-av-srate',r.srente+' %');
  if(document.getElementById('rw-av-srate2')) setEl('rw-av-srate2',r.srente+' %');
@@ -1610,7 +1631,7 @@ function render(){
  setEl('rw-etf-gewinn',fEFull(r.etfKursgewinn));
  setEl('rw-etf-stpfl',fEFull(r.etfStpfl));
  setEl('rw-etf-abgst',fEFull(r.etfAbgstBrutto));
- setEl('rw-etf-vapabzug','+'+fEFull(Math.round(r.totalVapPaid)));
+ setEl('rw-etf-vapabzug','−'+fEFull(Math.round(r.totalVapPaid)));
  setEl('rw-etf-schluss','−'+fEFull(r.etfSteuerAufloesung));
  setEl('rw-etf-netto',fEFull(r.etf));
  if(document.getElementById('r-etf')) setEl('r-etf',fE(r.etfBrutto,true));
@@ -1623,14 +1644,14 @@ function render(){
  if(vortEl){vortEl.textContent=vortSign+fE(Math.abs(r.vort),true);vortEl.style.color='#F15A24';}
  var lblVorteil=document.getElementById('label-vorteil');
  if(lblVorteil){
-  lblVorteil.textContent=r.vort>=0?'Vorteil AV-Depot':'Nachteil AV-Depot';
+  lblVorteil.textContent=r.vort>=0?'Vorteil Altersvorsorgedepot':'Nachteil Altersvorsorgedepot';
   lblVorteil.style.color='#F15A24';
  }
  var vortPct=r.etf>0?(r.vort/r.etf*100):0;
  var vortSubEl=document.getElementById('r-vorteil-kpi-sub');
  if(vortSubEl) vortSubEl.textContent=(vortSign+(vortPct.toFixed(1).replace('.',','))+' %');
  if(document.getElementById('r-vorteil')) setEl('r-vorteil',(r.vort>=0?'+ ':'')+fE(r.vort,true));
- if(document.getElementById('r-vorteil-sub')) setEl('r-vorteil-sub','AV-Depot Netto − Fonds-Depot Netto');
+ if(document.getElementById('r-vorteil-sub')) setEl('r-vorteil-sub','Altersvorsorgedepot Netto − Fonds-Depot Netto');
  lastCalcResult=r;
  var beVal=document.getElementById('r-breakeven-val');
  var beSub=document.getElementById('r-breakeven-sub');
@@ -1641,9 +1662,9 @@ function render(){
   var diff=r.srente-r.breakeven;
   if(beVal){beVal.textContent=beStr;beVal.style.color=(diff<0||beUeber47)?'#4ade80':'#ef4444';}
   if(beSub){beSub.textContent=beUeber47
-   ? '✓ AV-Depot vorne – Break-even liegt über dem Spitzensteuersatz'
+   ? '✓ Altersvorsorgedepot vorne – Break-even liegt über dem Spitzensteuersatz'
    : diff<0
-    ? '✓ AV-Depot vorne – Ihr Satz ('+r.srente+' %) liegt darunter'
+    ? '✓ Altersvorsorgedepot vorne – Ihr Satz ('+r.srente+' %) liegt darunter'
     : diff>0
      ? '⚠ Fonds-Depot vorne – Ihr Satz ('+r.srente+' %) liegt darüber'
      : '≈ Genau der Break-even-Punkt';}
@@ -1656,8 +1677,8 @@ function render(){
   if(!sp)return;
   if(r._r1&&r._r2){
    sp.style.display='flex';
-   setEl('r-zul-p1',fE(r._r1.gz,true));
-   setEl('r-zul-p2',fE(r._r2.gz,true));
+   setEl('r-zul-p1',fE(r._r1.gz+r._r1.kz,true));
+   setEl('r-zul-p2',fE(r._r2.gz+r._r2.kz,true));
   } else {
    sp.style.display='none';
   }
@@ -1733,7 +1754,7 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
  if(footerETF) footerETF.style.display=einmalPctRnd>0?'flex':'none';
  var lblFA=document.getElementById('lbl-einmal-av');
  var lblFE=document.getElementById('lbl-einmal-etf');
- if(lblFA) lblFA.textContent='AV-Depot · Einmalbetrag netto ('+einmalPctRnd+' %)';
+ if(lblFA) lblFA.textContent='Altersvorsorgedepot · Einmalbetrag netto ('+einmalPctRnd+' %)';
  if(lblFE) lblFE.textContent='Fondsdepot · Einmalbetrag netto ('+einmalPctRnd+' %)';
  var valFA=document.getElementById('r-einmal-netto');
  var valFE=document.getElementById('r-etf-einmal-netto');
@@ -1743,7 +1764,7 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
  if(einmalRow){ einmalRow.style.display='none';
   var lblEinmalAV=document.getElementById('lbl-einmal-av');
   var lblEinmalEtf=document.getElementById('lbl-einmal-etf');
-  if(lblEinmalAV) lblEinmalAV.textContent='AV-Depot · Einmalbetrag netto ('+einmalPctRnd+' %)';
+  if(lblEinmalAV) lblEinmalAV.textContent='Altersvorsorgedepot · Einmalbetrag netto ('+einmalPctRnd+' %)';
   if(lblEinmalEtf) lblEinmalEtf.textContent='Fondsdepot · Einmalbetrag netto ('+einmalPctRnd+' %)';
   if(document.getElementById('r-einmal-netto')) setEl('r-einmal-netto',fE2(r.auszahlungEinmalNetto));
   if(document.getElementById('r-etf-einmal-netto')) setEl('r-etf-einmal-netto',fE2(r.etfEinmalNetto));
@@ -1767,6 +1788,9 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
  var h570=document.getElementById('h570');
  h570.textContent=ST.spar>=570?'⚠️ Zweites Depot erforderlich (ab 570€/Monat)':'';
  h570.className=ST.spar>=570?'hl-red':'';
+ // Hard-Limit-Hinweis: einblenden wenn Erstattung vom Limit gekürzt wurde
+ var hLimit=document.getElementById('h-limit-warn');
+ if(hLimit) hLimit.style.display=(r&&r.limitReached&&ST.reinvest)?'block':'none';
  (function(){
   if(typeof Chart==='undefined') return;
   var ptsAll=r.pts;
@@ -1917,7 +1941,7 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
     _rentenIdx:_rentenIdx,
     _rentenIdx2:_rentenIdx2,
     datasets:[
-     {label:'AV-Depot',data:dAV,borderColor:'#F15A24',backgroundColor:'rgba(0,0,0,0)',borderWidth:2.5,pointRadius:0,pointHoverRadius:6,pointHoverBackgroundColor:'#F15A24',pointHoverBorderColor:'#fff',pointHoverBorderWidth:2,fill:false,tension:0,spanGaps:true},
+     {label:'Altersvorsorgedepot',data:dAV,borderColor:'#F15A24',backgroundColor:'rgba(0,0,0,0)',borderWidth:2.5,pointRadius:0,pointHoverRadius:6,pointHoverBackgroundColor:'#F15A24',pointHoverBorderColor:'#fff',pointHoverBorderWidth:2,fill:false,tension:0,spanGaps:true},
      {label:'Fonds-Depot',data:dETF,borderColor:'#ffffff',backgroundColor:'rgba(0,0,0,0)',borderWidth:2,borderDash:[8,5],pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:'#ffffff',pointHoverBorderColor:'#F15A24',pointHoverBorderWidth:2,fill:false,tension:0,spanGaps:true},
      {label:'_einz',data:dEinz,borderColor:'rgba(0,0,0,0)',borderWidth:0,pointRadius:0,fill:false,spanGaps:false},
      {label:'_zul',data:dZulAbs,borderColor:'rgba(0,0,0,0)',borderWidth:0,pointRadius:0,fill:false,spanGaps:false},
@@ -2105,6 +2129,24 @@ syncSlider('rend','s-rend','v-rend','f-rend',function(v){return parseFloat(v).to
 document.getElementById('s-rend').addEventListener('input',function(){if(sectionMode==='riester')calcRiester();});
 document.getElementById('v-rend').addEventListener('change',function(){if(sectionMode==='riester')calcRiester();});
 syncSlider('kosten','s-kosten','v-kosten','f-kosten',function(v){return parseFloat(v).toFixed(1).replace('.',',');},null);
+// Hauptrechner-Kostenregler zieht riesterAvdKosten mit (damit beide AVD-Zahlen konsistent sind)
+(function(){
+ function syncAvdKosten(){
+  var v=ST.kosten;
+  riesterAvdKosten=v;
+  var ss=document.getElementById('s-riester-avdkosten');
+  var vs=document.getElementById('v-riester-avdkosten');
+  var fs=document.getElementById('f-riester-avdkosten');
+  if(ss) ss.value=v;
+  if(vs) vs.value=v.toFixed(1).replace('.',',');
+  if(fs) fs.style.width=(v/3*100)+'%';
+  if(typeof sectionMode!=='undefined'&&sectionMode==='riester'&&typeof calcRiester==='function') calcRiester();
+ }
+ var sKosten=document.getElementById('s-kosten');
+ var vKosten=document.getElementById('v-kosten');
+ if(sKosten) sKosten.addEventListener('input',syncAvdKosten);
+ if(vKosten) vKosten.addEventListener('change',syncAvdKosten);
+})();
 syncSlider('kostenEtf','s-kosten-etf','v-kosten-etf','f-kosten-etf',function(v){return parseFloat(v).toFixed(1).replace('.',',');},null);
 var EA_JS={60:22,61:22,62:21,63:20,64:19,65:18,66:18,67:17,68:16,69:16,70:15};
 var slRA=document.getElementById('s-rentenalter');
@@ -2125,6 +2167,7 @@ function upRA(){
  var hintEATip=document.getElementById('hint-ea-tip');
  if(hintEATip) hintEATip.textContent=(EA_JS[v]||17);
  debouncedRender();
+ if(typeof sectionMode!=='undefined'&&sectionMode==='riester'&&typeof calcRiester==='function')calcRiester();
 }
 if(slRA){
  slRA.addEventListener('input',upRA);
@@ -2195,13 +2238,27 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
    if(ein2)ein2.style.display='none';
    if(st2)st2.style.display='none';
   }
-  // Beim Wechsel auf 2 Personen: P2-Steuersatz und Einmal mit P1 synchronisieren
+  // Beim Wechsel auf 2 Personen: P2-Werte mit P1 synchronisieren
   if(ST.erw===2){
+   // Sparrate P2 ← P1
+   ST.spar2=ST.spar;
+   var ss2i=document.getElementById('s-spar2'),vs2i=document.getElementById('v-spar2'),fs2i=document.getElementById('f-spar2');
+   if(ss2i){ss2i.value=ST.spar2;if(vs2i)vs2i.value=ST.spar2;if(fs2i)fs2i.style.width=((ST.spar2-10)/(1140-10)*100)+'%';}
+   // Alter P2 ← P1
+   ST.alter2=ST.alter;
+   var sa2i=document.getElementById('s-alter2'),va2i=document.getElementById('v-alter2'),fa2i=document.getElementById('f-alter2');
+   if(sa2i){sa2i.value=ST.alter2;if(va2i)va2i.value=ST.alter2;if(fa2i)fa2i.style.width=((ST.alter2-16)/(66-16)*100)+'%';}
+   // Renteneintrittsalter P2 ← P1
+   ST.rentenAlter2=ST.rentenAlter;
+   var sr2i=document.getElementById('s-rente2'),vr2i=document.getElementById('v-rente2'),fr2i=document.getElementById('f-rente2');
+   if(sr2i){sr2i.value=ST.rentenAlter2;if(vr2i)vr2i.value=ST.rentenAlter2;if(fr2i)fr2i.style.width=((ST.rentenAlter2-65)/(70-65)*100)+'%';}
+   // Steuersatz P2 ← P1
    ST.steuersatzRente2=ST.steuersatzRente;
-   var sl2s=document.getElementById('s-srate2');var vl2s=document.getElementById('v-srate2');var fl2s=document.getElementById('f-srate2');
+   var sl2s=document.getElementById('s-srate2'),vl2s=document.getElementById('v-srate2'),fl2s=document.getElementById('f-srate2');
    if(sl2s){sl2s.value=ST.steuersatzRente2;if(vl2s)vl2s.value=ST.steuersatzRente2;if(fl2s)fl2s.style.width=(ST.steuersatzRente2/45*100)+'%';}
+   // Einmalauszahlung P2 ← P1
    ST.einmalPct2=ST.einmalPct;
-   var sle2s=document.getElementById('s-einmal-pct2');var lble2s=document.getElementById('einmal-pct2-label');var fle2s=document.getElementById('f-einmal-pct2');
+   var sle2s=document.getElementById('s-einmal-pct2'),lble2s=document.getElementById('einmal-pct2-label'),fle2s=document.getElementById('f-einmal-pct2');
    if(sle2s){sle2s.value=ST.einmalPct2;if(lble2s)lble2s.textContent=ST.einmalPct2+' %';if(fle2s)fle2s.style.width=(ST.einmalPct2/30*100)+'%';}
   }
   updateRiesterPersonToggle();
@@ -2322,7 +2379,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){var m=docum
 var einstiegModus='neu';
 var riesterVertragsart='versicherung';
 var riesterSteuer=10;     // Steuersatz im Alter (%)
-var riesterAvdKosten=0.2; // Produktkosten AV-Depot p.a. (%)
+var riesterAvdKosten=ST.kosten; // Produktkosten Altersvorsorgedepot p.a. (%) – synchron mit Hauptrechner
 var riesterGuthaben=15000;
 var riesterBeitrag=150;
 var riesterRenditeEigen=1.5; // vom Slider gesteuert
@@ -2331,7 +2388,7 @@ var riesterEinmalPct=0;     // Einmalauszahlung Riester (0-30%, gesetzlich begre
 
 // Rendite-Defaults je Vertragsart (nach Kosten, realistisch)
 var riesterRenditeDefaults={versicherung:1.5,fonds:4.5,bauspar:1.0};
-var riesterKostenAvd=1.0; // Kosten AV-Depot für den Vergleich
+var riesterKostenAvd=1.0; // Kosten Altersvorsorgedepot für den Vergleich
 var riesterKosten=1.0;    // Produktkosten Riester-Vertrag
 var riesterEinkM=4000;    // Zu versteuerndes Einkommen für Günstigerprüfung
 var riesterReinvest=true; // Steuererstattung reinvestieren
@@ -2419,7 +2476,7 @@ function loadRiesterValues(vals){
   riesterVertragsart=vals.vertragsart;
   riesterRenditeEigen=vals.rendite;
   riesterKosten=vals.kosten;
-  riesterAvdKosten=vals.avdKosten!==undefined?vals.avdKosten:0.2;
+  riesterAvdKosten=vals.avdKosten!==undefined?vals.avdKosten:ST.kosten;
   riesterEinkM=vals.einkM;
   riesterSteuer=vals.steuer;
   riesterReinvest=vals.reinvest!==undefined?vals.reinvest:true;
@@ -2434,7 +2491,7 @@ function loadRiesterValues(vals){
   var sb=document.getElementById('s-riester-bei');
   if(vb)vb.value=fmtDE(riesterBeitrag);
   if(sb)sb.value=riesterBeitrag;
-  syncFill(sg,document.getElementById('f-riester-gut'),0,1000000);
+  syncFill(sg,document.getElementById('f-riester-gut'),0,100000);
   syncFill(sb,document.getElementById('f-riester-bei'),0,570);
   // Vertragsart-Buttons
   document.querySelectorAll('#riester-vertragsart .ev-sbtn').forEach(function(b){
@@ -2445,7 +2502,7 @@ function loadRiesterValues(vals){
   var vr=document.getElementById('v-riester-rend');
   if(sr)sr.value=riesterRenditeEigen;
   if(vr)vr.value=riesterRenditeEigen;
-  if(sr)syncFill(sr,document.getElementById('f-riester-rend'),0,10);
+  if(sr)syncFill(sr,document.getElementById('f-riester-rend'),0,8);
   // Kosten-Slider
   var sk=document.getElementById('s-riester-kosten');
   if(sk)sk.value=riesterKosten;
@@ -2522,13 +2579,16 @@ initRiesterDepotControls();
  fs.style.width=(riesterSteuer/50*100)+'%';
 })();
 
-// Produktkosten AV-Depot (Riester-Modus)
+// Produktkosten Altersvorsorgedepot (Riester-Modus)
 (function(){
  var ss=document.getElementById('s-riester-avdkosten'),vs=document.getElementById('v-riester-avdkosten'),fs=document.getElementById('f-riester-avdkosten');
  if(!ss)return;
  function sync(v){riesterAvdKosten=Math.min(3,Math.max(0,v));ss.value=riesterAvdKosten;vs.value=riesterAvdKosten.toFixed(1).replace('.',',');fs.style.width=(riesterAvdKosten/3*100)+'%';calcRiester();}
  ss.addEventListener('input',function(){sync(parseFloat(this.value));});
  vs.addEventListener('change',function(){sync(parseFloat(this.value.replace(',','.'))||0);});
+ // Init: alle drei Elemente explizit auf ST.kosten setzen (nicht nur Fill-Balken)
+ ss.value=riesterAvdKosten;
+ vs.value=riesterAvdKosten.toFixed(1).replace('.',',');
  fs.style.width=(riesterAvdKosten/3*100)+'%';
 })();
 
@@ -2544,10 +2604,7 @@ function updateRiesterSliderMin(){
  var vi=document.getElementById('v-rentenalter');
  if(sl){
   sl.min=min;
-  // Renteneintritt muss immer > aktuelles Alter sein
-  var _minAge=Math.max(min, (ST.alter||35)+1);
-  var v=Math.max(_minAge, Math.min(70, parseInt(sl.value)||67));
-  sl.min=_minAge;
+  var v=Math.max(min, Math.min(70, parseInt(sl.value)||67));
   sl.value=v;
   ST.rentenAlter=v;
   if(vi)vi.value=v;
@@ -2623,13 +2680,13 @@ document.getElementById('riester-vertragsart').querySelectorAll('.ev-sbtn').forE
  var lb=document.getElementById('riester-rend-label');
  function syncFill(s,f,mn,mx){var pct=(s.value-mn)/(mx-mn)*100;f.style.width=pct+'%';}
  function fmtDE(n){return n.toLocaleString('de-DE');}
- sg.addEventListener('input',function(){riesterGuthaben=parseFloat(this.value);vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg,0,1000000);saveActiveRiesterPerson();calcRiester();});
+ sg.addEventListener('input',function(){riesterGuthaben=Math.min(100000,parseFloat(this.value));vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg,0,100000);saveActiveRiesterPerson();calcRiester();});
  sb.addEventListener('input',function(){riesterBeitrag=parseFloat(this.value);vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb,0,570);saveActiveRiesterPerson();calcRiester();});
  sr.addEventListener('input',function(){riesterRenditeEigen=parseFloat(this.value);var fmt=riesterRenditeEigen.toFixed(1).replace('.',',');vr.value=fmt;if(lb)lb.textContent=fmt+' %';syncFill(sr,fr,0,8);saveActiveRiesterPerson();calcRiester();});
- vg.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterGuthaben=Math.min(1000000,Math.max(0,v));sg.value=riesterGuthaben;vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg,0,1000000);saveActiveRiesterPerson();calcRiester();});
+ vg.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterGuthaben=Math.min(100000,Math.max(0,v));sg.value=riesterGuthaben;vg.value=fmtDE(riesterGuthaben);syncFill(sg,fg,0,100000);saveActiveRiesterPerson();calcRiester();});
  vb.addEventListener('change',function(){var v=parseFloat(this.value.replace(/\./g,'').replace(',','.'))||0;riesterBeitrag=Math.min(570,Math.max(0,v));sb.value=riesterBeitrag;vb.value=fmtDE(riesterBeitrag);syncFill(sb,fb,0,570);saveActiveRiesterPerson();calcRiester();});
  vr.addEventListener('change',function(){var v=parseFloat(this.value.replace(',','.'))||0;riesterRenditeEigen=Math.min(8,Math.max(0,v));sr.value=riesterRenditeEigen;var fmt=riesterRenditeEigen.toFixed(1).replace('.',',');vr.value=fmt;if(lb)lb.textContent=fmt+' %';syncFill(sr,fr,0,8);saveActiveRiesterPerson();calcRiester();});
- syncFill(sg,fg,0,1000000);syncFill(sb,fb,0,570);syncFill(sr,fr,0,8);
+ syncFill(sg,fg,0,100000);syncFill(sb,fb,0,570);syncFill(sr,fr,0,8);
 })();
 
 // Zu versteuerndes Einkommen (Günstigerprüfung)
@@ -2739,10 +2796,8 @@ function getRentenfaktor(rentenAlter){
 var RESTVERRENTUNGS_ANTEIL=0.30;
 
 function calcRiester(){
- console.log('calcRiester() called - ST.alter='+ST.alter+' ST.rentenAlter='+ST.rentenAlter+' vertragsart='+riesterVertragsart);
  var n=ST.rentenAlter-ST.alter;
- console.log('n='+n+' riesterBeitrag='+riesterBeitrag+' riesterGuthaben='+riesterGuthaben+' riesterVertragsart='+riesterVertragsart);
- if(n<=0){console.log('Early return: n<=0');return;}
+ if(n<=0){n=1;} // Mindestens 1 Jahr Ansparphase
  function fmtCurrency(v){return v.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:0})+' €';}
 
  // Synchronisiere AVD-Kosten mit Hauptrechner
@@ -2773,6 +2828,7 @@ function calcRiester(){
  var totalZulagenAvd=0,totalSteuererstattungA=0;
  var totalZulagenRiester=0,totalSteuererstattungR=0;
  var berufsEinsteigerBonusAvd=0;
+ var zulageFolgejahrAvd=0; // Folgejahr-Logik AVD: Zulage des Vorjahres fließt im aktuellen Jahr zu
 
  for(var jj=1;jj<=n;jj++){
   // Kinderzulage dieses Jahr (jahresweise, Kinder laufen einzeln bis 21 aus), volle Höhe vor Kürzung
@@ -2799,13 +2855,17 @@ function calcRiester(){
   var monatRJ=(beitragJ+zulagenRJ+(riesterReinvest?stErstRJ:0))/12;
   for(var mm=1;mm<=12;mm++){r1End=r1End*(1+mr12R)+monatRJ;}
 
-  // --- AVD-Seite (gleiche Logik wie Hauptrechner) ---
+  // --- AVD-Seite (gleiche Logik wie Hauptrechner, inkl. Folgejahr-Verzögerung der Zulage) ---
   var zulagenAJ=gzAvd+kzDiesesJahr+berufsBonus;
   totalZulagenAvd+=zulagenAJ;
   var stErstAJ=Math.max(0,(Math.min(beitragJ,1800)+zulagenAJ)*grenzSatz-zulagenAJ);
   totalSteuererstattungA+=stErstAJ;
-  var monatAJ=(beitragJ+zulagenAJ+(riesterReinvest?stErstAJ:0))/12;
+  // Folgejahr-Logik: Zulage des Vorjahres fließt im aktuellen Jahr zu (wie calc())
+  var zulageAJM=zulageFolgejahrAvd/12;
+  var monatAJ=(beitragJ/12+zulageAJM);
   for(var mm2=1;mm2<=12;mm2++){avdDepot=avdDepot*(1+mr12Avd)+monatAJ;}
+  if(riesterReinvest){avdDepot+=stErstAJ;} // Erstattung als Jahreseinmalzahlung (wie calc())
+  zulageFolgejahrAvd=zulagenAJ; // Für nächstes Jahr merken
   // Kein VAP: AVD ist gefördertes Produkt, steuerfrei in der Ansparphase
  }
  var avdEnd=avdDepot;
@@ -2824,9 +2884,10 @@ function calcRiester(){
  // AVD: Förderschwelle 1.800€/Jahr
  var gefoerdertGesA = Math.min(beitragJ, 1800) * n;
  var ueberGesA = Math.max(0, beitragJ - 1800) * n;
- var gesamtEinzGesA = eigenbeitragGesA + totalZulagenAvd;
+ var stErstattungReinvestA = riesterReinvest ? totalSteuererstattungA : 0; // wie Hauptrechner: Erstattung = ungeförderter Beitrag
+ var gesamtEinzGesA = eigenbeitragGesA + totalZulagenAvd + stErstattungReinvestA;
  var anteilGefA = gesamtEinzGesA > 0 ? (gefoerdertGesA + totalZulagenAvd) / gesamtEinzGesA : 1;
- var anteilUebA = gesamtEinzGesA > 0 ? ueberGesA / gesamtEinzGesA : 0;
+ var anteilUebA = gesamtEinzGesA > 0 ? (ueberGesA + stErstattungReinvestA) / gesamtEinzGesA : 0;
 
  var eaAlter = getEA(ST.rentenAlter);  // Ertragsanteil, altersabhängig
  var HALBEINKUENFTE_FAKTOR = 0.5;      // 50% Halbeinkünfte für ungeförderte Einmalauszahlung
@@ -2837,7 +2898,6 @@ function calcRiester(){
  // AVD frühestens ab 65 (§1 Abs.1b AltZertG); Riester: 60/62 je Abschlussjahr
  var avdRentenAlterMin = Math.max(65, ST.rentenAlter);
  var entnahmeJahre=Math.max(1,(ST.depotAlter||85)-avdRentenAlterMin);
- var entnahmeJahreRiester=Math.max(1,(ST.depotAlter||85)-ST.rentenAlter); // Riester-Seite: keine 65-Grenze
  var entnahmeJahreRiester=entnahmeJahre; // Identisch zu AVD für konsistenten Vergleich
  var hre2=document.getElementById('riester-hint-entnahme');
  if(hre2)hre2.textContent=entnahmeJahre+' J.';
@@ -2860,8 +2920,9 @@ function calcRiester(){
  // Auszahlungsrenditen: Beide Produkte verwenden die GLEICHE konservative Rendite (5% p.a.)
  // Grund: In der Rentenphase wird konservativer angelegt (weniger Risiko, mehr Stabilität)
  // Dies ermöglicht einen fairen Vergleich der Produktstrukturen (Leibrente vs. Auszahlungsplan), unabhängig von individuellen Rendite-Annahmen
- var renditeAuszahlung=5.0/100;  // 5% p.a. konservativ für Rentneralter
- var renditeAuszahlungRiester=renditeAuszahlung;
+ var renditeAuszahlung=5.0/100;  // 5% p.a. für AVD und Riester Phase 1 (Auszahlungsplan)
+ var renditeAuszahlungRiester=renditeAuszahlung;         // Phase 1: Auszahlungsplan bis 85 → 5%
+ var renditeAuszahlungRiesterPhase2=2.0/100;             // Phase 2: reserviertes Drittel → 2% (versicherungsförmig, konservativ)
  var renditeAuszahlungAvd=renditeAuszahlung;
 
  // SCHRITT 2b: Riester-Splitting und Einmalauszahlung
@@ -2894,7 +2955,6 @@ function calcRiester(){
  var r1MonatAb85=0; // Für Fondssparplan/Bausparvertrag: separate Rate ab 85
  var r1ZeigtZweiRaten=false;  // Flag für UI: zwei getrennte Raten anzeigen
 
- console.log('Vertragsart check: '+riesterVertragsart+' r1ZeigtZweiRaten='+r1ZeigtZweiRaten);
  if(riesterVertragsart==='versicherung'){
   // Versicherung: Sofort lebenslange Leibrente ab Rentenbeginn
   // Gefördert (100% Steuersatz)
@@ -2947,8 +3007,8 @@ function calcRiester(){
   var r1KapitalPhase2_ueb=r1KapitalLeibrBrutto_ueb*RESTVERRENTUNGS_ANTEIL;
 
   var jahrebisAe85=Math.max(0,85-ST.rentenAlter);
-  var r1KapitalPhase2Bei85_gef=r1KapitalPhase2_gef>0?r1KapitalPhase2_gef*Math.pow(1+renditeAuszahlungRiester,jahrebisAe85):0;
-  var r1KapitalPhase2Bei85_ueb=r1KapitalPhase2_ueb>0?r1KapitalPhase2_ueb*Math.pow(1+renditeAuszahlungRiester,jahrebisAe85):0;
+  var r1KapitalPhase2Bei85_gef=r1KapitalPhase2_gef>0?r1KapitalPhase2_gef*Math.pow(1+renditeAuszahlungRiesterPhase2,jahrebisAe85):0;
+  var r1KapitalPhase2Bei85_ueb=r1KapitalPhase2_ueb>0?r1KapitalPhase2_ueb*Math.pow(1+renditeAuszahlungRiesterPhase2,jahrebisAe85):0;
 
   var r1Rentenfaktor85=getRentenfaktor(85);
 
@@ -2959,7 +3019,8 @@ function calcRiester(){
 
   // Ungefördert: Ertragsanteil (§22 Nr.5 S.2 lit.a EStG) - korrekt, da Phase 2 = lebenslange Leibrente
   var r1MonatPhase2Brutto_ueb=r1KapitalPhase2Bei85_ueb>0?r1KapitalPhase2Bei85_ueb*r1Rentenfaktor85/10000:0;
-  var r1MonatPhase2Steuer_ueb=r1MonatPhase2Brutto_ueb*eaAlter*riesterSteuer/100;
+  // Phase 2: Leibrentenbeginn bei 85 → EA nach §22 Nr.1 S.3 lit.a bb) EStG bei Alter 85 = 5%
+  var r1MonatPhase2Steuer_ueb=r1MonatPhase2Brutto_ueb*getEA(85)*riesterSteuer/100;
   var r1MonatPhase2_ueb=r1MonatPhase2Brutto_ueb>0?Math.round(r1MonatPhase2Brutto_ueb-r1MonatPhase2Steuer_ueb):0;
 
   r1MonatAb85=r1MonatPhase2_gef+r1MonatPhase2_ueb;
@@ -3007,7 +3068,8 @@ function calcRiester(){
 
  // Anzeige analog zu r1AnzeigeKapital: Brutto-Rentenkapital + Netto-Einmalauszahlung
  var avdKapitalRenteNetto_gef = avdEnd_gef_rente * (1-riesterSteuer/100);
- var avdKapitalRenteNetto_ueb = avdEnd_ueb_rente * (1-eaAlter*riesterSteuer/100);
+ // Ungefördert AVD (§22 Nr.5 S.2 lit.c): Hälfte Unterschiedsbetrag, nicht Ertragsanteil
+ var avdKapitalRenteNetto_ueb = avdEnd_ueb_rente * (1-avdGewinnQuoteUeb*0.5*riesterSteuer/100);
  var r2AnzeigeKapital = avdKapitalRenteNetto_gef + avdKapitalRenteNetto_ueb + r2EinmalAuszahlungNetto;
 
  // Günstigerprüfung-Hint
@@ -3042,7 +3104,7 @@ function calcRiester(){
  setEl('r2-kapital',fmtCurrency(Math.round(r2AnzeigeKapital)));
  setEl('r2-rente',fmtCurrency(avdMonatFair)+' / Mon.');
 
- // Zusätzliche Nettorente (Differenz zwischen AV-Depot und Riester) - nur Pfeil anzeigen
+ // Zusätzliche Nettorente (Differenz zwischen Altersvorsorgedepot und Riester) - nur Pfeil anzeigen
  var zusatzRente=avdMonatFair-r1Monat;
 
  // Diff
@@ -3051,9 +3113,9 @@ function calcRiester(){
  if(diffEl){
   var oNum=function(t){return '<span style="color:#F15A24">'+t+'</span>';};
   var gNum=function(t){return '<span style="color:#00cc00">'+t+'</span>';};
-  if(Math.abs(diffM)<5){diffEl.innerHTML='Das AV-Depot und Riester liegen ungefähr gleichauf';}
-  else if(diffM>0){diffEl.innerHTML='Das AV-Depot bringt<br>'+gNum(fmtCurrency(diffM))+' mehr im Monat';}
-  else{diffEl.innerHTML='Das AV-Depot bringt<br>'+gNum(fmtCurrency(Math.abs(diffM)))+' weniger im Monat';}
+  if(Math.abs(diffM)<5){diffEl.innerHTML='Das Altersvorsorgedepot und Riester liegen ungefähr gleichauf';}
+  else if(diffM>0){diffEl.innerHTML='Das Altersvorsorgedepot bringt<br>'+gNum(fmtCurrency(diffM))+' mehr im Monat';}
+  else{diffEl.innerHTML='Das Altersvorsorgedepot bringt<br>'+gNum(fmtCurrency(Math.abs(diffM)))+' weniger im Monat';}
  }
 
  // Gewinner-Karte hervorheben
