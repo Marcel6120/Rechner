@@ -515,11 +515,11 @@ function gzProErw(jb){
  var s1=Math.min(jb,360)*0.50;var s2=Math.max(0,Math.min(jb,1800)-360)*0.25;return Math.min(s1+s2,540);
 }
 function foerderKinder(){
- return ST.kinderAlter.filter(function(a){return a<=21;}).length;
+ return (ST.kinderAlter||[]).filter(function(a){return a<=21;}).length;
 }
 function kinderZulageGesamt(lz){
  var total=0;
- ST.kinderAlter.forEach(function(kAlter){
+ (ST.kinderAlter||[]).forEach(function(kAlter){
   if(kAlter>21)return;
   var jahreNoch=Math.max(0,Math.min(21-kAlter+1,lz));
   total+=jahreNoch*300;
@@ -559,8 +559,10 @@ function calcLeibrenteAb85(rueckstellungKapital,rentenAlter){
  var monatsrente;
  if(mr>0){
   monatsrente=kapitalAb85*mr*Math.pow(1+mr,nEntnahmen)/(Math.pow(1+mr,nEntnahmen)-1);
- }else{
+ }else if(nEntnahmen>0){
   monatsrente=kapitalAb85/nEntnahmen;
+ }else{
+  monatsrente=0;
  }
  return Math.round(monatsrente);
 }
@@ -667,7 +669,7 @@ function calc(){
  for(var j=1;j<=lz;j++){
   var sparerAlterJetzt=s.alter+(j-1);
   var kzDiesesJahr=0;
-  ST.kinderAlter.forEach(function(alter){
+  (ST.kinderAlter||[]).forEach(function(alter){
    if(alter+(j-1)<=21) kzDiesesJahr+=300;
   });
   var gzJDiesJ=eigenbeitragJ<MINDEST_J?0:gzJ;
@@ -739,8 +741,8 @@ function calc(){
  var mr12Ent=Math.pow(1+Math.max(0,s.rend-s.kosten)/100,1/12)-1;
  var mr12EntEtf=Math.pow(1+Math.max(0,s.rend-s.kostenEtf)/100,1/12)-1;
  var nEnt=entnahmeJ*12;
- var avEntnahmeM=mr12Ent>0?freiAV*mr12Ent*Math.pow(1+mr12Ent,nEnt)/(Math.pow(1+mr12Ent,nEnt)-1):freiAV/nEnt;
- var etfEntnahmeM=mr12EntEtf>0?etfNetto*mr12EntEtf*Math.pow(1+mr12EntEtf,nEnt)/(Math.pow(1+mr12EntEtf,nEnt)-1):etfNetto/nEnt;
+ var avEntnahmeM=mr12Ent>0?freiAV*mr12Ent*Math.pow(1+mr12Ent,nEnt)/(Math.pow(1+mr12Ent,nEnt)-1):nEnt>0?freiAV/nEnt:0;
+ var etfEntnahmeM=mr12EntEtf>0?etfNetto*mr12EntEtf*Math.pow(1+mr12EntEtf,nEnt)/(Math.pow(1+mr12EntEtf,nEnt)-1):nEnt>0?etfNetto/nEnt:0;
  var depotAV=freiAV, depotETF=etfNetto;
  for(var ej=1;ej<=entnahmeJ;ej++){
   for(var em=1;em<=12;em++){
@@ -863,7 +865,7 @@ function calc(){
 function buildKinderAges(n){
  var container=document.getElementById('kinder-ages');
  var footnote=document.getElementById('kinder-footnote');
- var prev=ST.kinderAlter.slice();
+ var prev=(ST.kinderAlter||[]).slice();
  ST.kinderAlter=[];container.innerHTML='';
  if(n===0){container.classList.remove('show');footnote.classList.remove('show');render();return;}
  container.classList.add('show');footnote.classList.add('show');
@@ -879,7 +881,7 @@ function buildKinderAges(n){
    if(a===def)opt.selected=true;sel.appendChild(opt);
   }
   var badge=document.createElement('span');badge.className='kid-badge';badge.textContent='förderbar *';
-  (function(idx,selEl){selEl.addEventListener('change',function(){ST.kinderAlter[idx]=parseInt(selEl.value);render();});})(i,sel);
+  (function(idx,selEl){selEl.addEventListener('change',function(){var v=parseInt(selEl.value);if(!isNaN(v))ST.kinderAlter[idx]=v;render();});})(i,sel);
   row.appendChild(lbl);row.appendChild(sel);row.appendChild(badge);container.appendChild(row);
  }
  render();
@@ -1105,10 +1107,10 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
   var mr12EntEtf=Math.pow(1+Math.max(0,ST.rend-(ST.kostenEtf||1.0))/100,1/12)-1;
   var avBruttoEntnahmeM=mr12Ent>0
    ? avBruttoPeak*mr12Ent*Math.pow(1+mr12Ent,nEnt)/(Math.pow(1+mr12Ent,nEnt)-1)
-   : avBruttoPeak/nEnt;
+   : nEnt>0?avBruttoPeak/nEnt:0;
   var etfBruttoEntnahmeM=mr12EntEtf>0
    ? etfBruttoPeak*mr12EntEtf*Math.pow(1+mr12EntEtf,nEnt)/(Math.pow(1+mr12EntEtf,nEnt)-1)
-   : etfBruttoPeak/nEnt;
+   : nEnt>0?etfBruttoPeak/nEnt:0;
   var avEnt=[avBruttoPeak], etfEnt=[etfBruttoPeak];
   var dAV_ent=avBruttoPeak, dETF_ent=etfBruttoPeak;
   for(var ej=0;ej<entnahmePts.length;ej++){
@@ -1135,9 +1137,9 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
   var einzPeak = dEinz[rentenIdx] || 0;
   var zulPeak = Math.min(dZulAbs[rentenIdx] || 0, avPeak);
   var steurPeak = dSteurAbs[rentenIdx] || 0;
-  var ratioEinz = einzPeak / avPeak;
-  var ratioZul = zulPeak / avPeak;
-  var ratioSteur = steurPeak / avPeak;
+  var ratioEinz = avPeak > 0 ? einzPeak / avPeak : 0;
+  var ratioZul = avPeak > 0 ? zulPeak / avPeak : 0;
+  var ratioSteur = avPeak > 0 ? steurPeak / avPeak : 0;
   for(var ej=0;ej<entnahmePts.length;ej++){
    labels.push(entnahmePts[ej].a);
    var avVal = avEnt[ej+1];
@@ -1259,7 +1261,7 @@ var diffEl=document.getElementById('r-etf-diff-box');var diffTxt=document.getEle
 }
 function syncSlider(key,sId,vId,fId,fmt,maxCap){
  var sl=document.getElementById(sId),vi=document.getElementById(vId),fi=document.getElementById(fId);
- function upFill(){var pct=(parseFloat(sl.value)-parseFloat(sl.min))/(parseFloat(sl.max)-parseFloat(sl.min))*100;fi.style.width=pct+'%';}
+ function upFill(){var denom=parseFloat(sl.max)-parseFloat(sl.min);var pct=denom===0?0:((parseFloat(sl.value)-parseFloat(sl.min))/denom)*100;fi.style.width=pct+'%';}
  sl.addEventListener('input',function(){var v=parseFloat(sl.value);ST[key]=v;vi.value=fmt?fmt(v):v;upFill();debouncedRender();});
  vi.addEventListener('change',function(){
   var raw=vi.value.replace(/\./g,'').replace(',','.').replace(/[^\d.]/g,'');
@@ -1282,7 +1284,7 @@ document.getElementById('v-depotalter').addEventListener('change',function(){
  debouncedRender();
 });
 document.getElementById('v-depotalter').addEventListener('input',function(){
- var v=parseInt(this.value)||85;
+ var v=parseInt(this.value);v=isNaN(v)?85:v;
  if(v>ST.rentenAlter){ST.depotAlter=v;debouncedRender();}
 });
 (function(){
@@ -1360,8 +1362,8 @@ reinvestCb.addEventListener('change',updateReinvestToggle);
  }
  vk.addEventListener('change',applyKinder);
  vk.addEventListener('input',function(){
-  var v=parseInt(vk.value)||0;
-  if(v>=0){ST.kinderAnzahl=v;buildKinderAges(v);}
+  var v=parseInt(vk.value);
+  if(!isNaN(v)&&v>=0){ST.kinderAnzahl=v;buildKinderAges(v);}
  });
 })();
 document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(b){
@@ -1382,7 +1384,7 @@ document.getElementById('st-erw').querySelectorAll('.ev-sbtn').forEach(function(
 (function(){
  var ss2=document.getElementById('s-spar2'),vs2=document.getElementById('v-spar2'),fs2=document.getElementById('f-spar2');
  if(ss2){
-  ss2.addEventListener('input',function(){var v=parseFloat(ss2.value);ST.spar2=v;if(vs2)vs2.value=v;if(fs2)fs2.style.width=((v-10)/(570-10)*100)+'%';debouncedRender();});
+  ss2.addEventListener('input',function(){var v=Math.min(570,Math.max(10,parseFloat(ss2.value)||150));ST.spar2=v;ss2.value=v;if(vs2)vs2.value=v;if(fs2)fs2.style.width=((v-10)/(570-10)*100)+'%';debouncedRender();});
   if(vs2)vs2.addEventListener('change',function(){var v=Math.min(570,Math.max(10,parseFloat(this.value)||150));ST.spar2=v;ss2.value=v;this.value=v;if(fs2)fs2.style.width=((v-10)/(570-10)*100)+'%';debouncedRender();});
  }
  var sa2=document.getElementById('s-alter2'),va2=document.getElementById('v-alter2'),fa2=document.getElementById('f-alter2');
@@ -1438,7 +1440,7 @@ document.getElementById('rechenweg-modal').addEventListener('click',function(e){
  var lblEP=document.getElementById('einmal-pct-label');
  var hintEP=document.getElementById('einmal-hint');
  function upEP(){
-  var v=parseInt(slEP.value)||0;
+  var v=parseInt(slEP.value);v=isNaN(v)?0:v;
   ST.einmalPct=v;
   fillEP.style.width=(v/30*100)+'%';
   lblEP.textContent=v+' %';
