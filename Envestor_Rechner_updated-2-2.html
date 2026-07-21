@@ -1479,12 +1479,13 @@ function calc(){
   auszahlungMonatNetto:(function(){
    var kapital=avNetto*renteFrac;
    var entnahmeJ=Math.max(s.depotAlter-s.rentenAlter,Math.max(1,85-s.rentenAlter));
-   var rendEnt=5.0/100;  // Konservative 5% p.a. Rendite in der Auszahlungsphase für alle Produkte
+   var rendEnt=5.0/100;
    var mr12Ent=Math.pow(1+rendEnt,1/12)-1;
    var n=entnahmeJ*12;
    if(kapital<=0) return 0;
-   var rate=mr12Ent>0?kapital*mr12Ent*Math.pow(1+mr12Ent,n)/(Math.pow(1+mr12Ent,n)-1):kapital/n;
-   return Math.round(rate);
+   var rateBrutto=mr12Ent>0?kapital*mr12Ent*Math.pow(1+mr12Ent,n)/(Math.pow(1+mr12Ent,n)-1):kapital/n;
+   var rateNetto=rateBrutto*(1-s.steuersatzRente/100);
+   return Math.round(rateNetto);
   })(),
   etfEinmalNetto:Math.round(etfNetto*einmalFrac),
   etfMonatNetto:(function(){
